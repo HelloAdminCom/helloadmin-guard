@@ -87,6 +87,7 @@ final class Plugin {
 	private function default_features() {
 		return array(
 			new Features\Login_Url(),
+			new Features\Disable_App_Passwords(),
 			new Features\User_Enumeration(),
 			new Features\Hide_Wp_Version(),
 			new Features\Disable_Xmlrpc(),
