@@ -237,24 +237,20 @@ class Login_Url extends Feature {
 	}
 
 	/**
-	 * Shows the theme's 404 page with a 404 status and stops.
+	 * Answers with a plain 404 page, like the web server does for a missing file, and stops.
+	 *
+	 * The theme's 404 template is not used: these requests run in the admin or login context, where
+	 * block themes and some classic themes do not render correctly.
 	 *
 	 * @return void
 	 */
 	private function not_found() {
-		global $wp_query;
-
 		status_header( 404 );
 		nocache_headers();
-		if ( $wp_query instanceof \WP_Query ) {
-			$wp_query->set_404();
-		}
-		$template = get_404_template();
-		if ( $template ) {
-			include $template;
-		} else {
-			echo '<!DOCTYPE html><title>404</title><h1>' . esc_html__( 'Page not found', 'helloadmin-guard' ) . '</h1>';
-		}
+		header( 'Content-Type: text/html; charset=utf-8' );
+		echo '<!DOCTYPE html><html><head><meta name="robots" content="noindex"><title>404 Not Found</title></head><body><h1>Not Found</h1><p>'
+			. esc_html__( 'The requested URL was not found on this server.', 'helloadmin-guard' )
+			. '</p></body></html>';
 		exit;
 	}
 
