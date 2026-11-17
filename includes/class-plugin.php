@@ -88,6 +88,7 @@ final class Plugin {
 		return array(
 			new Features\Login_Url(),
 			new Features\User_Enumeration(),
+			new Features\Disable_Xmlrpc(),
 		);
 	}
 
