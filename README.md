@@ -2,7 +2,7 @@
 
 WordPress security hardening without upsells. Every setting explains what it does, what may break and how to undo it.
 
-> Early development. Not on wordpress.org yet.
+> Version 0.1.0. Not on wordpress.org yet.
 
 ## Why another security plugin
 
@@ -13,6 +13,17 @@ Most hardening plugins give you a list of switches and leave you to guess what e
 - **How to undo it**, including when you can't reach wp-admin
 
 Everything is off until you turn it on. No paid version, no locked features, no ads, no external requests.
+
+## Settings in 0.1.0
+
+| Group | Setting |
+| --- | --- |
+| Login | Custom login URL · Turn off Application Passwords |
+| What your site gives away | Hide user names · Hide the WordPress version |
+| Old and risky features | Turn off XML-RPC · Turn off the file editor |
+| HTTP headers | Security headers |
+
+Languages: English, Ukrainian, Russian.
 
 ## Requirements
 

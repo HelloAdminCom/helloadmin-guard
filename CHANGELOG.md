@@ -4,6 +4,10 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [Unreleased]
 
+## [0.1.0] - not released yet
+
+First public version: seven settings, each one off until turned on.
+
 ### Added
 - Plugin skeleton: settings page in its own admin menu (after Settings) with General, Advanced and About tabs.
 - Base `Feature` class: every setting describes what it does, what may break and how to undo it.
@@ -17,3 +21,4 @@ All notable changes to this project are documented here. Versions follow [Semant
 - Turn off XML-RPC: /xmlrpc.php answers 403, no X-Pingback header, no RSD link.
 - Turn off the file editor: theme and plugin file editors removed from wp-admin (like DISALLOW_FILE_EDIT, without editing wp-config.php).
 - Field hints under the fields; links to helloadmin.com carry UTM tags (utm_source=helloadmin-guard), nothing is sent from the site.
+- Ukrainian and Russian translations (languages/), loaded with the plugin.
