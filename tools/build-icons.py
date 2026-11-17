@@ -40,7 +40,13 @@ if extra > 0:
     s.stroke(extra, pathops.LineCap.ROUND_CAP, pathops.LineJoin.ROUND_JOIN, 4)
     s.convertConicsToQuads()
     shape = pathops.op(shape, s, pathops.PathOp.UNION)
+# Fit the final outline (after thickening, which grows past the 1024 box) into 20x20 with a
+# 0.5 unit margin, centred; otherwise the top of the head and the bottom line get clipped.
+x0, y0, x1, y1 = shape.bounds
+side = max(x1 - x0, y1 - y0)
+k = 19 / side
+dx = (20 - (x1 - x0) * k) / 2 - x0 * k
+dy = (20 - (y1 - y0) * k) / 2 - y0 * k
 pen = SVGPathPen(None, ntos=lambda v: f"{v:.2f}".rstrip("0").rstrip("."))
-k = 20 / 1024
-shape.draw(TransformPen(pen, (k, 0, 0, k, 0, 0)))
+shape.draw(TransformPen(pen, (k, 0, 0, k, dx, dy)))
 open(out, 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="black" d="{pen.getCommands()}"/></svg>\n')
