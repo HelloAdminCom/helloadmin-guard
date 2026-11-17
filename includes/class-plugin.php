@@ -89,6 +89,7 @@ final class Plugin {
 			new Features\Login_Url(),
 			new Features\User_Enumeration(),
 			new Features\Disable_Xmlrpc(),
+			new Features\Disable_File_Editor(),
 		);
 	}
 
