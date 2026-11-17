@@ -85,7 +85,9 @@ final class Plugin {
 	 * @return Feature[]
 	 */
 	private function default_features() {
-		return array();
+		return array(
+			new Features\Login_Url(),
+		);
 	}
 
 	/**

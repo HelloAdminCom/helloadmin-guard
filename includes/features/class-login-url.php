@@ -1,0 +1,262 @@
+<?php
+/**
+ * Custom login URL: the login page moves to /your-slug/, wp-login.php and wp-admin answer 404 to guests.
+ *
+ * @package HelloAdmin\Guard
+ */
+
+namespace HelloAdmin\Guard\Features;
+
+use HelloAdmin\Guard\Feature;
+use HelloAdmin\Guard\Settings;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * The core login page is served at a custom address. Nothing is copied or renamed: the request for the
+ * custom slug runs the current wp-login.php, so the page stays up to date after WordPress updates.
+ */
+class Login_Url extends Feature {
+
+	/**
+	 * Slugs that can never be the login address.
+	 */
+	const RESERVED = array( 'wp-admin', 'wp-login', 'wp-login-php', 'login', 'admin', 'dashboard', 'wp-content', 'wp-includes', 'wp-json', 'feed', 'xmlrpc', 'xmlrpc-php' );
+
+	/**
+	 * Actions of wp-login.php that keep working at the old address, because WordPress posts to them from
+	 * the front end: the password form of protected posts and the personal data request confirmation.
+	 */
+	const OPEN_ACTIONS = array( 'postpass', 'confirmaction' );
+
+	/**
+	 * Login slug while the feature is on.
+	 *
+	 * @var string
+	 */
+	private $slug = '';
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function id() {
+		return 'login_url';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function title() {
+		return __( 'Custom login URL', 'helloadmin-guard' );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function what() {
+		return __( 'Moves the login page to your own address. /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in, so bots stop finding the login form.', 'helloadmin-guard' );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function may_break() {
+		return __( 'Bookmarks and saved passwords for the old login page. Plugins or apps that log in through /wp-login.php directly. Another plugin that also changes the login URL.', 'helloadmin-guard' );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function undo() {
+		return __( 'Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager: the plugin stops and /wp-login.php works again.', 'helloadmin-guard' );
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function learn_more() {
+		return 'https://helloadmin.com/change-wordpress-login-url-without-plugin/';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function fields() {
+		$slug = $this->stored_slug();
+		return array(
+			'slug' => array(
+				'label'       => __( 'Login address', 'helloadmin-guard' ),
+				'type'        => 'text',
+				'default'     => $slug ? $slug : 'login-' . strtolower( wp_generate_password( 6, false ) ),
+				'description' => sprintf(
+					/* translators: %s: example login URL. */
+					__( 'Letters, numbers and dashes. The login page will be %s. Bookmark it after saving.', 'helloadmin-guard' ),
+					home_url( '/' . ( $slug ? $slug : 'your-address' ) . '/' )
+				),
+			),
+		);
+	}
+
+	/**
+	 * Keeps the slug safe: lowercase letters, numbers and dashes, not reserved, not an existing page.
+	 * An invalid value keeps the previous one and shows an error on the settings page.
+	 *
+	 * @param string $field Field name.
+	 * @param mixed  $value Raw value.
+	 * @return string
+	 */
+	public function sanitize_field( $field, $value ) {
+		$previous = $this->stored_slug();
+		$slug     = sanitize_title( is_scalar( $value ) ? (string) $value : '' );
+
+		$error = '';
+		if ( strlen( $slug ) < 4 ) {
+			$error = __( 'The login address must be at least 4 characters long.', 'helloadmin-guard' );
+		} elseif ( in_array( $slug, self::RESERVED, true ) ) {
+			$error = __( 'This login address is reserved by WordPress or too easy to guess. Choose another one.', 'helloadmin-guard' );
+		} elseif ( get_page_by_path( $slug, OBJECT, array( 'page', 'post' ) ) ) {
+			$error = __( 'A page or post already uses this address. Choose another one.', 'helloadmin-guard' );
+		}
+
+		if ( $error ) {
+			// add_settings_error() exists only in wp-admin; the option can also be saved from code or WP-CLI.
+			if ( function_exists( 'add_settings_error' ) ) {
+				add_settings_error( Settings::OPTION, 'helloadmin_guard_login_slug', $error );
+			}
+			return $previous;
+		}
+		return $slug;
+	}
+
+	/**
+	 * Adds the URL filters and the request router.
+	 *
+	 * @param Settings $settings Plugin settings.
+	 * @return void
+	 */
+	public function enable( Settings $settings ) {
+		$this->slug = $settings->field( $this->id(), 'slug' );
+		if ( '' === $this->slug || is_multisite() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+			return;
+		}
+
+		foreach ( array( 'site_url', 'network_site_url', 'login_url', 'logout_url', 'lostpassword_url', 'register_url', 'wp_redirect' ) as $hook ) {
+			add_filter( $hook, array( $this, 'filter_url' ) );
+		}
+
+		// WordPress sends /login, /admin and /dashboard to the login page; that would show the new address.
+		remove_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
+
+		add_action( 'wp_loaded', array( $this, 'route' ), 1 );
+	}
+
+	/**
+	 * Serves the login page at the custom address and closes the default ones for guests.
+	 *
+	 * @return void
+	 */
+	public function route() {
+		global $pagenow;
+
+		if ( $this->is_login_slug_request() ) {
+			$this->serve_login();
+		}
+
+		if ( 'wp-login.php' === $pagenow && ! $this->is_open_action() ) {
+			$this->not_found();
+		}
+
+		if ( is_admin() && ! is_user_logged_in() && ! wp_doing_ajax() && 'admin-post.php' !== $pagenow ) {
+			$this->not_found();
+		}
+	}
+
+	/**
+	 * Replaces wp-login.php with the custom address in a URL WordPress builds.
+	 *
+	 * @param mixed $url URL from the filter.
+	 * @return mixed
+	 */
+	public function filter_url( $url ) {
+		if ( ! is_string( $url ) || false === strpos( $url, 'wp-login.php' ) ) {
+			return $url;
+		}
+		$query = (string) wp_parse_url( $url, PHP_URL_QUERY );
+		parse_str( $query, $args );
+		if ( isset( $args['action'] ) && in_array( $args['action'], self::OPEN_ACTIONS, true ) ) {
+			return $url;
+		}
+		$new = trailingslashit( home_url( '/' . $this->slug ) );
+		return $query ? $new . '?' . $query : $new;
+	}
+
+	/**
+	 * Whether the current request path is the custom login address.
+	 *
+	 * @return bool
+	 */
+	private function is_login_slug_request() {
+		$uri  = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$path = untrailingslashit( (string) wp_parse_url( $uri, PHP_URL_PATH ) );
+		$home = untrailingslashit( (string) wp_parse_url( home_url(), PHP_URL_PATH ) );
+		return $path === $home . '/' . $this->slug;
+	}
+
+	/**
+	 * Whether a direct wp-login.php request is one of the actions that stay open.
+	 *
+	 * @return bool
+	 */
+	private function is_open_action() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only reads which login action is requested.
+		$action = isset( $_REQUEST['action'] ) ? sanitize_key( wp_unslash( $_REQUEST['action'] ) ) : '';
+		return in_array( $action, self::OPEN_ACTIONS, true );
+	}
+
+	/**
+	 * Runs the core wp-login.php for the custom address and stops.
+	 *
+	 * @return void
+	 */
+	private function serve_login() {
+		// wp-login.php and the functions it defines read these as globals.
+		global $error, $interim_login, $action, $user_login;
+
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- plugins check $pagenow to detect the login page.
+		$GLOBALS['pagenow'] = 'wp-login.php';
+		require_once ABSPATH . 'wp-login.php';
+		exit;
+	}
+
+	/**
+	 * Shows the theme's 404 page with a 404 status and stops.
+	 *
+	 * @return void
+	 */
+	private function not_found() {
+		global $wp_query;
+
+		status_header( 404 );
+		nocache_headers();
+		if ( $wp_query instanceof \WP_Query ) {
+			$wp_query->set_404();
+		}
+		$template = get_404_template();
+		if ( $template ) {
+			include $template;
+		} else {
+			echo '<!DOCTYPE html><title>404</title><h1>' . esc_html__( 'Page not found', 'helloadmin-guard' ) . '</h1>';
+		}
+		exit;
+	}
+
+	/**
+	 * Slug saved in the database, read directly so the field can show it before the feature is on.
+	 *
+	 * @return string
+	 */
+	private function stored_slug() {
+		$option = get_option( Settings::OPTION, array() );
+		return isset( $option['fields'][ $this->id() ]['slug'] ) && is_string( $option['fields'][ $this->id() ]['slug'] ) ? $option['fields'][ $this->id() ]['slug'] : '';
+	}
+}
