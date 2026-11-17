@@ -91,6 +91,7 @@ final class Plugin {
 			new Features\Hide_Wp_Version(),
 			new Features\Disable_Xmlrpc(),
 			new Features\Disable_File_Editor(),
+			new Features\Security_Headers(),
 		);
 	}
 
