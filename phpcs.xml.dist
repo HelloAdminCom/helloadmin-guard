@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ruleset name="HelloAdmin Guard">
+	<description>WordPress Coding Standards + PHP compatibility for the plugin.</description>
+
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/build/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="cache" value=".phpcs.cache"/>
+	<arg value="sp"/>
+	<arg name="colors"/>
+
+	<rule ref="WordPress"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.5"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="helloadmin-guard"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="helloadmin_guard"/>
+				<element value="HelloAdmin\Guard"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

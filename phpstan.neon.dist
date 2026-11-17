@@ -1,0 +1,10 @@
+parameters:
+	level: 6
+	# Values from filters and the database do not have to match their PHPDoc, keep the runtime checks.
+	treatPhpDocTypesAsCertain: false
+	paths:
+		- helloadmin-guard.php
+		- uninstall.php
+		- includes
+	bootstrapFiles:
+		- tests/phpstan-bootstrap.php
