@@ -287,35 +287,55 @@ class Admin_Page {
 			esc_html( $feature->title() )
 		);
 
-		echo '<dl class="hag-explain">';
-		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'What it does', 'helloadmin-guard' ), esc_html( $feature->what() ) );
-		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'What may break', 'helloadmin-guard' ), esc_html( $feature->may_break() ) );
-		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'How to undo', 'helloadmin-guard' ), esc_html( $feature->undo() ) );
-		echo '</dl>';
-
-		foreach ( $feature->fields() as $field => $args ) {
-			$field_id = $html . '-' . str_replace( '_', '-', $field );
-			printf(
-				'<div class="hag-field"><label for="%1$s">%2$s</label><input type="text" class="regular-text" id="%1$s" name="%3$s" value="%4$s"%5$s>',
-				esc_attr( $field_id ),
-				esc_html( $args['label'] ),
-				esc_attr( Settings::OPTION . '[fields][' . $id . '][' . $field . ']' ),
-				esc_attr( $this->settings->field( $id, $field, $args['default'] ) ),
-				! empty( $args['description'] ) ? ' aria-describedby="' . esc_attr( $field_id . '-help' ) . '"' : ''
-			);
-			if ( ! empty( $args['description'] ) ) {
-				printf( '<p class="description" id="%s">%s</p>', esc_attr( $field_id . '-help' ), esc_html( $args['description'] ) );
-			}
-			echo '</div>';
-		}
-
+		// "Learn more" closes the last text of the card: the last field hint, or "How to undo".
+		$more = '';
 		if ( $feature->learn_more() ) {
-			printf(
-				'<p class="hag-more"><a href="%s" target="_blank" rel="noopener">%s</a></p>',
+			$more = sprintf(
+				' <a class="hag-more" href="%s" target="_blank" rel="noopener">%s</a>',
 				esc_url( self::site_link( $feature->learn_more(), 'learn-more', $id ) ),
 				esc_html__( 'Learn more', 'helloadmin-guard' )
 			);
 		}
+		$fields    = $feature->fields();
+		$last_hint = '';
+		foreach ( $fields as $field => $args ) {
+			if ( ! empty( $args['description'] ) ) {
+				$last_hint = $field;
+			}
+		}
+
+		echo '<dl class="hag-explain">';
+		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'What it does', 'helloadmin-guard' ), esc_html( $feature->what() ) );
+		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'What may break', 'helloadmin-guard' ), esc_html( $feature->may_break() ) );
+		printf(
+			'<dt>%s</dt><dd>%s%s</dd>',
+			esc_html__( 'How to undo', 'helloadmin-guard' ),
+			esc_html( $feature->undo() ),
+			'' === $last_hint ? $more : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts above.
+		);
+
+		foreach ( $fields as $field => $args ) {
+			$field_id = $html . '-' . str_replace( '_', '-', $field );
+			$has_hint = ! empty( $args['description'] );
+			printf(
+				'<dt class="hag-field-label"><label for="%1$s">%2$s</label></dt><dd><input type="text" class="hag-input" id="%1$s" name="%3$s" value="%4$s"%5$s>',
+				esc_attr( $field_id ),
+				esc_html( $args['label'] ),
+				esc_attr( Settings::OPTION . '[fields][' . $id . '][' . $field . ']' ),
+				esc_attr( $this->settings->field( $id, $field, $args['default'] ) ),
+				$has_hint ? ' aria-describedby="' . esc_attr( $field_id . '-help' ) . '"' : ''
+			);
+			if ( $has_hint ) {
+				printf(
+					'<p class="description" id="%s">%s%s</p>',
+					esc_attr( $field_id . '-help' ),
+					esc_html( $args['description'] ),
+					$field === $last_hint ? $more : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts above.
+				);
+			}
+			echo '</dd>';
+		}
+		echo '</dl>';
 		echo '</div>';
 	}
 
