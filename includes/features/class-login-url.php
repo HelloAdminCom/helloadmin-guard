@@ -74,6 +74,13 @@ class Login_Url extends Feature {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function group() {
+		return 'login';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function learn_more() {
 		return 'https://helloadmin.com/change-wordpress-login-url-without-plugin/';
 	}

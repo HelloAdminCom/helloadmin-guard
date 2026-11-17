@@ -70,6 +70,15 @@ abstract class Feature {
 	}
 
 	/**
+	 * Group on the tab: login, leaks, legacy or headers (see Admin_Page::groups()). Unknown groups go last.
+	 *
+	 * @return string
+	 */
+	public function group() {
+		return 'other';
+	}
+
+	/**
 	 * Link to an article that explains the problem in detail, or an empty string.
 	 *
 	 * @return string

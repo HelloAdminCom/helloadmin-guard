@@ -1,8 +1,22 @@
 /* HelloAdmin Guard settings page */
 .hag-intro { max-width: 760px; }
+.hag-cards .hag-card { max-width: none; margin: 0; }
 
 .hag-heading { display: flex; align-items: center; gap: 10px; }
 .hag-logo { align-self: center; }
+
+.hag-group {
+	margin: 28px 0 12px;
+	font-size: 16px;
+}
+
+/* One column on laptops, two on wide screens; a single card keeps half the width, not the whole row. */
+.hag-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 640px), 1fr));
+	gap: 16px;
+	align-items: start;
+}
 
 .hag-card {
 	max-width: 760px;

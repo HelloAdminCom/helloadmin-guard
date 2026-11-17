@@ -68,6 +68,21 @@ class Admin_Page {
 	}
 
 	/**
+	 * Card groups in display order: key => heading.
+	 *
+	 * @return array<string, string>
+	 */
+	private function groups() {
+		return array(
+			'login'   => __( 'Login', 'helloadmin-guard' ),
+			'leaks'   => __( 'What your site gives away', 'helloadmin-guard' ),
+			'legacy'  => __( 'Old and risky features', 'helloadmin-guard' ),
+			'headers' => __( 'HTTP headers', 'helloadmin-guard' ),
+			'other'   => __( 'Other', 'helloadmin-guard' ),
+		);
+	}
+
+	/**
 	 * Tab from the URL, or 'general'.
 	 *
 	 * @return string
@@ -260,8 +275,21 @@ class Admin_Page {
 		echo '<form method="post" action="options.php">';
 		settings_fields( self::GROUP );
 		printf( '<input type="hidden" name="%s[tab]" value="%s">', esc_attr( Settings::OPTION ), esc_attr( $tab ) );
+		$groups = $this->groups();
+		$by     = array();
 		foreach ( $features as $feature ) {
-			$this->render_card( $feature );
+			$key          = isset( $groups[ $feature->group() ] ) ? $feature->group() : 'other';
+			$by[ $key ][] = $feature;
+		}
+		foreach ( array_keys( $groups ) as $key ) {
+			if ( empty( $by[ $key ] ) ) {
+				continue;
+			}
+			echo '<h2 class="hag-group">' . esc_html( $groups[ $key ] ) . '</h2><div class="hag-cards">';
+			foreach ( $by[ $key ] as $feature ) {
+				$this->render_card( $feature );
+			}
+			echo '</div>';
 		}
 		submit_button();
 		echo '</form>';
