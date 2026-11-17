@@ -106,8 +106,8 @@ msgid "Need help with your site?"
 msgstr "Нужна помощь с сайтом?"
 
 #: includes/class-admin-page.php:406
-msgid "The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you in writing what I see."
-msgstr "Плагин сделал HelloAdmin, разработчик WordPress и WooCommerce. Если ваш сайт медленный, сломан или его взломали, я могу посмотреть и письменно рассказать, что вижу."
+msgid "The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you what I see."
+msgstr "Плагин сделал HelloAdmin, разработчик WordPress и WooCommerce. Если ваш сайт медленный, сломан или его взломали, я могу посмотреть и рассказать, что вижу."
 
 #: includes/class-admin-page.php:410
 msgid "Contact HelloAdmin"
@@ -139,7 +139,7 @@ msgstr "Отключить редактор файлов"
 
 #: includes/features/class-disable-file-editor.php:44
 msgid "Removes Appearance > Theme File Editor and Plugins > Plugin File Editor. Anyone who gets into an admin account can no longer put their own PHP code into the site from the browser."
-msgstr "Убирает «Внешний вид → Редактор файлов тем» и «Плагины → Редактор файлов плагинов». Тот, кто попадёт в учётную запись администратора, больше не сможет вставить свой PHP-код на сайт прямо из браузера."
+msgstr "Убирает «Внешний вид → Редактор файлов тем» и «Плагины → Редактор файлов плагинов». Даже если кто-то попадёт в учётную запись администратора, он больше не сможет вставить свой PHP-код на сайт прямо из браузера."
 
 #: includes/features/class-disable-file-editor.php:51
 msgid "Quick code edits from wp-admin: change theme and plugin files over SFTP, SSH or Git instead. The Site Editor, the Customizer and Additional CSS keep working."
@@ -171,7 +171,7 @@ msgstr "Скрыть версию WordPress"
 
 #: includes/features/class-hide-wp-version.php:41
 msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. This only slows bots down; keeping WordPress updated is the real fix."
-msgstr "Убирает версию WordPress из тега generator в коде страниц и лентах, а также из ?ver= в ссылках на скрипты и стили ядра. Это только замедляет ботов; настоящая защита — вовремя обновлять WordPress."
+msgstr "Убирает версию WordPress из тега generator в коде страниц и лентах, а также из ?ver= в ссылках на скрипты и стили ядра. Это только замедляет ботов; по-настоящему защищают только своевременные обновления WordPress."
 
 #: includes/features/class-hide-wp-version.php:48
 msgid "Nothing on the site itself. Online scanners and some SEO tools will no longer show your WordPress version. Plugin versions in their own file links are not changed."

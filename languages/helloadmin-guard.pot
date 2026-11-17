@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://github.com/HelloAdminCom/helloadmin-guard/issues\n"
-"POT-Creation-Date: 2026-11-17 13:06+0000\n"
+"POT-Creation-Date: 2026-11-17 15:49+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -102,7 +102,7 @@ msgid "Need help with your site?"
 msgstr ""
 
 #: includes/class-admin-page.php:406
-msgid "The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you in writing what I see."
+msgid "The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you what I see."
 msgstr ""
 
 #: includes/class-admin-page.php:410

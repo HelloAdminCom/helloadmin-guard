@@ -403,7 +403,7 @@ class Admin_Page {
 			. esc_html__( 'No paid version, no locked settings, no ads, no calls to outside servers.', 'helloadmin-guard' ) . '</p>';
 		echo '<p>' . esc_html__( 'Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too.', 'helloadmin-guard' ) . '</p>';
 		echo '<h2>' . esc_html__( 'Need help with your site?', 'helloadmin-guard' ) . '</h2>';
-		echo '<p>' . esc_html__( 'The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you in writing what I see.', 'helloadmin-guard' ) . '</p>';
+		echo '<p>' . esc_html__( 'The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you what I see.', 'helloadmin-guard' ) . '</p>';
 		printf(
 			'<p><a class="button button-primary" href="%s" target="_blank" rel="noopener">%s</a> <a class="button" href="%s" target="_blank" rel="noopener">%s</a></p>',
 			esc_url( self::site_link( 'https://helloadmin.com/#contact', 'about', 'contact' ) ),
