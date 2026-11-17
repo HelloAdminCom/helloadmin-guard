@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings page under Tools > HelloAdmin Guard.
+ * Settings page: HelloAdmin Guard menu after Settings.
  *
  * @package HelloAdmin\Guard
  */
@@ -79,18 +79,51 @@ class Admin_Page {
 	}
 
 	/**
-	 * Adds Tools > HelloAdmin Guard.
+	 * Adds the HelloAdmin Guard menu right after Settings.
 	 *
 	 * @return void
 	 */
 	public function add_menu() {
-		add_management_page(
+		add_menu_page(
 			__( 'HelloAdmin Guard', 'helloadmin-guard' ),
-			__( 'HelloAdmin Guard', 'helloadmin-guard' ),
+			$this->menu_title(),
 			'manage_options',
 			self::SLUG,
-			array( $this, 'render' )
+			array( $this, 'render' ),
+			$this->svg_icon(),
+			81
 		);
+	}
+
+	/**
+	 * Menu label: the short name, fits on one line.
+	 *
+	 * @return string
+	 */
+	private function menu_title() {
+		/* translators: Short plugin name in the admin menu. HeAd = He(llo) Ad(min), reads as "head guard". */
+		return esc_html__( 'HeAd Guard', 'helloadmin-guard' );
+	}
+
+	/**
+	 * Menu icon (head with a gear) as a data URI; WordPress paints it in the admin color scheme.
+	 *
+	 * @return string
+	 */
+	private function svg_icon() {
+		$svg = (string) file_get_contents( HELLOADMIN_GUARD_DIR . 'assets/img/icon.svg' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+		return 'data:image/svg+xml;base64,' . base64_encode( $svg ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- data URI for the menu icon.
+	}
+
+	/**
+	 * URL of the settings page, optionally on a tab.
+	 *
+	 * @param string $tab Tab slug or empty.
+	 * @return string
+	 */
+	private function page_url( $tab = '' ) {
+		$url = admin_url( 'admin.php?page=' . self::SLUG );
+		return $tab ? add_query_arg( 'tab', $tab, $url ) : $url;
 	}
 
 	/**
@@ -153,7 +186,7 @@ class Admin_Page {
 	 * @return void
 	 */
 	public function enqueue( $hook_suffix ) {
-		if ( 'tools_page_' . self::SLUG !== $hook_suffix ) {
+		if ( ! in_array( $hook_suffix, array( 'toplevel_page_' . self::SLUG ), true ) ) {
 			return;
 		}
 		wp_enqueue_style( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/css/admin.css', array(), HELLOADMIN_GUARD_VERSION );
@@ -166,7 +199,7 @@ class Admin_Page {
 	 * @return string[]
 	 */
 	public function action_links( $links ) {
-		$url = admin_url( 'tools.php?page=' . self::SLUG );
+		$url = $this->page_url();
 		array_unshift( $links, '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'helloadmin-guard' ) . '</a>' );
 		return $links;
 	}
@@ -182,12 +215,16 @@ class Admin_Page {
 		}
 		$tab = $this->current_tab();
 		echo '<div class="wrap hag">';
-		echo '<h1>' . esc_html__( 'HelloAdmin Guard', 'helloadmin-guard' ) . '</h1>';
+		printf(
+			'<h1 class="hag-heading"><img class="hag-logo" src="%s" width="32" height="32" alt="">%s</h1>',
+			esc_url( add_query_arg( 'ver', (string) filemtime( HELLOADMIN_GUARD_DIR . 'assets/img/icon.svg' ), HELLOADMIN_GUARD_URL . 'assets/img/icon.svg' ) ),
+			esc_html__( 'HelloAdmin Guard', 'helloadmin-guard' )
+		);
 		echo '<p class="hag-intro">' . esc_html__( 'Each setting is off until you turn it on. Read what it does and what may break before you save.', 'helloadmin-guard' ) . '</p>';
 
 		echo '<nav class="nav-tab-wrapper">';
 		foreach ( $this->tabs() as $slug => $label ) {
-			$url   = admin_url( 'tools.php?page=' . self::SLUG . '&tab=' . $slug );
+			$url   = $this->page_url( $slug );
 			$class = 'nav-tab' . ( $slug === $tab ? ' nav-tab-active' : '' );
 			printf( '<a href="%s" class="%s">%s</a>', esc_url( $url ), esc_attr( $class ), esc_html( $label ) );
 		}
@@ -288,7 +325,8 @@ class Admin_Page {
 	 */
 	private function render_about() {
 		echo '<div class="hag-card">';
-		echo '<p>' . esc_html__( 'HelloAdmin Guard is free and stays free: no paid version, no locked settings, no ads, no calls to outside servers.', 'helloadmin-guard' ) . '</p>';
+		echo '<p><strong>' . esc_html__( 'HelloAdmin Guard is free and will stay free.', 'helloadmin-guard' ) . '</strong> '
+			. esc_html__( 'No paid version, no locked settings, no ads, no calls to outside servers.', 'helloadmin-guard' ) . '</p>';
 		echo '<p>' . esc_html__( 'Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too.', 'helloadmin-guard' ) . '</p>';
 		echo '<h2>' . esc_html__( 'Need help with your site?', 'helloadmin-guard' ) . '</h2>';
 		echo '<p>' . esc_html__( 'The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you in writing what I see.', 'helloadmin-guard' ) . '</p>';

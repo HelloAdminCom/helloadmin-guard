@@ -26,7 +26,7 @@ cd wp-content/plugins
 git clone https://github.com/HelloAdminCom/helloadmin-guard.git
 ```
 
-Then activate it in **Plugins** and open **Tools > HelloAdmin Guard**.
+Then activate it in **Plugins** and open **HelloAdmin Guard** in the admin menu (below Settings).
 
 ## If something breaks
 

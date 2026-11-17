@@ -1,6 +1,9 @@
 /* HelloAdmin Guard settings page */
 .hag-intro { max-width: 760px; }
 
+.hag-heading { display: flex; align-items: center; gap: 10px; }
+.hag-logo { align-self: center; }
+
 .hag-card {
 	max-width: 760px;
 	margin: 16px 0;

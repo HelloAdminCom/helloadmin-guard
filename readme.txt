@@ -26,7 +26,7 @@ The plugin is in early development. The list of settings grows with each version
 
 = I turned something on and can't log in. What now? =
 
-Rename the folder wp-content/plugins/helloadmin-guard over FTP or in your hosting file manager. WordPress turns the plugin off and every setting stops working at once. Rename it back and fix the setting in Tools > HelloAdmin Guard.
+Rename the folder wp-content/plugins/helloadmin-guard over FTP or in your hosting file manager. WordPress turns the plugin off and every setting stops working at once. Rename it back and fix the setting in the HelloAdmin Guard menu.
 
 = Does it work together with other security plugins? =
 
