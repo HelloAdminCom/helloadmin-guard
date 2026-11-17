@@ -92,7 +92,8 @@ class Disable_Xmlrpc extends Feature {
 	public function refuse() {
 		status_header( 403 );
 		header( 'Content-Type: text/plain; charset=utf-8' );
-		echo esc_html__( 'XML-RPC is turned off on this site.', 'helloadmin-guard' );
+		// Not translated: this runs before WordPress loads translations, and the reader is a program.
+		echo 'XML-RPC is turned off on this site.';
 		exit;
 	}
 

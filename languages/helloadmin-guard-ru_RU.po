@@ -1,0 +1,257 @@
+# Copyright (C) HelloAdmin
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: HelloAdmin Guard\n"
+"Report-Msgid-Bugs-To: https://github.com/HelloAdminCom/helloadmin-guard/issues\n"
+"POT-Creation-Date: 2026-11-17 13:06+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: helloadmin-guard\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"PO-Revision-Date: 2026-11-17 15:00+0200\n"
+"Last-Translator: HelloAdmin\n"
+
+#. Plugin Name of the plugin
+#: helloadmin-guard.php includes/class-admin-page.php:103 includes/class-admin-page.php:236
+msgid "HelloAdmin Guard"
+msgstr "HelloAdmin Guard"
+
+#. Description of the plugin
+#: helloadmin-guard.php
+msgid "WordPress security hardening without upsells. Every setting explains what it does, what may break and how to undo it."
+msgstr "Защита WordPress без платных дополнений. Каждая настройка объясняет, что она делает, что может сломаться и как это отменить."
+
+#: includes/class-admin-page.php:64
+msgid "General"
+msgstr "Общие"
+
+#: includes/class-admin-page.php:65
+msgid "Advanced"
+msgstr "Дополнительно"
+
+#: includes/class-admin-page.php:66
+msgid "About"
+msgstr "О плагине"
+
+#: includes/class-admin-page.php:77
+msgid "Login"
+msgstr "Вход"
+
+#: includes/class-admin-page.php:78
+msgid "What your site gives away"
+msgstr "Что выдаёт ваш сайт"
+
+#: includes/class-admin-page.php:79
+msgid "Old and risky features"
+msgstr "Старые и рискованные функции"
+
+#: includes/class-admin-page.php:80
+msgid "HTTP headers"
+msgstr "HTTP-заголовки"
+
+#: includes/class-admin-page.php:81
+msgid "Other"
+msgstr "Другое"
+
+#. translators: Short plugin name in the admin menu. HeAd = He(llo) Ad(min), reads as "head guard".
+#: includes/class-admin-page.php:120
+msgid "HeAd Guard"
+msgstr "HeAd Guard"
+
+#: includes/class-admin-page.php:218
+msgid "Settings"
+msgstr "Настройки"
+
+#: includes/class-admin-page.php:238
+msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
+msgstr "Каждая настройка выключена, пока вы её не включите. Перед сохранением прочитайте, что она делает и что может сломаться."
+
+#: includes/class-admin-page.php:271
+msgid "No settings on this tab yet."
+msgstr "На этой вкладке пока нет настроек."
+
+#: includes/class-admin-page.php:324
+msgid "Learn more"
+msgstr "Подробнее"
+
+#: includes/class-admin-page.php:336
+msgid "What it does"
+msgstr "Что делает"
+
+#: includes/class-admin-page.php:337
+msgid "What may break"
+msgstr "Что может сломаться"
+
+#: includes/class-admin-page.php:340
+msgid "How to undo"
+msgstr "Как отменить"
+
+#: includes/class-admin-page.php:402
+msgid "HelloAdmin Guard is free and will stay free."
+msgstr "HelloAdmin Guard бесплатный и останется бесплатным."
+
+#: includes/class-admin-page.php:403
+msgid "No paid version, no locked settings, no ads, no calls to outside servers."
+msgstr "Без платной версии, без закрытых настроек, без рекламы, без запросов к сторонним серверам."
+
+#: includes/class-admin-page.php:404
+msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
+msgstr "Каждая настройка объясняет, что она меняет, что может сломаться и как всё вернуть: настройка безопасности, которую вы не понимаете, тоже риск."
+
+#: includes/class-admin-page.php:405
+msgid "Need help with your site?"
+msgstr "Нужна помощь с сайтом?"
+
+#: includes/class-admin-page.php:406
+msgid "The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you in writing what I see."
+msgstr "Плагин сделал HelloAdmin, разработчик WordPress и WooCommerce. Если ваш сайт медленный, сломан или его взломали, я могу посмотреть и письменно рассказать, что вижу."
+
+#: includes/class-admin-page.php:410
+msgid "Contact HelloAdmin"
+msgstr "Написать HelloAdmin"
+
+#: includes/class-admin-page.php:412
+msgid "Report a problem"
+msgstr "Сообщить о проблеме"
+
+#: includes/features/class-disable-app-passwords.php:33
+msgid "Turn off Application Passwords"
+msgstr "Отключить пароли приложений"
+
+#: includes/features/class-disable-app-passwords.php:40
+msgid "Application Passwords let apps log in to the REST API without the login page and without two-factor login. This turns them off for all users and hides the section in user profiles. Passwords that already exist are kept, they just stop working."
+msgstr "Пароли приложений позволяют программам входить через REST API без страницы входа и без двухфакторной проверки. Эта настройка отключает их для всех пользователей и прячет раздел в профилях. Созданные пароли сохраняются, они просто перестают работать."
+
+#: includes/features/class-disable-app-passwords.php:47
+msgid "The WordPress mobile app on sites without Jetpack, Zapier, Make and other services connected with an application password, and your own scripts that publish through the REST API."
+msgstr "Мобильное приложение WordPress на сайтах без Jetpack, Zapier, Make и другие сервисы, подключённые через пароль приложения, а также ваши скрипты, которые публикуют через REST API."
+
+#: includes/features/class-disable-app-passwords.php:54
+msgid "Turn this off and save. The existing application passwords work again; nobody needs to create new ones."
+msgstr "Выключите эту настройку и сохраните. Созданные пароли приложений снова заработают, новые создавать не нужно."
+
+#: includes/features/class-disable-file-editor.php:37
+msgid "Turn off the file editor"
+msgstr "Отключить редактор файлов"
+
+#: includes/features/class-disable-file-editor.php:44
+msgid "Removes Appearance > Theme File Editor and Plugins > Plugin File Editor. Anyone who gets into an admin account can no longer put their own PHP code into the site from the browser."
+msgstr "Убирает «Внешний вид → Редактор файлов тем» и «Плагины → Редактор файлов плагинов». Тот, кто попадёт в учётную запись администратора, больше не сможет вставить свой PHP-код на сайт прямо из браузера."
+
+#: includes/features/class-disable-file-editor.php:51
+msgid "Quick code edits from wp-admin: change theme and plugin files over SFTP, SSH or Git instead. The Site Editor, the Customizer and Additional CSS keep working."
+msgstr "Быстрые правки кода из админки: меняйте файлы тем и плагинов через SFTP, SSH или Git. Редактор сайта, Customizer и «Дополнительные стили» продолжают работать."
+
+#: includes/features/class-disable-file-editor.php:58
+msgid "Turn this off and save. The editors come back at once; nothing is changed in wp-config.php."
+msgstr "Выключите эту настройку и сохраните. Редакторы сразу вернутся, в wp-config.php ничего не меняется."
+
+#: includes/features/class-disable-xmlrpc.php:33
+msgid "Turn off XML-RPC"
+msgstr "Отключить XML-RPC"
+
+#: includes/features/class-disable-xmlrpc.php:40
+msgid "Every request to /xmlrpc.php gets a 403 answer, so bots cannot try many passwords in one request through system.multicall. The X-Pingback header and the RSD link in the page source are removed too."
+msgstr "Каждый запрос к /xmlrpc.php получает ответ 403, и боты не могут перебирать много паролей одним запросом через system.multicall. Заголовок X-Pingback и ссылка RSD в коде страницы тоже убираются."
+
+#: includes/features/class-disable-xmlrpc.php:47
+msgid "Jetpack and other services that connect to the site through XML-RPC, old desktop and mobile blogging apps, and pingbacks from other blogs. The WordPress mobile app works through the REST API and is not affected."
+msgstr "Jetpack и другие сервисы, которые подключаются к сайту через XML-RPC, старые программы для ведения блога на компьютере и телефоне, а также пингбеки из других блогов. Мобильное приложение WordPress работает через REST API, его это не касается."
+
+#: includes/features/class-disable-xmlrpc.php:54 includes/features/class-user-enumeration.php:53
+msgid "Turn this off and save. Nothing is deleted or changed in the database."
+msgstr "Выключите эту настройку и сохраните. В базе данных ничего не удаляется и не меняется."
+
+#: includes/features/class-hide-wp-version.php:34
+msgid "Hide the WordPress version"
+msgstr "Скрыть версию WordPress"
+
+#: includes/features/class-hide-wp-version.php:41
+msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. This only slows bots down; keeping WordPress updated is the real fix."
+msgstr "Убирает версию WordPress из тега generator в коде страниц и лентах, а также из ?ver= в ссылках на скрипты и стили ядра. Это только замедляет ботов; настоящая защита — вовремя обновлять WordPress."
+
+#: includes/features/class-hide-wp-version.php:48
+msgid "Nothing on the site itself. Online scanners and some SEO tools will no longer show your WordPress version. Plugin versions in their own file links are not changed."
+msgstr "На самом сайте ничего. Онлайн-сканеры и некоторые SEO-инструменты перестанут показывать вашу версию WordPress. Версии плагинов в ссылках на их файлы не меняются."
+
+#: includes/features/class-hide-wp-version.php:55
+msgid "Turn this off and save. If a page looks broken right after that, clear the page cache once."
+msgstr "Выключите эту настройку и сохраните. Если сразу после этого страница выглядит сломанной, один раз очистите кеш страниц."
+
+#: includes/features/class-login-url.php:50
+msgid "Custom login URL"
+msgstr "Свой адрес входа"
+
+#: includes/features/class-login-url.php:57
+msgid "Moves the login page to your own address. /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in, so bots stop finding the login form."
+msgstr "Переносит страницу входа на ваш собственный адрес. /wp-login.php и /wp-admin/ показывают страницу 404 посетителям, которые не вошли, и боты перестают находить форму входа."
+
+#: includes/features/class-login-url.php:64
+msgid "Bookmarks and saved passwords for the old login page. Plugins or apps that log in through /wp-login.php directly. Another plugin that also changes the login URL."
+msgstr "Закладки и сохранённые пароли для старой страницы входа. Плагины или приложения, которые входят напрямую через /wp-login.php. Другой плагин, который тоже меняет адрес входа."
+
+#: includes/features/class-login-url.php:71
+msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager: the plugin stops and /wp-login.php works again."
+msgstr "Выключите эту настройку и сохраните. Если вы забыли новый адрес и не можете войти, переименуйте папку wp-content/plugins/helloadmin-guard через FTP или файловый менеджер хостинга: плагин остановится, и /wp-login.php снова заработает."
+
+#: includes/features/class-login-url.php:96
+msgid "Login address"
+msgstr "Адрес входа"
+
+#. translators: %s: login page URL.
+#: includes/features/class-login-url.php:101
+#, php-format
+msgid "Letters, numbers and dashes, at least 4 characters. Your login page: %s. Bookmark it after saving."
+msgstr "Буквы, цифры и дефисы, не меньше 4 символов. Ваша страница входа: %s. После сохранения добавьте её в закладки."
+
+#: includes/features/class-login-url.php:122
+msgid "The login address must be at least 4 characters long."
+msgstr "Адрес входа должен быть не короче 4 символов."
+
+#: includes/features/class-login-url.php:124
+msgid "This login address is reserved by WordPress or too easy to guess. Choose another one."
+msgstr "Этот адрес входа зарезервирован WordPress или его слишком легко угадать. Выберите другой."
+
+#: includes/features/class-login-url.php:126
+msgid "A page or post already uses this address. Choose another one."
+msgstr "Этот адрес уже занят страницей или записью. Выберите другой."
+
+#: includes/features/class-login-url.php:252
+msgid "The requested URL was not found on this server."
+msgstr "Запрошенный адрес на этом сервере не найден."
+
+#: includes/features/class-security-headers.php:33
+msgid "Security headers"
+msgstr "Заголовки безопасности"
+
+#: includes/features/class-security-headers.php:40
+msgid "Adds four headers: X-Content-Type-Options: nosniff (browsers do not guess file types), X-Frame-Options: SAMEORIGIN (other sites cannot show your pages in a frame), Referrer-Policy: strict-origin-when-cross-origin (other sites see only your domain, not full URLs) and Permissions-Policy (no camera or microphone, location only for your own pages)."
+msgstr "Добавляет четыре заголовка: X-Content-Type-Options: nosniff (браузеры не угадывают тип файла), X-Frame-Options: SAMEORIGIN (другие сайты не могут показать ваши страницы во фрейме), Referrer-Policy: strict-origin-when-cross-origin (другие сайты видят только ваш домен, а не полные адреса) и Permissions-Policy (без камеры и микрофона, геолокация только для ваших страниц)."
+
+#: includes/features/class-security-headers.php:47
+msgid "Showing your pages inside a frame on another domain, for example a landing page builder or a partner site. Embedded widgets from other sites that ask for the camera, microphone or location. Your own pages, the editor and the Customizer are not affected."
+msgstr "Показ ваших страниц во фрейме на другом домене, например в конструкторе лендингов или на сайте партнёра. Встроенные виджеты с других сайтов, которые просят камеру, микрофон или геолокацию. Ваши собственные страницы, редактор и Customizer это не затрагивает."
+
+#: includes/features/class-security-headers.php:54
+msgid "Turn this off and save. Browsers drop these headers on the next page load. If the server or another plugin also sends them, those copies stay."
+msgstr "Выключите эту настройку и сохраните. Браузеры перестанут получать эти заголовки со следующей загрузки страницы. Если их также отправляет сервер или другой плагин, те копии останутся."
+
+#: includes/features/class-user-enumeration.php:32
+msgid "Hide user names"
+msgstr "Скрыть имена пользователей"
+
+#: includes/features/class-user-enumeration.php:39
+msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap."
+msgstr "Посетители, которые не вошли, больше не могут узнать имена пользователей через /?author=1, список пользователей REST API (/wp-json/wp/v2/users), ссылки на автора в oEmbed и карту сайта пользователей."
+
+#: includes/features/class-user-enumeration.php:46
+msgid "Apps or scripts that read the user list through the REST API without logging in. Author pages drop out of wp-sitemap.xml; the pages themselves keep working."
+msgstr "Программы или скрипты, которые читают список пользователей через REST API без входа. Страницы авторов пропадают из wp-sitemap.xml, но сами страницы работают."
+
+#: includes/features/class-user-enumeration.php:114
+msgid "Sorry, you are not allowed to list users."
+msgstr "Извините, вам не разрешено просматривать список пользователей."
+
