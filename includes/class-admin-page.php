@@ -296,26 +296,52 @@ class Admin_Page {
 		foreach ( $feature->fields() as $field => $args ) {
 			$field_id = $html . '-' . str_replace( '_', '-', $field );
 			printf(
-				'<p class="hag-field"><label for="%1$s">%2$s</label> <input type="text" class="regular-text" id="%1$s" name="%3$s" value="%4$s">',
+				'<div class="hag-field"><label for="%1$s">%2$s</label><input type="text" class="regular-text" id="%1$s" name="%3$s" value="%4$s"%5$s>',
 				esc_attr( $field_id ),
 				esc_html( $args['label'] ),
 				esc_attr( Settings::OPTION . '[fields][' . $id . '][' . $field . ']' ),
-				esc_attr( $this->settings->field( $id, $field, $args['default'] ) )
+				esc_attr( $this->settings->field( $id, $field, $args['default'] ) ),
+				! empty( $args['description'] ) ? ' aria-describedby="' . esc_attr( $field_id . '-help' ) . '"' : ''
 			);
 			if ( ! empty( $args['description'] ) ) {
-				echo '<span class="description">' . esc_html( $args['description'] ) . '</span>';
+				printf( '<p class="description" id="%s">%s</p>', esc_attr( $field_id . '-help' ), esc_html( $args['description'] ) );
 			}
-			echo '</p>';
+			echo '</div>';
 		}
 
 		if ( $feature->learn_more() ) {
 			printf(
 				'<p class="hag-more"><a href="%s" target="_blank" rel="noopener">%s</a></p>',
-				esc_url( $feature->learn_more() ),
+				esc_url( self::site_link( $feature->learn_more(), 'learn-more', $id ) ),
 				esc_html__( 'Learn more', 'helloadmin-guard' )
 			);
 		}
 		echo '</div>';
+	}
+
+	/**
+	 * Adds UTM tags to links that lead to helloadmin.com, so the site's own analytics can tell visits from
+	 * the plugin apart. Nothing is sent from the user's site; the tags are only part of the link.
+	 * Links to other sites are returned unchanged.
+	 *
+	 * @param string $url      Link.
+	 * @param string $campaign Where in the plugin the link is (about, learn-more).
+	 * @param string $content  Which link exactly (feature id, contact).
+	 * @return string
+	 */
+	public static function site_link( $url, $campaign, $content = '' ) {
+		if ( 'helloadmin.com' !== wp_parse_url( $url, PHP_URL_HOST ) ) {
+			return $url;
+		}
+		$args = array(
+			'utm_source'   => 'helloadmin-guard',
+			'utm_medium'   => 'plugin',
+			'utm_campaign' => $campaign,
+		);
+		if ( '' !== $content ) {
+			$args['utm_content'] = $content;
+		}
+		return add_query_arg( $args, $url );
 	}
 
 	/**
@@ -332,7 +358,7 @@ class Admin_Page {
 		echo '<p>' . esc_html__( 'The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you in writing what I see.', 'helloadmin-guard' ) . '</p>';
 		printf(
 			'<p><a class="button button-primary" href="%s" target="_blank" rel="noopener">%s</a> <a class="button" href="%s" target="_blank" rel="noopener">%s</a></p>',
-			esc_url( 'https://helloadmin.com/#contact' ),
+			esc_url( self::site_link( 'https://helloadmin.com/#contact', 'about', 'contact' ) ),
 			esc_html__( 'Contact HelloAdmin', 'helloadmin-guard' ),
 			esc_url( 'https://github.com/HelloAdminCom/helloadmin-guard/issues' ),
 			esc_html__( 'Report a problem', 'helloadmin-guard' )

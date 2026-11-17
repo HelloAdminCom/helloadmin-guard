@@ -10,3 +10,4 @@ All notable changes to this project are documented here. Versions follow [Semant
 - Coding standards (PHPCS with WordPress Coding Standards, PHPCompatibilityWP), PHPStan, GitHub Actions.
 - Plugin icon (head with a gear) in the admin menu and on the settings page; menu label "HeAd Guard".
 - Custom login URL: the login page moves to /your-address/, /wp-login.php and /wp-admin/ answer 404 to visitors who are not logged in. Single sites only for now.
+- Field hints under the fields; links to helloadmin.com carry UTM tags (utm_source=helloadmin-guard), nothing is sent from the site.

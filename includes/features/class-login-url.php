@@ -83,15 +83,16 @@ class Login_Url extends Feature {
 	 */
 	public function fields() {
 		$slug = $this->stored_slug();
+		$slug = $slug ? $slug : 'login-' . strtolower( wp_generate_password( 6, false ) );
 		return array(
 			'slug' => array(
 				'label'       => __( 'Login address', 'helloadmin-guard' ),
 				'type'        => 'text',
-				'default'     => $slug ? $slug : 'login-' . strtolower( wp_generate_password( 6, false ) ),
+				'default'     => $slug,
 				'description' => sprintf(
-					/* translators: %s: example login URL. */
-					__( 'Letters, numbers and dashes. The login page will be %s. Bookmark it after saving.', 'helloadmin-guard' ),
-					home_url( '/' . ( $slug ? $slug : 'your-address' ) . '/' )
+					/* translators: %s: login page URL. */
+					__( 'Letters, numbers and dashes, at least 4 characters. Your login page: %s. Bookmark it after saving.', 'helloadmin-guard' ),
+					home_url( '/' . $slug . '/' )
 				),
 			),
 		);
