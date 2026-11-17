@@ -87,6 +87,7 @@ final class Plugin {
 	private function default_features() {
 		return array(
 			new Features\Login_Url(),
+			new Features\User_Enumeration(),
 		);
 	}
 
