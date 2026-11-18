@@ -272,7 +272,7 @@ msgid "Hide the welcome message"
 msgstr "Сховати привітання"
 
 msgid "Hello, admin or developer!"
-msgstr "Привіт, адміне чи розробнику!"
+msgstr "Привіт, адмін чи розробник!"
 
 msgid "Nothing is on until you turn it on."
 msgstr "Нічого не ввімкнено, доки ви самі цього не ввімкнете."
@@ -329,7 +329,7 @@ msgid "The plugin is free and will stay free: no Pro version, no account, no dat
 msgstr "Плагін безкоштовний і таким залишиться: без Pro-версії, без акаунта, без надсилання даних будь-куди."
 
 msgid "Every new version closes more gaps, so keep the plugin updated."
-msgstr "З кожною версією плагін закриває нові шпарини, тож не забувайте його оновлювати."
+msgstr "З кожною версією плагін закриває нові прогалини, тож не забувайте його оновлювати."
 
 msgid "Block backups and database dumps"
 msgstr "Закрити бекапи й дампи бази даних"
@@ -396,7 +396,7 @@ msgstr "HelloAdmin Guard створює та підтримує HelloAdmin, ро
 
 #, php-format
 msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what %s does. Every gap has its own switch, so you decide what to close and what to leave open."
-msgstr "WordPress з коробки залишає відкритими кілька шпарин: будь-хто може дізнатися імена користувачів, версію WordPress і адресу сторінки входу. Ні, команда WordPress не халтурить 🙂 просто деяким сайтам вони необхідні для роботи. Але на більшості сайтів ці шпарини можна й треба закрити. Саме цим і займається %s. Кожна шпарина має свій перемикач, тож ви самі вирішуєте, що закрити, а що залишити."
+msgstr "WordPress з коробки залишає відкритими кілька прогалин у захисті: будь-хто може дізнатися імена користувачів, версію WordPress і адресу сторінки входу. Ні, команда WordPress не халтурить 🙂 просто деяким сайтам вони необхідні для роботи. Але на більшості сайтів ці прогалини можна й треба закрити. Саме цим і займається %s. Кожна прогалина має свій перемикач, тож ви самі вирішуєте, що закрити, а що залишити."
 
 msgid "Downsides"
 msgstr "Мінуси"
