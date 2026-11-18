@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://github.com/HelloAdminCom/helloadmin-guard/issues\n"
-"POT-Creation-Date: 2026-11-18 18:00+0000\n"
+"POT-Creation-Date: 2026-11-18 18:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: helloadmin-guard\n"
 
 #. Plugin Name of the plugin
-#: helloadmin-guard.php includes/class-admin-page.php:103 includes/class-admin-page.php:336 includes/class-site-health.php:51
+#: helloadmin-guard.php includes/class-admin-page.php:103 includes/class-admin-page.php:351 includes/class-site-health.php:51
 msgid "HelloAdmin Guard"
 msgstr ""
 
@@ -69,195 +69,195 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/class-admin-page.php:317
+#: includes/class-admin-page.php:320
 msgid "Settings saved."
 msgstr ""
 
-#: includes/class-admin-page.php:341
+#: includes/class-admin-page.php:356
 msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
 msgstr ""
 
-#: includes/class-admin-page.php:377
+#: includes/class-admin-page.php:392
 msgid "No settings on this tab yet."
 msgstr ""
 
-#: includes/class-admin-page.php:407
+#: includes/class-admin-page.php:422
 msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
 msgstr ""
 
-#: includes/class-admin-page.php:452
+#: includes/class-admin-page.php:467
 msgid "Learn more"
 msgstr ""
 
-#: includes/class-admin-page.php:464
+#: includes/class-admin-page.php:479
 msgid "Description"
 msgstr ""
 
-#: includes/class-admin-page.php:465
+#: includes/class-admin-page.php:480
 msgid "Downsides"
 msgstr ""
 
-#: includes/class-admin-page.php:468
+#: includes/class-admin-page.php:483
 msgid "How to undo"
 msgstr ""
 
-#: includes/class-admin-page.php:501
+#: includes/class-admin-page.php:516
 msgid "I do not need this on this site (it stops counting as an open gap)"
 msgstr ""
 
-#: includes/class-admin-page.php:520
+#: includes/class-admin-page.php:535
 msgid "high risk"
 msgstr ""
 
-#: includes/class-admin-page.php:521
+#: includes/class-admin-page.php:536
 msgid "medium risk"
 msgstr ""
 
-#: includes/class-admin-page.php:522
+#: includes/class-admin-page.php:537
 msgid "low risk"
 msgstr ""
 
-#: includes/class-admin-page.php:526
+#: includes/class-admin-page.php:541
 msgid "Closed by this plugin"
 msgstr ""
 
-#: includes/class-admin-page.php:528
+#: includes/class-admin-page.php:543
 msgid "Not working"
 msgstr ""
 
-#: includes/class-admin-page.php:528
+#: includes/class-admin-page.php:543
 msgid "The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting."
 msgstr ""
 
 #. translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)".
-#: includes/class-admin-page.php:534
+#: includes/class-admin-page.php:549
 #, php-format
 msgid "Closed by %s. You can leave this off."
 msgstr ""
 
 #. translators: %s: names of active security plugins.
-#: includes/class-admin-page.php:537
+#: includes/class-admin-page.php:552
 #, php-format
 msgid "Probably by %s or the server settings. You can leave this off."
 msgstr ""
 
-#: includes/class-admin-page.php:539
+#: includes/class-admin-page.php:554
 msgid "By the server settings or another plugin. You can leave this off."
 msgstr ""
 
-#: includes/class-admin-page.php:541
+#: includes/class-admin-page.php:556
 msgid "Already closed"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:544
+#: includes/class-admin-page.php:559
 #, php-format
 msgid "Open, %s"
 msgstr ""
 
-#: includes/class-admin-page.php:546
+#: includes/class-admin-page.php:561
 msgid "Not needed"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:549
+#: includes/class-admin-page.php:564
 #, php-format
 msgid "Not checked yet, %s"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:549
+#: includes/class-admin-page.php:564
 #, php-format
 msgid "Cannot be checked, %s"
 msgstr ""
 
-#: includes/class-admin-page.php:562
+#: includes/class-admin-page.php:577
 msgid "Checking what your site answers to visitors..."
 msgstr ""
 
 #. translators: %s: time since the last check, for example "5 minutes".
-#: includes/class-admin-page.php:565
+#: includes/class-admin-page.php:580
 #, php-format
 msgid "Last check: %s ago."
 msgstr ""
 
-#: includes/class-admin-page.php:570
+#: includes/class-admin-page.php:585
 msgid "Check again"
 msgstr ""
 
-#: includes/class-admin-page.php:586
+#: includes/class-admin-page.php:601
 msgid "Optional: the same for Nginx, to add to the server block"
 msgstr ""
 
-#: includes/class-admin-page.php:586
+#: includes/class-admin-page.php:601
 msgid "Rules to add to the server block, above the PHP location"
 msgstr ""
 
-#: includes/class-admin-page.php:590
+#: includes/class-admin-page.php:605
 msgid "Also added to .htaccess, so the server answers before PHP starts"
 msgstr ""
 
-#: includes/class-admin-page.php:590
+#: includes/class-admin-page.php:605
 msgid "Optional: the same in .htaccess, to add by hand"
 msgstr ""
 
-#: includes/class-admin-page.php:592
+#: includes/class-admin-page.php:607
 msgid "Rules to add to .htaccess by hand"
 msgstr ""
 
-#: includes/class-admin-page.php:592
+#: includes/class-admin-page.php:607
 msgid "Rules the plugin adds to .htaccess"
 msgstr ""
 
-#: includes/class-admin-page.php:597
+#: includes/class-admin-page.php:612
 msgid "This setting needs Apache, LiteSpeed or Nginx."
 msgstr ""
 
-#: includes/class-admin-page.php:620
+#: includes/class-admin-page.php:635
 msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
 msgstr ""
 
-#: includes/class-admin-page.php:622
+#: includes/class-admin-page.php:637
 msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
 msgstr ""
 
-#: includes/class-admin-page.php:624
+#: includes/class-admin-page.php:639
 msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
 msgstr ""
 
-#: includes/class-admin-page.php:626
+#: includes/class-admin-page.php:641
 msgid "The server rules below need Apache, LiteSpeed or Nginx."
 msgstr ""
 
-#: includes/class-admin-page.php:663
+#: includes/class-admin-page.php:678
 msgid "HelloAdmin Guard is free and will stay free."
 msgstr ""
 
-#: includes/class-admin-page.php:664
+#: includes/class-admin-page.php:679
 msgid "No paid version, no locked settings, no ads, no calls to outside servers."
 msgstr ""
 
-#: includes/class-admin-page.php:665
+#: includes/class-admin-page.php:680
 msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
 msgstr ""
 
-#: includes/class-admin-page.php:666
+#: includes/class-admin-page.php:681
 msgid "Need help with your site?"
 msgstr ""
 
-#: includes/class-admin-page.php:667
+#: includes/class-admin-page.php:682
 msgid "This plugin was built and is maintained by a developer with more than 10 years of experience with WordPress and WooCommerce. Is your site slow, showing errors, broken after an update or hacked? Need someone to look after it? Write to me."
 msgstr ""
 
-#: includes/class-admin-page.php:671
+#: includes/class-admin-page.php:686
 msgid "Contact HelloAdmin"
 msgstr ""
 
-#: includes/class-admin-page.php:673
+#: includes/class-admin-page.php:688
 msgid "Report a problem"
 msgstr ""
 
-#: includes/class-admin-page.php:675
+#: includes/class-admin-page.php:690
 msgid "Show the welcome message again"
 msgstr ""
 
@@ -299,6 +299,10 @@ msgstr[1] ""
 
 #: includes/class-site-health.php:90
 msgid "Some things bots look for are still open on this site. Every switch on the settings page explains what it closes, what may break and how to undo it."
+msgstr ""
+
+#: includes/class-status.php:263
+msgid "Checking…"
 msgstr ""
 
 #: includes/class-welcome.php:145

@@ -257,9 +257,10 @@ class Status {
 	 */
 	public static function script_data() {
 		return array(
-			'checkAction' => self::AJAX,
-			'checkNonce'  => wp_create_nonce( self::NONCE ),
-			'checkNeeded' => null === self::cached(),
+			'checkAction'  => self::AJAX,
+			'checkNonce'   => wp_create_nonce( self::NONCE ),
+			'checkNeeded'  => null === self::cached(),
+			'checkingText' => __( 'Checking…', 'helloadmin-guard' ),
 		);
 	}
 }

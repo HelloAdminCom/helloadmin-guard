@@ -31,6 +31,7 @@ The plugin now checks what the site really answers and shows it on every card.
 - The settings page shows "Settings saved" and the messages about server rules after a save (they were not shown on a page with its own menu item).
 - The menu number is red in every admin color scheme and no longer jumps for a moment after a save.
 - The menu icon no longer blinks on page load.
+- "Check again" shows a spinner and "Checking…" while it runs.
 
 ## [0.2.1] - 2026-11-18
 

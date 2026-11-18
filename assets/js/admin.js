@@ -31,13 +31,23 @@
 		return;
 	}
 	var running = false;
+	var label = button.textContent;
+	var spinner = document.createElement( 'span' );
+	spinner.className = 'spinner is-active hag-spinner';
+	function done() {
+		running = false;
+		button.disabled = false;
+		button.textContent = label;
+		spinner.remove();
+	}
 	function check() {
 		if ( running ) {
 			return;
 		}
 		running = true;
 		button.disabled = true;
-		button.classList.add( 'updating-message' );
+		button.textContent = data.checkingText || label;
+		button.after( spinner );
 		var body = new URLSearchParams( { action: data.checkAction, _ajax_nonce: data.checkNonce } );
 		window.fetch( data.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } )
 			.then( function ( response ) {
@@ -47,14 +57,10 @@
 				if ( result && result.success ) {
 					window.location.reload();
 				} else {
-					button.disabled = false;
-					button.classList.remove( 'updating-message' );
+					done();
 				}
 			} )
-			.catch( function () {
-				button.disabled = false;
-				button.classList.remove( 'updating-message' );
-			} );
+			.catch( done );
 	}
 	button.addEventListener( 'click', check );
 	if ( data.checkNeeded ) {

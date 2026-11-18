@@ -231,3 +231,10 @@
 	border-left: 4px solid #dba617;
 	font-size: 12px;
 }
+
+/* Spinner next to "Check again" while the check runs. */
+.hag-check .hag-spinner {
+	float: none;
+	margin: 0 0 0 6px;
+	vertical-align: middle;
+}

@@ -565,3 +565,6 @@ msgstr "Адрес страницы автора содержит логин д�
 
 msgid "Settings saved."
 msgstr "Настройки сохранены."
+
+msgid "Checking…"
+msgstr "Проверяю…"
