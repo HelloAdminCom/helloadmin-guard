@@ -78,6 +78,7 @@ No. It makes no requests to outside servers. The only request it makes is to you
 
 = 0.2.1 =
 * Every card on the Advanced tab links to its own section of a new article about server rules.
+* About tab: shorter text about the author.
 
 = 0.2.0 =
 * Advanced tab with server rules in .htaccess: hidden files, backups, PHP in uploads, logs, folder listings, internal folders, files that show versions, developer files. Copy of the file before each change, automatic rollback on a server error.
