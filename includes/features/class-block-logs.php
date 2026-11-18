@@ -53,6 +53,15 @@ class Block_Logs extends Htaccess_Feature {
 	}
 
 	/**
+	 * Article with details.
+	 *
+	 * @return string
+	 */
+	public function learn_more() {
+		return 'https://helloadmin.com/wordpress-site-from-the-outside-12-checks/#backups';
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string
