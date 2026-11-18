@@ -94,3 +94,47 @@
 	.hag-explain dd { margin-bottom: 8px; }
 	.hag-explain .hag-field-label { padding-top: 0; }
 }
+
+/* Server rules of a card */
+.hag-rules { margin-top: 12px; }
+.hag-rules summary { cursor: pointer; color: #2271b1; }
+.hag-rules pre {
+	margin: 8px 0 0;
+	padding: 10px 12px;
+	overflow-x: auto;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	font-size: 12px;
+	line-height: 1.6;
+}
+.hag-toggle input:disabled + .hag-switch { opacity: 0.4; }
+
+/* Welcome message: part of the page, not a popup */
+.hag-welcome {
+	position: relative;
+	max-width: 760px;
+	margin: 16px 0;
+	padding: 4px 48px 4px 20px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-left: 4px solid #2271b1;
+	border-radius: 4px;
+}
+.hag-welcome h2 { font-size: 18px; margin: 16px 0 8px; }
+.hag-welcome ul { list-style: disc; margin-left: 20px; }
+.hag-welcome-close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 28px;
+	height: 28px;
+	color: #787c82;
+	text-decoration: none;
+}
+.hag-welcome-close::before {
+	content: "\f335";
+	font: normal 24px/28px dashicons;
+}
+.hag-welcome-close:hover,
+.hag-welcome-close:focus { color: #d63638; }

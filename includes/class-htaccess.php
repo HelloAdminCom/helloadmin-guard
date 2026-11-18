@@ -1,0 +1,188 @@
+<?php
+/**
+ * Writes the plugin's block of rules into the .htaccess file in the site root.
+ *
+ * @package HelloAdmin\Guard
+ */
+
+namespace HelloAdmin\Guard;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Every change goes the same way: save a copy of the file, write the block, open the home page. If the home page
+ * answers with a server error, the old file is put back. The block sits at the top of the file, before the
+ * WordPress rules, between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard".
+ */
+class Htaccess {
+
+	const MARKER = 'HelloAdmin Guard';
+
+	/**
+	 * Option with the file as it was before the last change: array( 'time' => int, 'content' => string ).
+	 * Kept in the database, not as a file, so nobody can download it from the site.
+	 */
+	const BACKUP_OPTION = 'helloadmin_guard_htaccess_backup';
+
+	/**
+	 * Web server type: apache (also LiteSpeed), nginx or other.
+	 *
+	 * @return string
+	 */
+	public static function server() {
+		global $is_apache, $is_nginx;
+		if ( $is_apache ) {
+			return 'apache';
+		}
+		return $is_nginx ? 'nginx' : 'other';
+	}
+
+	/**
+	 * Full path of the .htaccess file in the site root.
+	 *
+	 * @return string
+	 */
+	public static function path() {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		return get_home_path() . '.htaccess';
+	}
+
+	/**
+	 * Direct file access. The file is in the site root and PHP already writes it for permalinks, like core does.
+	 *
+	 * @return \WP_Filesystem_Direct
+	 */
+	private static function fs() {
+		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
+		return new \WP_Filesystem_Direct( null );
+	}
+
+	/**
+	 * Can the plugin write the file (or create it)?
+	 *
+	 * @return bool
+	 */
+	public static function writable() {
+		$fs   = self::fs();
+		$path = self::path();
+		return $fs->exists( $path ) ? $fs->is_writable( $path ) : $fs->is_writable( dirname( $path ) );
+	}
+
+	/**
+	 * Lines of the block for the given features, each part signed with the feature id.
+	 *
+	 * @param Htaccess_Feature[] $features Enabled features.
+	 * @return string[]
+	 */
+	public static function lines( array $features ) {
+		$lines = array();
+		foreach ( $features as $feature ) {
+			$lines[] = '# ' . $feature->id();
+			foreach ( $feature->apache_rules() as $line ) {
+				$lines[] = $line;
+			}
+		}
+		return $lines;
+	}
+
+	/**
+	 * Writes the block for the given features (an empty list removes it) and checks that the site still opens.
+	 *
+	 * @param Htaccess_Feature[] $features Enabled features.
+	 * @return true|\WP_Error Error codes: not_apache, not_writable, write_failed, site_broken (file restored),
+	 *                        not_checked (rules kept, but the home page could not be loaded to check them).
+	 */
+	public static function sync( array $features ) {
+		$lines = self::lines( $features );
+		// Removing always works, also from WP-CLI where the server type is unknown (plugin deactivated there).
+		if ( $lines && 'apache' !== self::server() ) {
+			return new \WP_Error( 'not_apache' );
+		}
+
+		$fs     = self::fs();
+		$path   = self::path();
+		$before = $fs->exists( $path ) ? (string) $fs->get_contents( $path ) : '';
+		$after  = self::build( $before, $lines );
+		if ( $after === $before ) {
+			return true;
+		}
+		if ( ! self::writable() ) {
+			return new \WP_Error( 'not_writable' );
+		}
+
+		update_option(
+			self::BACKUP_OPTION,
+			array(
+				'time'    => time(),
+				'content' => $before,
+			),
+			false
+		);
+		// Keep the file's own permissions. Passing them also avoids FS_CHMOD_FILE, defined only by WP_Filesystem().
+		$mode = $fs->exists( $path ) ? ( fileperms( $path ) & 0777 ) : 0644;
+		if ( ! $fs->put_contents( $path, $after, $mode ) ) {
+			return new \WP_Error( 'write_failed' );
+		}
+
+		if ( ! $lines ) {
+			return true;
+		}
+		$check = self::site_responds();
+		if ( false === $check ) {
+			$fs->put_contents( $path, $before, $mode );
+			return new \WP_Error( 'site_broken' );
+		}
+		return null === $check ? new \WP_Error( 'not_checked' ) : true;
+	}
+
+	/**
+	 * The file content with our block replaced, added at the top, or removed when there are no lines.
+	 *
+	 * @param string   $content Current file content.
+	 * @param string[] $lines   Block lines.
+	 * @return string
+	 */
+	public static function build( $content, array $lines ) {
+		$begin   = '# BEGIN ' . self::MARKER;
+		$end     = '# END ' . self::MARKER;
+		$pattern = '/' . preg_quote( $begin, '/' ) . '.*?' . preg_quote( $end, '/' ) . '\R*/s';
+		$content = (string) preg_replace( $pattern, '', $content );
+		if ( ! $lines ) {
+			return $content;
+		}
+
+		$block = array_merge(
+			array(
+				$begin,
+				// Not translated: the file must not change when the admin language changes.
+				'# Written by the HelloAdmin Guard plugin (Advanced tab). Changes here are overwritten when its settings are saved.',
+			),
+			$lines,
+			array( $end )
+		);
+		return implode( "\n", $block ) . "\n\n" . ltrim( $content );
+	}
+
+	/**
+	 * Opens the home page from the server itself.
+	 *
+	 * @return bool|null True if it answers without a server error, false on a 5xx answer, null if it cannot be reached
+	 *                   (some hosts block requests from a site to itself).
+	 */
+	public static function site_responds() {
+		$response = wp_remote_get(
+			add_query_arg( 'helloadmin-guard-check', (string) time(), home_url( '/' ) ),
+			array(
+				'timeout'     => 15,
+				'redirection' => 3,
+				/** This filter is documented in wp-includes/class-wp-http-streams.php */
+				'sslverify'   => apply_filters( 'https_local_ssl_verify', false ), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core filter.
+			)
+		);
+		if ( is_wp_error( $response ) ) {
+			return null;
+		}
+		return (int) wp_remote_retrieve_response_code( $response ) < 500;
+	}
+}

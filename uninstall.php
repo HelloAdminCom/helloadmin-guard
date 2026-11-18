@@ -8,3 +8,5 @@
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 delete_option( 'helloadmin_guard_settings' );
+delete_option( 'helloadmin_guard_htaccess_backup' );
+delete_metadata( 'user', 0, 'helloadmin_guard_welcome_hidden', '', true );

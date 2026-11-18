@@ -60,3 +60,17 @@ add_action(
 		Plugin::instance();
 	}
 );
+
+// Server rules leave .htaccess with the plugin and come back with it.
+register_activation_hook(
+	__FILE__,
+	static function () {
+		Plugin::instance()->sync_htaccess();
+	}
+);
+register_deactivation_hook(
+	__FILE__,
+	static function () {
+		Plugin::instance()->sync_htaccess( true );
+	}
+);

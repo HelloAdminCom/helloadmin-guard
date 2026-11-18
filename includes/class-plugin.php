@@ -76,6 +76,7 @@ final class Plugin {
 
 		if ( is_admin() ) {
 			( new Admin_Page( $this->settings, $this->features ) )->register();
+			( new Welcome() )->register();
 		}
 	}
 
@@ -93,7 +94,27 @@ final class Plugin {
 			new Features\Disable_Xmlrpc(),
 			new Features\Disable_File_Editor(),
 			new Features\Security_Headers(),
+			new Features\Hide_Readme_Files(),
+			new Features\Block_Hidden_Files(),
+			new Features\No_Php_In_Uploads(),
+			new Features\Hsts(),
 		);
+	}
+
+	/**
+	 * Writes the server rules of the enabled settings into .htaccess, or removes them all.
+	 *
+	 * @param bool $remove True to remove the block (plugin deactivated).
+	 * @return true|\WP_Error See Htaccess::sync().
+	 */
+	public function sync_htaccess( $remove = false ) {
+		$on = array();
+		foreach ( $this->features as $id => $feature ) {
+			if ( ! $remove && $feature instanceof Htaccess_Feature && $this->settings->is_enabled( $id ) ) {
+				$on[] = $feature;
+			}
+		}
+		return Htaccess::sync( $on );
 	}
 
 	/**

@@ -77,6 +77,7 @@ class Admin_Page {
 			'login'   => __( 'Login', 'helloadmin-guard' ),
 			'leaks'   => __( 'What your site gives away', 'helloadmin-guard' ),
 			'legacy'  => __( 'Old and risky features', 'helloadmin-guard' ),
+			'files'   => __( 'Files the server should not give out', 'helloadmin-guard' ),
 			'headers' => __( 'HTTP headers', 'helloadmin-guard' ),
 			'other'   => __( 'Other', 'helloadmin-guard' ),
 		);
@@ -172,7 +173,7 @@ class Admin_Page {
 		$input = is_array( $input ) ? $input : array();
 		$tab   = isset( $input['tab'] ) ? sanitize_key( $input['tab'] ) : '';
 		if ( '' === $tab ) {
-			return Settings::sanitize( $input, $this->features );
+			return $this->apply_htaccess( Settings::sanitize( $input, $this->features ) );
 		}
 
 		$on_tab = array();
@@ -191,6 +192,50 @@ class Admin_Page {
 
 			$clean[ $key ] = array_merge( $keep, $clean[ $key ] );
 		}
+		return 'advanced' === $tab ? $this->apply_htaccess( $clean ) : $clean;
+	}
+
+	/**
+	 * Writes the server rules for the settings about to be saved. If that fails, those settings are saved as off and
+	 * the admin sees why.
+	 *
+	 * @param array<string, mixed> $clean Sanitized option value.
+	 * @return array<string, mixed>
+	 */
+	private function apply_htaccess( array $clean ) {
+		static $done = null;
+		// WordPress may run the sanitize callback twice on the first save; write the file once.
+		if ( null !== $done ) {
+			return $done;
+		}
+
+		$on = array();
+		foreach ( $this->features as $id => $feature ) {
+			if ( $feature instanceof Htaccess_Feature && ! empty( $clean['enabled'][ $id ] ) ) {
+				$on[ $id ] = $feature;
+			}
+		}
+
+		$result = Htaccess::sync( $on );
+		if ( is_wp_error( $result ) ) {
+			$messages = array(
+				'not_apache'   => __( 'Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead.', 'helloadmin-guard' ),
+				'not_writable' => __( 'Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable.', 'helloadmin-guard' ),
+				'write_failed' => __( 'Server rules were not saved: writing the .htaccess file failed. Nothing was changed.', 'helloadmin-guard' ),
+				'site_broken'  => __( 'Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules.', 'helloadmin-guard' ),
+				'not_checked'  => __( 'Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works.', 'helloadmin-guard' ),
+			);
+			$code     = (string) $result->get_error_code();
+			if ( 'not_checked' !== $code ) {
+				foreach ( array_keys( $on ) as $id ) {
+					unset( $clean['enabled'][ $id ] );
+				}
+			}
+			if ( function_exists( 'add_settings_error' ) && isset( $messages[ $code ] ) ) {
+				add_settings_error( Settings::OPTION, 'helloadmin_guard_htaccess', $messages[ $code ], 'not_checked' === $code ? 'warning' : 'error' );
+			}
+		}
+		$done = $clean;
 		return $clean;
 	}
 
@@ -237,6 +282,10 @@ class Admin_Page {
 		);
 		echo '<p class="hag-intro">' . esc_html__( 'Each setting is off until you turn it on. Read what it does and what may break before you save.', 'helloadmin-guard' ) . '</p>';
 
+		if ( 'general' === $tab ) {
+			Welcome::render();
+		}
+
 		echo '<nav class="nav-tab-wrapper">';
 		foreach ( $this->tabs() as $slug => $label ) {
 			$url   = $this->page_url( $slug );
@@ -270,6 +319,10 @@ class Admin_Page {
 		if ( ! $features ) {
 			echo '<p>' . esc_html__( 'No settings on this tab yet.', 'helloadmin-guard' ) . '</p>';
 			return;
+		}
+
+		if ( 'advanced' === $tab ) {
+			$this->render_server_note();
 		}
 
 		echo '<form method="post" action="options.php">';
@@ -306,13 +359,17 @@ class Admin_Page {
 		$name = Settings::OPTION . '[enabled][' . $id . ']';
 		$html = 'hag-' . str_replace( '_', '-', $id );
 
+		// Server rules can be switched on only where the plugin can write them; elsewhere the card shows them to copy.
+		$manual = $feature instanceof Htaccess_Feature && ( 'apache' !== Htaccess::server() || ! Htaccess::writable() );
+
 		echo '<div class="hag-card">';
 		printf(
-			'<label class="hag-toggle" for="%1$s"><input type="checkbox" role="switch" id="%1$s" name="%2$s" value="1" %3$s><span class="hag-switch" aria-hidden="true"></span><span class="hag-title">%4$s</span></label>',
+			'<label class="hag-toggle" for="%1$s"><input type="checkbox" role="switch" id="%1$s" name="%2$s" value="1" %3$s%5$s><span class="hag-switch" aria-hidden="true"></span><span class="hag-title">%4$s</span></label>',
 			esc_attr( $html ),
 			esc_attr( $name ),
 			checked( $this->settings->is_enabled( $id ), true, false ),
-			esc_html( $feature->title() )
+			esc_html( $feature->title() ),
+			$manual ? ' disabled' : ''
 		);
 
 		// "Learn more" closes the last text of the card: the last field hint, or "How to undo".
@@ -364,7 +421,56 @@ class Admin_Page {
 			echo '</dd>';
 		}
 		echo '</dl>';
+		if ( $feature instanceof Htaccess_Feature ) {
+			$this->render_rules( $feature, $manual );
+		}
 		echo '</div>';
+	}
+
+	/**
+	 * The exact server rules of a card: folded for Apache (the plugin writes them), open on other servers (copy them).
+	 *
+	 * @param Htaccess_Feature $feature Feature.
+	 * @param bool             $manual  True if the admin has to add the rules by hand.
+	 * @return void
+	 */
+	private function render_rules( Htaccess_Feature $feature, $manual ) {
+		$server = Htaccess::server();
+		if ( 'nginx' === $server ) {
+			$label = __( 'Rules to add to the server block, above the PHP location', 'helloadmin-guard' );
+			$lines = $feature->nginx_rules();
+		} elseif ( 'apache' === $server ) {
+			$label = $manual ? __( 'Rules to add to .htaccess by hand', 'helloadmin-guard' ) : __( 'Rules the plugin adds to .htaccess', 'helloadmin-guard' );
+			$lines = $feature->apache_rules();
+		} else {
+			echo '<p class="description">' . esc_html__( 'This setting needs Apache, LiteSpeed or Nginx.', 'helloadmin-guard' ) . '</p>';
+			return;
+		}
+		printf(
+			'<details class="hag-rules"%s><summary>%s</summary><pre><code>%s</code></pre></details>',
+			$manual ? ' open' : '',
+			esc_html( $label ),
+			esc_html( implode( "\n", $lines ) )
+		);
+	}
+
+	/**
+	 * Server type and .htaccess state above the Advanced tab settings.
+	 *
+	 * @return void
+	 */
+	private function render_server_note() {
+		$server = Htaccess::server();
+		if ( 'apache' === $server && Htaccess::writable() ) {
+			$text = __( 'Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back.', 'helloadmin-guard' );
+		} elseif ( 'apache' === $server ) {
+			$text = __( 'WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable.', 'helloadmin-guard' );
+		} elseif ( 'nginx' === $server ) {
+			$text = __( 'This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host.', 'helloadmin-guard' );
+		} else {
+			$text = __( 'The server rules below need Apache, LiteSpeed or Nginx.', 'helloadmin-guard' );
+		}
+		echo '<p class="hag-intro">' . esc_html( $text ) . '</p>';
 	}
 
 	/**
@@ -411,6 +517,7 @@ class Admin_Page {
 			esc_url( 'https://github.com/HelloAdminCom/helloadmin-guard/issues' ),
 			esc_html__( 'Report a problem', 'helloadmin-guard' )
 		);
+		printf( '<p><a href="%s">%s</a></p>', esc_url( Welcome::url( 'show' ) ), esc_html__( 'Show the welcome message again', 'helloadmin-guard' ) );
 		echo '</div>';
 	}
 }
