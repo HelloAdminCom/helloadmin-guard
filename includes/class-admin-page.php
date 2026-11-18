@@ -387,7 +387,7 @@ class Admin_Page {
 
 		echo '<dl class="hag-explain">';
 		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'What it does', 'helloadmin-guard' ), esc_html( $feature->what() ) );
-		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'What may break', 'helloadmin-guard' ), esc_html( $feature->may_break() ) );
+		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'Downsides', 'helloadmin-guard' ), esc_html( $feature->may_break() ) );
 		printf(
 			'<dt>%s</dt><dd>%s%s</dd>',
 			esc_html__( 'How to undo', 'helloadmin-guard' ),

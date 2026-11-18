@@ -1,6 +1,14 @@
 /* HelloAdmin Guard settings page */
-.hag-intro { max-width: 760px; }
-.hag-cards .hag-card { max-width: none; margin: 0; }
+.hag { max-width: 1400px; }
+.hag-intro { max-width: none; }
+/* Cards in one row share the height; the rules link sits at the bottom of each card. */
+.hag-cards .hag-card { max-width: none; margin: 0; display: flex; flex-direction: column; }
+.hag-cards .hag-card > * { align-self: stretch; }
+.hag-cards .hag-card > .hag-toggle,
+.hag-cards .hag-card > .hag-risk { align-self: flex-start; }
+.hag-cards .hag-rules { margin-top: auto; padding-top: 12px; }
+/* Space between the tab line and the content, so the line does not touch the rounded cards. */
+.hag .nav-tab-wrapper { margin-bottom: 20px; }
 
 .hag-heading { display: flex; align-items: center; gap: 5px; }
 .hag-logo { align-self: center; }
@@ -11,12 +19,12 @@
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(min(100%, 640px), 1fr));
 	gap: 16px;
-	align-items: start;
+	align-items: stretch;
 }
 
 .hag-card {
-	max-width: 760px;
-	margin: 16px 0;
+	max-width: none;
+	margin: 0 0 16px;
 	padding: 16px 20px;
 	background: #fff;
 	border: 1px solid #c3c4c7;
@@ -109,7 +117,7 @@
 /* Welcome message: part of the page, not a popup. <details> folds it into one line. */
 .hag-welcome-wrap {
 	position: relative;
-	max-width: 760px;
+	max-width: none;
 	margin: 16px 0;
 }
 .hag-welcome {
