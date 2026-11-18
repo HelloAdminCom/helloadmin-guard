@@ -74,6 +74,10 @@ final class Plugin {
 			}
 		}
 
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			\WP_CLI::add_command( 'helloadmin-guard', new Cli( $this->features ) );
+		}
+
 		if ( is_admin() ) {
 			$status = new Status( $this->settings, $this->features );
 			$status->register();

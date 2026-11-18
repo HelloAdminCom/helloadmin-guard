@@ -83,7 +83,8 @@ class Disable_File_Editor extends Feature {
 		if ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) {
 			return true;
 		}
-		return ! current_user_can( 'edit_plugins' ) && ! current_user_can( 'edit_themes' );
+		$admin = self::admin_id();
+		return ! user_can( $admin, 'edit_plugins' ) && ! user_can( $admin, 'edit_themes' );
 	}
 
 	/**

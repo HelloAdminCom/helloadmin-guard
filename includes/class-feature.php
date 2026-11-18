@@ -107,6 +107,27 @@ abstract class Feature {
 	}
 
 	/**
+	 * The logged-in admin, or the first administrator when there is none (WP-CLI, cron).
+	 *
+	 * @return int User ID, 0 if the site has no administrator.
+	 */
+	protected static function admin_id() {
+		$id = get_current_user_id();
+		if ( $id ) {
+			return $id;
+		}
+		$admins = get_users(
+			array(
+				'role'    => 'administrator',
+				'number'  => 1,
+				'fields'  => 'ID',
+				'orderby' => 'ID',
+			)
+		);
+		return $admins ? (int) $admins[0] : 0;
+	}
+
+	/**
 	 * Place on the tab: lower numbers first. The list goes from the biggest risk down to the cheap rules.
 	 *
 	 * @return int

@@ -68,7 +68,7 @@ class User_Enumeration extends Feature {
 	 * @return bool|null
 	 */
 	public function probe() {
-		$author = Probe::request( '/?author=' . get_current_user_id() );
+		$author = Probe::request( '/?author=' . self::admin_id() );
 		$users  = Probe::request( '/?rest_route=/wp/v2/users' );
 		if ( null === $author || null === $users ) {
 			return null;
