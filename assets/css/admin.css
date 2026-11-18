@@ -1,6 +1,10 @@
 /* HelloAdmin Guard settings page */
-.hag { max-width: 1400px; }
-.hag-intro { max-width: none; }
+/* One narrow column for the intro, the welcome message and the About card: same right edge (border box). */
+.hag-intro,
+.hag-welcome-wrap,
+.hag-card { box-sizing: border-box; max-width: 800px; }
+/* On the About tab the tab line ends at the card edge too. */
+.hag-tab-about { max-width: 800px; }
 /* Cards in one row share the height; the rules link sits at the bottom of each card. */
 .hag-cards .hag-card { max-width: none; margin: 0; display: flex; flex-direction: column; }
 .hag-cards .hag-card > * { align-self: stretch; }
@@ -23,7 +27,6 @@
 }
 
 .hag-card {
-	max-width: none;
 	margin: 0 0 16px;
 	padding: 16px 20px;
 	background: #fff;
@@ -117,7 +120,6 @@
 /* Welcome message: part of the page, not a popup. <details> folds it into one line. */
 .hag-welcome-wrap {
 	position: relative;
-	max-width: none;
 	margin: 16px 0;
 }
 .hag-welcome {

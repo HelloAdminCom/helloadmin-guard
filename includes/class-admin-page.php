@@ -273,7 +273,7 @@ class Admin_Page {
 			return;
 		}
 		$tab = $this->current_tab();
-		echo '<div class="wrap hag">';
+		echo '<div class="wrap hag hag-tab-' . esc_attr( $tab ) . '">';
 		printf(
 			'<h1 class="hag-heading"><img class="hag-logo" src="%s" width="32" height="32" alt="">%s</h1>',
 			esc_url( add_query_arg( 'ver', (string) filemtime( HELLOADMIN_GUARD_DIR . 'assets/img/icon.svg' ), HELLOADMIN_GUARD_URL . 'assets/img/icon.svg' ) ),
