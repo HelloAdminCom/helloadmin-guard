@@ -153,6 +153,10 @@ class Limit_Login extends Feature {
 	 * @return bool|null
 	 */
 	public function probe() {
+		// Logins cannot be tested from outside without failing them on purpose: look at what is running instead.
+		if ( false !== has_filter( 'authenticate', array( $this, 'refuse_locked' ) ) ) {
+			return true;
+		}
 		$active = (array) get_option( 'active_plugins', array() );
 		return (bool) array_intersect( self::OTHERS, $active );
 	}
