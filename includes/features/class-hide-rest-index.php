@@ -20,6 +20,13 @@ defined( 'ABSPATH' ) || exit;
 class Hide_Rest_Index extends Feature {
 
 	/**
+	 * Set when this request's namespace root was answered with 404.
+	 *
+	 * @var bool
+	 */
+	private $hidden = false;
+
+	/**
 	 * Setting key.
 	 *
 	 * @return string
@@ -126,6 +133,7 @@ class Hide_Rest_Index extends Feature {
 	public function enable( Settings $settings ) {
 		add_filter( 'rest_index', array( $this, 'trim_index' ) );
 		add_filter( 'rest_namespace_index', array( $this, 'hide_namespace' ) );
+		add_filter( 'rest_post_dispatch', array( $this, 'drop_allow_header' ), 20 );
 		remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
 		remove_action( 'template_redirect', 'rest_output_link_header', 11 );
 	}
@@ -142,12 +150,28 @@ class Hide_Rest_Index extends Feature {
 			return $response;
 		}
 		// Exactly the answer WordPress gives for a namespace that does not exist, in the site language.
-		$error = new \WP_Error(
+		$error        = new \WP_Error(
 			'rest_no_route',
 			translate( 'No route was found matching the URL and request method.', 'default' ), // phpcs:ignore WordPress.WP.I18n -- the core message, so the answer cannot be told apart from a missing namespace.
 			array( 'status' => 404 )
 		);
+		$this->hidden = true;
 		return rest_convert_error_to_response( $error );
+	}
+
+	/**
+	 * WordPress adds "Allow: GET" for a namespace that exists; a missing one has no such header.
+	 *
+	 * @param mixed $response Response about to be sent.
+	 * @return mixed
+	 */
+	public function drop_allow_header( $response ) {
+		if ( $this->hidden && $response instanceof \WP_REST_Response ) {
+			$headers = $response->get_headers();
+			unset( $headers['Allow'] );
+			$response->set_headers( $headers );
+		}
+		return $response;
 	}
 
 	/**
