@@ -20,6 +20,8 @@ Advanced tab with server rules, settings ordered by risk.
 ### Changed
 - Hide the WordPress version also removes the X-Powered-By header.
 - Settings page logo: 5 px gap to the title.
+- Cards: "What may break" is now "Downsides"; cards in one row have the same height; the intro, the welcome message and the About card are as wide as the first card column.
+- "Learn more" links for the backups, logs and PHP in uploads cards.
 
 ## [0.1.0] - 2026-11-17
 
