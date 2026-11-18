@@ -132,12 +132,25 @@ class Admin_Page {
 	}
 
 	/**
-	 * Menu icon (head with a gear) as a data URI; WordPress paints it in the admin color scheme.
+	 * Menu icon (head with a gear) as a data URI. WordPress repaints SVG menu icons in the admin color scheme with
+	 * JavaScript after the page loads; the icon comes already in that color, so it does not blink on every load.
 	 *
 	 * @return string
 	 */
 	private function svg_icon() {
+		global $_wp_admin_css_colors, $plugin_page;
 		$svg = (string) file_get_contents( HELLOADMIN_GUARD_DIR . 'assets/img/icon.svg' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+		// The menu is built before admin_init, where WordPress registers its color schemes.
+		if ( empty( $_wp_admin_css_colors ) && function_exists( 'register_admin_color_schemes' ) ) {
+			register_admin_color_schemes();
+		}
+		$scheme = (string) get_user_option( 'admin_color' );
+		$scheme = isset( $_wp_admin_css_colors[ $scheme ] ) ? $scheme : 'fresh';
+		$colors = isset( $_wp_admin_css_colors[ $scheme ]->icon_colors ) ? (array) $_wp_admin_css_colors[ $scheme ]->icon_colors : array();
+		$key    = self::SLUG === $plugin_page ? 'current' : 'base';
+		if ( ! empty( $colors[ $key ] ) ) {
+			$svg = str_replace( 'fill="black"', 'fill="' . esc_attr( $colors[ $key ] ) . '"', $svg );
+		}
 		return 'data:image/svg+xml;base64,' . base64_encode( $svg ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- data URI for the menu icon.
 	}
 
