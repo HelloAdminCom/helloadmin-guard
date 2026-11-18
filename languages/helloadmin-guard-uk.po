@@ -562,3 +562,6 @@ msgstr "Публічне ім’я збігається з логіном для
 #, php-format
 msgid "The author page address contains the login for: %s (/author/login/). This setting hides it from the sitemap and ?author=N, but the page itself stays. WordPress has no screen to change this address."
 msgstr "Адреса сторінки автора містить логін для: %s (/author/логін/). Це налаштування прибирає її з карти сайту та ?author=N, але сама сторінка залишається. У WordPress немає екрана, щоб змінити цю адресу."
+
+msgid "Settings saved."
+msgstr "Налаштування збережено."

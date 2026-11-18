@@ -303,6 +303,23 @@ class Admin_Page {
 	}
 
 	/**
+	 * "Settings saved" and the server rule messages after a save. WordPress shows them by itself only on pages under
+	 * Settings, not on pages with their own menu item.
+	 *
+	 * @return void
+	 */
+	private function render_notices() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only shows a message, set by options.php after a checked save.
+		if ( empty( $_GET['settings-updated'] ) ) {
+			return;
+		}
+		if ( ! get_settings_errors( Settings::OPTION ) ) {
+			add_settings_error( Settings::OPTION, 'helloadmin_guard_saved', __( 'Settings saved.', 'helloadmin-guard' ), 'success' );
+		}
+		settings_errors( Settings::OPTION );
+	}
+
+	/**
 	 * Renders the page.
 	 *
 	 * @return void
@@ -318,6 +335,7 @@ class Admin_Page {
 			esc_url( add_query_arg( 'ver', (string) filemtime( HELLOADMIN_GUARD_DIR . 'assets/img/icon.svg' ), HELLOADMIN_GUARD_URL . 'assets/img/icon.svg' ) ),
 			esc_html__( 'HelloAdmin Guard', 'helloadmin-guard' )
 		);
+		$this->render_notices();
 		// The welcome message says the same in more detail; the short line is for admins who removed it.
 		if ( Welcome::hidden() ) {
 			echo '<p class="hag-intro">' . esc_html__( 'Each setting is off until you turn it on. Read what it does and what may break before you save.', 'helloadmin-guard' ) . '</p>';
