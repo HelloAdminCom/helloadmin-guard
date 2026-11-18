@@ -98,8 +98,8 @@ class Hide_Wp_Version extends Feature {
 		add_filter( 'the_generator', '__return_empty_string' );
 		add_filter( 'style_loader_src', array( $this, 'mask_version' ), PHP_INT_MAX );
 		add_filter( 'script_loader_src', array( $this, 'mask_version' ), PHP_INT_MAX );
-		add_action( 'send_headers', array( $this, 'remove_powered_by' ) );
-		add_action( 'login_init', array( $this, 'remove_powered_by' ) );
+		// Right away, on every request that loads WordPress: REST API and AJAX answers never reach send_headers.
+		$this->remove_powered_by();
 	}
 
 	/**
