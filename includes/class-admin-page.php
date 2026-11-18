@@ -76,18 +76,6 @@ class Admin_Page {
 		);
 	}
 
-	/**
-	 * Labels for Feature::risk(): how bad the gap is while the setting is off.
-	 *
-	 * @return array<string, string>
-	 */
-	private function risks() {
-		return array(
-			'high'   => __( 'High risk while off', 'helloadmin-guard' ),
-			'medium' => __( 'Medium risk while off', 'helloadmin-guard' ),
-			'low'    => __( 'Low risk while off', 'helloadmin-guard' ),
-		);
-	}
 
 	/**
 	 * Tab from the URL, or 'general'.
@@ -393,7 +381,7 @@ class Admin_Page {
 		// Server rules can be switched on only where the plugin can write them; elsewhere the card shows them to copy.
 		$manual = $feature instanceof Htaccess_Feature && ( 'apache' !== Htaccess::server() || ! Htaccess::writable() );
 
-		echo '<div class="hag-card">';
+		echo '<div class="hag-card"><div class="hag-head">';
 		printf(
 			'<label class="hag-toggle" for="%1$s"><input type="checkbox" role="switch" id="%1$s" name="%2$s" value="1" %3$s%5$s><span class="hag-switch" aria-hidden="true"></span><span class="hag-title">%4$s</span></label>',
 			esc_attr( $html ),
@@ -402,10 +390,11 @@ class Admin_Page {
 			esc_html( $feature->title() ),
 			$manual ? ' disabled' : ''
 		);
-		$risks = $this->risks();
-		$risk  = isset( $risks[ $feature->risk() ] ) ? $feature->risk() : 'low';
-		printf( '<p class="hag-risk hag-risk-%s">%s</p>', esc_attr( $risk ), esc_html( $risks[ $risk ] ) );
-		$this->render_status( $feature );
+		list( $class, $chip, $note ) = $this->status_parts( $feature );
+		printf( '<span class="hag-chip hag-chip-%s">%s</span></div>', esc_attr( $class ), esc_html( $chip ) );
+		if ( '' !== $note ) {
+			printf( '<p class="hag-note">%s</p>', esc_html( $note ) );
+		}
 
 		// "Learn more" closes the last text of the card: the last field hint, or "How to undo".
 		$more = '';
@@ -456,52 +445,7 @@ class Admin_Page {
 			echo '</dd>';
 		}
 		echo '</dl>';
-		if ( $feature instanceof Htaccess_Feature ) {
-			$this->render_rules( $feature, $manual );
-		}
-		echo '</div>';
-	}
-
-	/**
-	 * What the last check found for this card, and the "not needed" box while the setting is off.
-	 *
-	 * @param Feature $feature Feature.
-	 * @return void
-	 */
-	private function render_status( Feature $feature ) {
-		$id     = $feature->id();
-		$status = $this->status->of( $id );
-		switch ( $status ) {
-			case 'on':
-				$text = __( 'Closed by this plugin.', 'helloadmin-guard' );
-				break;
-			case 'broken':
-				$text = __( 'On, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting.', 'helloadmin-guard' );
-				break;
-			case 'covered':
-				$by       = $feature->covered_by();
-				$suspects = Status::suspects();
-				if ( '' !== $by ) {
-					/* translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)". */
-					$text = sprintf( __( 'Already closed on this site by %s. You can leave this off.', 'helloadmin-guard' ), $by );
-				} elseif ( $suspects ) {
-					/* translators: %s: names of active security plugins. */
-					$text = sprintf( __( 'Already closed on this site, probably by %s or the server settings. You can leave this off.', 'helloadmin-guard' ), implode( ', ', $suspects ) );
-				} else {
-					$text = __( 'Already closed on this site by the server settings or another plugin. You can leave this off.', 'helloadmin-guard' );
-				}
-				break;
-			case 'open':
-				$text = __( 'Open on this site.', 'helloadmin-guard' );
-				break;
-			case 'skipped':
-				$text = __( 'Marked as not needed on this site.', 'helloadmin-guard' );
-				break;
-			default:
-				$text = null === Status::cached() ? __( 'Not checked yet.', 'helloadmin-guard' ) : __( 'Could not be checked here.', 'helloadmin-guard' );
-		}
-		printf( '<p class="hag-status hag-status-%s">%s</p>', esc_attr( $status ), esc_html( $text ) );
-
+		echo '<div class="hag-foot">';
 		if ( ! $this->settings->is_enabled( $id ) ) {
 			printf(
 				'<p class="hag-skip"><label><input type="checkbox" name="%s" value="1"%s> %s</label></p>',
@@ -509,6 +453,54 @@ class Admin_Page {
 				checked( $this->settings->is_skipped( $id ), true, false ),
 				esc_html__( 'I do not need this on this site (it stops counting as an open gap)', 'helloadmin-guard' )
 			);
+		}
+		if ( $feature instanceof Htaccess_Feature ) {
+			$this->render_rules( $feature, $manual );
+		}
+		echo '</div></div>';
+	}
+
+	/**
+	 * One label for the card head, from what the last check found, and an optional line under it.
+	 * While the gap is open the label carries the risk; once it is closed the risk no longer matters.
+	 *
+	 * @param Feature $feature Feature.
+	 * @return array{0: string, 1: string, 2: string} CSS class suffix, label, note.
+	 */
+	private function status_parts( Feature $feature ) {
+		$risk  = in_array( $feature->risk(), array( 'high', 'medium', 'low' ), true ) ? $feature->risk() : 'low';
+		$risks = array(
+			'high'   => __( 'high risk', 'helloadmin-guard' ),
+			'medium' => __( 'medium risk', 'helloadmin-guard' ),
+			'low'    => __( 'low risk', 'helloadmin-guard' ),
+		);
+		switch ( $this->status->of( $feature->id() ) ) {
+			case 'on':
+				return array( 'on', __( 'Closed by this plugin', 'helloadmin-guard' ), '' );
+			case 'broken':
+				return array( 'broken', __( 'Not working', 'helloadmin-guard' ), __( 'The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting.', 'helloadmin-guard' ) );
+			case 'covered':
+				$by       = $feature->covered_by();
+				$suspects = Status::suspects();
+				if ( '' !== $by ) {
+					/* translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)". */
+					$note = sprintf( __( 'Closed by %s. You can leave this off.', 'helloadmin-guard' ), $by );
+				} elseif ( $suspects ) {
+					/* translators: %s: names of active security plugins. */
+					$note = sprintf( __( 'Probably by %s or the server settings. You can leave this off.', 'helloadmin-guard' ), implode( ', ', $suspects ) );
+				} else {
+					$note = __( 'By the server settings or another plugin. You can leave this off.', 'helloadmin-guard' );
+				}
+				return array( 'covered', __( 'Already closed', 'helloadmin-guard' ), $note );
+			case 'open':
+				/* translators: %s: "high risk", "medium risk" or "low risk". */
+				return array( 'open-' . $risk, sprintf( __( 'Open, %s', 'helloadmin-guard' ), $risks[ $risk ] ), '' );
+			case 'skipped':
+				return array( 'skipped', __( 'Not needed', 'helloadmin-guard' ), '' );
+			default:
+				/* translators: %s: "high risk", "medium risk" or "low risk". */
+				$label = null === Status::cached() ? __( 'Not checked yet, %s', 'helloadmin-guard' ) : __( 'Cannot be checked, %s', 'helloadmin-guard' );
+				return array( 'unknown', sprintf( $label, $risks[ $risk ] ), '' );
 		}
 	}
 

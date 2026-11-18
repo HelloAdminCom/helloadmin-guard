@@ -14,9 +14,6 @@
 /* Cards in one row share the height; the rules link sits at the bottom of each card. */
 .hag-cards .hag-card { max-width: none; margin: 0; display: flex; flex-direction: column; }
 .hag-cards .hag-card > * { align-self: stretch; }
-.hag-cards .hag-card > .hag-toggle,
-.hag-cards .hag-card > .hag-risk { align-self: flex-start; }
-.hag-cards .hag-rules { margin-top: auto; padding-top: 12px; }
 /* Space between the tab line and the content, so the line does not touch the rounded cards. */
 .hag .nav-tab-wrapper { margin-bottom: 20px; }
 
@@ -186,44 +183,44 @@
 .hag-welcome-close:hover,
 .hag-welcome-close:focus { color: #d63638; }
 
-/* Risk label: how bad the gap is while the setting is off. Text, not colour alone. */
-.hag-risk {
-	display: inline-block;
-	margin: 10px 0 0;
-	padding: 1px 8px;
-	border-radius: 10px;
+/* Card head: switch and title on the left, one status label on the right (wraps under the title when narrow). */
+.hag-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 12px;
+}
+.hag-chip {
+	margin-left: auto;
+	padding: 2px 10px 2px 6px;
+	border-radius: 12px;
 	font-size: 12px;
 	font-weight: 600;
+	white-space: nowrap;
 }
-.hag-risk-high { background: #fcf0f1; color: #8a2424; }
-.hag-risk-medium { background: #fcf9e8; color: #6e4a00; }
-.hag-risk-low { background: #f0f0f1; color: #50575e; }
-
-/* What the last check found. Icon + text, not colour alone. */
-.hag-status {
-	position: relative;
-	margin: 8px 0 0;
-	padding-left: 24px;
-	font-weight: 600;
+.hag-chip::before {
+	margin-right: 2px;
+	vertical-align: -5px;
+	font: normal 18px/1 dashicons;
 }
-.hag-status::before {
-	position: absolute;
-	left: 0;
-	top: -1px;
-	font: normal 20px/1 dashicons;
-}
-.hag-status-on::before { content: "\f147"; color: #00a32a; }
-.hag-status-covered::before { content: "\f147"; color: #996800; }
-.hag-status-open::before,
-.hag-status-broken::before { content: "\f534"; color: #d63638; }
-.hag-status-skipped::before,
-.hag-status-unknown::before { content: "\f460"; color: #787c82; }
-.hag-status-on { color: #00700f; }
-.hag-status-covered { color: #6e4a00; }
-.hag-status-open,
-.hag-status-broken { color: #b32d2e; }
-.hag-status-skipped,
-.hag-status-unknown { color: #50575e; font-weight: 400; }
-.hag-skip { margin: 6px 0 0; font-size: 12px; color: #50575e; }
+.hag-chip-on { background: #edfaef; color: #00700f; }
+.hag-chip-on::before,
+.hag-chip-covered::before { content: "\f147"; }
+.hag-chip-covered { background: #fcf9e8; color: #6e4a00; }
+.hag-chip-broken,
+.hag-chip-open-high { background: #fcf0f1; color: #8a2424; }
+.hag-chip-open-medium { background: #fcf9e8; color: #6e4a00; }
+.hag-chip-open-low,
+.hag-chip-skipped,
+.hag-chip-unknown { background: #f0f0f1; color: #50575e; }
+.hag-chip-broken::before,
+.hag-chip-open-high::before,
+.hag-chip-open-medium::before,
+.hag-chip-open-low::before { content: "\f534"; }
+.hag-chip-skipped::before,
+.hag-chip-unknown::before { content: "\f460"; }
+.hag-note { margin: 6px 0 0; font-size: 12px; color: #50575e; }
+.hag-cards .hag-card > .hag-foot { margin-top: auto; }
+.hag-skip { margin: 12px 0 0; font-size: 12px; color: #50575e; }
 .hag-check { margin: 0 0 16px; color: #50575e; }
 .hag-pref { margin: 20px 0 0; }
