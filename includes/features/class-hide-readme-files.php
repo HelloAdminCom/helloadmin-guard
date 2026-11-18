@@ -32,7 +32,7 @@ class Hide_Readme_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function title() {
-		return __( 'Hide readme and changelog files', 'helloadmin-guard' );
+		return __( 'Hide files that show versions', 'helloadmin-guard' );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Hide_Readme_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'The server answers 404 for readme.html, license.txt and wp-config-sample.php in the site root and for readme, changelog and license files inside plugin and theme folders. These files show exact versions, and bots read them to find sites with known holes.', 'helloadmin-guard' );
+		return __( 'The server answers 404 for readme.html, license.txt and wp-config-sample.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Hide_Readme_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Nothing on the site itself: WordPress and browsers do not need these files. Online scanners that guess plugin versions from readme.txt will see less.', 'helloadmin-guard' );
+		return __( 'Nothing on the site itself: WordPress and browsers do not need these files. Installing WordPress again over this site needs the setting off. Online scanners that guess plugin versions from readme.txt will see less.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -68,12 +68,17 @@ class Hide_Readme_Files extends Htaccess_Feature {
 	 * @return string[]
 	 */
 	public function apache_rules() {
-		$dirs = self::rel( plugins_url() ) . '|' . self::rel( get_theme_root_uri() );
+		$dirs  = self::rel( plugins_url() ) . '|' . self::rel( get_theme_root_uri() );
+		$admin = self::rel( admin_url() );
 		return array(
 			'<IfModule mod_rewrite.c>',
 			'RewriteEngine On',
 			'RewriteRule ^(readme\.html|license\.txt|wp-config-sample\.php)$ - [NC,R=404,L]',
 			'RewriteRule ^(' . $dirs . ')/[^/]+/(readme|changelog|license)\.(txt|md)$ - [NC,R=404,L]',
+			'RewriteRule ^' . $admin . '/(install|setup-config)\.php$ - [NC,R=404,L]',
+			// Admins open upgrade.php when WordPress asks for a database update: only visitors without a login cookie get 404.
+			'RewriteCond %{HTTP_COOKIE} !' . preg_quote( LOGGED_IN_COOKIE, '#' ),
+			'RewriteRule ^' . $admin . '/upgrade\.php$ - [NC,R=404,L]',
 			'</IfModule>',
 		);
 	}
@@ -88,6 +93,7 @@ class Hide_Readme_Files extends Htaccess_Feature {
 		return array(
 			'location ~* ^/(readme\.html|license\.txt|wp-config-sample\.php)$ { return 404; }',
 			'location ~* ^/(' . $dirs . ')/[^/]+/(readme|changelog|license)\.(txt|md)$ { return 404; }',
+			'location ~* ^/' . self::rel( admin_url() ) . '/(install|setup-config)\.php$ { return 404; }',
 		);
 	}
 }

@@ -330,21 +330,6 @@ msgstr "Зрозуміло"
 msgid "Block hidden files, backups and logs"
 msgstr "Закрити приховані файли, бекапи та логи"
 
-msgid "The server answers 404 for files and folders that start with a dot (.git, .env, .htpasswd), database dumps and backups (.sql, .bak, .old, wp-config.php copies), logs (debug.log) and Composer or npm files. One forgotten file like this can give away passwords or the whole database."
-msgstr "Сервер відповідає 404 на файли й папки, що починаються з крапки (.git, .env, .htpasswd), дампи бази даних і резервні копії (.sql, .bak, .old, копії wp-config.php), логи (debug.log) і файли Composer або npm. Один такий забутий файл може видати паролі або всю базу даних."
-
-msgid "Download links to .sql, .bak or .log files, if you share such files on purpose. /.well-known/ stays open: SSL certificates and app links need it."
-msgstr "Посилання для завантаження файлів .sql, .bak або .log, якщо ви навмисно ділитеся такими файлами. /.well-known/ залишається відкритим: він потрібен для SSL-сертифікатів і посилань на застосунки."
-
-msgid "Hide readme and changelog files"
-msgstr "Сховати файли readme та changelog"
-
-msgid "The server answers 404 for readme.html, license.txt and wp-config-sample.php in the site root and for readme, changelog and license files inside plugin and theme folders. These files show exact versions, and bots read them to find sites with known holes."
-msgstr "Сервер відповідає 404 на readme.html, license.txt та wp-config-sample.php у корені сайту, а також на файли readme, changelog та license у папках плагінів і тем. Ці файли показують точні версії, і боти читають їх, щоб знайти сайти з відомими дірками."
-
-msgid "Nothing on the site itself: WordPress and browsers do not need these files. Online scanners that guess plugin versions from readme.txt will see less."
-msgstr "На самому сайті нічого: WordPress і браузерам ці файли не потрібні. Онлайн-сканери, які вгадують версії плагінів за readme.txt, побачать менше."
-
 msgid "HTTPS only (HSTS)"
 msgstr "Тільки HTTPS (HSTS)"
 
@@ -365,3 +350,18 @@ msgstr "Сервер відповідає 404 на будь-який PHP-фай�
 
 msgid "A rare plugin that keeps its own PHP scripts in the uploads folder and opens them from the browser. Images, PDFs and other uploads work as before."
 msgstr "Рідкісний плагін, який тримає власні PHP-скрипти в папці uploads і відкриває їх із браузера. Зображення, PDF та інші завантаження працюють як раніше."
+
+msgid "Hide files that show versions"
+msgstr "Сховати файли, що видають версії"
+
+msgid "The server answers 404 for readme.html, license.txt and wp-config-sample.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes."
+msgstr "Сервер відповідає 404 на readme.html, license.txt та wp-config-sample.php у корені сайту, на файли readme, changelog та license у папках плагінів і тем, а також на wp-admin/install.php, setup-config.php та upgrade.php (upgrade.php залишається відкритим для тих, хто ввійшов). На сторінках встановлення й оновлення WordPress не завантажує плагіни, тому вони показують версію, навіть коли її сховано деінде. Боти читають усі ці файли, щоб знайти сайти з відомими дірками."
+
+msgid "Nothing on the site itself: WordPress and browsers do not need these files. Installing WordPress again over this site needs the setting off. Online scanners that guess plugin versions from readme.txt will see less."
+msgstr "На самому сайті нічого: WordPress і браузерам ці файли не потрібні. Щоб установити WordPress заново поверх цього сайту, налаштування треба вимкнути. Онлайн-сканери, які вгадують версії плагінів за readme.txt, побачать менше."
+
+msgid "The server answers 404 for files and folders that start with a dot (.git, .env, .htpasswd), database dumps and backups (.sql, .bak, .old, .wpress, wp-config.php copies), archives in the site root (site.zip, backup.tar.gz), logs (debug.log, error_log), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and Composer or npm files. One forgotten file like this can give away passwords or the whole database."
+msgstr "Сервер відповідає 404 на файли й папки, що починаються з крапки (.git, .env, .htpasswd), дампи бази даних і резервні копії (.sql, .bak, .old, .wpress, копії wp-config.php), архіви в корені сайту (site.zip, backup.tar.gz), логи (debug.log, error_log), забуті тестові сторінки в корені сайту (phpinfo.php, info.php, test.php) і файли Composer або npm. Один такий забутий файл може видати паролі або всю базу даних."
+
+msgid "Download links to .sql, .bak or .log files and to archives in the site root, if you share such files on purpose. Archives in the uploads folder stay open. /.well-known/ stays open: SSL certificates and app links need it."
+msgstr "Посилання для завантаження файлів .sql, .bak або .log і архівів у корені сайту, якщо ви навмисно ділитеся такими файлами. Архіви в папці uploads залишаються відкритими. /.well-known/ теж залишається відкритим: він потрібен для SSL-сертифікатів і посилань на застосунки."
