@@ -77,6 +77,7 @@ final class Plugin {
 		if ( is_admin() ) {
 			$status = new Status( $this->settings, $this->features );
 			$status->register();
+			( new Site_Health( $status ) )->register();
 			( new Admin_Page( $this->settings, $this->features, $status ) )->register();
 			( new Welcome() )->register();
 		}
