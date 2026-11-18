@@ -313,10 +313,25 @@ class Admin_Page {
 		if ( empty( $_GET['settings-updated'] ) ) {
 			return;
 		}
-		if ( ! get_settings_errors( Settings::OPTION ) ) {
-			add_settings_error( Settings::OPTION, 'helloadmin_guard_saved', __( 'Settings saved.', 'helloadmin-guard' ), 'success' );
+		$notices = get_settings_errors( Settings::OPTION );
+		if ( ! $notices ) {
+			$notices = array(
+				array(
+					'message' => __( 'Settings saved.', 'helloadmin-guard' ),
+					'type'    => 'success',
+				),
+			);
 		}
-		settings_errors( Settings::OPTION );
+		// Plain text, not the bold of settings_errors(): the same look as other plugin notices.
+		foreach ( $notices as $notice ) {
+			wp_admin_notice(
+				esc_html( $notice['message'] ),
+				array(
+					'type'        => 'updated' === $notice['type'] ? 'success' : $notice['type'],
+					'dismissible' => true,
+				)
+			);
+		}
 	}
 
 	/**
