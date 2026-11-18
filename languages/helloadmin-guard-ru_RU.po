@@ -131,7 +131,7 @@ msgstr "Каждый запрос к /xmlrpc.php получает ответ 403
 
 #: includes/features/class-disable-xmlrpc.php:47
 msgid "If you use Jetpack or other services that connect to the site through XML-RPC, old desktop and mobile blogging apps or pingbacks, they stop working. The WordPress mobile app works through the REST API and is not affected."
-msgstr "Если вы пользуетесь Jetpack или другими сервисами, которые подключаются к сайту через XML-RPC, старыми программами для ведения блога на компьютере и телефоне или пингбеками, они перестанут работать. Мобильное приложение WordPress работает через REST API, его это не касается."
+msgstr "Если вы пользуетесь Jetpack или другими сервисами, которые подключаются к сайту через XML-RPC, старыми программами для ведения блога на компьютере или телефоне или пингбеками, они перестанут работать. Мобильное приложение WordPress работает через REST API, его это не касается."
 
 #: includes/features/class-disable-xmlrpc.php:54 includes/features/class-user-enumeration.php:53
 msgid "Turn this off and save. Nothing is deleted or changed in the database."
@@ -309,7 +309,7 @@ msgid "Not sure where to start? Turn switches on one at a time and check your si
 msgstr "Не знаете, с чего начать? Включайте по одному и проверяйте сайт после каждого."
 
 msgid "The plugin is free and will stay free: no Pro version, no account, no data sent anywhere."
-msgstr "Плагин бесплатный и останется таким: без Pro-версии, без аккаунта, без отправки данных куда бы то ни было."
+msgstr "Плагин бесплатный и таким и останется: без Pro-версии, без аккаунта, без отправки данных куда бы то ни было."
 
 msgid "Every new version closes more gaps, so keep the plugin updated."
 msgstr "С каждой версией плагин закрывает новые лазейки, так что не забывайте его обновлять."
