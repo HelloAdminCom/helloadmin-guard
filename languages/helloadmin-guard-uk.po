@@ -130,8 +130,8 @@ msgid "Every request to /xmlrpc.php gets a 403 answer, so bots cannot try many p
 msgstr "Кожен запит до /xmlrpc.php отримує відповідь 403, тож боти не можуть перебирати багато паролів одним запитом через system.multicall. Заголовок X-Pingback і посилання RSD у коді сторінки теж прибираються."
 
 #: includes/features/class-disable-xmlrpc.php:47
-msgid "Jetpack and other services that connect to the site through XML-RPC, old desktop and mobile blogging apps, and pingbacks from other blogs stop working. The WordPress mobile app works through the REST API and is not affected."
-msgstr "Перестануть працювати Jetpack та інші сервіси, що підключаються до сайту через XML-RPC, старі програми для ведення блогу на комп'ютері й телефоні, а також пінгбеки з інших блогів. Мобільний застосунок WordPress працює через REST API, його це не зачіпає."
+msgid "If you use Jetpack or other services that connect to the site through XML-RPC, old desktop and mobile blogging apps or pingbacks, they stop working. The WordPress mobile app works through the REST API and is not affected."
+msgstr "Якщо ви користуєтеся Jetpack чи іншими сервісами, що підключаються до сайту через XML-RPC, старими програмами для ведення блогу на комп'ютері й телефоні або пінгбеками, вони перестануть працювати. Мобільний застосунок WordPress працює через REST API, його це не зачіпає."
 
 #: includes/features/class-disable-xmlrpc.php:54 includes/features/class-user-enumeration.php:53
 msgid "Turn this off and save. Nothing is deleted or changed in the database."
@@ -158,8 +158,8 @@ msgid "Moves the login page to your own address. /wp-login.php and /wp-admin/ sh
 msgstr "Переносить сторінку входу на вашу власну адресу. /wp-login.php та /wp-admin/ показують сторінку 404 неавторизованим користувачам, тож боти перестають знаходити форму входу."
 
 #: includes/features/class-login-url.php:64
-msgid "Bookmarks and saved passwords for the old login page, plugins and apps that log in through /wp-login.php directly, and another plugin that also changes the login URL stop working."
-msgstr "Перестануть працювати закладки та збережені паролі для старої сторінки входу, плагіни й застосунки, що входять напряму через /wp-login.php, а також інший плагін, якщо він теж змінює адресу входу."
+msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working."
+msgstr "Закладки та збережені паролі для старої сторінки входу перестануть працювати. Якщо якийсь плагін чи застосунок входить напряму через /wp-login.php або інший плагін теж змінює адресу входу, вони перестануть працювати."
 
 #: includes/features/class-login-url.php:71
 msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager: the plugin stops and /wp-login.php works again."
@@ -200,8 +200,8 @@ msgid "Adds four headers: X-Content-Type-Options: nosniff (browsers do not guess
 msgstr "Додає чотири заголовки: X-Content-Type-Options: nosniff (браузери не вгадують тип файлу), X-Frame-Options: SAMEORIGIN (інші сайти не можуть показати ваші сторінки у фреймі), Referrer-Policy: strict-origin-when-cross-origin (інші сайти бачать лише ваш домен, а не повні адреси) і Permissions-Policy (без камери й мікрофона, геолокація лише для ваших сторінок)."
 
 #: includes/features/class-security-headers.php:47
-msgid "Your pages can no longer be shown inside a frame on another domain, for example in a landing page builder or on a partner site. Embedded widgets from other sites cannot ask for the camera, microphone or location. Your own pages, the editor and the Customizer are not affected."
-msgstr "Ваші сторінки не можна буде показати у фреймі на іншому домені, наприклад у конструкторі лендингів чи на сайті партнера. Вбудовані віджети з інших сайтів не зможуть запитати камеру, мікрофон або геолокацію. Ваші власні сторінки, редактор і Customizer це не зачіпає."
+msgid "If your pages are shown inside a frame on another domain, for example in a landing page builder or on a partner site, they stop opening there. If embedded widgets from other sites ask for the camera, microphone or location, they do not get it. Your own pages, the editor and the Customizer are not affected."
+msgstr "Якщо ваші сторінки показуються у фреймі на іншому домені, наприклад у конструкторі лендингів чи на сайті партнера, там вони перестануть відкриватися. Якщо вбудовані віджети з інших сайтів просять камеру, мікрофон або геолокацію, доступу вони не отримають. Ваші власні сторінки, редактор і Customizer це не зачіпає."
 
 #: includes/features/class-security-headers.php:54
 msgid "Turn this off and save. Browsers drop these headers on the next page load. If the server or another plugin also sends them, those copies stay."
@@ -281,8 +281,8 @@ msgstr "Тільки HTTPS (HSTS)"
 msgid "Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Sent only when the page itself is loaded over HTTPS. Subdomains are not affected."
 msgstr "Додає заголовок Strict-Transport-Security: після першого візиту браузери рік відкривають ваш сайт лише через HTTPS, навіть якщо хтось набере http:// або публічний Wi-Fi спробує підсунути незахищену версію. Надсилається лише тоді, коли сама сторінка завантажена через HTTPS. Піддомени це не зачіпає."
 
-msgid "If the SSL certificate expires or HTTPS stops working, visitors who have been to the site cannot open it at all, there is no \"continue anyway\" button. Turn this on only when HTTPS works on every page and the certificate renews by itself."
-msgstr "Якщо SSL-сертифікат закінчиться або HTTPS перестане працювати, відвідувачі, які вже були на сайті, не зможуть його відкрити взагалі: кнопки «все одно продовжити» не буде. Вмикайте це, лише коли HTTPS працює на всіх сторінках, а сертифікат оновлюється сам."
+msgid "If the SSL certificate expires or HTTPS stops working, visitors who have been to the site cannot open it at all, there is no \"continue anyway\" button. Turn this setting on only when HTTPS works on every page and the certificate renews by itself."
+msgstr "Якщо SSL-сертифікат закінчиться або HTTPS перестане працювати, відвідувачі, які вже були на сайті, не зможуть його відкрити взагалі: кнопки «все одно продовжити» не буде. Вмикайте це налаштування, лише коли HTTPS працює на всіх сторінках, а сертифікат оновлюється сам."
 
 msgid "Turn this off and save: the header is no longer sent. Browsers that already got it keep using HTTPS until the year runs out, this cannot be taken back from the site."
 msgstr "Вимкніть це налаштування і збережіть: заголовок більше не надсилатиметься. Браузери, які вже його отримали, використовуватимуть HTTPS, доки не мине рік; скасувати це з боку сайту неможливо."
@@ -293,8 +293,8 @@ msgstr "Без PHP у папці uploads"
 msgid "The server answers 404 to any PHP file in the uploads folder. If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
 msgstr "Сервер відповідає 404 на будь-який PHP-файл у папці uploads. Якщо слабкий плагін або форма дозволить комусь завантажити туди PHP-файл, його не вдасться відкрити з браузера."
 
-msgid "Plugins that keep their own PHP scripts in the uploads folder and open them from the browser stop working. Such plugins are rare today. Images, PDFs and other uploads keep working."
-msgstr "Плагіни, які тримають свої PHP-скрипти в папці uploads і відкривають їх із браузера, перестануть працювати. Зараз такі плагіни рідкість. Зображення, PDF та інші завантаження й далі працюватимуть."
+msgid "If a plugin on the site keeps its own PHP scripts in the uploads folder and opens them from the browser, it stops working. Such plugins are rare today. Images, PDFs and other uploads keep working."
+msgstr "Якщо на сайті є плагін, який тримає свої PHP-скрипти в папці uploads і відкриває їх із браузера, він перестане працювати. Зараз такі плагіни рідкість. Зображення, PDF та інші завантаження й далі працюватимуть."
 
 msgid "Hide files that show versions"
 msgstr "Сховати файли, що видають версії"
@@ -320,14 +320,14 @@ msgstr "Закрити бекапи й дампи бази даних"
 msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator and BackWPup. A file like this left after a move gives away the whole site and its database."
 msgstr "Сервер відповідає 404 на дампи бази даних і бекапи (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, файли із ~ у кінці), архіви в корені сайту та в папці контенту (backup.zip, site.tar.gz), усі файли, назва яких починається з wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress і далі читає wp-config.php з диска), забуті installer.php від Duplicator і папки бекапів UpdraftPlus, All-in-One WP Migration, Duplicator та BackWPup. Один такий файл, забутий після переїзду, видає весь сайт разом із базою даних."
 
-msgid "Download links to archives in the site root or the content folder, and to .sql or .bak files you share on purpose, stop working. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not through the browser."
-msgstr "Перестануть завантажуватися архіви з кореня сайту чи папки контенту та файли .sql або .bak, якщо ви навмисно даєте на них посилання. Архіви в папці uploads залишаться відкритими. Плагіни бекапів і далі працюватимуть: вони читають свої папки з PHP, а не через браузер."
+msgid "If you share links to archives in the site root or the content folder, or to .sql and .bak files, they stop downloading. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not through the browser."
+msgstr "Якщо ви даєте посилання на архіви в корені сайту чи папці контенту або на файли .sql і .bak, вони перестануть завантажуватися. Архіви в папці uploads залишаться відкритими. Плагіни бекапів і далі працюватимуть: вони читають свої папки з PHP, а не через браузер."
 
 msgid "Close internal WordPress folders"
 msgstr "Закрити внутрішні папки WordPress"
 
-msgid "Files in old Multisite networks created before WordPress 3.5 stop opening: such networks still serve uploads through wp-includes/ms-files.php. Normal sites and newer networks are not affected."
-msgstr "Перестануть відкриватися файли в старих мережах Multisite, створених до WordPress 3.5: вони досі віддають завантаження через wp-includes/ms-files.php. Звичайних сайтів і нових мереж це не стосується."
+msgid "If you run a Multisite network created before WordPress 3.5 that still serves uploads through wp-includes/ms-files.php, those files stop opening. Normal sites and newer networks are not affected."
+msgstr "Якщо у вас мережа Multisite, створена до WordPress 3.5, і вона досі віддає завантаження через wp-includes/ms-files.php, ці файли перестануть відкриватися. Звичайних сайтів і нових мереж це не стосується."
 
 msgid "Block developer and build files"
 msgstr "Закрити файли розробки та збирання"
@@ -353,8 +353,8 @@ msgstr "Закрити логи та діагностичні сторінки"
 msgid "The server answers 404 for log files (debug.log, error_log, any .log), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways."
 msgstr "Сервер відповідає 404 на файли логів (debug.log, error_log, будь-який .log), логи WooCommerce (uploads/wc-logs), дані Wordfence (wflogs), забуті тестові сторінки в корені сайту (phpinfo.php, info.php, test.php) і сторінки стану Apache (/server-status, /server-info). У них видно шляхи на сервері, ім’я користувача хостингу, версії PHP і бібліотек, а іноді й помилки платіжних шлюзів."
 
-msgid "You can no longer open a log or a test page in the browser: read logs over SFTP or in the hosting panel instead. Logging itself keeps working."
-msgstr "Відкрити лог чи тестову сторінку в браузері буде неможливо, читайте логи через SFTP або в панелі хостингу. Саме логування й далі працюватиме."
+msgid "You cannot open a log or a test page in the browser: read logs over SFTP or in the hosting panel instead. Logging itself keeps working."
+msgstr "Не можна відкрити лог чи тестову сторінку в браузері: читайте логи через SFTP або в панелі хостингу. Саме логування й далі працюватиме."
 
 msgid "Turn off folder listings"
 msgstr "Вимкнути перегляд вмісту папок"
@@ -368,8 +368,8 @@ msgstr "На сайті нічого не зламається. На деяки�
 msgid "The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes. Online scanners that guess plugin versions from readme.txt see less."
 msgstr "Сервер відповідає 404 на readme.html, license.txt, wp-config-sample.php та wp-links-opml.php у корені сайту, на файли readme, changelog та license у папках плагінів і тем, а також на wp-admin/install.php, setup-config.php та upgrade.php (upgrade.php залишається відкритим для тих, хто ввійшов). На сторінках встановлення й оновлення WordPress не завантажує плагіни, тому вони показують версію, навіть коли її сховано деінде. Боти читають усі ці файли, щоб знайти сайти з відомими дірками. Онлайн-сканери, які вгадують версії плагінів за readme.txt, побачать менше."
 
-msgid "Behind this plugin is one developer with more than 10 years of experience with WordPress and WooCommerce. If your site is slow, shows errors, broke after an update or was hacked, or you simply need someone to look after it, write to me."
-msgstr "За цим плагіном стоїть один розробник із понад 10-річним досвідом роботи з WordPress і WooCommerce. Якщо ваш сайт повільний, видає помилки, перестав працювати після оновлення або його зламали, чи вам просто потрібна людина, яка за ним стежитиме, напишіть мені."
+msgid "This plugin was built and is maintained by a developer with more than 10 years of experience with WordPress and WooCommerce. Is your site slow, showing errors, broken after an update or hacked? Need someone to look after it? Write to me."
+msgstr "Плагін створив і підтримує розробник із понад 10-річним досвідом роботи з WordPress і WooCommerce. Сайт довго завантажується, видає помилки, перестав працювати після оновлення або його зламали? Потрібна людина, яка стежитиме за ним? Напишіть мені."
 
 #, php-format
 msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what %s does. Every gap has its own switch, so you decide what to close and what to leave open."
@@ -492,8 +492,8 @@ msgstr "На скільки хвилин блокується адреса, ві
 msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap. The login form answers \"Wrong username or password\" for both mistakes, and \"Lost your password?\" shows the same answer whether the user exists or not."
 msgstr "Неавторизовані користувачі більше не можуть дізнатися імена користувачів через /?author=1, список користувачів REST API (/wp-json/wp/v2/users), посилання на автора в oEmbed і карту сайту користувачів. Форма входу відповідає «Неправильне ім’я користувача або пароль» на обидві помилки, а «Забули пароль?» показує однакову відповідь, є такий користувач чи ні."
 
-msgid "Apps and scripts that read the user list through the REST API without logging in no longer get it. Author pages drop out of wp-sitemap.xml but keep working. Someone who mistyped the user name is not told what exactly was wrong."
-msgstr "Програми та скрипти, що читають список користувачів через REST API без входу, більше не отримуватимуть його. Сторінки авторів зникнуть із wp-sitemap.xml, але самі й далі працюватимуть. Той, хто помилився в імені користувача, не дізнається, що саме було неправильно."
+msgid "If apps or scripts read the user list through the REST API without logging in, they no longer get it. For example, a headless site on Next.js or Gatsby that takes author names from /wp-json/wp/v2/users, or an \"Our authors\" block that loads the list right in the visitor's browser. Author pages drop out of wp-sitemap.xml but keep working. Someone who mistyped the user name is not told what exactly was wrong."
+msgstr "Якщо програми чи скрипти читають список користувачів через REST API без входу, вони більше не отримуватимуть його. Наприклад, headless-сайт на Next.js або Gatsby, який бере імена авторів із /wp-json/wp/v2/users, чи блок «Наші автори», що завантажує список просто в браузері відвідувача. Сторінки авторів зникнуть із wp-sitemap.xml, але самі й далі працюватимуть. Той, хто помилився в імені користувача, не дізнається, що саме було неправильно."
 
 msgid "<strong>Error:</strong> Wrong username or password."
 msgstr "<strong>Помилка:</strong> неправильне ім’я користувача або пароль."
@@ -546,8 +546,8 @@ msgstr "Сховати корінь REST API"
 msgid "For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see \"Hide files that show versions\"."
 msgstr "Неавторизовані користувачі більше не бачать у /wp-json/ список namespace і маршрутів REST API. За цим списком видно більшість установлених плагінів (yoast/v1, wc/v3, contact-form-7/v1). Корені namespace на кшталт /wp-json/yoast/v1 відповідають 404 так само, як для невстановленого плагіна, тому бот не може перевіряти назви плагінів по одній. Заголовок Link і тег <link>, що вказують на API, теж прибираються. Сам API працює як раніше. Бот, який знає точний маршрут плагіна, усе одно отримає відповідь, а назви плагінів залишаються видимими в коді сторінки (/wp-content/plugins/...): налаштування прибирає готовий список, а не самі плагіни. Найважливіше сховати версію плагіна, див. «Сховати файли, що видають версії»."
 
-msgid "Tools that discover the API through the /wp-json/ root or the Link header without logging in stop working, for example some headless front ends and API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working."
-msgstr "Перестануть працювати інструменти, які шукають API через корінь /wp-json/ або заголовок Link без входу, наприклад деякі headless-фронтенди та оглядачі API. Форми, магазини, редактор блоків і мобільний застосунок звертаються до маршрутів напряму й далі працюватимуть."
+msgid "If you use tools that discover the API through the /wp-json/ root or the Link header without logging in, for example some headless front ends or API explorers, they stop working. Forms, shops, the block editor and the mobile app use the routes directly and keep working."
+msgstr "Якщо ви користуєтеся інструментами, які шукають API через корінь /wp-json/ або заголовок Link без входу, наприклад деякими headless-фронтендами чи оглядачами API, вони перестануть працювати. Форми, магазини, редактор блоків і мобільний застосунок звертаються до маршрутів напряму й далі працюватимуть."
 
 msgid "Turn this off and save. The index and the links come back at once."
 msgstr "Вимкніть це налаштування і збережіть. Корінь API та посилання одразу повернуться."

@@ -55,7 +55,7 @@ class Hsts extends Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'If the SSL certificate expires or HTTPS stops working, visitors who have been to the site cannot open it at all, there is no "continue anyway" button. Turn this on only when HTTPS works on every page and the certificate renews by itself.', 'helloadmin-guard' );
+		return __( 'If the SSL certificate expires or HTTPS stops working, visitors who have been to the site cannot open it at all, there is no "continue anyway" button. Turn this setting on only when HTTPS works on every page and the certificate renews by itself.', 'helloadmin-guard' );
 	}
 
 	/**

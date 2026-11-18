@@ -59,7 +59,7 @@ class Hide_Rest_Index extends Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Tools that discover the API through the /wp-json/ root or the Link header without logging in stop working, for example some headless front ends and API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working.', 'helloadmin-guard' );
+		return __( 'If you use tools that discover the API through the /wp-json/ root or the Link header without logging in, for example some headless front ends or API explorers, they stop working. Forms, shops, the block editor and the mobile app use the routes directly and keep working.', 'helloadmin-guard' );
 	}
 
 	/**

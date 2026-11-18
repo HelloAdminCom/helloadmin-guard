@@ -45,7 +45,7 @@ class User_Enumeration extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Apps and scripts that read the user list through the REST API without logging in no longer get it. Author pages drop out of wp-sitemap.xml but keep working. Someone who mistyped the user name is not told what exactly was wrong.', 'helloadmin-guard' );
+		return __( 'If apps or scripts read the user list through the REST API without logging in, they no longer get it. For example, a headless site on Next.js or Gatsby that takes author names from /wp-json/wp/v2/users, or an "Our authors" block that loads the list right in the visitor\'s browser. Author pages drop out of wp-sitemap.xml but keep working. Someone who mistyped the user name is not told what exactly was wrong.', 'helloadmin-guard' );
 	}
 
 	/**

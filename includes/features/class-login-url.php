@@ -63,7 +63,7 @@ class Login_Url extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Bookmarks and saved passwords for the old login page, plugins and apps that log in through /wp-login.php directly, and another plugin that also changes the login URL stop working.', 'helloadmin-guard' );
+		return __( 'Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working.', 'helloadmin-guard' );
 	}
 
 	/**

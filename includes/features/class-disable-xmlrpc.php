@@ -46,7 +46,7 @@ class Disable_Xmlrpc extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Jetpack and other services that connect to the site through XML-RPC, old desktop and mobile blogging apps, and pingbacks from other blogs stop working. The WordPress mobile app works through the REST API and is not affected.', 'helloadmin-guard' );
+		return __( 'If you use Jetpack or other services that connect to the site through XML-RPC, old desktop and mobile blogging apps or pingbacks, they stop working. The WordPress mobile app works through the REST API and is not affected.', 'helloadmin-guard' );
 	}
 
 	/**

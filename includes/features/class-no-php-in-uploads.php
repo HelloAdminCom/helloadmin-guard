@@ -52,7 +52,7 @@ class No_Php_In_Uploads extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Plugins that keep their own PHP scripts in the uploads folder and open them from the browser stop working. Such plugins are rare today. Images, PDFs and other uploads keep working.', 'helloadmin-guard' );
+		return __( 'If a plugin on the site keeps its own PHP scripts in the uploads folder and opens them from the browser, it stops working. Such plugins are rare today. Images, PDFs and other uploads keep working.', 'helloadmin-guard' );
 	}
 
 	/**
