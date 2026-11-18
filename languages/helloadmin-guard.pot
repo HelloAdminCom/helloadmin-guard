@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://github.com/HelloAdminCom/helloadmin-guard/issues\n"
-"POT-Creation-Date: 2026-11-18 09:58+0000\n"
+"POT-Creation-Date: 2026-11-18 10:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: helloadmin-guard\n"
 
 #. Plugin Name of the plugin
-#: helloadmin-guard.php includes/class-admin-page.php:101 includes/class-admin-page.php:278
+#: helloadmin-guard.php includes/class-admin-page.php:101 includes/class-admin-page.php:280
 msgid "HelloAdmin Guard"
 msgstr ""
 
@@ -69,11 +69,11 @@ msgstr ""
 msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
 msgstr ""
 
-#: includes/class-admin-page.php:260
+#: includes/class-admin-page.php:262
 msgid "Settings"
 msgstr ""
 
-#: includes/class-admin-page.php:280
+#: includes/class-admin-page.php:282
 msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
 msgstr ""
 
@@ -146,7 +146,7 @@ msgid "Need help with your site?"
 msgstr ""
 
 #: includes/class-admin-page.php:508
-msgid "The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you what I see."
+msgid "HelloAdmin Guard is made and maintained by HelloAdmin, a WordPress and WooCommerce developer with more than 10 years of experience. If your site is slow, shows errors, broke after an update or was hacked, or you simply need someone to look after it, write to me."
 msgstr ""
 
 #: includes/class-admin-page.php:512
@@ -165,44 +165,44 @@ msgstr ""
 msgid "Turn this off and save: the plugin removes its lines from .htaccess. If the site does not open at all, delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\" in the .htaccess file over FTP or in the hosting file manager."
 msgstr ""
 
-#: includes/class-welcome.php:85
-msgid "Hide the welcome message"
-msgstr ""
-
-#: includes/class-welcome.php:87
+#: includes/class-welcome.php:145
 msgid "Hello, admin or developer!"
 msgstr ""
 
-#: includes/class-welcome.php:88
-msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some setups need these things open. On most sites, though, they can and should be closed. That is what HelloAdmin Guard does. Every gap has its own switch, so you decide what to close and what to leave open. Good luck!"
+#: includes/class-welcome.php:148
+msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what HelloAdmin Guard does. Every gap has its own switch, so you decide what to close and what to leave open."
 msgstr ""
 
-#: includes/class-welcome.php:89
+#: includes/class-welcome.php:149
 msgid "Good to know"
 msgstr ""
 
-#: includes/class-welcome.php:91
+#: includes/class-welcome.php:151
 msgid "Nothing is on until you turn it on."
 msgstr ""
 
-#: includes/class-welcome.php:92
+#: includes/class-welcome.php:152
 msgid "Every switch tells you what it does, what may stop working and how to undo it."
 msgstr ""
 
-#: includes/class-welcome.php:93
-msgid "Not sure where to start? Turn switches on one at a time and check your site after each one."
-msgstr ""
-
-#: includes/class-welcome.php:94
+#: includes/class-welcome.php:153
 msgid "The plugin is free and will stay free: no Pro version, no account, no data sent anywhere."
 msgstr ""
 
-#: includes/class-welcome.php:95
+#: includes/class-welcome.php:154
 msgid "Every new version closes more gaps, so keep the plugin updated."
 msgstr ""
 
-#: includes/class-welcome.php:97
+#: includes/class-welcome.php:156
+msgid "Not sure where to start? Turn switches on one at a time and check your site after each one."
+msgstr ""
+
+#: includes/class-welcome.php:160
 msgid "Got it"
+msgstr ""
+
+#: includes/class-welcome.php:166
+msgid "Hide the welcome message"
 msgstr ""
 
 #: includes/features/class-block-backups.php:34

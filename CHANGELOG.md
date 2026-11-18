@@ -14,7 +14,7 @@ Advanced tab with server rules, settings ordered by risk.
 - Each server rule card shows the exact lines; on Nginx, or when .htaccess is not writable, the switch is disabled and the rules are shown to copy.
 - HTTPS only (HSTS) as its own setting on the Advanced tab: max-age one year, no subdomains, sent only over HTTPS.
 - Settings on each tab are ordered by risk (biggest first) with a risk label on every card; topic groups are gone.
-- Welcome message on the settings page for each admin until closed; "Show the welcome message again" on the About tab.
+- Welcome message on every tab of the settings page: the arrow or "Got it" folds it into one line (remembered per user, works without JavaScript), the X removes it; "Show the welcome message again" on the About tab.
 - Ukrainian and Russian translations for everything new.
 
 ### Changed

@@ -80,7 +80,7 @@ No. It makes no requests to outside servers. The only request it makes is to you
 * Advanced tab with server rules in .htaccess: hidden files, backups, PHP in uploads, logs, folder listings, internal folders, files that show versions, developer files. Copy of the file before each change, automatic rollback on a server error.
 * HTTPS only (HSTS) as its own setting.
 * Settings ordered by risk, with a risk label on every card.
-* Welcome message on the settings page.
+* Welcome message on the settings page that folds into one line.
 * Hide the WordPress version also removes the X-Powered-By header.
 
 = 0.1.0 =
