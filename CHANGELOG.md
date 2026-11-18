@@ -8,6 +8,7 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ### Changed
 - Every card on the Advanced tab ("Learn more") links to its own section of the article "Files bots look for on a WordPress site, and the server rules that close them" (helloadmin.com), with UTM tags.
+- About tab: the author text is written in the first person, without repeating the name.
 
 ## [0.2.0] - 2026-11-18
 
