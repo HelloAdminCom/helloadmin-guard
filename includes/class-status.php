@@ -33,6 +33,8 @@ class Status {
 		'sucuri-scanner/sucuri.php'                       => 'Sucuri Security',
 		'wp-simple-firewall/icwp-wpsf.php'                => 'Shield Security',
 		'defender-security/wp-defender.php'               => 'Defender',
+		'limit-login-attempts-reloaded/limit-login-attempts-reloaded.php' => 'Limit Login Attempts Reloaded',
+		'loginizer/loginizer.php'                         => 'Loginizer',
 		'wps-hide-login/wps-hide-login.php'               => 'WPS Hide Login',
 		'disable-xml-rpc/disable-xml-rpc.php'             => 'Disable XML-RPC',
 		'disable-xml-rpc-api/disable-xml-rpc-api.php'     => 'Disable XML-RPC-API',
