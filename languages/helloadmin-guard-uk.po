@@ -272,7 +272,7 @@ msgid "Hide the welcome message"
 msgstr "Сховати привітання"
 
 msgid "Hello, admin or developer!"
-msgstr "Привіт, адмін чи розробник!"
+msgstr "Вітаю, адмін чи розробник!"
 
 msgid "Nothing is on until you turn it on."
 msgstr "Нічого не ввімкнено, доки ви самі цього не ввімкнете."
