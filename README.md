@@ -16,12 +16,10 @@ Everything is off until you turn it on. No paid version, no locked features, no 
 
 ## Settings in 0.1.0
 
-| Group | Setting |
+| Tab | Settings, from the biggest risk down |
 | --- | --- |
-| Login | Custom login URL · Turn off Application Passwords |
-| What your site gives away | Hide user names · Hide the WordPress version |
-| Old and risky features | Turn off XML-RPC · Turn off the file editor |
-| HTTP headers | Security headers |
+| General | Turn off XML-RPC · Turn off the file editor · Custom login URL · Hide user names · Turn off Application Passwords · Security headers · Hide the WordPress version |
+| Advanced (server rules) | Block hidden files · Block backups and database dumps · No PHP in uploads · Block logs and diagnostic pages · Turn off folder listings · HTTPS only (HSTS) · Close internal WordPress folders · Hide files that show versions · Block developer and build files |
 
 Languages: English, Ukrainian, Russian.
 

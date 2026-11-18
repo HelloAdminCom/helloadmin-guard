@@ -1,10 +1,10 @@
 === HelloAdmin Guard ===
 Contributors: helloadmin
-Tags: security, hardening, login, xmlrpc, headers
+Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,24 +22,31 @@ What makes it different:
 
 = Settings in this version =
 
-Login
+The settings are listed from the biggest risk down to the cheap rules, and every card shows how bad the gap is while it is off.
 
-* Custom login URL. The login page moves to your own address; /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in.
-* Turn off Application Passwords. They stop working for everyone; existing passwords are kept and work again when you turn the setting off.
-
-What your site gives away
-
-* Hide user names. Closes /?author=1, the REST API user list, oEmbed author links and the users sitemap for visitors who are not logged in.
-* Hide the WordPress version. Removes it from the generator tag, feeds and core file links.
-
-Old and risky features
+General tab
 
 * Turn off XML-RPC. /xmlrpc.php answers 403.
 * Turn off the file editor. Removes the theme and plugin file editors from wp-admin, without editing wp-config.php.
-
-HTTP headers
-
+* Custom login URL. The login page moves to your own address; /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in.
+* Hide user names. Closes /?author=1, the REST API user list, oEmbed author links and the users sitemap for visitors who are not logged in.
+* Turn off Application Passwords. They stop working for everyone; existing passwords are kept and work again when you turn the setting off.
 * Security headers. X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy.
+* Hide the WordPress version. Removes it from the generator tag, feeds and core file links, and removes the X-Powered-By header.
+
+Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Nginx shows them to copy)
+
+* Block hidden files: .git, .env, .htpasswd and everything else that starts with a dot.
+* Block backups and database dumps: .sql, .wpress, .bak, wp-config copies, archives in the site root, Duplicator installer leftovers, backup plugin folders.
+* No PHP in the uploads folder.
+* Block logs and diagnostic pages: debug.log, error_log, WooCommerce logs, phpinfo.php and other test pages.
+* Turn off folder listings.
+* HTTPS only (HSTS).
+* Close internal WordPress folders: the rules from the WordPress hardening guide.
+* Hide files that show versions: readme.html, plugin readme files, install.php and upgrade.php for guests.
+* Block developer and build files: composer and npm files, source maps, Docker and deploy files.
+
+Before writing .htaccess the plugin keeps a copy of it and then opens your home page. If the page answers with a server error, the old file is put back and the settings stay off. Its rules sit between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" and are removed when the plugin is deactivated.
 
 The plugin is available in English, Ukrainian and Russian.
 
@@ -65,9 +72,16 @@ Not yet. The custom login URL does nothing on multisite; the other settings are 
 
 = Does the plugin send any data? =
 
-No. It makes no requests to outside servers. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
+No. It makes no requests to outside servers. The only request it makes is to your own home page, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
 
 == Changelog ==
+
+= 0.2.0 =
+* Advanced tab with server rules in .htaccess: hidden files, backups, PHP in uploads, logs, folder listings, internal folders, files that show versions, developer files. Copy of the file before each change, automatic rollback on a server error.
+* HTTPS only (HSTS) as its own setting.
+* Settings ordered by risk, with a risk label on every card.
+* Welcome message on the settings page.
+* Hide the WordPress version also removes the X-Powered-By header.
 
 = 0.1.0 =
 * First public version: custom login URL, Application Passwords off, hide user names, hide the WordPress version, XML-RPC off, file editor off, security headers.
