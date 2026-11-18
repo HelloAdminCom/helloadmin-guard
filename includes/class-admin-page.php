@@ -398,6 +398,9 @@ class Admin_Page {
 		if ( '' !== $note ) {
 			printf( '<p class="hag-note">%s</p>', esc_html( $note ) );
 		}
+		foreach ( $feature->warnings() as $warning ) {
+			printf( '<p class="hag-warning">%s</p>', esc_html( $warning ) );
+		}
 
 		// "Learn more" closes the last text of the card: the last field hint, or "How to undo".
 		$more = '';

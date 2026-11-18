@@ -42,7 +42,7 @@ class Block_Core_Internals extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'The server answers 404 when someone opens PHP files from wp-admin/includes, wp-includes (top level), wp-includes/theme-compat or the TinyMCE language files directly. WordPress only loads them from inside; opened from the browser, some print errors with full server paths. These are the rules from the WordPress hardening guide.', 'helloadmin-guard' );
+		return __( 'The server answers 404 when someone opens PHP files from wp-admin/includes, wp-includes (top level), wp-includes/theme-compat or the TinyMCE language files directly. WordPress only loads them from inside; opened from the browser, some print errors with full server paths. These are the rules from the WordPress hardening guide. Where PHP runs inside the web server (mod_php, LiteSpeed), PHP errors are also hidden from visitors.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -61,6 +61,19 @@ class Block_Core_Internals extends Htaccess_Feature {
 	 */
 	public function anchor() {
 		return 'core-folders';
+	}
+
+	/**
+	 * PHP errors shown to visitors make the paths visible no matter which file fails.
+	 *
+	 * @return string[]
+	 */
+	public function warnings() {
+		$value = strtolower( (string) get_cfg_var( 'display_errors' ) );
+		if ( in_array( $value, array( '1', 'on', 'yes', 'true', 'stdout' ), true ) ) {
+			return array( __( 'PHP on this server shows errors to visitors (display_errors is on in php.ini). The rules below turn it off where the server allows it; otherwise ask the host to turn it off.', 'helloadmin-guard' ) );
+		}
+		return array();
 	}
 
 	/**
@@ -105,6 +118,17 @@ class Block_Core_Internals extends Htaccess_Feature {
 			'RewriteRule ^' . $includes . '/[^/]+\\.php$ - [R=404,L]',
 			'RewriteRule ^' . $includes . '/js/tinymce/langs/.+\\.php - [R=404,L]',
 			'RewriteRule ^' . $includes . '/theme-compat/ - [R=404,L]',
+			'</IfModule>',
+			// PHP errors with full paths: off where PHP runs inside the server (mod_php, LiteSpeed). With PHP-FPM a bare
+			// php_flag would be an unknown command, so each line sits inside its own IfModule.
+			'<IfModule mod_php.c>',
+			'php_flag display_errors Off',
+			'</IfModule>',
+			'<IfModule mod_php7.c>',
+			'php_flag display_errors Off',
+			'</IfModule>',
+			'<IfModule Litespeed>',
+			'php_flag display_errors Off',
 			'</IfModule>',
 		);
 	}

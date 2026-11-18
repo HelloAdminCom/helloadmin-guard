@@ -107,6 +107,15 @@ abstract class Feature {
 	}
 
 	/**
+	 * Things on this site the setting cannot fix by itself, shown on the card as warnings.
+	 *
+	 * @return string[]
+	 */
+	public function warnings() {
+		return array();
+	}
+
+	/**
 	 * The logged-in admin, or the first administrator when there is none (WP-CLI, cron).
 	 *
 	 * @return int User ID, 0 if the site has no administrator.

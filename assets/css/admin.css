@@ -224,3 +224,10 @@
 .hag-skip { margin: 12px 0 0; font-size: 12px; color: #50575e; }
 .hag-check { margin: 0 0 16px; color: #50575e; }
 .hag-pref { margin: 20px 0 0; }
+.hag-warning {
+	margin: 8px 0 0;
+	padding: 6px 10px;
+	background: #fcf9e8;
+	border-left: 4px solid #dba617;
+	font-size: 12px;
+}
