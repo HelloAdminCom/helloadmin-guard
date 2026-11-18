@@ -48,7 +48,7 @@ class Disable_File_Editor extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Quick code edits from wp-admin: change theme and plugin files over SFTP, SSH or Git instead. The Site Editor, the Customizer and Additional CSS keep working.', 'helloadmin-guard' );
+		return __( 'You can no longer edit theme and plugin code in wp-admin: change the files over SFTP, SSH or Git instead. The Site Editor, the Customizer and Additional CSS keep working.', 'helloadmin-guard' );
 	}
 
 	/**

@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://github.com/HelloAdminCom/helloadmin-guard/issues\n"
-"POT-Creation-Date: 2026-11-18 14:13+0000\n"
+"POT-Creation-Date: 2026-11-18 16:16+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: helloadmin-guard\n"
 
 #. Plugin Name of the plugin
-#: helloadmin-guard.php includes/class-admin-page.php:98 includes/class-admin-page.php:299 includes/class-site-health.php:51
+#: helloadmin-guard.php includes/class-admin-page.php:98 includes/class-admin-page.php:301 includes/class-site-health.php:51
 msgid "HelloAdmin Guard"
 msgstr ""
 
@@ -65,195 +65,195 @@ msgstr ""
 msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
 msgstr ""
 
-#: includes/class-admin-page.php:281
+#: includes/class-admin-page.php:283
 msgid "Settings"
 msgstr ""
 
-#: includes/class-admin-page.php:303
+#: includes/class-admin-page.php:305
 msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
 msgstr ""
 
-#: includes/class-admin-page.php:339
+#: includes/class-admin-page.php:341
 msgid "No settings on this tab yet."
 msgstr ""
 
-#: includes/class-admin-page.php:369
+#: includes/class-admin-page.php:371
 msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
 msgstr ""
 
-#: includes/class-admin-page.php:414
+#: includes/class-admin-page.php:416
 msgid "Learn more"
 msgstr ""
 
-#: includes/class-admin-page.php:426
-msgid "What it does"
+#: includes/class-admin-page.php:428
+msgid "Description"
 msgstr ""
 
-#: includes/class-admin-page.php:427
+#: includes/class-admin-page.php:429
 msgid "Downsides"
 msgstr ""
 
-#: includes/class-admin-page.php:430
+#: includes/class-admin-page.php:432
 msgid "How to undo"
 msgstr ""
 
-#: includes/class-admin-page.php:463
+#: includes/class-admin-page.php:465
 msgid "I do not need this on this site (it stops counting as an open gap)"
 msgstr ""
 
-#: includes/class-admin-page.php:482
+#: includes/class-admin-page.php:484
 msgid "high risk"
 msgstr ""
 
-#: includes/class-admin-page.php:483
+#: includes/class-admin-page.php:485
 msgid "medium risk"
 msgstr ""
 
-#: includes/class-admin-page.php:484
+#: includes/class-admin-page.php:486
 msgid "low risk"
 msgstr ""
 
-#: includes/class-admin-page.php:488
+#: includes/class-admin-page.php:490
 msgid "Closed by this plugin"
 msgstr ""
 
-#: includes/class-admin-page.php:490
+#: includes/class-admin-page.php:492
 msgid "Not working"
 msgstr ""
 
-#: includes/class-admin-page.php:490
+#: includes/class-admin-page.php:492
 msgid "The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting."
 msgstr ""
 
 #. translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)".
-#: includes/class-admin-page.php:496
+#: includes/class-admin-page.php:498
 #, php-format
 msgid "Closed by %s. You can leave this off."
 msgstr ""
 
 #. translators: %s: names of active security plugins.
-#: includes/class-admin-page.php:499
+#: includes/class-admin-page.php:501
 #, php-format
 msgid "Probably by %s or the server settings. You can leave this off."
 msgstr ""
 
-#: includes/class-admin-page.php:501
+#: includes/class-admin-page.php:503
 msgid "By the server settings or another plugin. You can leave this off."
 msgstr ""
 
-#: includes/class-admin-page.php:503
+#: includes/class-admin-page.php:505
 msgid "Already closed"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:506
+#: includes/class-admin-page.php:508
 #, php-format
 msgid "Open, %s"
 msgstr ""
 
-#: includes/class-admin-page.php:508
+#: includes/class-admin-page.php:510
 msgid "Not needed"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:511
+#: includes/class-admin-page.php:513
 #, php-format
 msgid "Not checked yet, %s"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:511
+#: includes/class-admin-page.php:513
 #, php-format
 msgid "Cannot be checked, %s"
 msgstr ""
 
-#: includes/class-admin-page.php:524
+#: includes/class-admin-page.php:526
 msgid "Checking what your site answers to visitors..."
 msgstr ""
 
 #. translators: %s: time since the last check, for example "5 minutes".
-#: includes/class-admin-page.php:527
+#: includes/class-admin-page.php:529
 #, php-format
 msgid "Last check: %s ago."
 msgstr ""
 
-#: includes/class-admin-page.php:532
+#: includes/class-admin-page.php:534
 msgid "Check again"
 msgstr ""
 
-#: includes/class-admin-page.php:548
+#: includes/class-admin-page.php:550
 msgid "Optional: the same for Nginx, to add to the server block"
 msgstr ""
 
-#: includes/class-admin-page.php:548
+#: includes/class-admin-page.php:550
 msgid "Rules to add to the server block, above the PHP location"
 msgstr ""
 
-#: includes/class-admin-page.php:552
+#: includes/class-admin-page.php:554
 msgid "Also added to .htaccess, so the server answers before PHP starts"
 msgstr ""
 
-#: includes/class-admin-page.php:552
+#: includes/class-admin-page.php:554
 msgid "Optional: the same in .htaccess, to add by hand"
 msgstr ""
 
-#: includes/class-admin-page.php:554
+#: includes/class-admin-page.php:556
 msgid "Rules to add to .htaccess by hand"
 msgstr ""
 
-#: includes/class-admin-page.php:554
+#: includes/class-admin-page.php:556
 msgid "Rules the plugin adds to .htaccess"
 msgstr ""
 
-#: includes/class-admin-page.php:559
+#: includes/class-admin-page.php:561
 msgid "This setting needs Apache, LiteSpeed or Nginx."
 msgstr ""
 
-#: includes/class-admin-page.php:582
+#: includes/class-admin-page.php:584
 msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
 msgstr ""
 
-#: includes/class-admin-page.php:584
+#: includes/class-admin-page.php:586
 msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
 msgstr ""
 
-#: includes/class-admin-page.php:586
+#: includes/class-admin-page.php:588
 msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
 msgstr ""
 
-#: includes/class-admin-page.php:588
+#: includes/class-admin-page.php:590
 msgid "The server rules below need Apache, LiteSpeed or Nginx."
 msgstr ""
 
-#: includes/class-admin-page.php:625
+#: includes/class-admin-page.php:627
 msgid "HelloAdmin Guard is free and will stay free."
 msgstr ""
 
-#: includes/class-admin-page.php:626
+#: includes/class-admin-page.php:628
 msgid "No paid version, no locked settings, no ads, no calls to outside servers."
 msgstr ""
 
-#: includes/class-admin-page.php:627
+#: includes/class-admin-page.php:629
 msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
 msgstr ""
 
-#: includes/class-admin-page.php:628
+#: includes/class-admin-page.php:630
 msgid "Need help with your site?"
 msgstr ""
 
-#: includes/class-admin-page.php:629
+#: includes/class-admin-page.php:631
 msgid "Behind this plugin is one developer with more than 10 years of experience with WordPress and WooCommerce. If your site is slow, shows errors, broke after an update or was hacked, or you simply need someone to look after it, write to me."
 msgstr ""
 
-#: includes/class-admin-page.php:633
+#: includes/class-admin-page.php:635
 msgid "Contact HelloAdmin"
 msgstr ""
 
-#: includes/class-admin-page.php:635
+#: includes/class-admin-page.php:637
 msgid "Report a problem"
 msgstr ""
 
-#: includes/class-admin-page.php:637
+#: includes/class-admin-page.php:639
 msgid "Show the welcome message again"
 msgstr ""
 
@@ -356,7 +356,7 @@ msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sq
 msgstr ""
 
 #: includes/features/class-block-backups.php:54
-msgid "Download links to archives in the site root or the content folder and to .sql or .bak files, if you share them on purpose. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not over the web."
+msgid "Download links to archives in the site root or the content folder, and to .sql or .bak files you share on purpose, stop working. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not through the browser."
 msgstr ""
 
 #: includes/features/class-block-core-internals.php:36
@@ -368,7 +368,7 @@ msgid "The server answers 404 when someone opens PHP files from wp-admin/include
 msgstr ""
 
 #: includes/features/class-block-core-internals.php:54
-msgid "Multisite networks that still serve files through wp-includes/ms-files.php (networks created before WordPress 3.5)."
+msgid "Files in old Multisite networks created before WordPress 3.5 stop opening: such networks still serve uploads through wp-includes/ms-files.php. Normal sites and newer networks are not affected."
 msgstr ""
 
 #: includes/features/class-block-core-internals.php:74
@@ -384,7 +384,7 @@ msgid "The server answers 404 for package and build files (composer.json, compos
 msgstr ""
 
 #: includes/features/class-block-dev-files.php:54
-msgid "Browser developer tools stop showing the original source of minified scripts. Uploads are not touched. robots.txt, ads.txt and other .txt files in the site root stay open."
+msgid "Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open."
 msgstr ""
 
 #: includes/features/class-block-hidden-files.php:36
@@ -396,7 +396,7 @@ msgid "The server answers 404 for every file and folder whose name starts with a
 msgstr ""
 
 #: includes/features/class-block-hidden-files.php:54
-msgid "Nothing on a normal site. /.well-known/ stays open: SSL certificates and app links need it."
+msgid "Nothing breaks on a normal site. /.well-known/ stays open: SSL certificates and app links need it."
 msgstr ""
 
 #: includes/features/class-block-logs.php:36
@@ -408,7 +408,7 @@ msgid "The server answers 404 for log files (debug.log, error_log, any .log), Wo
 msgstr ""
 
 #: includes/features/class-block-logs.php:54
-msgid "Opening a log or a test page in the browser on purpose: read logs over SFTP or in the hosting panel instead. Logging itself keeps working."
+msgid "You can no longer open a log or a test page in the browser: read logs over SFTP or in the hosting panel instead. Logging itself keeps working."
 msgstr ""
 
 #: includes/features/class-disable-app-passwords.php:33
@@ -420,7 +420,7 @@ msgid "Application Passwords let apps log in to the REST API without the login p
 msgstr ""
 
 #: includes/features/class-disable-app-passwords.php:47
-msgid "The WordPress mobile app on sites without Jetpack, Zapier, Make and other services connected with an application password, and your own scripts that publish through the REST API."
+msgid "The WordPress mobile app on sites without Jetpack, Zapier, Make and other services connected with an application password, and your own scripts that publish through the REST API stop working."
 msgstr ""
 
 #: includes/features/class-disable-app-passwords.php:54
@@ -440,7 +440,7 @@ msgid "Removes Appearance > Theme File Editor and Plugins > Plugin File Editor. 
 msgstr ""
 
 #: includes/features/class-disable-file-editor.php:51
-msgid "Quick code edits from wp-admin: change theme and plugin files over SFTP, SSH or Git instead. The Site Editor, the Customizer and Additional CSS keep working."
+msgid "You can no longer edit theme and plugin code in wp-admin: change the files over SFTP, SSH or Git instead. The Site Editor, the Customizer and Additional CSS keep working."
 msgstr ""
 
 #: includes/features/class-disable-file-editor.php:58
@@ -456,7 +456,7 @@ msgid "Adds \"Options -Indexes\": when a folder has no index file, the server an
 msgstr ""
 
 #: includes/features/class-disable-listing.php:54
-msgid "Nothing on the site. On a few hosts .htaccess may not change Options: then the home page answers with an error, the plugin puts the old file back and keeps this setting off."
+msgid "Nothing breaks on the site. On a few hosts .htaccess may not change Options: then the home page answers with an error, the plugin puts the old file back and keeps this setting off."
 msgstr ""
 
 #: includes/features/class-disable-xmlrpc.php:35
@@ -468,7 +468,7 @@ msgid "Every request to /xmlrpc.php gets a 403 answer, so bots cannot try many p
 msgstr ""
 
 #: includes/features/class-disable-xmlrpc.php:49
-msgid "Jetpack and other services that connect to the site through XML-RPC, old desktop and mobile blogging apps, and pingbacks from other blogs. The WordPress mobile app works through the REST API and is not affected."
+msgid "Jetpack and other services that connect to the site through XML-RPC, old desktop and mobile blogging apps, and pingbacks from other blogs stop working. The WordPress mobile app works through the REST API and is not affected."
 msgstr ""
 
 #: includes/features/class-disable-xmlrpc.php:56 includes/features/class-user-enumeration.php:55
@@ -480,11 +480,11 @@ msgid "Hide the REST API index"
 msgstr ""
 
 #: includes/features/class-hide-rest-index.php:53
-msgid "For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working."
+msgid "For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see \"Hide files that show versions\"."
 msgstr ""
 
 #: includes/features/class-hide-rest-index.php:62
-msgid "Tools that discover the API by reading the index or the Link header without logging in, for example some headless front ends or API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see \"Hide files that show versions\"."
+msgid "Tools that discover the API through the /wp-json/ root or the Link header without logging in stop working, for example some headless front ends and API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working."
 msgstr ""
 
 #: includes/features/class-hide-rest-index.php:71
@@ -496,11 +496,11 @@ msgid "Hide files that show versions"
 msgstr ""
 
 #: includes/features/class-hide-version-files.php:46
-msgid "The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes."
+msgid "The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes. Online scanners that guess plugin versions from readme.txt see less."
 msgstr ""
 
 #: includes/features/class-hide-version-files.php:55
-msgid "Nothing on the site itself: WordPress and browsers do not need these files. Installing WordPress again over this site needs the setting off. Online scanners that guess plugin versions from readme.txt will see less."
+msgid "Nothing breaks on the site itself: WordPress and browsers do not need these files. To install WordPress again over this site, turn the setting off first."
 msgstr ""
 
 #: includes/features/class-hide-wp-version.php:36
@@ -512,7 +512,7 @@ msgid "Removes the WordPress version from the generator tag in the page source a
 msgstr ""
 
 #: includes/features/class-hide-wp-version.php:50
-msgid "Nothing on the site itself. Online scanners and some SEO tools will no longer show your WordPress version. Plugin versions in their own file links are not changed."
+msgid "Nothing changes on the site itself. Online scanners and some SEO tools no longer show your WordPress version. Plugin versions in their own file links stay as they are."
 msgstr ""
 
 #: includes/features/class-hide-wp-version.php:57
@@ -584,7 +584,7 @@ msgid "Moves the login page to your own address. /wp-login.php and /wp-admin/ sh
 msgstr ""
 
 #: includes/features/class-login-url.php:66
-msgid "Bookmarks and saved passwords for the old login page. Plugins or apps that log in through /wp-login.php directly. Another plugin that also changes the login URL."
+msgid "Bookmarks and saved passwords for the old login page, plugins and apps that log in through /wp-login.php directly, and another plugin that also changes the login URL stop working."
 msgstr ""
 
 #: includes/features/class-login-url.php:73
@@ -626,7 +626,7 @@ msgid "The server answers 404 to any PHP file in the uploads folder. If a weak p
 msgstr ""
 
 #: includes/features/class-no-php-in-uploads.php:55
-msgid "A rare plugin that keeps its own PHP scripts in the uploads folder and opens them from the browser. Images, PDFs and other uploads work as before."
+msgid "Plugins that keep their own PHP scripts in the uploads folder and open them from the browser stop working. Such plugins are rare today. Images, PDFs and other uploads keep working."
 msgstr ""
 
 #: includes/features/class-security-headers.php:35
@@ -638,7 +638,7 @@ msgid "Adds four headers: X-Content-Type-Options: nosniff (browsers do not guess
 msgstr ""
 
 #: includes/features/class-security-headers.php:49
-msgid "Showing your pages inside a frame on another domain, for example a landing page builder or a partner site. Embedded widgets from other sites that ask for the camera, microphone or location. Your own pages, the editor and the Customizer are not affected."
+msgid "Your pages can no longer be shown inside a frame on another domain, for example in a landing page builder or on a partner site. Embedded widgets from other sites cannot ask for the camera, microphone or location. Your own pages, the editor and the Customizer are not affected."
 msgstr ""
 
 #: includes/features/class-security-headers.php:56
@@ -654,7 +654,7 @@ msgid "Visitors who are not logged in can no longer get user names from /?author
 msgstr ""
 
 #: includes/features/class-user-enumeration.php:48
-msgid "Apps or scripts that read the user list through the REST API without logging in. Author pages drop out of wp-sitemap.xml; the pages themselves keep working. Someone who mistyped the user name is no longer told which part was wrong."
+msgid "Apps and scripts that read the user list through the REST API without logging in no longer get it. Author pages drop out of wp-sitemap.xml but keep working. Someone who mistyped the user name is not told what exactly was wrong."
 msgstr ""
 
 #. translators: %s: comma-separated user logins.

@@ -51,7 +51,7 @@ class Block_Backups extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Download links to archives in the site root or the content folder and to .sql or .bak files, if you share them on purpose. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not over the web.', 'helloadmin-guard' );
+		return __( 'Download links to archives in the site root or the content folder, and to .sql or .bak files you share on purpose, stop working. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not through the browser.', 'helloadmin-guard' );
 	}
 
 	/**

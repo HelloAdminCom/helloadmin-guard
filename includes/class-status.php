@@ -75,7 +75,7 @@ class Status {
 	public function register() {
 		add_action( 'wp_ajax_' . self::AJAX, array( $this, 'ajax' ) );
 		// Saved settings change what the site answers: check again on the next visit of the settings page.
-		add_action( 'update_option_' . Settings::OPTION, array( __CLASS__, 'forget' ) );
+		add_action( 'update_option_' . Settings::OPTION, array( __CLASS__, 'changed' ), 10, 2 );
 	}
 
 	/**
@@ -88,9 +88,37 @@ class Status {
 	}
 
 	/**
+	 * After a save, forgets only the results of the settings that were switched or edited and marks the rest as due
+	 * for a new check. The menu number then stays right while the page checks again, instead of jumping up for a moment.
+	 *
+	 * @param mixed $old_value Option value before the save.
+	 * @param mixed $new_value Option value after the save.
+	 * @return void
+	 */
+	public static function changed( $old_value, $new_value ) {
+		$data = self::cached();
+		if ( null === $data ) {
+			return;
+		}
+		$old_value = is_array( $old_value ) ? $old_value : array();
+		$new_value = is_array( $new_value ) ? $new_value : array();
+		foreach ( array( 'enabled', 'fields' ) as $key ) {
+			$before = isset( $old_value[ $key ] ) && is_array( $old_value[ $key ] ) ? $old_value[ $key ] : array();
+			$after  = isset( $new_value[ $key ] ) && is_array( $new_value[ $key ] ) ? $new_value[ $key ] : array();
+			foreach ( array_keys( $before + $after ) as $id ) {
+				if ( ( isset( $before[ $id ] ) ? $before[ $id ] : null ) !== ( isset( $after[ $id ] ) ? $after[ $id ] : null ) ) {
+					unset( $data['closed'][ $id ] );
+				}
+			}
+		}
+		$data['stale'] = true;
+		set_transient( self::CACHE, $data, self::TTL );
+	}
+
+	/**
 	 * Stored results, or null when there are none or they are older than a day.
 	 *
-	 * @return array{time: int, closed: array<string, bool|null>}|null
+	 * @return array{time: int, closed: array<string, bool|null>, stale?: bool}|null
 	 */
 	public static function cached() {
 		$data = get_transient( self::CACHE );
@@ -159,15 +187,18 @@ class Status {
 
 	/**
 	 * Number of gaps that need attention: open ones and settings that are on but do not work.
-	 * Before the first check every setting that is off and not skipped counts as open.
+	 * A setting that is off, not skipped and not checked yet (before the first check, or just switched off) counts
+	 * as open. A check that could not tell (stored null) does not count.
 	 *
 	 * @return int
 	 */
 	public function count() {
-		$count = 0;
+		$count  = 0;
+		$cached = self::cached();
 		foreach ( array_keys( $this->features ) as $id ) {
-			$status = $this->of( $id );
-			if ( in_array( $status, array( 'open', 'broken' ), true ) || ( 'unknown' === $status && null === self::cached() ) ) {
+			$status    = $this->of( $id );
+			$unchecked = null === $cached || ! array_key_exists( $id, $cached['closed'] );
+			if ( in_array( $status, array( 'open', 'broken' ), true ) || ( 'unknown' === $status && $unchecked ) ) {
 				++$count;
 			}
 		}
@@ -199,7 +230,7 @@ class Status {
 		return array(
 			'checkAction' => self::AJAX,
 			'checkNonce'  => wp_create_nonce( self::NONCE ),
-			'checkNeeded' => null === self::cached(),
+			'checkNeeded' => null === self::cached() || ! empty( self::cached()['stale'] ),
 		);
 	}
 }

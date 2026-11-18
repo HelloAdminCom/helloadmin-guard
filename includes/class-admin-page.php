@@ -256,12 +256,14 @@ class Admin_Page {
 	}
 
 	/**
-	 * Loads the page CSS on this page only.
+	 * Menu number colour on every admin page; the page CSS and JS on this page only.
 	 *
 	 * @param string $hook_suffix Current admin page.
 	 * @return void
 	 */
 	public function enqueue( $hook_suffix ) {
+		// The open gaps number in the menu stays red in every admin color scheme, also on the plugin's own page.
+		wp_add_inline_style( 'admin-menu', '#adminmenu #toplevel_page_' . self::SLUG . ' .awaiting-mod{background:#d63638;color:#fff}' );
 		if ( ! in_array( $hook_suffix, array( 'toplevel_page_' . self::SLUG ), true ) ) {
 			return;
 		}
@@ -423,7 +425,7 @@ class Admin_Page {
 		}
 
 		echo '<dl class="hag-explain">';
-		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'What it does', 'helloadmin-guard' ), esc_html( $feature->what() ) );
+		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'Description', 'helloadmin-guard' ), esc_html( $feature->what() ) );
 		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'Downsides', 'helloadmin-guard' ), esc_html( $feature->may_break() ) );
 		printf(
 			'<dt>%s</dt><dd>%s%s</dd>',

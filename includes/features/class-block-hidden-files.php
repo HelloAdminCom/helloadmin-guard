@@ -51,7 +51,7 @@ class Block_Hidden_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Nothing on a normal site. /.well-known/ stays open: SSL certificates and app links need it.', 'helloadmin-guard' );
+		return __( 'Nothing breaks on a normal site. /.well-known/ stays open: SSL certificates and app links need it.', 'helloadmin-guard' );
 	}
 
 	/**

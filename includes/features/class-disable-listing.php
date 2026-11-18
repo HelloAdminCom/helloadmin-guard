@@ -51,7 +51,7 @@ class Disable_Listing extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Nothing on the site. On a few hosts .htaccess may not change Options: then the home page answers with an error, the plugin puts the old file back and keeps this setting off.', 'helloadmin-guard' );
+		return __( 'Nothing breaks on the site. On a few hosts .htaccess may not change Options: then the home page answers with an error, the plugin puts the old file back and keeps this setting off.', 'helloadmin-guard' );
 	}
 
 	/**

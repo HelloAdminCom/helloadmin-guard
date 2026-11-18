@@ -44,7 +44,7 @@ class Disable_App_Passwords extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'The WordPress mobile app on sites without Jetpack, Zapier, Make and other services connected with an application password, and your own scripts that publish through the REST API.', 'helloadmin-guard' );
+		return __( 'The WordPress mobile app on sites without Jetpack, Zapier, Make and other services connected with an application password, and your own scripts that publish through the REST API stop working.', 'helloadmin-guard' );
 	}
 
 	/**

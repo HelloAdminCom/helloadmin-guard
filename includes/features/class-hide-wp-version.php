@@ -47,7 +47,7 @@ class Hide_Wp_Version extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Nothing on the site itself. Online scanners and some SEO tools will no longer show your WordPress version. Plugin versions in their own file links are not changed.', 'helloadmin-guard' );
+		return __( 'Nothing changes on the site itself. Online scanners and some SEO tools no longer show your WordPress version. Plugin versions in their own file links stay as they are.', 'helloadmin-guard' );
 	}
 
 	/**

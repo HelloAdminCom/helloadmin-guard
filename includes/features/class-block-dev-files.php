@@ -51,7 +51,7 @@ class Block_Dev_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Browser developer tools stop showing the original source of minified scripts. Uploads are not touched. robots.txt, ads.txt and other .txt files in the site root stay open.', 'helloadmin-guard' );
+		return __( 'Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open.', 'helloadmin-guard' );
 	}
 
 	/**

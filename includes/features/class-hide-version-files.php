@@ -43,7 +43,7 @@ class Hide_Version_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes.', 'helloadmin-guard' );
+		return __( 'The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes. Online scanners that guess plugin versions from readme.txt see less.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Hide_Version_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Nothing on the site itself: WordPress and browsers do not need these files. Installing WordPress again over this site needs the setting off. Online scanners that guess plugin versions from readme.txt will see less.', 'helloadmin-guard' );
+		return __( 'Nothing breaks on the site itself: WordPress and browsers do not need these files. To install WordPress again over this site, turn the setting off first.', 'helloadmin-guard' );
 	}
 
 	/**

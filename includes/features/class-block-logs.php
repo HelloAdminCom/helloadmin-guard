@@ -51,7 +51,7 @@ class Block_Logs extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Opening a log or a test page in the browser on purpose: read logs over SFTP or in the hosting panel instead. Logging itself keeps working.', 'helloadmin-guard' );
+		return __( 'You can no longer open a log or a test page in the browser: read logs over SFTP or in the hosting panel instead. Logging itself keeps working.', 'helloadmin-guard' );
 	}
 
 	/**

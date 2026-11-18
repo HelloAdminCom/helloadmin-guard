@@ -50,7 +50,7 @@ class Hide_Rest_Index extends Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working.', 'helloadmin-guard' );
+		return __( 'For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see "Hide files that show versions".', 'helloadmin-guard' );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Hide_Rest_Index extends Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Tools that discover the API by reading the index or the Link header without logging in, for example some headless front ends or API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see "Hide files that show versions".', 'helloadmin-guard' );
+		return __( 'Tools that discover the API through the /wp-json/ root or the Link header without logging in stop working, for example some headless front ends and API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working.', 'helloadmin-guard' );
 	}
 
 	/**

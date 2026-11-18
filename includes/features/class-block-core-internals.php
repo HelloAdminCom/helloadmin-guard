@@ -51,7 +51,7 @@ class Block_Core_Internals extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Multisite networks that still serve files through wp-includes/ms-files.php (networks created before WordPress 3.5).', 'helloadmin-guard' );
+		return __( 'Files in old Multisite networks created before WordPress 3.5 stop opening: such networks still serve uploads through wp-includes/ms-files.php. Normal sites and newer networks are not affected.', 'helloadmin-guard' );
 	}
 
 	/**

@@ -46,7 +46,7 @@ class Security_Headers extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Showing your pages inside a frame on another domain, for example a landing page builder or a partner site. Embedded widgets from other sites that ask for the camera, microphone or location. Your own pages, the editor and the Customizer are not affected.', 'helloadmin-guard' );
+		return __( 'Your pages can no longer be shown inside a frame on another domain, for example in a landing page builder or on a partner site. Embedded widgets from other sites cannot ask for the camera, microphone or location. Your own pages, the editor and the Customizer are not affected.', 'helloadmin-guard' );
 	}
 
 	/**
