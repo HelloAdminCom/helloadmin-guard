@@ -295,7 +295,10 @@ class Admin_Page {
 			esc_url( add_query_arg( 'ver', (string) filemtime( HELLOADMIN_GUARD_DIR . 'assets/img/icon.svg' ), HELLOADMIN_GUARD_URL . 'assets/img/icon.svg' ) ),
 			esc_html__( 'HelloAdmin Guard', 'helloadmin-guard' )
 		);
-		echo '<p class="hag-intro">' . esc_html__( 'Each setting is off until you turn it on. Read what it does and what may break before you save.', 'helloadmin-guard' ) . '</p>';
+		// The welcome message says the same in more detail; the short line is for admins who removed it.
+		if ( Welcome::hidden() ) {
+			echo '<p class="hag-intro">' . esc_html__( 'Each setting is off until you turn it on. Read what it does and what may break before you save.', 'helloadmin-guard' ) . '</p>';
+		}
 
 		Welcome::render( $tab );
 
@@ -614,7 +617,7 @@ class Admin_Page {
 			esc_url( 'https://github.com/HelloAdminCom/helloadmin-guard/issues' ),
 			esc_html__( 'Report a problem', 'helloadmin-guard' )
 		);
-		printf( '<p><a href="%s">%s</a></p>', esc_url( Welcome::url( 'show' ) ), esc_html__( 'Show the welcome message again', 'helloadmin-guard' ) );
+		printf( '<p><a href="%s">%s</a></p>', esc_url( Welcome::url( 'show', 'about' ) ), esc_html__( 'Show the welcome message again', 'helloadmin-guard' ) );
 		echo '</div>';
 	}
 }
