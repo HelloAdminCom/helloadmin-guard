@@ -75,7 +75,7 @@ msgstr "Без платної версії, без заблокованих на
 
 #: includes/class-admin-page.php:404
 msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
-msgstr "Кожне налаштування пояснює, що воно змінює, що може зламатися і як усе повернути: налаштування безпеки, якого ви не розумієте, теж є ризиком."
+msgstr "Кожне налаштування пояснює, що воно змінює, що може зламатися і як усе повернути. Налаштування безпеки, якого ви не розумієте, — теж ризик."
 
 #: includes/class-admin-page.php:405
 msgid "Need help with your site?"
@@ -391,8 +391,8 @@ msgstr "Сервер відповідає 404 на readme.html, license.txt, wp-
 msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version. This only slows bots down; keeping WordPress and PHP updated is the real fix."
 msgstr "Прибирає версію WordPress із тегу generator у коді сторінок і стрічках, а також із ?ver= у посиланнях на скрипти й стилі ядра. Також прибирає заголовок X-Powered-By з версією PHP. Це лише сповільнює ботів; справжній захист дають лише вчасні оновлення WordPress і PHP."
 
-msgid "I build and maintain this plugin. I am a WordPress and WooCommerce developer with more than 10 years of experience. If your site is slow, shows errors, broke after an update or was hacked, or you simply need someone to look after it, write to me."
-msgstr "Я створюю та підтримую цей плагін. Я розробник WordPress і WooCommerce з досвідом понад 10 років. Якщо ваш сайт повільний, видає помилки, перестав працювати після оновлення або його зламали, чи вам просто потрібна людина, яка за ним стежитиме, напишіть мені."
+msgid "Behind this plugin is one developer with more than 10 years of experience with WordPress and WooCommerce. If your site is slow, shows errors, broke after an update or was hacked, or you simply need someone to look after it, write to me."
+msgstr "За цим плагіном стоїть один розробник із понад 10-річним досвідом роботи з WordPress і WooCommerce. Якщо ваш сайт повільний, видає помилки, перестав працювати після оновлення або його зламали, чи вам просто потрібна людина, яка за ним стежитиме, напишіть мені."
 
 #, php-format
 msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what %s does. Every gap has its own switch, so you decide what to close and what to leave open."
