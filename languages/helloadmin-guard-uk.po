@@ -326,9 +326,6 @@ msgstr "Посилання для завантаження архівів із �
 msgid "Close internal WordPress folders"
 msgstr "Закрити внутрішні папки WordPress"
 
-msgid "The server answers 404 when someone opens PHP files from wp-admin/includes, wp-includes (top level), wp-includes/theme-compat or the TinyMCE language files directly. WordPress only loads them from inside; opened from the browser, some print errors with full server paths. These are the rules from the WordPress hardening guide."
-msgstr "Сервер відповідає 404, коли хтось напряму відкриває PHP-файли з wp-admin/includes, wp-includes (верхній рівень), wp-includes/theme-compat або мовні файли TinyMCE. WordPress завантажує їх лише зсередини; відкриті з браузера, деякі з них показують помилки з повними шляхами на сервері. Це правила з посібника WordPress із захисту сайту."
-
 msgid "Multisite networks that still serve files through wp-includes/ms-files.php (networks created before WordPress 3.5)."
 msgstr "Мережі Multisite, які досі віддають файли через wp-includes/ms-files.php (мережі, створені до WordPress 3.5)."
 
@@ -370,9 +367,6 @@ msgstr "На сайті нічого. На деяких хостингах .htac
 
 msgid "The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes."
 msgstr "Сервер відповідає 404 на readme.html, license.txt, wp-config-sample.php та wp-links-opml.php у корені сайту, на файли readme, changelog та license у папках плагінів і тем, а також на wp-admin/install.php, setup-config.php та upgrade.php (upgrade.php залишається відкритим для тих, хто ввійшов). На сторінках встановлення й оновлення WordPress не завантажує плагіни, тому вони показують версію, навіть коли її сховано деінде. Боти читають усі ці файли, щоб знайти сайти з відомими дірками."
-
-msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version. This only slows bots down; keeping WordPress and PHP updated is the real fix."
-msgstr "Прибирає версію WordPress із тегу generator у коді сторінок і стрічках, а також із ?ver= у посиланнях на скрипти й стилі ядра. Також прибирає заголовок X-Powered-By з версією PHP. Це лише сповільнює ботів; справжній захист дають лише вчасні оновлення WordPress і PHP."
 
 msgid "Behind this plugin is one developer with more than 10 years of experience with WordPress and WooCommerce. If your site is slow, shows errors, broke after an update or was hacked, or you simply need someone to look after it, write to me."
 msgstr "За цим плагіном стоїть один розробник із понад 10-річним досвідом роботи з WordPress і WooCommerce. Якщо ваш сайт повільний, видає помилки, перестав працювати після оновлення або його зламали, чи вам просто потрібна людина, яка за ним стежитиме, напишіть мені."
@@ -524,3 +518,47 @@ msgid_plural "Too many failed login attempts. Try again in %d minutes."
 msgstr[0] "Забагато невдалих спроб входу. Спробуйте знову через %d хвилину."
 msgstr[1] "Забагато невдалих спроб входу. Спробуйте знову через %d хвилини."
 msgstr[2] "Забагато невдалих спроб входу. Спробуйте знову через %d хвилин."
+
+msgid "Optional: the same for Nginx, to add to the server block"
+msgstr "Необов’язково: те саме для Nginx, додати в блок server"
+
+msgid "Also added to .htaccess, so the server answers before PHP starts"
+msgstr "Також додається в .htaccess, щоб сервер відповідав ще до запуску PHP"
+
+msgid "Optional: the same in .htaccess, to add by hand"
+msgstr "Необов’язково: те саме в .htaccess, додати вручну"
+
+msgid "If another plugin or your server already closes a gap, the card says so, and you can leave that switch off."
+msgstr "Якщо прогалину вже закриває інший плагін або сервер, картка це покаже, і цей перемикач можна не вмикати."
+
+msgid "The red number next to HeAd Guard in the menu shows how many gaps are still open."
+msgstr "Червона цифра біля HeAd Guard у меню показує, скільки прогалин ще відкрито."
+
+msgid "The server answers 404 when someone opens PHP files from wp-admin/includes, wp-includes (top level), wp-includes/theme-compat or the TinyMCE language files directly. WordPress only loads them from inside; opened from the browser, some print errors with full server paths. These are the rules from the WordPress hardening guide. Where PHP runs inside the web server (mod_php, LiteSpeed), PHP errors are also hidden from visitors."
+msgstr "Сервер відповідає 404, коли хтось напряму відкриває PHP-файли з wp-admin/includes, wp-includes (верхній рівень), wp-includes/theme-compat або мовні файли TinyMCE. WordPress завантажує їх лише зсередини; відкриті з браузера, деякі з них показують помилки з повними шляхами на сервері. Це правила з посібника WordPress із захисту сайту. Там, де PHP працює всередині веб-сервера (mod_php, LiteSpeed), помилки PHP теж приховуються від відвідувачів."
+
+msgid "PHP on this server shows errors to visitors (display_errors is on in php.ini). The rules below turn it off where the server allows it; otherwise ask the host to turn it off."
+msgstr "PHP на цьому сервері показує помилки відвідувачам (display_errors увімкнено в php.ini). Правила нижче вимикають це там, де сервер дозволяє; інакше попросіть хостинг вимкнути display_errors."
+
+msgid "Hide the REST API index"
+msgstr "Сховати корінь REST API"
+
+msgid "For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working."
+msgstr "Відвідувачі, які не ввійшли, більше не бачать у /wp-json/ список namespace і маршрутів REST API. За цим списком видно більшість установлених плагінів (yoast/v1, wc/v3, contact-form-7/v1). Корені namespace на кшталт /wp-json/yoast/v1 відповідають 404 так само, як для невстановленого плагіна, тому бот не може перевіряти назви плагінів по одній. Заголовок Link і тег <link>, що вказують на API, теж прибираються. Сам API працює як раніше."
+
+msgid "Tools that discover the API by reading the index or the Link header without logging in, for example some headless front ends or API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see \"Hide files that show versions\"."
+msgstr "Інструменти, які знаходять API за коренем або заголовком Link без входу, наприклад деякі headless-фронтенди або оглядачі API. Форми, магазини, редактор блоків і мобільний застосунок звертаються до маршрутів напряму й далі працюють. Бот, який знає точний маршрут плагіна, усе одно отримає відповідь, а назви плагінів залишаються видимими в коді сторінки (/wp-content/plugins/...): налаштування прибирає готовий список, а не самі плагіни. Найважливіше сховати версію плагіна, див. «Сховати файли, що видають версії»."
+
+msgid "Turn this off and save. The index and the links come back at once."
+msgstr "Вимкніть це налаштування і збережіть. Корінь API та посилання одразу повернуться."
+
+msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version and, on Apache and LiteSpeed, the server version on error pages. This only slows bots down; keeping WordPress and PHP updated is the real fix."
+msgstr "Прибирає версію WordPress із тегу generator у коді сторінок і стрічках, а також із ?ver= у посиланнях на скрипти й стилі ядра. Також прибирає заголовок X-Powered-By з версією PHP, а на Apache та LiteSpeed ще й версію сервера на сторінках помилок. Це лише сповільнює ботів; справжній захист дають лише вчасні оновлення WordPress і PHP."
+
+#, php-format
+msgid "The public name is the login for: %s. Anyone can read it under posts and comments. Change \"Display name publicly as\" in Users > Profile."
+msgstr "Публічне ім’я збігається з логіном для: %s. Його видно під записами й коментарями. Змініть «Показувати як» у розділі Користувачі > Профіль."
+
+#, php-format
+msgid "The author page address contains the login for: %s (/author/login/). This setting hides it from the sitemap and ?author=N, but the page itself stays. WordPress has no screen to change this address."
+msgstr "Адреса сторінки автора містить логін для: %s (/author/логін/). Це налаштування прибирає її з карти сайту та ?author=N, але сама сторінка залишається. У WordPress немає екрана, щоб змінити цю адресу."

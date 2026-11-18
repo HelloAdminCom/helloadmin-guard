@@ -40,7 +40,7 @@ class Hide_Wp_Version extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version. This only slows bots down; keeping WordPress and PHP updated is the real fix.', 'helloadmin-guard' );
+		return __( 'Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version and, on Apache and LiteSpeed, the server version on error pages. This only slows bots down; keeping WordPress and PHP updated is the real fix.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -89,6 +89,8 @@ class Hide_Wp_Version extends Feature {
 			'Header unset X-Powered-By',
 			'Header always unset X-Powered-By',
 			'</IfModule>',
+			'# No server name and version on error pages made by the server itself.',
+			'ServerSignature Off',
 		);
 	}
 

@@ -157,6 +157,8 @@ class Welcome {
 		echo '<ul class="hag-checks">';
 		echo '<li>' . esc_html__( 'Nothing is on until you turn it on.', 'helloadmin-guard' ) . '</li>';
 		echo '<li>' . esc_html__( 'Every switch tells you what it does, what may stop working and how to undo it.', 'helloadmin-guard' ) . '</li>';
+		echo '<li>' . esc_html__( 'If another plugin or your server already closes a gap, the card says so, and you can leave that switch off.', 'helloadmin-guard' ) . '</li>';
+		echo '<li>' . esc_html__( 'The red number next to HeAd Guard in the menu shows how many gaps are still open.', 'helloadmin-guard' ) . '</li>';
 		echo '<li>' . esc_html__( 'The plugin is free and will stay free: no Pro version, no account, no data sent anywhere.', 'helloadmin-guard' ) . '</li>';
 		echo '<li>' . esc_html__( 'Every new version closes more gaps, so keep the plugin updated.', 'helloadmin-guard' ) . '</li>';
 		echo '</ul>';
