@@ -255,3 +255,113 @@ msgstr "Програми або скрипти, що читають список
 msgid "Sorry, you are not allowed to list users."
 msgstr "Вибачте, вам не дозволено переглядати список користувачів."
 
+msgid "Files the server should not give out"
+msgstr "Файли, які сервер не повинен віддавати"
+
+msgid "Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead."
+msgstr "Серверні правила не збережено: це не Apache і не LiteSpeed, тому плагін не може їх записати. Скопіюйте правила з кожної картки в конфігурацію сервера."
+
+msgid "Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable."
+msgstr "Серверні правила не збережено: WordPress не може записати файл .htaccess. Скопіюйте правила з кожної картки в .htaccess вручну або попросіть хостинг дозволити запис у файл."
+
+msgid "Server rules were not saved: writing the .htaccess file failed. Nothing was changed."
+msgstr "Серверні правила не збережено: не вдалося записати файл .htaccess. Нічого не змінено."
+
+msgid "Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules."
+msgstr "Серверні правила не збережено: після запису головна сторінка відповіла помилкою сервера, тому старий файл .htaccess повернуто. Можливо, сервер не підтримує одне з правил."
+
+msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
+msgstr "Серверні правила збережено, але плагін не зміг відкрити головну сторінку, щоб їх перевірити (деякі хостинги блокують такі запити). Відкрийте сайт у новій вкладці й переконайтеся, що він працює."
+
+msgid "Rules to add to the server block, above the PHP location"
+msgstr "Правила для блоку server, над location для PHP"
+
+msgid "Rules to add to .htaccess by hand"
+msgstr "Правила, які треба додати в .htaccess вручну"
+
+msgid "Rules the plugin adds to .htaccess"
+msgstr "Правила, які плагін додає в .htaccess"
+
+msgid "This setting needs Apache, LiteSpeed or Nginx."
+msgstr "Для цього налаштування потрібен Apache, LiteSpeed або Nginx."
+
+msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
+msgstr "Деякі налаштування на цій вкладці записують правила в файл .htaccess у корені сайту. Перед кожною зміною плагін зберігає копію файлу, а потім відкриває головну сторінку; якщо вона відповідає помилкою сервера, старий файл повертається."
+
+msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
+msgstr "WordPress не може записати файл .htaccess на цьому сайті, тому правила нижче тут не ввімкнути. Скопіюйте їх у .htaccess вручну або попросіть хостинг дозволити запис у файл."
+
+msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
+msgstr "Цей сайт працює на Nginx, а він не читає файли .htaccess. Скопіюйте правила з кожної картки в блок server вашого сайту або надішліть їх хостингу."
+
+msgid "The server rules below need Apache, LiteSpeed or Nginx."
+msgstr "Для серверних правил нижче потрібен Apache, LiteSpeed або Nginx."
+
+msgid "Show the welcome message again"
+msgstr "Показати привітання ще раз"
+
+msgid "Turn this off and save: the plugin removes its lines from .htaccess. If the site does not open at all, delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\" in the .htaccess file over FTP or in the hosting file manager."
+msgstr "Вимкніть це налаштування і збережіть: плагін прибере свої рядки з .htaccess. Якщо сайт зовсім не відкривається, видаліть усе між \"# BEGIN HelloAdmin Guard\" та \"# END HelloAdmin Guard\" у файлі .htaccess через FTP або файловий менеджер хостингу."
+
+msgid "Hide the welcome message"
+msgstr "Сховати привітання"
+
+msgid "Hello, admin or developer!"
+msgstr "Привіт, адміне чи розробнику!"
+
+msgid "A fresh WordPress leaves a few doors open: anyone can find your user names, your WordPress version and your login page. HelloAdmin Guard closes them, one switch at a time."
+msgstr "Свіжий WordPress залишає відчиненими кілька дверей: будь-хто може дізнатися імена користувачів, версію WordPress і адресу сторінки входу. HelloAdmin Guard зачиняє їх, по одному перемикачу за раз."
+
+msgid "Nothing is on until you turn it on."
+msgstr "Нічого не ввімкнено, доки ви самі цього не ввімкнете."
+
+msgid "Every switch tells you what it does, what may stop working and how to undo it."
+msgstr "Кожен перемикач пояснює, що він робить, що може перестати працювати й як усе повернути."
+
+msgid "Free, no Pro version, no account. The plugin sends nothing anywhere."
+msgstr "Безкоштовно, без Pro-версії та без акаунта. Плагін нікуди нічого не надсилає."
+
+msgid "A good place to start: the Login group below."
+msgstr "З чого почати: група «Вхід» нижче."
+
+msgid "Got it"
+msgstr "Зрозуміло"
+
+msgid "Block hidden files, backups and logs"
+msgstr "Закрити приховані файли, бекапи та логи"
+
+msgid "The server answers 404 for files and folders that start with a dot (.git, .env, .htpasswd), database dumps and backups (.sql, .bak, .old, wp-config.php copies), logs (debug.log) and Composer or npm files. One forgotten file like this can give away passwords or the whole database."
+msgstr "Сервер відповідає 404 на файли й папки, що починаються з крапки (.git, .env, .htpasswd), дампи бази даних і резервні копії (.sql, .bak, .old, копії wp-config.php), логи (debug.log) і файли Composer або npm. Один такий забутий файл може видати паролі або всю базу даних."
+
+msgid "Download links to .sql, .bak or .log files, if you share such files on purpose. /.well-known/ stays open: SSL certificates and app links need it."
+msgstr "Посилання для завантаження файлів .sql, .bak або .log, якщо ви навмисно ділитеся такими файлами. /.well-known/ залишається відкритим: він потрібен для SSL-сертифікатів і посилань на застосунки."
+
+msgid "Hide readme and changelog files"
+msgstr "Сховати файли readme та changelog"
+
+msgid "The server answers 404 for readme.html, license.txt and wp-config-sample.php in the site root and for readme, changelog and license files inside plugin and theme folders. These files show exact versions, and bots read them to find sites with known holes."
+msgstr "Сервер відповідає 404 на readme.html, license.txt та wp-config-sample.php у корені сайту, а також на файли readme, changelog та license у папках плагінів і тем. Ці файли показують точні версії, і боти читають їх, щоб знайти сайти з відомими дірками."
+
+msgid "Nothing on the site itself: WordPress and browsers do not need these files. Online scanners that guess plugin versions from readme.txt will see less."
+msgstr "На самому сайті нічого: WordPress і браузерам ці файли не потрібні. Онлайн-сканери, які вгадують версії плагінів за readme.txt, побачать менше."
+
+msgid "HTTPS only (HSTS)"
+msgstr "Тільки HTTPS (HSTS)"
+
+msgid "Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Sent only when the page itself is loaded over HTTPS. Subdomains are not affected."
+msgstr "Додає заголовок Strict-Transport-Security: після першого візиту браузери рік відкривають ваш сайт лише через HTTPS, навіть якщо хтось набере http:// або публічний Wi-Fi спробує підсунути незахищену версію. Надсилається лише тоді, коли сама сторінка завантажена через HTTPS. Піддомени це не зачіпає."
+
+msgid "If the SSL certificate expires or HTTPS stops working, visitors who have been to the site cannot open it at all, there is no \"continue anyway\" button. Turn this on only when HTTPS works on every page and the certificate renews by itself."
+msgstr "Якщо SSL-сертифікат закінчиться або HTTPS перестане працювати, відвідувачі, які вже були на сайті, не зможуть його відкрити взагалі: кнопки «все одно продовжити» не буде. Вмикайте це, лише коли HTTPS працює на всіх сторінках, а сертифікат оновлюється сам."
+
+msgid "Turn this off and save: the header is no longer sent. Browsers that already got it keep using HTTPS until the year runs out, this cannot be taken back from the site."
+msgstr "Вимкніть це налаштування і збережіть: заголовок більше не надсилатиметься. Браузери, які вже його отримали, використовуватимуть HTTPS, доки не мине рік; скасувати це з боку сайту неможливо."
+
+msgid "No PHP in the uploads folder"
+msgstr "Без PHP у папці uploads"
+
+msgid "The server answers 404 to any PHP file in the uploads folder. If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
+msgstr "Сервер відповідає 404 на будь-який PHP-файл у папці uploads. Якщо слабкий плагін або форма дозволить комусь завантажити туди PHP-файл, його не вдасться відкрити з браузера."
+
+msgid "A rare plugin that keeps its own PHP scripts in the uploads folder and opens them from the browser. Images, PDFs and other uploads work as before."
+msgstr "Рідкісний плагін, який тримає власні PHP-скрипти в папці uploads і відкриває їх із браузера. Зображення, PDF та інші завантаження працюють як раніше."

@@ -2,7 +2,7 @@
 .hag-intro { max-width: 760px; }
 .hag-cards .hag-card { max-width: none; margin: 0; }
 
-.hag-heading { display: flex; align-items: center; gap: 10px; }
+.hag-heading { display: flex; align-items: center; gap: 5px; }
 .hag-logo { align-self: center; }
 
 .hag-group {
