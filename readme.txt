@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ Not yet. The custom login URL does nothing on multisite; the other settings are 
 No. It makes no requests to outside servers. The only request it makes is to your own home page, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
 
 == Changelog ==
+
+= 0.2.1 =
+* Every card on the Advanced tab links to its own section of a new article about server rules.
 
 = 0.2.0 =
 * Advanced tab with server rules in .htaccess: hidden files, backups, PHP in uploads, logs, folder listings, internal folders, files that show versions, developer files. Copy of the file before each change, automatic rollback on a server error.

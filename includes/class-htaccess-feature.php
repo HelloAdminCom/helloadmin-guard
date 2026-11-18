@@ -48,6 +48,27 @@ abstract class Htaccess_Feature extends Feature {
 	}
 
 	/**
+	 * Post on helloadmin.com that explains every server rule, one section per card.
+	 */
+	const ARTICLE = 'https://helloadmin.com/wordpress-files-bots-look-for-server-rules/';
+
+	/**
+	 * Section of the article for this card, without "#".
+	 *
+	 * @return string
+	 */
+	abstract public function anchor();
+
+	/**
+	 * Every server rule card links to its own section of the article.
+	 *
+	 * @return string
+	 */
+	public function learn_more() {
+		return self::ARTICLE . '#' . $this->anchor();
+	}
+
+	/**
 	 * Common undo text for all server rules.
 	 *
 	 * @return string

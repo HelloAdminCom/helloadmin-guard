@@ -53,6 +53,15 @@ class Block_Hidden_Files extends Htaccess_Feature {
 	}
 
 	/**
+	 * Section of the server rules article.
+	 *
+	 * @return string
+	 */
+	public function anchor() {
+		return 'hidden-files';
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string

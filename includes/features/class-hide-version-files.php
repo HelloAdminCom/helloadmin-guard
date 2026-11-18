@@ -54,12 +54,12 @@ class Hide_Version_Files extends Htaccess_Feature {
 	}
 
 	/**
-	 * Article with details.
+	 * Section of the server rules article.
 	 *
 	 * @return string
 	 */
-	public function learn_more() {
-		return 'https://helloadmin.com/wordpress-site-from-the-outside-12-checks/#plugins';
+	public function anchor() {
+		return 'version-files';
 	}
 
 	/**

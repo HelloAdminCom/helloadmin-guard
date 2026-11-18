@@ -53,6 +53,15 @@ class Disable_Listing extends Htaccess_Feature {
 	}
 
 	/**
+	 * Section of the server rules article.
+	 *
+	 * @return string
+	 */
+	public function anchor() {
+		return 'folder-listing';
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string

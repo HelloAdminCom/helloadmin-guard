@@ -107,7 +107,7 @@ class Hsts extends Feature {
 	 * @return string
 	 */
 	public function learn_more() {
-		return 'https://helloadmin.com/wordpress-site-from-the-outside-12-checks/#https';
+		return \HelloAdmin\Guard\Htaccess_Feature::ARTICLE . '#hsts';
 	}
 
 	/**

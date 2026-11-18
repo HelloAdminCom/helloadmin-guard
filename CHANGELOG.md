@@ -4,6 +4,11 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-18
+
+### Changed
+- Every card on the Advanced tab ("Learn more") links to its own section of the article "Files bots look for on a WordPress site, and the server rules that close them" (helloadmin.com), with UTM tags.
+
 ## [0.2.0] - 2026-11-18
 
 Advanced tab with server rules, settings ordered by risk.

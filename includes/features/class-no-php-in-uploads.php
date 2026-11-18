@@ -54,12 +54,12 @@ class No_Php_In_Uploads extends Htaccess_Feature {
 	}
 
 	/**
-	 * Article with details.
+	 * Section of the server rules article.
 	 *
 	 * @return string
 	 */
-	public function learn_more() {
-		return 'https://helloadmin.com/harden-wordpress-file-permissions-and-disable-php-execution-in-uploads/';
+	public function anchor() {
+		return 'php-in-uploads';
 	}
 
 	/**

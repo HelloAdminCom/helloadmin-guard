@@ -74,6 +74,15 @@ class Block_Dev_Files extends Htaccess_Feature {
 	}
 
 	/**
+	 * Section of the server rules article.
+	 *
+	 * @return string
+	 */
+	public function anchor() {
+		return 'dev-files';
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string

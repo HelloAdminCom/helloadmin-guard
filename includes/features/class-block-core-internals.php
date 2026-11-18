@@ -53,6 +53,15 @@ class Block_Core_Internals extends Htaccess_Feature {
 	}
 
 	/**
+	 * Section of the server rules article.
+	 *
+	 * @return string
+	 */
+	public function anchor() {
+		return 'core-folders';
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string
