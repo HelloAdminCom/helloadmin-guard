@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ What makes it different:
 
 = Settings in this version =
 
-The settings are listed from the biggest risk down to the cheap rules, and every card shows how bad the gap is while it is off.
+The settings are listed from the biggest risk down to the cheap rules. The plugin checks what your site really answers to visitors and shows on every card whether the gap is closed by this plugin, already closed by another plugin or the server, or still open. The number of open gaps shows next to the menu item and in Site Health.
 
 General tab
 
@@ -32,7 +32,9 @@ General tab
 * Hide user names. Closes /?author=1, the REST API user list, oEmbed author links and the users sitemap for visitors who are not logged in.
 * Turn off Application Passwords. They stop working for everyone; existing passwords are kept and work again when you turn the setting off.
 * Security headers. X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy.
+* Limit login attempts. Too many failed logins from one IP address lock it out for a while.
 * Hide the WordPress version. Removes it from the generator tag, feeds and core file links, and removes the X-Powered-By header.
+* Hide the REST API index. /wp-json/ no longer lists installed plugins to visitors.
 
 Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Nginx shows them to copy)
 
@@ -64,7 +66,11 @@ Rename the folder wp-content/plugins/helloadmin-guard over FTP or in your hostin
 
 = Does it work together with other security plugins? =
 
-Yes, but do not turn on the same protection in two plugins. Two plugins that both change the login URL, for example, will get in each other's way.
+Yes. The plugin checks what the site answers, so when Wordfence, Solid Security or your host already closes a gap, the card says so and you can leave that switch off. Do not turn on the same login URL change in two plugins: they will get in each other's way.
+
+= Is there a command line? =
+
+Yes: wp helloadmin-guard status, check, enable and disable.
 
 = Does it work on multisite? =
 
@@ -75,6 +81,13 @@ Not yet. The custom login URL does nothing on multisite; the other settings are 
 No. It makes no requests to outside servers. The only request it makes is to your own home page, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
 
 == Changelog ==
+
+= 0.3.0 =
+* Checks every gap from outside and shows on each card whether it is closed by this plugin, by another plugin or the server, or still open.
+* Number of open gaps in the admin menu and in Site Health.
+* Limit login attempts. Hide the REST API index. WP-CLI commands.
+* General settings also write their server rules into .htaccess.
+* The login form no longer tells which part of a login was wrong.
 
 = 0.2.1 =
 * Every card on the Advanced tab links to its own section of a new article about server rules.

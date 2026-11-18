@@ -4,6 +4,28 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-18
+
+The plugin now checks what the site really answers and shows it on every card.
+
+### Added
+- Every gap is checked from outside, as a visitor who is not logged in (requests from the site to itself; for server rules a few harmless test files in a temporary folder in uploads, removed right after). The result shows on each card: closed by this plugin, already closed by another plugin or the server (with the likely plugin named), open (with the risk), not working, or not needed. Results are kept for a day; "Check again" runs it at once; it runs by itself after the settings are saved.
+- "I do not need this on this site": a gap marked like that stops counting as open.
+- The number of open gaps next to HeAd Guard in the admin menu (like pending comments), with a setting to turn it off.
+- Site Health item: the number of open gaps with a link to the settings page.
+- Limit login attempts: after too many failed logins from one IP address (3 to 20, default 5) every login from it is refused for a while (5 to 1440 minutes, default 15), also on XML-RPC and REST API logins.
+- Hide the REST API index: /wp-json/ lists no namespaces and routes to visitors; namespace roots answer exactly like a missing namespace; no Link header and <link> tag.
+- WP-CLI: wp helloadmin-guard status, check, enable, disable.
+- Warnings on cards: public names and author addresses that show the login; display_errors turned on in php.ini.
+- General settings also write their server rules into .htaccess (Apache, LiteSpeed): XML-RPC refused before PHP, POST to /wp-login.php refused, security headers and HSTS also on static files, X-Powered-By and the server signature removed. PHP does not send headers the server already sends.
+- Welcome message: lines about gaps closed by other plugins and the menu number.
+
+### Changed
+- Hide user names: the login form gives one answer for a wrong user name and a wrong password; "Lost your password?" shows the same page whether the user exists or not.
+- Card head in one line: switch, title and one status label; the risk shows while the gap is open.
+- Close internal WordPress folders also turns off PHP errors for visitors where PHP runs inside the web server.
+- "Show the welcome message again" stays on the About tab; the short intro line shows only when the welcome message is removed.
+
 ## [0.2.1] - 2026-11-18
 
 ### Changed
