@@ -88,8 +88,9 @@ class Status {
 	}
 
 	/**
-	 * After a save, forgets only the results of the settings that were switched or edited and marks the rest as due
-	 * for a new check. The menu number then stays right while the page checks again, instead of jumping up for a moment.
+	 * After a save, marks the settings that were switched or edited as due for a new check and forgets their old
+	 * results. The other results stay. The check runs on the next load of the settings page (run_pending()), not
+	 * here: in this request the plugin still works with the old settings.
 	 *
 	 * @param mixed $old_value Option value before the save.
 	 * @param mixed $new_value Option value after the save.
@@ -102,23 +103,51 @@ class Status {
 		}
 		$old_value = is_array( $old_value ) ? $old_value : array();
 		$new_value = is_array( $new_value ) ? $new_value : array();
+		$pending   = isset( $data['pending'] ) ? $data['pending'] : array();
 		foreach ( array( 'enabled', 'fields' ) as $key ) {
 			$before = isset( $old_value[ $key ] ) && is_array( $old_value[ $key ] ) ? $old_value[ $key ] : array();
 			$after  = isset( $new_value[ $key ] ) && is_array( $new_value[ $key ] ) ? $new_value[ $key ] : array();
 			foreach ( array_keys( $before + $after ) as $id ) {
 				if ( ( isset( $before[ $id ] ) ? $before[ $id ] : null ) !== ( isset( $after[ $id ] ) ? $after[ $id ] : null ) ) {
 					unset( $data['closed'][ $id ] );
+					$pending[] = (string) $id;
 				}
 			}
 		}
-		$data['stale'] = true;
+		if ( $pending ) {
+			$data['pending'] = array_values( array_unique( $pending ) );
+			set_transient( self::CACHE, $data, self::TTL );
+		}
+	}
+
+	/**
+	 * Checks only the settings changed by the last save, so the settings page shows the right state at once,
+	 * without a second page load.
+	 *
+	 * @return void
+	 */
+	public function run_pending() {
+		$data = self::cached();
+		if ( null === $data || empty( $data['pending'] ) ) {
+			return;
+		}
+		try {
+			foreach ( $data['pending'] as $id ) {
+				if ( isset( $this->features[ $id ] ) ) {
+					$data['closed'][ $id ] = $this->features[ $id ]->probe();
+				}
+			}
+		} finally {
+			Probe::cleanup();
+		}
+		unset( $data['pending'] );
 		set_transient( self::CACHE, $data, self::TTL );
 	}
 
 	/**
 	 * Stored results, or null when there are none or they are older than a day.
 	 *
-	 * @return array{time: int, closed: array<string, bool|null>, stale?: bool}|null
+	 * @return array{time: int, closed: array<string, bool|null>, pending?: string[]}|null
 	 */
 	public static function cached() {
 		$data = get_transient( self::CACHE );
@@ -230,7 +259,7 @@ class Status {
 		return array(
 			'checkAction' => self::AJAX,
 			'checkNonce'  => wp_create_nonce( self::NONCE ),
-			'checkNeeded' => null === self::cached() || ! empty( self::cached()['stale'] ),
+			'checkNeeded' => null === self::cached(),
 		);
 	}
 }

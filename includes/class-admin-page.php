@@ -94,6 +94,11 @@ class Admin_Page {
 	 * @return void
 	 */
 	public function add_menu() {
+		global $plugin_page;
+		// On the settings page, check what the last save changed before the menu number is counted.
+		if ( self::SLUG === $plugin_page ) {
+			$this->status->run_pending();
+		}
 		add_menu_page(
 			__( 'HelloAdmin Guard', 'helloadmin-guard' ),
 			$this->menu_title(),

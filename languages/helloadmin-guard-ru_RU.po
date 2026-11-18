@@ -98,8 +98,8 @@ msgid "Application Passwords let apps log in to the REST API without the login p
 msgstr "Пароли приложений позволяют программам входить через REST API без страницы входа и без двухфакторной проверки. Эта настройка отключает их для всех пользователей и прячет раздел в профилях. Созданные пароли сохраняются, они просто перестают работать."
 
 #: includes/features/class-disable-app-passwords.php:47
-msgid "The WordPress mobile app on sites without Jetpack, Zapier, Make and other services connected with an application password, and your own scripts that publish through the REST API stop working."
-msgstr "Перестанут работать мобильное приложение WordPress на сайтах без Jetpack, Zapier, Make и другие сервисы, подключённые через пароль приложения, а также ваши скрипты, которые публикуют записи через REST API."
+msgid "If you log in to the WordPress mobile app without Jetpack, connect Zapier, Make or other services with an application password, or publish posts with your own scripts through the REST API, that stops working. The app connected through Jetpack keeps working."
+msgstr "Если вы входите в мобильное приложение WordPress без Jetpack, подключаете Zapier, Make или другие сервисы через пароль приложения или публикуете записи своими скриптами через REST API, это перестанет работать. Приложение, подключённое через Jetpack, продолжит работать."
 
 #: includes/features/class-disable-app-passwords.php:54
 msgid "Turn this off and save. The existing application passwords work again; nobody needs to create new ones."
