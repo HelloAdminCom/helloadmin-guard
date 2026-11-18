@@ -78,6 +78,36 @@ class Disable_Xmlrpc extends Feature {
 	}
 
 	/**
+	 * The same at the server level, before PHP starts (also for static files).
+	 *
+	 * @return string[]
+	 */
+	public function apache_rules() {
+		return array(
+			'<Files xmlrpc.php>',
+			'<IfModule mod_authz_core.c>',
+			'Require all denied',
+			'</IfModule>',
+			'<IfModule !mod_authz_core.c>',
+			'Order deny,allow',
+			'Deny from all',
+			'</IfModule>',
+			'</Files>',
+		);
+	}
+
+	/**
+	 * Nginx version, shown to copy.
+	 *
+	 * @return string[]
+	 */
+	public function nginx_rules() {
+		return array(
+			'location = /' . ltrim( (string) wp_parse_url( site_url( 'xmlrpc.php' ), PHP_URL_PATH ), '/' ) . ' { return 403; }',
+		);
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string

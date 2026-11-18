@@ -79,6 +79,31 @@ class Hide_Wp_Version extends Feature {
 	}
 
 	/**
+	 * The same at the server level, before PHP starts (also for static files).
+	 *
+	 * @return string[]
+	 */
+	public function apache_rules() {
+		return array(
+			'<IfModule mod_headers.c>',
+			'Header unset X-Powered-By',
+			'Header always unset X-Powered-By',
+			'</IfModule>',
+		);
+	}
+
+	/**
+	 * Nginx version, shown to copy.
+	 *
+	 * @return string[]
+	 */
+	public function nginx_rules() {
+		return array(
+			'# In php.ini: expose_php = Off. In nginx.conf: server_tokens off;',
+		);
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string

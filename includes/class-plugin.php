@@ -124,7 +124,7 @@ final class Plugin {
 	public function sync_htaccess( $remove = false ) {
 		$on = array();
 		foreach ( $this->features as $id => $feature ) {
-			if ( ! $remove && $feature instanceof Htaccess_Feature && $this->settings->is_enabled( $id ) ) {
+			if ( ! $remove && $feature->apache_rules() && $this->settings->is_enabled( $id ) ) {
 				$on[] = $feature;
 			}
 		}

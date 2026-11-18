@@ -107,6 +107,25 @@ abstract class Feature {
 	}
 
 	/**
+	 * Optional Apache rules (written into .htaccess) that do the same before PHP starts, also for static files.
+	 * Settings on the General tab keep working without them; on the Advanced tab the rules are the setting.
+	 *
+	 * @return string[]
+	 */
+	public function apache_rules() {
+		return array();
+	}
+
+	/**
+	 * The same rules for Nginx, shown to copy.
+	 *
+	 * @return string[]
+	 */
+	public function nginx_rules() {
+		return array();
+	}
+
+	/**
 	 * Things on this site the setting cannot fix by itself, shown on the card as warnings.
 	 *
 	 * @return string[]

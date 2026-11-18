@@ -99,6 +99,30 @@ class Hsts extends Feature {
 	}
 
 	/**
+	 * The same at the server level, before PHP starts (also for static files).
+	 *
+	 * @return string[]
+	 */
+	public function apache_rules() {
+		return array(
+			'<IfModule mod_headers.c>',
+			'Header set Strict-Transport-Security "' . self::VALUE . '"',
+			'</IfModule>',
+		);
+	}
+
+	/**
+	 * Nginx version, shown to copy.
+	 *
+	 * @return string[]
+	 */
+	public function nginx_rules() {
+		return array(
+			'add_header Strict-Transport-Security "' . self::VALUE . '" always;',
+		);
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string
@@ -143,7 +167,7 @@ class Hsts extends Feature {
 	 * @return void
 	 */
 	public function send() {
-		if ( ! is_ssl() || headers_sent() ) {
+		if ( ! is_ssl() || headers_sent() || \HelloAdmin\Guard\Htaccess::written( $this->id() ) ) {
 			return;
 		}
 		foreach ( headers_list() as $line ) {

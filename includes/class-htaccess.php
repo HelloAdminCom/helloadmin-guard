@@ -25,6 +25,35 @@ class Htaccess {
 	const BACKUP_OPTION = 'helloadmin_guard_htaccess_backup';
 
 	/**
+	 * Option with the ids of the settings whose rules are in .htaccess now. PHP skips headers the server already sends.
+	 */
+	const WRITTEN_OPTION = 'helloadmin_guard_rules_written';
+
+	/**
+	 * Are this setting's rules in .htaccess right now?
+	 *
+	 * @param string $id Setting id.
+	 * @return bool
+	 */
+	public static function written( $id ) {
+		return in_array( $id, (array) get_option( self::WRITTEN_OPTION, array() ), true );
+	}
+
+	/**
+	 * Remembers which settings have their rules in the file.
+	 *
+	 * @param Feature[] $features Features whose rules were written.
+	 * @return void
+	 */
+	private static function remember( array $features ) {
+		$ids = array();
+		foreach ( $features as $feature ) {
+			$ids[] = $feature->id();
+		}
+		update_option( self::WRITTEN_OPTION, $ids, true );
+	}
+
+	/**
 	 * Web server type: apache (also LiteSpeed), nginx or other.
 	 *
 	 * @return string
@@ -72,7 +101,7 @@ class Htaccess {
 	/**
 	 * Lines of the block for the given features, each part signed with the feature id.
 	 *
-	 * @param Htaccess_Feature[] $features Enabled features.
+	 * @param Feature[] $features Enabled features.
 	 * @return string[]
 	 */
 	public static function lines( array $features ) {
@@ -89,7 +118,7 @@ class Htaccess {
 	/**
 	 * Writes the block for the given features (an empty list removes it) and checks that the site still opens.
 	 *
-	 * @param Htaccess_Feature[] $features Enabled features.
+	 * @param Feature[] $features Enabled features.
 	 * @return true|\WP_Error Error codes: not_apache, not_writable, write_failed, site_broken (file restored),
 	 *                        not_checked (rules kept, but the home page could not be loaded to check them).
 	 */
@@ -105,6 +134,7 @@ class Htaccess {
 		$before = $fs->exists( $path ) ? (string) $fs->get_contents( $path ) : '';
 		$after  = self::build( $before, $lines );
 		if ( $after === $before ) {
+			self::remember( $features );
 			return true;
 		}
 		if ( ! self::writable() ) {
@@ -126,6 +156,7 @@ class Htaccess {
 		}
 
 		if ( ! $lines ) {
+			self::remember( array() );
 			return true;
 		}
 		$check = self::site_responds();
@@ -133,6 +164,7 @@ class Htaccess {
 			$fs->put_contents( $path, $before, $mode );
 			return new \WP_Error( 'site_broken' );
 		}
+		self::remember( $features );
 		return null === $check ? new \WP_Error( 'not_checked' ) : true;
 	}
 

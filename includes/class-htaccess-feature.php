@@ -16,20 +16,6 @@ defined( 'ABSPATH' ) || exit;
 abstract class Htaccess_Feature extends Feature {
 
 	/**
-	 * Apache rules, one line per item, without the BEGIN/END markers.
-	 *
-	 * @return string[]
-	 */
-	abstract public function apache_rules();
-
-	/**
-	 * The same rules for Nginx, shown to copy into the server block.
-	 *
-	 * @return string[]
-	 */
-	abstract public function nginx_rules();
-
-	/**
 	 * Server rules live on the Advanced tab.
 	 *
 	 * @return string

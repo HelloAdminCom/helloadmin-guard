@@ -82,6 +82,33 @@ class Security_Headers extends Feature {
 	}
 
 	/**
+	 * The same at the server level, before PHP starts (also for static files).
+	 *
+	 * @return string[]
+	 */
+	public function apache_rules() {
+		$lines = array( '<IfModule mod_headers.c>' );
+		foreach ( self::headers() as $name => $value ) {
+			$lines[] = 'Header set ' . $name . ' "' . $value . '"';
+		}
+		$lines[] = '</IfModule>';
+		return $lines;
+	}
+
+	/**
+	 * Nginx version, shown to copy.
+	 *
+	 * @return string[]
+	 */
+	public function nginx_rules() {
+		$lines = array();
+		foreach ( self::headers() as $name => $value ) {
+			$lines[] = 'add_header ' . $name . ' "' . $value . '" always;';
+		}
+		return $lines;
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string
@@ -144,6 +171,10 @@ class Security_Headers extends Feature {
 		$present = array();
 		foreach ( headers_list() as $line ) {
 			$present[] = strtolower( trim( strstr( $line, ':', true ) ) );
+		}
+		// The same headers in .htaccess: Apache with PHP-FPM would send both copies.
+		if ( \HelloAdmin\Guard\Htaccess::written( $this->id() ) ) {
+			return;
 		}
 		foreach ( self::headers() as $name => $value ) {
 			if ( ! in_array( strtolower( $name ), $present, true ) ) {

@@ -157,7 +157,7 @@ class Cli {
 
 		$rules = array();
 		foreach ( $this->features as $id => $feature ) {
-			if ( $feature instanceof Htaccess_Feature && ! empty( $option['enabled'][ $id ] ) ) {
+			if ( $feature->apache_rules() && ! empty( $option['enabled'][ $id ] ) ) {
 				$rules[ $id ] = $feature;
 			}
 		}
@@ -168,8 +168,8 @@ class Cli {
 		}
 		$result = Htaccess::sync( $rules );
 		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
-			foreach ( array_keys( $rules ) as $id ) {
-				if ( in_array( $id, $ids, true ) ) {
+			foreach ( $rules as $id => $feature ) {
+				if ( $feature instanceof Htaccess_Feature && in_array( $id, $ids, true ) ) {
 					unset( $option['enabled'][ $id ] );
 				}
 			}

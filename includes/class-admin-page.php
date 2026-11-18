@@ -205,7 +205,7 @@ class Admin_Page {
 		} else {
 			$clean['prefs'] = isset( $stored['prefs'] ) && is_array( $stored['prefs'] ) ? $stored['prefs'] : array();
 		}
-		return 'advanced' === $tab ? $this->apply_htaccess( $clean ) : $clean;
+		return $this->apply_htaccess( $clean );
 	}
 
 	/**
@@ -224,7 +224,7 @@ class Admin_Page {
 
 		$on = array();
 		foreach ( $this->features as $id => $feature ) {
-			if ( $feature instanceof Htaccess_Feature && ! empty( $clean['enabled'][ $id ] ) ) {
+			if ( $feature->apache_rules() && ! empty( $clean['enabled'][ $id ] ) ) {
 				$on[ $id ] = $feature;
 			}
 		}
@@ -239,9 +239,12 @@ class Admin_Page {
 				'not_checked'  => __( 'Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works.', 'helloadmin-guard' ),
 			);
 			$code     = (string) $result->get_error_code();
+			// Server rule settings (Advanced tab) stay off; General settings keep working in PHP without their rules.
 			if ( 'not_checked' !== $code ) {
-				foreach ( array_keys( $on ) as $id ) {
-					unset( $clean['enabled'][ $id ] );
+				foreach ( $on as $id => $feature ) {
+					if ( $feature instanceof Htaccess_Feature ) {
+						unset( $clean['enabled'][ $id ] );
+					}
 				}
 			}
 			if ( function_exists( 'add_settings_error' ) && isset( $messages[ $code ] ) ) {
@@ -460,7 +463,7 @@ class Admin_Page {
 				esc_html__( 'I do not need this on this site (it stops counting as an open gap)', 'helloadmin-guard' )
 			);
 		}
-		if ( $feature instanceof Htaccess_Feature ) {
+		if ( $feature->apache_rules() ) {
 			$this->render_rules( $feature, $manual );
 		}
 		echo '</div></div>';
@@ -533,25 +536,36 @@ class Admin_Page {
 	/**
 	 * The exact server rules of a card: folded for Apache (the plugin writes them), open on other servers (copy them).
 	 *
-	 * @param Htaccess_Feature $feature Feature.
-	 * @param bool             $manual  True if the admin has to add the rules by hand.
+	 * @param Feature $feature Feature.
+	 * @param bool    $manual  True if the admin has to add the rules by hand.
 	 * @return void
 	 */
-	private function render_rules( Htaccess_Feature $feature, $manual ) {
+	private function render_rules( Feature $feature, $manual ) {
+		// General tab settings work in PHP; their server rules only do the same earlier (and for static files).
+		$extra  = ! $feature instanceof Htaccess_Feature;
 		$server = Htaccess::server();
 		if ( 'nginx' === $server ) {
-			$label = __( 'Rules to add to the server block, above the PHP location', 'helloadmin-guard' );
+			$label = $extra ? __( 'Optional: the same for Nginx, to add to the server block', 'helloadmin-guard' ) : __( 'Rules to add to the server block, above the PHP location', 'helloadmin-guard' );
 			$lines = $feature->nginx_rules();
 		} elseif ( 'apache' === $server ) {
-			$label = $manual ? __( 'Rules to add to .htaccess by hand', 'helloadmin-guard' ) : __( 'Rules the plugin adds to .htaccess', 'helloadmin-guard' );
+			if ( $extra ) {
+				$label = Htaccess::writable() ? __( 'Also added to .htaccess, so the server answers before PHP starts', 'helloadmin-guard' ) : __( 'Optional: the same in .htaccess, to add by hand', 'helloadmin-guard' );
+			} else {
+				$label = $manual ? __( 'Rules to add to .htaccess by hand', 'helloadmin-guard' ) : __( 'Rules the plugin adds to .htaccess', 'helloadmin-guard' );
+			}
 			$lines = $feature->apache_rules();
 		} else {
-			echo '<p class="description">' . esc_html__( 'This setting needs Apache, LiteSpeed or Nginx.', 'helloadmin-guard' ) . '</p>';
+			if ( ! $extra ) {
+				echo '<p class="description">' . esc_html__( 'This setting needs Apache, LiteSpeed or Nginx.', 'helloadmin-guard' ) . '</p>';
+			}
+			return;
+		}
+		if ( ! $lines ) {
 			return;
 		}
 		printf(
 			'<details class="hag-rules"%s><summary>%s</summary><pre><code>%s</code></pre></details>',
-			$manual ? ' open' : '',
+			$manual && ! $extra ? ' open' : '',
 			esc_html( $label ),
 			esc_html( implode( "\n", $lines ) )
 		);

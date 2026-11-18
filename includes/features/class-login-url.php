@@ -94,6 +94,33 @@ class Login_Url extends Feature {
 	}
 
 	/**
+	 * The same at the server level, before PHP starts (also for static files).
+	 *
+	 * @return string[]
+	 */
+	public function apache_rules() {
+		$login = preg_quote( ltrim( substr( (string) wp_parse_url( site_url( 'wp-login.php' ), PHP_URL_PATH ), strlen( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) ) ), '/' ), '#' );
+		return array(
+			'<IfModule mod_rewrite.c>',
+			'RewriteEngine On',
+			'RewriteCond %{REQUEST_METHOD} POST',
+			'RewriteCond %{QUERY_STRING} !(^|&)action=(postpass|confirmaction)(&|$) [NC]',
+			'RewriteRule ^' . $login . '$ - [R=404,L]',
+			'</IfModule>',
+		);
+	}
+
+	/**
+	 * Nginx version, shown to copy.
+	 *
+	 * @return string[]
+	 */
+	public function nginx_rules() {
+		// Nothing to add on Nginx: the plugin answers POST to /wp-login.php with 404 in PHP.
+		return array();
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string
