@@ -88,6 +88,21 @@ abstract class Htaccess_Feature extends Feature {
 	}
 
 	/**
+	 * Path of a URL relative to the site root, plain, with a trailing slash, for example "wp-includes/".
+	 *
+	 * @param string $url Full URL inside the site.
+	 * @return string
+	 */
+	protected static function rel_path( $url ) {
+		$path = (string) wp_parse_url( $url, PHP_URL_PATH );
+		$home = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+		if ( '' !== $home && 0 === strpos( $path, $home ) ) {
+			$path = substr( $path, strlen( $home ) );
+		}
+		return trailingslashit( trim( $path, '/' ) );
+	}
+
+	/**
 	 * Path of a URL relative to the site root, as a regex fragment, for example "wp-content/uploads".
 	 *
 	 * @param string $url Full URL inside the site.

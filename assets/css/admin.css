@@ -198,3 +198,32 @@
 .hag-risk-high { background: #fcf0f1; color: #8a2424; }
 .hag-risk-medium { background: #fcf9e8; color: #6e4a00; }
 .hag-risk-low { background: #f0f0f1; color: #50575e; }
+
+/* What the last check found. Icon + text, not colour alone. */
+.hag-status {
+	position: relative;
+	margin: 8px 0 0;
+	padding-left: 24px;
+	font-weight: 600;
+}
+.hag-status::before {
+	position: absolute;
+	left: 0;
+	top: -1px;
+	font: normal 20px/1 dashicons;
+}
+.hag-status-on::before { content: "\f147"; color: #00a32a; }
+.hag-status-covered::before { content: "\f147"; color: #996800; }
+.hag-status-open::before,
+.hag-status-broken::before { content: "\f534"; color: #d63638; }
+.hag-status-skipped::before,
+.hag-status-unknown::before { content: "\f460"; color: #787c82; }
+.hag-status-on { color: #00700f; }
+.hag-status-covered { color: #6e4a00; }
+.hag-status-open,
+.hag-status-broken { color: #b32d2e; }
+.hag-status-skipped,
+.hag-status-unknown { color: #50575e; font-weight: 400; }
+.hag-skip { margin: 6px 0 0; font-size: 12px; color: #50575e; }
+.hag-check { margin: 0 0 16px; color: #50575e; }
+.hag-pref { margin: 20px 0 0; }

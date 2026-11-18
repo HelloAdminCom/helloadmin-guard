@@ -10,6 +10,8 @@ namespace HelloAdmin\Guard\Features;
 use HelloAdmin\Guard\Feature;
 use HelloAdmin\Guard\Settings;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -59,6 +61,24 @@ class Security_Headers extends Feature {
 	 */
 	public function group() {
 		return 'headers';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$answer = Probe::request( '/' );
+		if ( null === $answer ) {
+			return null;
+		}
+		foreach ( array_keys( self::headers() ) as $name ) {
+			if ( ! isset( $answer['headers'][ strtolower( $name ) ] ) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**

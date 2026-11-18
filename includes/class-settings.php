@@ -45,10 +45,29 @@ class Settings {
 	}
 
 	/**
+	 * Did the admin mark this setting as not needed on this site?
+	 *
+	 * @param string $id Feature id.
+	 * @return bool
+	 */
+	public function is_skipped( $id ) {
+		return ! empty( $this->data['skip'][ $id ] );
+	}
+
+	/**
+	 * Show the number of open gaps next to the menu item? On unless the admin turned it off.
+	 *
+	 * @return bool
+	 */
+	public function menu_count() {
+		return ! isset( $this->data['prefs']['menu_count'] ) || (bool) $this->data['prefs']['menu_count'];
+	}
+
+	/**
 	 * Value of an extra field, or the default when it was never saved.
 	 *
-	 * @param string $id      Feature id.
-	 * @param string $field   Field name.
+	 * @param string $id       Feature id.
+	 * @param string $field    Field name.
 	 * @param string $fallback Value to return when nothing is saved.
 	 * @return string
 	 */
@@ -68,11 +87,15 @@ class Settings {
 		$clean = array(
 			'enabled' => array(),
 			'fields'  => array(),
+			'skip'    => array(),
 		);
 		foreach ( $features as $feature ) {
 			$id = $feature->id();
 			if ( ! empty( $input['enabled'][ $id ] ) ) {
 				$clean['enabled'][ $id ] = true;
+			}
+			if ( ! empty( $input['skip'][ $id ] ) ) {
+				$clean['skip'][ $id ] = true;
 			}
 			foreach ( $feature->fields() as $name => $field ) {
 				$value = isset( $input['fields'][ $id ][ $name ] ) ? $input['fields'][ $id ][ $name ] : $field['default'];
@@ -94,6 +117,8 @@ class Settings {
 		return array(
 			'enabled' => isset( $value['enabled'] ) && is_array( $value['enabled'] ) ? array_map( 'boolval', $value['enabled'] ) : array(),
 			'fields'  => isset( $value['fields'] ) && is_array( $value['fields'] ) ? $value['fields'] : array(),
+			'skip'    => isset( $value['skip'] ) && is_array( $value['skip'] ) ? array_map( 'boolval', $value['skip'] ) : array(),
+			'prefs'   => isset( $value['prefs'] ) && is_array( $value['prefs'] ) ? $value['prefs'] : array(),
 		);
 	}
 }

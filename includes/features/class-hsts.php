@@ -10,6 +10,8 @@ namespace HelloAdmin\Guard\Features;
 use HelloAdmin\Guard\Feature;
 use HelloAdmin\Guard\Settings;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -81,6 +83,19 @@ class Hsts extends Feature {
 	 */
 	public function group() {
 		return 'headers';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		if ( 0 !== strpos( home_url(), 'https://' ) ) {
+			return null;
+		}
+		$answer = Probe::request( '/' );
+		return null === $answer ? null : isset( $answer['headers']['strict-transport-security'] );
 	}
 
 	/**

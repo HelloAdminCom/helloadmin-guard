@@ -22,3 +22,42 @@
 		} );
 	}
 }() );
+
+/* Checks what the site answers to visitors: right away when there are no results yet, or on "Check again". */
+( function () {
+	var data = window.helloadminGuard;
+	var button = document.querySelector( '.hag-check-now' );
+	if ( ! data || ! button || ! window.fetch ) {
+		return;
+	}
+	var running = false;
+	function check() {
+		if ( running ) {
+			return;
+		}
+		running = true;
+		button.disabled = true;
+		button.classList.add( 'updating-message' );
+		var body = new URLSearchParams( { action: data.checkAction, _ajax_nonce: data.checkNonce } );
+		window.fetch( data.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } )
+			.then( function ( response ) {
+				return response.json();
+			} )
+			.then( function ( result ) {
+				if ( result && result.success ) {
+					window.location.reload();
+				} else {
+					button.disabled = false;
+					button.classList.remove( 'updating-message' );
+				}
+			} )
+			.catch( function () {
+				button.disabled = false;
+				button.classList.remove( 'updating-message' );
+			} );
+	}
+	button.addEventListener( 'click', check );
+	if ( data.checkNeeded ) {
+		check();
+	}
+}() );

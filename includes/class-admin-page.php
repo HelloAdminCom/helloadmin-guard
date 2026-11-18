@@ -32,14 +32,23 @@ class Admin_Page {
 	private $features;
 
 	/**
+	 * Check results and the count of open gaps.
+	 *
+	 * @var Status
+	 */
+	private $status;
+
+	/**
 	 * Sets up the page.
 	 *
 	 * @param Settings               $settings Stored settings.
 	 * @param array<string, Feature> $features Registered features.
+	 * @param Status                 $status   Check results.
 	 */
-	public function __construct( Settings $settings, array $features ) {
+	public function __construct( Settings $settings, array $features, Status $status ) {
 		$this->settings = $settings;
 		$this->features = $features;
+		$this->status   = $status;
 	}
 
 	/**
@@ -115,7 +124,18 @@ class Admin_Page {
 	 */
 	private function menu_title() {
 		/* translators: Short plugin name in the admin menu. HeAd = He(llo) Ad(min), reads as "head guard". */
-		return esc_html__( 'HeAd Guard', 'helloadmin-guard' );
+		$title = esc_html__( 'HeAd Guard', 'helloadmin-guard' );
+		$count = $this->settings->menu_count() ? $this->status->count() : 0;
+		if ( $count > 0 ) {
+			// Same markup as the number of pending comments, so it looks like the rest of the menu.
+			$title .= sprintf(
+				' <span class="awaiting-mod count-%1$d"><span class="pending-count" aria-hidden="true">%1$d</span><span class="screen-reader-text">%2$s</span></span>',
+				$count,
+				/* translators: %d: number of open security gaps. */
+				esc_html( sprintf( _n( '%d open gap', '%d open gaps', $count, 'helloadmin-guard' ), $count ) )
+			);
+		}
+		return $title;
 	}
 
 	/**
@@ -170,7 +190,9 @@ class Admin_Page {
 		$input = is_array( $input ) ? $input : array();
 		$tab   = isset( $input['tab'] ) ? sanitize_key( $input['tab'] ) : '';
 		if ( '' === $tab ) {
-			return $this->apply_htaccess( Settings::sanitize( $input, $this->features ) );
+			$clean          = Settings::sanitize( $input, $this->features );
+			$clean['prefs'] = isset( $input['prefs'] ) && is_array( $input['prefs'] ) ? array( 'menu_count' => ! empty( $input['prefs']['menu_count'] ) ) : array();
+			return $this->apply_htaccess( $clean );
 		}
 
 		$on_tab = array();
@@ -184,10 +206,16 @@ class Admin_Page {
 		$stored = get_option( Settings::OPTION, array() );
 		$stored = is_array( $stored ) ? $stored : array();
 
-		foreach ( array( 'enabled', 'fields' ) as $key ) {
+		foreach ( array( 'enabled', 'fields', 'skip' ) as $key ) {
 			$keep = isset( $stored[ $key ] ) && is_array( $stored[ $key ] ) ? array_diff_key( $stored[ $key ], $on_tab ) : array();
 
 			$clean[ $key ] = array_merge( $keep, $clean[ $key ] );
+		}
+		// Display preferences live on the General tab.
+		if ( 'general' === $tab ) {
+			$clean['prefs'] = array( 'menu_count' => ! empty( $input['prefs']['menu_count'] ) );
+		} else {
+			$clean['prefs'] = isset( $stored['prefs'] ) && is_array( $stored['prefs'] ) ? $stored['prefs'] : array();
 		}
 		return 'advanced' === $tab ? $this->apply_htaccess( $clean ) : $clean;
 	}
@@ -248,7 +276,7 @@ class Admin_Page {
 		}
 		wp_enqueue_style( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/css/admin.css', array(), HELLOADMIN_GUARD_VERSION );
 		wp_enqueue_script( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/js/admin.js', array(), HELLOADMIN_GUARD_VERSION, array( 'in_footer' => true ) );
-		wp_localize_script( 'helloadmin-guard-admin', 'helloadminGuard', Welcome::script_data() );
+		wp_localize_script( 'helloadmin-guard-admin', 'helloadminGuard', array_merge( Welcome::script_data(), Status::script_data() ) );
 	}
 
 	/**
@@ -322,6 +350,8 @@ class Admin_Page {
 			$this->render_server_note();
 		}
 
+		$this->render_check_line();
+
 		echo '<form method="post" action="options.php">';
 		settings_fields( self::GROUP );
 		printf( '<input type="hidden" name="%s[tab]" value="%s">', esc_attr( Settings::OPTION ), esc_attr( $tab ) );
@@ -337,6 +367,14 @@ class Admin_Page {
 			$this->render_card( $feature );
 		}
 		echo '</div>';
+		if ( 'general' === $tab ) {
+			printf(
+				'<p class="hag-pref"><label><input type="checkbox" name="%s[prefs][menu_count]" value="1"%s> %s</label></p>',
+				esc_attr( Settings::OPTION ),
+				checked( $this->settings->menu_count(), true, false ),
+				esc_html__( 'Show the number of open gaps next to HeAd Guard in the admin menu', 'helloadmin-guard' )
+			);
+		}
 		submit_button();
 		echo '</form>';
 	}
@@ -367,6 +405,7 @@ class Admin_Page {
 		$risks = $this->risks();
 		$risk  = isset( $risks[ $feature->risk() ] ) ? $feature->risk() : 'low';
 		printf( '<p class="hag-risk hag-risk-%s">%s</p>', esc_attr( $risk ), esc_html( $risks[ $risk ] ) );
+		$this->render_status( $feature );
 
 		// "Learn more" closes the last text of the card: the last field hint, or "How to undo".
 		$more = '';
@@ -421,6 +460,76 @@ class Admin_Page {
 			$this->render_rules( $feature, $manual );
 		}
 		echo '</div>';
+	}
+
+	/**
+	 * What the last check found for this card, and the "not needed" box while the setting is off.
+	 *
+	 * @param Feature $feature Feature.
+	 * @return void
+	 */
+	private function render_status( Feature $feature ) {
+		$id     = $feature->id();
+		$status = $this->status->of( $id );
+		switch ( $status ) {
+			case 'on':
+				$text = __( 'Closed by this plugin.', 'helloadmin-guard' );
+				break;
+			case 'broken':
+				$text = __( 'On, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting.', 'helloadmin-guard' );
+				break;
+			case 'covered':
+				$by       = $feature->covered_by();
+				$suspects = Status::suspects();
+				if ( '' !== $by ) {
+					/* translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)". */
+					$text = sprintf( __( 'Already closed on this site by %s. You can leave this off.', 'helloadmin-guard' ), $by );
+				} elseif ( $suspects ) {
+					/* translators: %s: names of active security plugins. */
+					$text = sprintf( __( 'Already closed on this site, probably by %s or the server settings. You can leave this off.', 'helloadmin-guard' ), implode( ', ', $suspects ) );
+				} else {
+					$text = __( 'Already closed on this site by the server settings or another plugin. You can leave this off.', 'helloadmin-guard' );
+				}
+				break;
+			case 'open':
+				$text = __( 'Open on this site.', 'helloadmin-guard' );
+				break;
+			case 'skipped':
+				$text = __( 'Marked as not needed on this site.', 'helloadmin-guard' );
+				break;
+			default:
+				$text = null === Status::cached() ? __( 'Not checked yet.', 'helloadmin-guard' ) : __( 'Could not be checked here.', 'helloadmin-guard' );
+		}
+		printf( '<p class="hag-status hag-status-%s">%s</p>', esc_attr( $status ), esc_html( $text ) );
+
+		if ( ! $this->settings->is_enabled( $id ) ) {
+			printf(
+				'<p class="hag-skip"><label><input type="checkbox" name="%s" value="1"%s> %s</label></p>',
+				esc_attr( Settings::OPTION . '[skip][' . $id . ']' ),
+				checked( $this->settings->is_skipped( $id ), true, false ),
+				esc_html__( 'I do not need this on this site (it stops counting as an open gap)', 'helloadmin-guard' )
+			);
+		}
+	}
+
+	/**
+	 * When the site was last checked, with a button to check again.
+	 *
+	 * @return void
+	 */
+	private function render_check_line() {
+		$cached = Status::cached();
+		if ( null === $cached ) {
+			$text = __( 'Checking what your site answers to visitors...', 'helloadmin-guard' );
+		} else {
+			/* translators: %s: time since the last check, for example "5 minutes". */
+			$text = sprintf( __( 'Last check: %s ago.', 'helloadmin-guard' ), human_time_diff( $cached['time'] ) );
+		}
+		printf(
+			'<p class="hag-check"><span class="hag-check-text">%s</span> <button type="button" class="button button-small hag-check-now">%s</button></p>',
+			esc_html( $text ),
+			esc_html__( 'Check again', 'helloadmin-guard' )
+		);
 	}
 
 	/**

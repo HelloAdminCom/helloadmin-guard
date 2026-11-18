@@ -9,6 +9,8 @@ namespace HelloAdmin\Guard\Features;
 
 use HelloAdmin\Guard\Htaccess_Feature;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -80,6 +82,16 @@ class Block_Dev_Files extends Htaccess_Feature {
 	 */
 	public function anchor() {
 		return 'dev-files';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$path = Probe::file( 'hag-check.map' );
+		return '' === $path ? null : Probe::closed( $path );
 	}
 
 	/**

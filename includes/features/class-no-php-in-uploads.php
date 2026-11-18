@@ -9,6 +9,8 @@ namespace HelloAdmin\Guard\Features;
 
 use HelloAdmin\Guard\Htaccess_Feature;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -60,6 +62,20 @@ class No_Php_In_Uploads extends Htaccess_Feature {
 	 */
 	public function anchor() {
 		return 'php-in-uploads';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$path = Probe::file( 'hag-check.php', '<?php echo "hag-check-ran";' );
+		if ( '' === $path ) {
+			return null;
+		}
+		$answer = Probe::request( $path );
+		return null === $answer ? null : false === strpos( $answer['body'], 'hag-check-ran' );
 	}
 
 	/**

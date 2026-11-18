@@ -10,6 +10,8 @@ namespace HelloAdmin\Guard\Features;
 use HelloAdmin\Guard\Feature;
 use HelloAdmin\Guard\Settings;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -59,6 +61,20 @@ class Disable_Xmlrpc extends Feature {
 	 */
 	public function group() {
 		return 'legacy';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$xml    = '<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName><params></params></methodCall>';
+		$answer = Probe::request( '/xmlrpc.php', 'POST', $xml );
+		if ( null === $answer ) {
+			return null;
+		}
+		return ! ( 200 === $answer['code'] && false !== strpos( $answer['body'], 'system.multicall' ) );
 	}
 
 	/**

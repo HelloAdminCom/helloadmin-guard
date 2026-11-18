@@ -88,6 +88,25 @@ abstract class Feature {
 	}
 
 	/**
+	 * Checks whether the gap is closed right now, by anyone: this plugin, another plugin or the server.
+	 * Most checks ask the site itself as a visitor (see Probe), so they see what a bot sees.
+	 *
+	 * @return bool|null True if closed, false if open, null if it cannot be checked here.
+	 */
+	public function probe() {
+		return null;
+	}
+
+	/**
+	 * What closes the gap when the check finds it closed while this setting is off, if the plugin can tell exactly.
+	 *
+	 * @return string Empty when unknown.
+	 */
+	public function covered_by() {
+		return '';
+	}
+
+	/**
 	 * Place on the tab: lower numbers first. The list goes from the biggest risk down to the cheap rules.
 	 *
 	 * @return int

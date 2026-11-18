@@ -9,6 +9,8 @@ namespace HelloAdmin\Guard\Features;
 
 use HelloAdmin\Guard\Htaccess_Feature;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -60,6 +62,20 @@ class Hide_Version_Files extends Htaccess_Feature {
 	 */
 	public function anchor() {
 		return 'version-files';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$readme  = Probe::request( '/readme.html' );
+		$install = Probe::request( '/' . self::rel_path( admin_url() ) . 'install.php' );
+		if ( null === $readme || null === $install ) {
+			return null;
+		}
+		return 200 !== $readme['code'] && 200 !== $install['code'];
 	}
 
 	/**

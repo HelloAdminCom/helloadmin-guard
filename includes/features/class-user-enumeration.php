@@ -10,6 +10,8 @@ namespace HelloAdmin\Guard\Features;
 use HelloAdmin\Guard\Feature;
 use HelloAdmin\Guard\Settings;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -58,6 +60,24 @@ class User_Enumeration extends Feature {
 	 */
 	public function group() {
 		return 'leaks';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$author = Probe::request( '/?author=' . get_current_user_id() );
+		$users  = Probe::request( '/?rest_route=/wp/v2/users' );
+		if ( null === $author || null === $users ) {
+			return null;
+		}
+		$location   = isset( $author['headers']['location'] ) ? $author['headers']['location'] : '';
+		$author_ok  = ! ( in_array( $author['code'], array( 301, 302 ), true ) && false !== strpos( $location, '/author/' ) );
+		$list       = json_decode( $users['body'], true );
+		$users_open = 200 === $users['code'] && is_array( $list ) && isset( $list[0]['slug'] );
+		return $author_ok && ! $users_open;
 	}
 
 	/**

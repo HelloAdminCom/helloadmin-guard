@@ -10,6 +10,8 @@ namespace HelloAdmin\Guard\Features;
 use HelloAdmin\Guard\Feature;
 use HelloAdmin\Guard\Settings;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -76,6 +78,19 @@ class Login_Url extends Feature {
 	 */
 	public function group() {
 		return 'login';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$answer = Probe::request( '/wp-login.php' );
+		if ( null === $answer ) {
+			return null;
+		}
+		return ! ( 200 === $answer['code'] && false !== strpos( $answer['body'], 'user_login' ) );
 	}
 
 	/**

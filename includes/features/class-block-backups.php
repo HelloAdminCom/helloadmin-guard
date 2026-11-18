@@ -9,6 +9,8 @@ namespace HelloAdmin\Guard\Features;
 
 use HelloAdmin\Guard\Htaccess_Feature;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -59,6 +61,16 @@ class Block_Backups extends Htaccess_Feature {
 	 */
 	public function anchor() {
 		return 'backups';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$path = Probe::file( 'hag-check.sql' );
+		return '' === $path ? null : Probe::closed( $path );
 	}
 
 	/**

@@ -66,6 +66,27 @@ class Disable_File_Editor extends Feature {
 	}
 
 	/**
+	 * What closes the gap, when known.
+	 *
+	 * @return string
+	 */
+	public function covered_by() {
+		return defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ? 'wp-config.php (DISALLOW_FILE_EDIT)' : '';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		if ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) {
+			return true;
+		}
+		return ! current_user_can( 'edit_plugins' ) && ! current_user_can( 'edit_themes' );
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string

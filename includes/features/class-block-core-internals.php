@@ -9,6 +9,8 @@ namespace HelloAdmin\Guard\Features;
 
 use HelloAdmin\Guard\Htaccess_Feature;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -59,6 +61,15 @@ class Block_Core_Internals extends Htaccess_Feature {
 	 */
 	public function anchor() {
 		return 'core-folders';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		return Probe::closed( '/' . self::rel_path( includes_url() ) . 'block-patterns.php' );
 	}
 
 	/**

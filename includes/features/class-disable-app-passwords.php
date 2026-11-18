@@ -62,6 +62,24 @@ class Disable_App_Passwords extends Feature {
 	}
 
 	/**
+	 * What closes the gap, when known.
+	 *
+	 * @return string
+	 */
+	public function covered_by() {
+		return wp_is_application_passwords_supported() ? '' : __( 'WordPress itself (Application Passwords need HTTPS)', 'helloadmin-guard' );
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		return ! wp_is_application_passwords_available();
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string

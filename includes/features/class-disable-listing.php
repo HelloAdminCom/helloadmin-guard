@@ -9,6 +9,8 @@ namespace HelloAdmin\Guard\Features;
 
 use HelloAdmin\Guard\Htaccess_Feature;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -59,6 +61,19 @@ class Disable_Listing extends Htaccess_Feature {
 	 */
 	public function anchor() {
 		return 'folder-listing';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		if ( '' === Probe::file( 'hag-check.txt' ) ) {
+			return null;
+		}
+		$answer = Probe::request( Probe::dir_path() );
+		return null === $answer ? null : false === strpos( $answer['body'], 'hag-check.txt' );
 	}
 
 	/**

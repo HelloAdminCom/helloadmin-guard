@@ -10,6 +10,8 @@ namespace HelloAdmin\Guard\Features;
 use HelloAdmin\Guard\Feature;
 use HelloAdmin\Guard\Settings;
 
+use HelloAdmin\Guard\Probe;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -60,6 +62,20 @@ class Hide_Wp_Version extends Feature {
 	 */
 	public function group() {
 		return 'leaks';
+	}
+
+	/**
+	 * Is the gap closed now, by anyone?
+	 *
+	 * @return bool|null
+	 */
+	public function probe() {
+		$answer = Probe::request( '/' );
+		if ( null === $answer ) {
+			return null;
+		}
+		$version = (string) get_bloginfo( 'version' );
+		return false === stripos( $answer['body'], 'content="WordPress ' . $version ) && false === strpos( $answer['body'], 'ver=' . $version );
 	}
 
 	/**
