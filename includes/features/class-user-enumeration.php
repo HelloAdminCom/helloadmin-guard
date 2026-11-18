@@ -61,6 +61,24 @@ class User_Enumeration extends Feature {
 	}
 
 	/**
+	 * Risk while off.
+	 *
+	 * @return string
+	 */
+	public function risk() {
+		return 'medium';
+	}
+
+	/**
+	 * Place on the tab.
+	 *
+	 * @return int
+	 */
+	public function priority() {
+		return 40;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function learn_more() {

@@ -94,9 +94,14 @@ final class Plugin {
 			new Features\Disable_Xmlrpc(),
 			new Features\Disable_File_Editor(),
 			new Features\Security_Headers(),
-			new Features\Hide_Readme_Files(),
 			new Features\Block_Hidden_Files(),
+			new Features\Block_Backups(),
 			new Features\No_Php_In_Uploads(),
+			new Features\Block_Logs(),
+			new Features\Disable_Listing(),
+			new Features\Block_Core_Internals(),
+			new Features\Hide_Version_Files(),
+			new Features\Block_Dev_Files(),
 			new Features\Hsts(),
 		);
 	}

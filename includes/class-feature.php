@@ -70,12 +70,30 @@ abstract class Feature {
 	}
 
 	/**
-	 * Group on the tab: login, leaks, legacy or headers (see Admin_Page::groups()). Unknown groups go last.
+	 * Topic of the setting (login, leaks, legacy, headers, files). Not shown since 0.2: cards are ordered by priority().
 	 *
 	 * @return string
 	 */
 	public function group() {
 		return 'other';
+	}
+
+	/**
+	 * How bad the gap is while the setting is off: 'high', 'medium' or 'low'. Shown on the card.
+	 *
+	 * @return string
+	 */
+	public function risk() {
+		return 'low';
+	}
+
+	/**
+	 * Place on the tab: lower numbers first. The list goes from the biggest risk down to the cheap rules.
+	 *
+	 * @return int
+	 */
+	public function priority() {
+		return 100;
 	}
 
 	/**

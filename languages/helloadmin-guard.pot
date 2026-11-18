@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://github.com/HelloAdminCom/helloadmin-guard/issues\n"
-"POT-Creation-Date: 2026-11-18 09:15+0000\n"
+"POT-Creation-Date: 2026-11-18 09:58+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: helloadmin-guard\n"
 
 #. Plugin Name of the plugin
-#: helloadmin-guard.php includes/class-admin-page.php:104 includes/class-admin-page.php:281
+#: helloadmin-guard.php includes/class-admin-page.php:101 includes/class-admin-page.php:278
 msgid "HelloAdmin Guard"
 msgstr ""
 
@@ -33,143 +33,131 @@ msgid "About"
 msgstr ""
 
 #: includes/class-admin-page.php:77
-msgid "Login"
+msgid "High risk while off"
 msgstr ""
 
 #: includes/class-admin-page.php:78
-msgid "What your site gives away"
+msgid "Medium risk while off"
 msgstr ""
 
 #: includes/class-admin-page.php:79
-msgid "Old and risky features"
-msgstr ""
-
-#: includes/class-admin-page.php:80
-msgid "Files the server should not give out"
-msgstr ""
-
-#: includes/class-admin-page.php:81
-msgid "HTTP headers"
-msgstr ""
-
-#: includes/class-admin-page.php:82
-msgid "Other"
+msgid "Low risk while off"
 msgstr ""
 
 #. translators: Short plugin name in the admin menu. HeAd = He(llo) Ad(min), reads as "head guard".
-#: includes/class-admin-page.php:121
+#: includes/class-admin-page.php:118
 msgid "HeAd Guard"
 msgstr ""
 
-#: includes/class-admin-page.php:222
+#: includes/class-admin-page.php:219
 msgid "Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead."
 msgstr ""
 
-#: includes/class-admin-page.php:223
+#: includes/class-admin-page.php:220
 msgid "Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable."
 msgstr ""
 
-#: includes/class-admin-page.php:224
+#: includes/class-admin-page.php:221
 msgid "Server rules were not saved: writing the .htaccess file failed. Nothing was changed."
 msgstr ""
 
-#: includes/class-admin-page.php:225
+#: includes/class-admin-page.php:222
 msgid "Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules."
 msgstr ""
 
-#: includes/class-admin-page.php:226
+#: includes/class-admin-page.php:223
 msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
 msgstr ""
 
-#: includes/class-admin-page.php:263
+#: includes/class-admin-page.php:260
 msgid "Settings"
 msgstr ""
 
-#: includes/class-admin-page.php:283
+#: includes/class-admin-page.php:280
 msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
 msgstr ""
 
-#: includes/class-admin-page.php:320
+#: includes/class-admin-page.php:317
 msgid "No settings on this tab yet."
 msgstr ""
 
-#: includes/class-admin-page.php:381
+#: includes/class-admin-page.php:377
 msgid "Learn more"
 msgstr ""
 
-#: includes/class-admin-page.php:393
+#: includes/class-admin-page.php:389
 msgid "What it does"
 msgstr ""
 
-#: includes/class-admin-page.php:394
+#: includes/class-admin-page.php:390
 msgid "What may break"
 msgstr ""
 
-#: includes/class-admin-page.php:397
+#: includes/class-admin-page.php:393
 msgid "How to undo"
 msgstr ""
 
-#: includes/class-admin-page.php:440
+#: includes/class-admin-page.php:436
 msgid "Rules to add to the server block, above the PHP location"
 msgstr ""
 
-#: includes/class-admin-page.php:443
+#: includes/class-admin-page.php:439
 msgid "Rules to add to .htaccess by hand"
 msgstr ""
 
-#: includes/class-admin-page.php:443
+#: includes/class-admin-page.php:439
 msgid "Rules the plugin adds to .htaccess"
 msgstr ""
 
-#: includes/class-admin-page.php:446
+#: includes/class-admin-page.php:442
 msgid "This setting needs Apache, LiteSpeed or Nginx."
 msgstr ""
 
-#: includes/class-admin-page.php:465
+#: includes/class-admin-page.php:461
 msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
 msgstr ""
 
-#: includes/class-admin-page.php:467
+#: includes/class-admin-page.php:463
 msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
 msgstr ""
 
-#: includes/class-admin-page.php:469
+#: includes/class-admin-page.php:465
 msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
 msgstr ""
 
-#: includes/class-admin-page.php:471
+#: includes/class-admin-page.php:467
 msgid "The server rules below need Apache, LiteSpeed or Nginx."
 msgstr ""
 
-#: includes/class-admin-page.php:508
+#: includes/class-admin-page.php:504
 msgid "HelloAdmin Guard is free and will stay free."
 msgstr ""
 
-#: includes/class-admin-page.php:509
+#: includes/class-admin-page.php:505
 msgid "No paid version, no locked settings, no ads, no calls to outside servers."
 msgstr ""
 
-#: includes/class-admin-page.php:510
+#: includes/class-admin-page.php:506
 msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
 msgstr ""
 
-#: includes/class-admin-page.php:511
+#: includes/class-admin-page.php:507
 msgid "Need help with your site?"
 msgstr ""
 
-#: includes/class-admin-page.php:512
+#: includes/class-admin-page.php:508
 msgid "The plugin is made by HelloAdmin, a WordPress and WooCommerce developer. If your site is slow, broken or was hacked, I can look at it and tell you what I see."
 msgstr ""
 
-#: includes/class-admin-page.php:516
+#: includes/class-admin-page.php:512
 msgid "Contact HelloAdmin"
 msgstr ""
 
-#: includes/class-admin-page.php:518
+#: includes/class-admin-page.php:514
 msgid "Report a problem"
 msgstr ""
 
-#: includes/class-admin-page.php:520
+#: includes/class-admin-page.php:516
 msgid "Show the welcome message again"
 msgstr ""
 
@@ -186,39 +174,95 @@ msgid "Hello, admin or developer!"
 msgstr ""
 
 #: includes/class-welcome.php:88
-msgid "A fresh WordPress leaves a few doors open: anyone can find your user names, your WordPress version and your login page. HelloAdmin Guard closes them, one switch at a time."
+msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some setups need these things open. On most sites, though, they can and should be closed. That is what HelloAdmin Guard does. Every gap has its own switch, so you decide what to close and what to leave open. Good luck!"
 msgstr ""
 
-#: includes/class-welcome.php:90
-msgid "Nothing is on until you turn it on."
+#: includes/class-welcome.php:89
+msgid "Good to know"
 msgstr ""
 
 #: includes/class-welcome.php:91
-msgid "Every switch tells you what it does, what may stop working and how to undo it."
+msgid "Nothing is on until you turn it on."
 msgstr ""
 
 #: includes/class-welcome.php:92
-msgid "Free, no Pro version, no account. The plugin sends nothing anywhere."
+msgid "Every switch tells you what it does, what may stop working and how to undo it."
+msgstr ""
+
+#: includes/class-welcome.php:93
+msgid "Not sure where to start? Turn switches on one at a time and check your site after each one."
 msgstr ""
 
 #: includes/class-welcome.php:94
-msgid "A good place to start: the Login group below."
+msgid "The plugin is free and will stay free: no Pro version, no account, no data sent anywhere."
 msgstr ""
 
 #: includes/class-welcome.php:95
+msgid "Every new version closes more gaps, so keep the plugin updated."
+msgstr ""
+
+#: includes/class-welcome.php:97
 msgid "Got it"
 msgstr ""
 
+#: includes/features/class-block-backups.php:34
+msgid "Block backups and database dumps"
+msgstr ""
+
+#: includes/features/class-block-backups.php:43
+msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator and BackWPup. A file like this left after a move gives away the whole site and its database."
+msgstr ""
+
+#: includes/features/class-block-backups.php:52
+msgid "Download links to archives in the site root or the content folder and to .sql or .bak files, if you share them on purpose. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not over the web."
+msgstr ""
+
+#: includes/features/class-block-core-internals.php:34
+msgid "Close internal WordPress folders"
+msgstr ""
+
+#: includes/features/class-block-core-internals.php:43
+msgid "The server answers 404 when someone opens PHP files from wp-admin/includes, wp-includes (top level), wp-includes/theme-compat or the TinyMCE language files directly. WordPress only loads them from inside; opened from the browser, some print errors with full server paths. These are the rules from the WordPress hardening guide."
+msgstr ""
+
+#: includes/features/class-block-core-internals.php:52
+msgid "Multisite networks that still serve files through wp-includes/ms-files.php (networks created before WordPress 3.5)."
+msgstr ""
+
+#: includes/features/class-block-dev-files.php:34
+msgid "Block developer and build files"
+msgstr ""
+
+#: includes/features/class-block-dev-files.php:43
+msgid "The server answers 404 for package and build files (composer.json, composer.lock, package.json, package-lock.json, yarn.lock, gulpfile.js, webpack and Vite configs), deploy files (Dockerfile, docker-compose.yml, wp-cli.yml, deploy.php, Makefile), php.ini copies, source maps (.map) and text files of plugins, themes and translations (.md, .txt, .po, .mo, .pot, .yml, .lock) inside the content folder, plus .md, .yml and .sh files in the site root. They list exact versions of libraries with known holes and describe the server."
+msgstr ""
+
+#: includes/features/class-block-dev-files.php:52
+msgid "Browser developer tools stop showing the original source of minified scripts. Uploads are not touched. robots.txt, ads.txt and other .txt files in the site root stay open."
+msgstr ""
+
 #: includes/features/class-block-hidden-files.php:34
-msgid "Block hidden files, backups and logs"
+msgid "Block hidden files (.git, .env)"
 msgstr ""
 
 #: includes/features/class-block-hidden-files.php:43
-msgid "The server answers 404 for files and folders that start with a dot (.git, .env, .htpasswd), database dumps and backups (.sql, .bak, .old, .wpress, wp-config.php copies), archives in the site root (site.zip, backup.tar.gz), logs (debug.log, error_log), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and Composer or npm files. One forgotten file like this can give away passwords or the whole database."
+msgid "The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store, editor backups like .wp-config.php.swp. These show up when a site is deployed with Git or copied from a computer."
 msgstr ""
 
 #: includes/features/class-block-hidden-files.php:52
-msgid "Download links to .sql, .bak or .log files and to archives in the site root, if you share such files on purpose. Archives in the uploads folder stay open. /.well-known/ stays open: SSL certificates and app links need it."
+msgid "Nothing on a normal site. /.well-known/ stays open: SSL certificates and app links need it."
+msgstr ""
+
+#: includes/features/class-block-logs.php:34
+msgid "Block logs and diagnostic pages"
+msgstr ""
+
+#: includes/features/class-block-logs.php:43
+msgid "The server answers 404 for log files (debug.log, error_log, any .log), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways."
+msgstr ""
+
+#: includes/features/class-block-logs.php:52
+msgid "Opening a log or a test page in the browser on purpose: read logs over SFTP or in the hosting panel instead. Logging itself keeps working."
 msgstr ""
 
 #: includes/features/class-disable-app-passwords.php:33
@@ -253,6 +297,18 @@ msgstr ""
 msgid "Turn this off and save. The editors come back at once; nothing is changed in wp-config.php."
 msgstr ""
 
+#: includes/features/class-disable-listing.php:34
+msgid "Turn off folder listings"
+msgstr ""
+
+#: includes/features/class-disable-listing.php:43
+msgid "Adds \"Options -Indexes\": when a folder has no index file, the server answers 403 instead of a list of all files in it. WordPress puts an empty index.php only into wp-content, plugins and themes, so on many hosts /wp-content/uploads/2025/05/ shows every uploaded file."
+msgstr ""
+
+#: includes/features/class-disable-listing.php:52
+msgid "Nothing on the site. On a few hosts .htaccess may not change Options: then the home page answers with an error, the plugin puts the old file back and keeps this setting off."
+msgstr ""
+
 #: includes/features/class-disable-xmlrpc.php:33
 msgid "Turn off XML-RPC"
 msgstr ""
@@ -269,15 +325,15 @@ msgstr ""
 msgid "Turn this off and save. Nothing is deleted or changed in the database."
 msgstr ""
 
-#: includes/features/class-hide-readme-files.php:35
+#: includes/features/class-hide-version-files.php:35
 msgid "Hide files that show versions"
 msgstr ""
 
-#: includes/features/class-hide-readme-files.php:44
-msgid "The server answers 404 for readme.html, license.txt and wp-config-sample.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes."
+#: includes/features/class-hide-version-files.php:44
+msgid "The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes."
 msgstr ""
 
-#: includes/features/class-hide-readme-files.php:53
+#: includes/features/class-hide-version-files.php:53
 msgid "Nothing on the site itself: WordPress and browsers do not need these files. Installing WordPress again over this site needs the setting off. Online scanners that guess plugin versions from readme.txt will see less."
 msgstr ""
 
@@ -286,7 +342,7 @@ msgid "Hide the WordPress version"
 msgstr ""
 
 #: includes/features/class-hide-wp-version.php:41
-msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. This only slows bots down; keeping WordPress updated is the real fix."
+msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version. This only slows bots down; keeping WordPress and PHP updated is the real fix."
 msgstr ""
 
 #: includes/features/class-hide-wp-version.php:48
@@ -329,29 +385,29 @@ msgstr ""
 msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager: the plugin stops and /wp-login.php works again."
 msgstr ""
 
-#: includes/features/class-login-url.php:96
+#: includes/features/class-login-url.php:114
 msgid "Login address"
 msgstr ""
 
 #. translators: %s: login page URL.
-#: includes/features/class-login-url.php:101
+#: includes/features/class-login-url.php:119
 #, php-format
 msgid "Letters, numbers and dashes, at least 4 characters. Your login page: %s. Bookmark it after saving."
 msgstr ""
 
-#: includes/features/class-login-url.php:122
+#: includes/features/class-login-url.php:140
 msgid "The login address must be at least 4 characters long."
 msgstr ""
 
-#: includes/features/class-login-url.php:124
+#: includes/features/class-login-url.php:142
 msgid "This login address is reserved by WordPress or too easy to guess. Choose another one."
 msgstr ""
 
-#: includes/features/class-login-url.php:126
+#: includes/features/class-login-url.php:144
 msgid "A page or post already uses this address. Choose another one."
 msgstr ""
 
-#: includes/features/class-login-url.php:252
+#: includes/features/class-login-url.php:270
 msgid "The requested URL was not found on this server."
 msgstr ""
 
@@ -395,6 +451,6 @@ msgstr ""
 msgid "Apps or scripts that read the user list through the REST API without logging in. Author pages drop out of wp-sitemap.xml; the pages themselves keep working."
 msgstr ""
 
-#: includes/features/class-user-enumeration.php:114
+#: includes/features/class-user-enumeration.php:132
 msgid "Sorry, you are not allowed to list users."
 msgstr ""

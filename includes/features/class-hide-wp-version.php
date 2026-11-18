@@ -38,7 +38,7 @@ class Hide_Wp_Version extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. This only slows bots down; keeping WordPress updated is the real fix.', 'helloadmin-guard' );
+		return __( 'Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version. This only slows bots down; keeping WordPress and PHP updated is the real fix.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -63,6 +63,24 @@ class Hide_Wp_Version extends Feature {
 	}
 
 	/**
+	 * Risk while off.
+	 *
+	 * @return string
+	 */
+	public function risk() {
+		return 'low';
+	}
+
+	/**
+	 * Place on the tab.
+	 *
+	 * @return int
+	 */
+	public function priority() {
+		return 70;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function learn_more() {
@@ -80,6 +98,19 @@ class Hide_Wp_Version extends Feature {
 		add_filter( 'the_generator', '__return_empty_string' );
 		add_filter( 'style_loader_src', array( $this, 'mask_version' ), PHP_INT_MAX );
 		add_filter( 'script_loader_src', array( $this, 'mask_version' ), PHP_INT_MAX );
+		add_action( 'send_headers', array( $this, 'remove_powered_by' ) );
+		add_action( 'login_init', array( $this, 'remove_powered_by' ) );
+	}
+
+	/**
+	 * PHP adds "X-Powered-By: PHP/8.x" when expose_php is on in php.ini; most hosts leave it on.
+	 *
+	 * @return void
+	 */
+	public function remove_powered_by() {
+		if ( ! headers_sent() ) {
+			header_remove( 'X-Powered-By' );
+		}
 	}
 
 	/**

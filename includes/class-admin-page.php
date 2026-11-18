@@ -68,18 +68,15 @@ class Admin_Page {
 	}
 
 	/**
-	 * Card groups in display order: key => heading.
+	 * Labels for Feature::risk(): how bad the gap is while the setting is off.
 	 *
 	 * @return array<string, string>
 	 */
-	private function groups() {
+	private function risks() {
 		return array(
-			'login'   => __( 'Login', 'helloadmin-guard' ),
-			'leaks'   => __( 'What your site gives away', 'helloadmin-guard' ),
-			'legacy'  => __( 'Old and risky features', 'helloadmin-guard' ),
-			'files'   => __( 'Files the server should not give out', 'helloadmin-guard' ),
-			'headers' => __( 'HTTP headers', 'helloadmin-guard' ),
-			'other'   => __( 'Other', 'helloadmin-guard' ),
+			'high'   => __( 'High risk while off', 'helloadmin-guard' ),
+			'medium' => __( 'Medium risk while off', 'helloadmin-guard' ),
+			'low'    => __( 'Low risk while off', 'helloadmin-guard' ),
 		);
 	}
 
@@ -328,22 +325,18 @@ class Admin_Page {
 		echo '<form method="post" action="options.php">';
 		settings_fields( self::GROUP );
 		printf( '<input type="hidden" name="%s[tab]" value="%s">', esc_attr( Settings::OPTION ), esc_attr( $tab ) );
-		$groups = $this->groups();
-		$by     = array();
+		// One list from the biggest risk down to the cheap rules (Feature::priority()), not grouped by topic.
+		usort(
+			$features,
+			static function ( Feature $a, Feature $b ) {
+				return $a->priority() <=> $b->priority();
+			}
+		);
+		echo '<div class="hag-cards">';
 		foreach ( $features as $feature ) {
-			$key          = isset( $groups[ $feature->group() ] ) ? $feature->group() : 'other';
-			$by[ $key ][] = $feature;
+			$this->render_card( $feature );
 		}
-		foreach ( array_keys( $groups ) as $key ) {
-			if ( empty( $by[ $key ] ) ) {
-				continue;
-			}
-			echo '<h2 class="hag-group">' . esc_html( $groups[ $key ] ) . '</h2><div class="hag-cards">';
-			foreach ( $by[ $key ] as $feature ) {
-				$this->render_card( $feature );
-			}
-			echo '</div>';
-		}
+		echo '</div>';
 		submit_button();
 		echo '</form>';
 	}
@@ -371,6 +364,9 @@ class Admin_Page {
 			esc_html( $feature->title() ),
 			$manual ? ' disabled' : ''
 		);
+		$risks = $this->risks();
+		$risk  = isset( $risks[ $feature->risk() ] ) ? $feature->risk() : 'low';
+		printf( '<p class="hag-risk hag-risk-%s">%s</p>', esc_attr( $risk ), esc_html( $risks[ $risk ] ) );
 
 		// "Learn more" closes the last text of the card: the last field hint, or "How to undo".
 		$more = '';

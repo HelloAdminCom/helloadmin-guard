@@ -54,6 +54,24 @@ class No_Php_In_Uploads extends Htaccess_Feature {
 	}
 
 	/**
+	 * Risk while off.
+	 *
+	 * @return string
+	 */
+	public function risk() {
+		return 'high';
+	}
+
+	/**
+	 * Place on the tab.
+	 *
+	 * @return int
+	 */
+	public function priority() {
+		return 30;
+	}
+
+	/**
 	 * Apache rules.
 	 *
 	 * @return string[]

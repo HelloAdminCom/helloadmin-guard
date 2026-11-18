@@ -85,13 +85,15 @@ class Welcome {
 			esc_html__( 'Hide the welcome message', 'helloadmin-guard' )
 		);
 		echo '<h2 id="hag-welcome-title">' . esc_html__( 'Hello, admin or developer!', 'helloadmin-guard' ) . '</h2>';
-		echo '<p>' . esc_html__( 'A fresh WordPress leaves a few doors open: anyone can find your user names, your WordPress version and your login page. HelloAdmin Guard closes them, one switch at a time.', 'helloadmin-guard' ) . '</p>';
+		echo '<p>' . esc_html__( 'Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some setups need these things open. On most sites, though, they can and should be closed. That is what HelloAdmin Guard does. Every gap has its own switch, so you decide what to close and what to leave open. Good luck!', 'helloadmin-guard' ) . '</p>';
+		echo '<h3>' . esc_html__( 'Good to know', 'helloadmin-guard' ) . '</h3>';
 		echo '<ul>';
 		echo '<li>' . esc_html__( 'Nothing is on until you turn it on.', 'helloadmin-guard' ) . '</li>';
 		echo '<li>' . esc_html__( 'Every switch tells you what it does, what may stop working and how to undo it.', 'helloadmin-guard' ) . '</li>';
-		echo '<li>' . esc_html__( 'Free, no Pro version, no account. The plugin sends nothing anywhere.', 'helloadmin-guard' ) . '</li>';
+		echo '<li>' . esc_html__( 'Not sure where to start? Turn switches on one at a time and check your site after each one.', 'helloadmin-guard' ) . '</li>';
+		echo '<li>' . esc_html__( 'The plugin is free and will stay free: no Pro version, no account, no data sent anywhere.', 'helloadmin-guard' ) . '</li>';
+		echo '<li>' . esc_html__( 'Every new version closes more gaps, so keep the plugin updated.', 'helloadmin-guard' ) . '</li>';
 		echo '</ul>';
-		echo '<p>' . esc_html__( 'A good place to start: the Login group below.', 'helloadmin-guard' ) . '</p>';
 		printf( '<p><a class="button button-primary" href="%s">%s</a></p>', esc_url( $hide ), esc_html__( 'Got it', 'helloadmin-guard' ) );
 		echo '</div>';
 	}
