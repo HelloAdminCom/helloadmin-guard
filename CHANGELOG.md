@@ -5,7 +5,7 @@ All notable changes to this project are documented here. Versions follow [Semant
 ## [Unreleased]
 
 ### Added
-- Advanced tab, "Files the server should not give out": hide readme and changelog files, block hidden files (.git, .env), backups and logs, no PHP in the uploads folder. The rules go into .htaccess between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard", at the top of the file. Before each change the plugin keeps a copy of the file (in the database) and opens the home page; on a server error the old file is put back and the settings stay off.
+- Advanced tab, "Files the server should not give out": hide files that show versions (readme, changelog, license, wp-config-sample.php; install.php, setup-config.php and upgrade.php for guests, where WordPress loads no plugins), block hidden files (.git, .env), backups (.sql, .bak, .wpress, root archives), logs (debug.log, error_log) and leftover test pages (phpinfo.php), no PHP in the uploads folder. The rules go into .htaccess between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard", at the top of the file. Before each change the plugin keeps a copy of the file (in the database) and opens the home page; on a server error the old file is put back and the settings stay off.
 - Each server rule card shows the exact lines it writes; on Nginx, or when .htaccess is not writable, the cards show the rules to copy and the switch is disabled.
 - HTTPS only (HSTS) as its own setting on the Advanced tab: max-age one year, no subdomains, sent only over HTTPS.
 - Server rules are removed when the plugin is deactivated and written again when it is activated.
