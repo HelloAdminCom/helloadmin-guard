@@ -9,7 +9,7 @@ All notable changes to this project are documented here. Versions follow [Semant
 The plugin now checks what the site really answers and shows it on every card.
 
 ### Added
-- Every gap is checked from outside, as a visitor who is not logged in (requests from the site to itself; for server rules a few harmless test files in a temporary folder in uploads, removed right after). The result shows on each card: closed by this plugin, already closed by another plugin or the server (with the likely plugin named), open (with the risk), not working, or not needed. Results are kept for a day; "Check again" runs it at once; it runs by itself after the settings are saved.
+- Every gap is checked from outside, as a visitor who is not logged in (requests from the site to itself; for server rules a few harmless test files in a temporary folder in uploads, removed right after). The result shows on each card: closed by this plugin, already closed by another plugin or the server (with the likely plugin named), open (with the risk), not working, or not needed. Results are kept for a day; "Check again" runs it at once; after a save only the changed settings are checked again, on the same page load.
 - "I do not need this on this site": a gap marked like that stops counting as open.
 - The number of open gaps next to HeAd Guard in the admin menu (like pending comments), with a setting to turn it off.
 - Site Health item: the number of open gaps with a link to the settings page.
@@ -25,6 +25,12 @@ The plugin now checks what the site really answers and shows it on every card.
 - Card head in one line: switch, title and one status label; the risk shows while the gap is open.
 - Close internal WordPress folders also turns off PHP errors for visitors where PHP runs inside the web server.
 - "Show the welcome message again" stays on the About tab; the short intro line shows only when the welcome message is removed.
+- Card texts: "Description", "Risks", "How to undo"; every risk says what stops working, and starts with "If you use…" where it depends on the site.
+
+### Fixed
+- The settings page shows "Settings saved" and the messages about server rules after a save (they were not shown on a page with its own menu item).
+- The menu number is red in every admin color scheme and no longer jumps for a moment after a save.
+- The menu icon no longer blinks on page load.
 
 ## [0.2.1] - 2026-11-18
 

@@ -88,6 +88,7 @@ No. It makes no requests to outside servers. The only request it makes is to you
 * Limit login attempts. Hide the REST API index. WP-CLI commands.
 * General settings also write their server rules into .htaccess.
 * The login form no longer tells which part of a login was wrong.
+* Clearer card texts: what stops working and when. "Settings saved" message after a save.
 
 = 0.2.1 =
 * Every card on the Advanced tab links to its own section of a new article about server rules.
