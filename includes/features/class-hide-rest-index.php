@@ -43,7 +43,7 @@ class Hide_Rest_Index extends Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). The Link header and the <link> tag that point to the API are removed too. The API itself keeps working.', 'helloadmin-guard' );
+		return __( 'For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Hide_Rest_Index extends Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Tools that discover the API by reading the index or the Link header without logging in, for example some headless front ends or API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working. Plugin names stay visible in the page source anyway (/wp-content/plugins/...), so this only removes the easy list.', 'helloadmin-guard' );
+		return __( 'Tools that discover the API by reading the index or the Link header without logging in, for example some headless front ends or API explorers. Forms, shops, the block editor and the mobile app use the routes directly and keep working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see "Hide files that show versions".', 'helloadmin-guard' );
 	}
 
 	/**
@@ -125,8 +125,29 @@ class Hide_Rest_Index extends Feature {
 	 */
 	public function enable( Settings $settings ) {
 		add_filter( 'rest_index', array( $this, 'trim_index' ) );
+		add_filter( 'rest_namespace_index', array( $this, 'hide_namespace' ) );
 		remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
 		remove_action( 'template_redirect', 'rest_output_link_header', 11 );
+	}
+
+	/**
+	 * /wp-json/yoast/v1 and other namespace roots answer 404 to visitors, the same as for a plugin that is not there,
+	 * so a bot cannot test a list of plugin names one by one. Routes inside the namespace keep working.
+	 *
+	 * @param \WP_REST_Response $response Namespace index response.
+	 * @return \WP_REST_Response
+	 */
+	public function hide_namespace( $response ) {
+		if ( is_user_logged_in() || ! $response instanceof \WP_REST_Response ) {
+			return $response;
+		}
+		// Exactly the answer WordPress gives for a namespace that does not exist, in the site language.
+		$error = new \WP_Error(
+			'rest_no_route',
+			translate( 'No route was found matching the URL and request method.', 'default' ), // phpcs:ignore WordPress.WP.I18n -- the core message, so the answer cannot be told apart from a missing namespace.
+			array( 'status' => 404 )
+		);
+		return rest_convert_error_to_response( $error );
 	}
 
 	/**
