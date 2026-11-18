@@ -99,7 +99,15 @@ class Login_Url extends Feature {
 	 * @return string[]
 	 */
 	public function apache_rules() {
-		$login = preg_quote( ltrim( substr( (string) wp_parse_url( site_url( 'wp-login.php' ), PHP_URL_PATH ), strlen( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) ) ), '/' ), '#' );
+		// Built from the saved addresses, not site_url(): while this setting is on, site_url( 'wp-login.php' ) already
+		// returns the custom address, and the rule would refuse logins there instead of on wp-login.php.
+		$site = trailingslashit( (string) wp_parse_url( (string) get_option( 'siteurl' ), PHP_URL_PATH ) );
+		$home = trailingslashit( (string) wp_parse_url( (string) get_option( 'home' ), PHP_URL_PATH ) );
+		$path = $site . 'wp-login.php';
+		if ( 0 === strpos( $path, $home ) ) {
+			$path = substr( $path, strlen( $home ) );
+		}
+		$login = preg_quote( ltrim( $path, '/' ), '#' );
 		return array(
 			'<IfModule mod_rewrite.c>',
 			'RewriteEngine On',
