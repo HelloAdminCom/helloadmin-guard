@@ -10,6 +10,7 @@ import os, re, sys, struct, datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANG = os.path.join(ROOT, 'languages')
 DOMAIN = 'helloadmin-guard'
+PLURAL = re.compile(r"_n\(\s*'((?:[^'\\]|\\.)*)'\s*,\s*'((?:[^'\\]|\\.)*)'\s*,\s*[^;]*?,\s*'" + DOMAIN + r"'\s*\)")
 CALL = re.compile(r"(?:__|_e|esc_html__|esc_html_e|esc_attr__|esc_attr_e)\(\s*'((?:[^'\\]|\\.)*)'\s*,\s*'" + DOMAIN + r"'\s*\)")
 
 
@@ -39,6 +40,16 @@ def strings():
                     e = found.setdefault(s, {'refs': [], 'comment': ''})
                     e['refs'].append(os.path.relpath(path, ROOT) + ':' + str(i + 1))
                     e['comment'] = e['comment'] or comment
+                for m in PLURAL.finditer(line):
+                    s, pl = m.group(1).replace("\\'", "'"), m.group(2).replace("\\'", "'")
+                    comment = ''
+                    for back in (1, 2):
+                        if i - back >= 0 and 'translators:' in lines[i - back]:
+                            comment = re.sub(r'^\s*/\*\s*|\s*\*/\s*$', '', lines[i - back]).strip()
+                    e = found.setdefault(s, {'refs': [], 'comment': ''})
+                    e['plural'] = pl
+                    e['refs'].append(os.path.relpath(path, ROOT) + ':' + str(i + 1))
+                    e['comment'] = e['comment'] or comment
     return found
 
 
@@ -56,9 +67,12 @@ def write_pot():
         if e['comment']:
             out.append('#. ' + e['comment'])
         out.append('#: ' + ' '.join(e['refs']))
-        if '%s' in s:
+        if '%s' in s or '%d' in s:
             out.append('#, php-format')
-        out += ['msgid ' + q(s), 'msgstr ""', '']
+        if e.get('plural'):
+            out += ['msgid ' + q(s), 'msgid_plural ' + q(e['plural']), 'msgstr[0] ""', 'msgstr[1] ""', '']
+        else:
+            out += ['msgid ' + q(s), 'msgstr ""', '']
     open(os.path.join(LANG, DOMAIN + '.pot'), 'w', encoding='utf-8').write('\n'.join(out))
 
 
@@ -67,21 +81,50 @@ def unq(s):
 
 
 def read_po(path):
-    entries, cur, field = [], {'msgid': '', 'msgstr': ''}, None
+    """msgid -> msgstr; plural entries become "single\0plural" -> "form0\0form1..." as in .mo files."""
+    entries, cur, field = [], None, None
+
+    def new():
+        return {'msgid': '', 'plural': None, 'msgstr': '', 'forms': {}}
+
+    def done(e):
+        if e is not None:
+            entries.append(e)
+
     for line in open(path, encoding='utf-8').read().split('\n') + ['']:
         if line.startswith('msgid '):
-            if field == 'msgstr':
-                entries.append(cur)
-                cur = {'msgid': '', 'msgstr': ''}
+            if field and field.startswith('msgstr'):
+                done(cur)
+                cur = None
+            cur = cur or new()
             field, cur['msgid'] = 'msgid', unq(line[6:])
+        elif line.startswith('msgid_plural '):
+            field, cur['plural'] = 'plural', unq(line[13:])
+        elif line.startswith('msgstr['):
+            n = int(line[7:line.index(']')])
+            field = 'msgstr%d' % n
+            cur['forms'][n] = unq(line[line.index(']') + 2:])
         elif line.startswith('msgstr '):
             field, cur['msgstr'] = 'msgstr', unq(line[7:])
         elif line.startswith('"') and field:
-            cur[field] += unq(line)
-        elif not line.strip() and field == 'msgstr':
-            entries.append(cur)
-            cur, field = {'msgid': '', 'msgstr': ''}, None
-    return {e['msgid']: e['msgstr'] for e in entries if e['msgstr']}
+            if field == 'plural':
+                cur['plural'] += unq(line)
+            elif field.startswith('msgstr') and field != 'msgstr':
+                cur['forms'][int(field[6:])] += unq(line)
+            else:
+                cur[field] += unq(line)
+        elif not line.strip() and field and field.startswith('msgstr'):
+            done(cur)
+            cur, field = None, None
+    out = {}
+    for e in entries:
+        if e['plural'] is not None:
+            forms = [e['forms'][k] for k in sorted(e['forms'])]
+            if forms and all(forms):
+                out[e['msgid'] + '\0' + e['plural']] = '\0'.join(forms)
+        elif e['msgstr']:
+            out[e['msgid']] = e['msgstr']
+    return out
 
 
 def write_mo(po_path):

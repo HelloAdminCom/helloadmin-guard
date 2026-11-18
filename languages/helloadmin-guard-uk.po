@@ -211,14 +211,6 @@ msgstr "Вимкніть це налаштування і збережіть. Б
 msgid "Hide user names"
 msgstr "Приховати імена користувачів"
 
-#: includes/features/class-user-enumeration.php:39
-msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap."
-msgstr "Відвідувачі, які не ввійшли, більше не можуть дізнатися імена користувачів через /?author=1, список користувачів REST API (/wp-json/wp/v2/users), посилання на автора в oEmbed і карту сайту користувачів."
-
-#: includes/features/class-user-enumeration.php:46
-msgid "Apps or scripts that read the user list through the REST API without logging in. Author pages drop out of wp-sitemap.xml; the pages themselves keep working."
-msgstr "Програми або скрипти, що читають список користувачів через REST API без входу. Сторінки авторів зникають із wp-sitemap.xml, але самі сторінки працюють."
-
 #: includes/features/class-user-enumeration.php:114
 msgid "Sorry, you are not allowed to list users."
 msgstr "Вибачте, вам не дозволено переглядати список користувачів."
@@ -310,15 +302,6 @@ msgstr "Сховати файли, що видають версії"
 msgid "Nothing on the site itself: WordPress and browsers do not need these files. Installing WordPress again over this site needs the setting off. Online scanners that guess plugin versions from readme.txt will see less."
 msgstr "На самому сайті нічого: WordPress і браузерам ці файли не потрібні. Щоб установити WordPress заново поверх цього сайту, налаштування треба вимкнути. Онлайн-сканери, які вгадують версії плагінів за readme.txt, побачать менше."
 
-msgid "High risk while off"
-msgstr "Високий ризик, поки вимкнено"
-
-msgid "Medium risk while off"
-msgstr "Середній ризик, поки вимкнено"
-
-msgid "Low risk while off"
-msgstr "Низький ризик, поки вимкнено"
-
 msgid "Good to know"
 msgstr "Корисно знати"
 
@@ -400,3 +383,144 @@ msgstr "WordPress з коробки залишає відкритими кіль
 
 msgid "Downsides"
 msgstr "Мінуси"
+
+msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
+msgstr "Показувати кількість відкритих прогалин поруч із HeAd Guard у меню адмінки"
+
+msgid "I do not need this on this site (it stops counting as an open gap)"
+msgstr "Мені це не потрібно на цьому сайті (прогалина перестане рахуватися відкритою)"
+
+msgid "high risk"
+msgstr "високий ризик"
+
+msgid "medium risk"
+msgstr "середній ризик"
+
+msgid "low risk"
+msgstr "низький ризик"
+
+msgid "Closed by this plugin"
+msgstr "Закрито цим плагіном"
+
+msgid "Not working"
+msgstr "Не працює"
+
+msgid "The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting."
+msgstr "Налаштування ввімкнене, але остання перевірка досі знаходить цю прогалину відкритою. Можливо, серверні правила не працюють на цьому сервері або інший плагін скасовує налаштування."
+
+#, php-format
+msgid "Closed by %s. You can leave this off."
+msgstr "Закрито: %s. Це налаштування можна не вмикати."
+
+#, php-format
+msgid "Probably by %s or the server settings. You can leave this off."
+msgstr "Імовірно, це робить %s або налаштування сервера. Це налаштування можна не вмикати."
+
+msgid "By the server settings or another plugin. You can leave this off."
+msgstr "Це роблять налаштування сервера або інший плагін. Це налаштування можна не вмикати."
+
+msgid "Already closed"
+msgstr "Уже закрито"
+
+#, php-format
+msgid "Open, %s"
+msgstr "Відкрито, %s"
+
+msgid "Not needed"
+msgstr "Не потрібно"
+
+#, php-format
+msgid "Not checked yet, %s"
+msgstr "Ще не перевірено, %s"
+
+#, php-format
+msgid "Cannot be checked, %s"
+msgstr "Не вдається перевірити, %s"
+
+msgid "Checking what your site answers to visitors..."
+msgstr "Перевіряю, що ваш сайт відповідає відвідувачам..."
+
+#, php-format
+msgid "Last check: %s ago."
+msgstr "Остання перевірка: %s тому."
+
+msgid "Check again"
+msgstr "Перевірити знову"
+
+msgid "Open HelloAdmin Guard"
+msgstr "Відкрити HelloAdmin Guard"
+
+msgid "HelloAdmin Guard: no open security gaps"
+msgstr "HelloAdmin Guard: відкритих прогалин немає"
+
+msgid "Security"
+msgstr "Безпека"
+
+msgid "Every gap HelloAdmin Guard checks is closed on this site, by the plugin, by the server or by another plugin, or marked as not needed."
+msgstr "Усі прогалини, які перевіряє HelloAdmin Guard, на цьому сайті закриті: плагіном, сервером або іншим плагіном, або позначені як непотрібні."
+
+msgid "HelloAdmin Guard has not checked this site yet"
+msgstr "HelloAdmin Guard ще не перевіряв цей сайт"
+
+msgid "Open the plugin settings page once: it checks what the site answers to visitors and shows which gaps are open."
+msgstr "Відкрийте сторінку налаштувань плагіна один раз: він перевірить, що сайт відповідає відвідувачам, і покаже, які прогалини відкриті."
+
+msgid "Some things bots look for are still open on this site. Every switch on the settings page explains what it closes, what may break and how to undo it."
+msgstr "Частина того, що шукають боти, на цьому сайті досі відкрита. Кожен перемикач на сторінці налаштувань пояснює, що він закриває, що може зламатися і як усе повернути."
+
+msgid "WordPress itself (Application Passwords need HTTPS)"
+msgstr "сам WordPress (паролі застосунків працюють лише з HTTPS)"
+
+msgid "Limit login attempts"
+msgstr "Обмежити спроби входу"
+
+msgid "After too many failed logins from one IP address, every login from that address is refused for a while, even with the right password, so a bot cannot keep guessing. Works for the login page, XML-RPC and REST API logins. A successful login resets the count."
+msgstr "Після кількох невдалих входів з однієї IP-адреси будь-який вхід з цієї адреси на деякий час відхиляється, навіть із правильним паролем, і бот не може продовжувати підбір. Працює для сторінки входу, XML-RPC і входу через REST API. Успішний вхід обнуляє лічильник."
+
+msgid "You can lock yourself out for a while by mistyping the password. If the site is behind a proxy or CDN that the host does not unwrap, all visitors share one address and one bot can lock everyone out: then leave this off or ask the host to pass the real visitor IP."
+msgstr "Ви можете на деякий час заблокувати себе, якщо кілька разів помилитеся в паролі. Якщо сайт стоїть за проксі або CDN, а хостинг не передає справжню адресу відвідувача, у всіх відвідувачів одна адреса, і один бот може заблокувати всіх. Тоді не вмикайте це налаштування або попросіть хостинг передавати справжню IP-адресу."
+
+msgid "Turn this off and save: lockouts end at once. If you are locked out yourself, wait until the time runs out, or rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager."
+msgstr "Вимкніть це налаштування і збережіть: блокування одразу знімаються. Якщо ви заблокували себе, дочекайтеся закінчення блокування або перейменуйте папку wp-content/plugins/helloadmin-guard через FTP або файловий менеджер хостингу."
+
+msgid "Attempts"
+msgstr "Спроб"
+
+msgid "Failed logins allowed from one address, 3 to 20."
+msgstr "Скільки невдалих входів дозволено з однієї адреси, від 3 до 20."
+
+msgid "Lockout, minutes"
+msgstr "Блокування, хвилин"
+
+msgid "How long the address stays locked, 5 to 1440 minutes (one day)."
+msgstr "На скільки хвилин блокується адреса, від 5 до 1440 (доба)."
+
+msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap. The login form answers \"Wrong username or password\" for both mistakes, and \"Lost your password?\" shows the same answer whether the user exists or not."
+msgstr "Відвідувачі, які не ввійшли, більше не можуть дізнатися імена користувачів через /?author=1, список користувачів REST API (/wp-json/wp/v2/users), посилання на автора в oEmbed і карту сайту користувачів. Форма входу відповідає «Неправильне ім’я користувача або пароль» на обидві помилки, а «Забули пароль?» показує однакову відповідь, є такий користувач чи ні."
+
+msgid "Apps or scripts that read the user list through the REST API without logging in. Author pages drop out of wp-sitemap.xml; the pages themselves keep working. Someone who mistyped the user name is no longer told which part was wrong."
+msgstr "Програми або скрипти, що читають список користувачів через REST API без входу. Сторінки авторів зникають із wp-sitemap.xml, але самі сторінки працюють. Той, хто помилився в імені користувача, більше не дізнається, у чому саме помилився."
+
+msgid "<strong>Error:</strong> Wrong username or password."
+msgstr "<strong>Помилка:</strong> неправильне ім’я користувача або пароль."
+
+#, php-format
+msgid "%d open gap"
+msgid_plural "%d open gaps"
+msgstr[0] "%d відкрита прогалина"
+msgstr[1] "%d відкриті прогалини"
+msgstr[2] "%d відкритих прогалин"
+
+#, php-format
+msgid "HelloAdmin Guard: %d security gap is open"
+msgid_plural "HelloAdmin Guard: %d security gaps are open"
+msgstr[0] "HelloAdmin Guard: відкрита %d прогалина"
+msgstr[1] "HelloAdmin Guard: відкриті %d прогалини"
+msgstr[2] "HelloAdmin Guard: відкрито %d прогалин"
+
+#, php-format
+msgid "Too many failed login attempts. Try again in %d minute."
+msgid_plural "Too many failed login attempts. Try again in %d minutes."
+msgstr[0] "Забагато невдалих спроб входу. Спробуйте знову через %d хвилину."
+msgstr[1] "Забагато невдалих спроб входу. Спробуйте знову через %d хвилини."
+msgstr[2] "Забагато невдалих спроб входу. Спробуйте знову через %d хвилин."
