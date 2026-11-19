@@ -1,5 +1,5 @@
 === HelloAdmin Guard – Security Hardening ===
-Contributors: helloadmin
+Contributors: helloadmincom
 Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
