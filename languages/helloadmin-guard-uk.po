@@ -426,8 +426,8 @@ msgid "The server answers 404 for every file and folder whose name starts with a
 msgstr "Сервер відповідає 404 на кожен файл і папку, назва яких починається з крапки: .git (уся історія коду), .env (паролі бази даних і ключі API), .htpasswd, .svn, .DS_Store, резервні копії редакторів на кшталт .wp-config.php.swp. Вони з’являються, коли сайт розгортають через Git або копіюють із комп’ютера."
 
 #: includes/features/class-block-hidden-files.php:54
-msgid "Nothing breaks on a normal site. /.well-known/ stays open: SSL certificates and app links need it."
-msgstr "На звичайному сайті нічого не зламається. /.well-known/ залишиться відкритою: ця папка потрібна для SSL-сертифікатів і посилань на застосунки."
+msgid "If a plugin or theme serves files to visitors from a folder whose name starts with a dot (rare), they stop opening. /.well-known/ stays open: SSL certificates and app links need it."
+msgstr "Якщо плагін або тема віддає відвідувачам файли з папки, назва якої починається з крапки (рідко), вони перестануть відкриватися. /.well-known/ залишиться відкритою: ця папка потрібна для SSL-сертифікатів і посилань на застосунки."
 
 #: includes/features/class-block-logs.php:36
 msgid "Block logs and diagnostic pages"
@@ -450,8 +450,8 @@ msgid "The server answers 403 to the TRACE and TRACK request methods. They only 
 msgstr "Сервер відповідає 403 на методи запиту TRACE та TRACK. Вони лише повертають запит назад і потрібні для налагодження; сканери безпеки позначають їх як «TRACE enabled». Браузери їх не надсилають, тож відвідувачі різниці не помітять."
 
 #: includes/features/class-block-trace.php:55
-msgid "Nothing on a normal site."
-msgstr "На звичайному сайті нічого."
+msgid "Nothing. Browsers, WordPress, plugins and search engines never send TRACE or TRACK; only debugging tools do, by hand."
+msgstr "Нічого. Браузери, WordPress, плагіни та пошуковики ніколи не надсилають TRACE і TRACK, їх надсилають лише вручну, інструментами налагодження."
 
 #: includes/features/class-disable-app-passwords.php:33
 msgid "Turn off Application Passwords"

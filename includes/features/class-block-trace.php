@@ -52,7 +52,7 @@ class Block_Trace extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Nothing on a normal site.', 'helloadmin-guard' );
+		return __( 'Nothing. Browsers, WordPress, plugins and search engines never send TRACE or TRACK; only debugging tools do, by hand.', 'helloadmin-guard' );
 	}
 
 	/**

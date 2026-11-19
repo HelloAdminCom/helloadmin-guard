@@ -34,7 +34,7 @@ class Security_Headers extends Feature {
 	);
 
 	/**
-	 * Directives that are always off: motion sensors and USB devices, which ordinary sites never ask for.
+	 * Directives that are always off: motion sensors and USB devices, which websites do not need.
 	 */
 	const ALWAYS_OFF = array( 'accelerometer', 'gyroscope', 'magnetometer', 'usb' );
 

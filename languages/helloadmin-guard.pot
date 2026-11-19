@@ -424,7 +424,7 @@ msgid "The server answers 404 for every file and folder whose name starts with a
 msgstr ""
 
 #: includes/features/class-block-hidden-files.php:54
-msgid "Nothing breaks on a normal site. /.well-known/ stays open: SSL certificates and app links need it."
+msgid "If a plugin or theme serves files to visitors from a folder whose name starts with a dot (rare), they stop opening. /.well-known/ stays open: SSL certificates and app links need it."
 msgstr ""
 
 #: includes/features/class-block-logs.php:36
@@ -448,7 +448,7 @@ msgid "The server answers 403 to the TRACE and TRACK request methods. They only 
 msgstr ""
 
 #: includes/features/class-block-trace.php:55
-msgid "Nothing on a normal site."
+msgid "Nothing. Browsers, WordPress, plugins and search engines never send TRACE or TRACK; only debugging tools do, by hand."
 msgstr ""
 
 #: includes/features/class-disable-app-passwords.php:33

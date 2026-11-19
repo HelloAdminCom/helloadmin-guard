@@ -426,8 +426,8 @@ msgid "The server answers 404 for every file and folder whose name starts with a
 msgstr "Сервер отвечает 404 на каждый файл и папку, имя которых начинается с точки: .git (вся история кода), .env (пароли базы данных и ключи API), .htpasswd, .svn, .DS_Store, резервные копии редакторов вроде .wp-config.php.swp. Они появляются, когда сайт разворачивают через Git или копируют с компьютера."
 
 #: includes/features/class-block-hidden-files.php:54
-msgid "Nothing breaks on a normal site. /.well-known/ stays open: SSL certificates and app links need it."
-msgstr "На обычном сайте ничего не сломается. /.well-known/ останется открытой: эта папка нужна для SSL-сертификатов и ссылок на приложения."
+msgid "If a plugin or theme serves files to visitors from a folder whose name starts with a dot (rare), they stop opening. /.well-known/ stays open: SSL certificates and app links need it."
+msgstr "Если плагин или тема отдаёт посетителям файлы из папки, имя которой начинается с точки (редко), они перестанут открываться. /.well-known/ останется открытой: эта папка нужна для SSL-сертификатов и ссылок на приложения."
 
 #: includes/features/class-block-logs.php:36
 msgid "Block logs and diagnostic pages"
@@ -450,8 +450,8 @@ msgid "The server answers 403 to the TRACE and TRACK request methods. They only 
 msgstr "Сервер отвечает 403 на методы запроса TRACE и TRACK. Они только возвращают запрос обратно и нужны для отладки; сканеры безопасности отмечают их как «TRACE enabled». Браузеры их не отправляют, так что посетители разницы не заметят."
 
 #: includes/features/class-block-trace.php:55
-msgid "Nothing on a normal site."
-msgstr "На обычном сайте ничего."
+msgid "Nothing. Browsers, WordPress, plugins and search engines never send TRACE or TRACK; only debugging tools do, by hand."
+msgstr "Ничего. Браузеры, WordPress, плагины и поисковики никогда не отправляют TRACE и TRACK, их отправляют только вручную, инструментами отладки."
 
 #: includes/features/class-disable-app-passwords.php:33
 msgid "Turn off Application Passwords"
