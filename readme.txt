@@ -1,4 +1,4 @@
-=== HelloAdmin Guard ===
+=== HelloAdmin Guard – Security Hardening ===
 Contributors: helloadmin
 Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
@@ -78,9 +78,24 @@ Yes: wp helloadmin-guard status, check, enable and disable.
 
 Not yet. The custom login URL does nothing on multisite; the other settings are tested on single sites only.
 
+= What happens when I deactivate or delete the plugin? =
+
+Deactivating turns every setting off at once and removes the plugin's block from .htaccess; your choices are kept and come back when you activate it again. Deleting the plugin also removes its settings from the database.
+
+= Does it work on Nginx? =
+
+The General tab works on any server. Nginx does not read .htaccess, so on the Advanced tab every card shows its rules to copy into the server block of your site.
+
 = Does the plugin send any data? =
 
 No. It makes no requests to outside servers. It only sends requests to your own site, as a visitor who is not logged in: to check which gaps are open and, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
+
+== Screenshots ==
+
+1. General tab: every card says what it does, what may break and how to undo it, and shows whether the gap is closed by this plugin, already closed by something else, or open. The number of open gaps is next to the menu item.
+2. Advanced tab: server rules written into .htaccess, with the exact lines under each card.
+3. Security headers: tick what your site uses, the rest is turned off in Permissions-Policy.
+4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
 
