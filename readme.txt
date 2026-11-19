@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,10 @@ No. It makes no requests to outside servers. It only sends requests to your own 
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.4.1 =
+* When a gap is closed by something the plugin cannot name, the card also mentions the theme.
+* readme: FAQ on deactivation and Nginx, screenshots list.
 
 = 0.4.0 =
 * Security headers: choose what your site uses (quick payment buttons, visitor location, camera and microphone); Permissions-Policy turns off the rest, plus motion sensors and USB. Known plugins tick their box for you.

@@ -607,9 +607,9 @@ class Admin_Page {
 					$note = sprintf( __( 'Closed by %s. You can leave this off.', 'helloadmin-guard' ), $by );
 				} elseif ( $suspects ) {
 					/* translators: %s: names of active security plugins. */
-					$note = sprintf( __( 'Probably by %s or the server settings. You can leave this off.', 'helloadmin-guard' ), implode( ', ', $suspects ) );
+					$note = sprintf( __( 'Probably by %s, the theme or the server settings. You can leave this off.', 'helloadmin-guard' ), implode( ', ', $suspects ) );
 				} else {
-					$note = __( 'By the server settings or another plugin. You can leave this off.', 'helloadmin-guard' );
+					$note = __( 'By the theme, the server settings or another plugin. You can leave this off.', 'helloadmin-guard' );
 				}
 				return array( 'covered', __( 'Already closed', 'helloadmin-guard' ), $note );
 			case 'open':

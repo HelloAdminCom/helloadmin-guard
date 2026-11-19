@@ -4,6 +4,12 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-19
+
+### Changed
+- "Already closed" note: when the plugin cannot tell what closes a gap, it names the theme too (helloadmin.com closes the REST API for guests in its theme, and the note blamed Sucuri).
+- readme: name with a short tagline, FAQ on deactivation and Nginx, Screenshots section, Contributors = helloadmincom.
+
 ## [0.4.0] - 2026-11-19
 
 Permissions-Policy that fits the site, and two more server rules.

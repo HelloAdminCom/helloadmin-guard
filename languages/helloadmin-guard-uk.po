@@ -159,12 +159,12 @@ msgstr "Закрито: %s. Це налаштування можна не вми
 #. translators: %s: names of active security plugins.
 #: includes/class-admin-page.php:610
 #, php-format
-msgid "Probably by %s or the server settings. You can leave this off."
-msgstr "Імовірно, це робить %s або налаштування сервера. Це налаштування можна не вмикати."
+msgid "Probably by %s, the theme or the server settings. You can leave this off."
+msgstr "Імовірно, це робить %s, тема або налаштування сервера. Це налаштування можна не вмикати."
 
 #: includes/class-admin-page.php:612
-msgid "By the server settings or another plugin. You can leave this off."
-msgstr "Це роблять налаштування сервера або інший плагін. Це налаштування можна не вмикати."
+msgid "By the theme, the server settings or another plugin. You can leave this off."
+msgstr "Це роблять тема, налаштування сервера або інший плагін. Це налаштування можна не вмикати."
 
 #: includes/class-admin-page.php:614
 msgid "Already closed"
