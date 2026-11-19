@@ -76,6 +76,16 @@ class Settings {
 	}
 
 	/**
+	 * Saved values of all extra fields of a feature.
+	 *
+	 * @param string $id Feature id.
+	 * @return array<string, string>
+	 */
+	public function fields_of( $id ) {
+		return isset( $this->data['fields'][ $id ] ) && is_array( $this->data['fields'][ $id ] ) ? $this->data['fields'][ $id ] : array();
+	}
+
+	/**
 	 * Builds a clean option value from the submitted form. Unknown keys are dropped.
 	 *
 	 * @param mixed     $input    Raw $_POST data for the option.

@@ -98,6 +98,10 @@
 .hag-input { width: 100%; }
 .hag-explain .description { margin: 4px 0 0; font-size: 12px; color: #646970; }
 .hag-more { font-weight: 600; }
+.hag-checks { margin: 0; padding: 0; border: 0; min-width: 0; }
+.hag-checks .description { margin: 0 0 6px; }
+.hag-check-field { margin: 0 0 4px; }
+.hag-found { font-size: 12px; color: #007017; }
 
 @media (max-width: 600px) {
 	.hag-explain { grid-template-columns: 1fr; gap: 2px 0; }

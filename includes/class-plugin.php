@@ -69,6 +69,7 @@ final class Plugin {
 		}
 
 		foreach ( $this->features as $id => $feature ) {
+			$feature->set_values( $this->settings->fields_of( $id ) );
 			if ( $this->settings->is_enabled( $id ) ) {
 				$feature->enable( $this->settings );
 			}
@@ -79,6 +80,7 @@ final class Plugin {
 		}
 
 		if ( is_admin() ) {
+			add_action( 'admin_init', array( $this, 'maybe_upgrade' ) );
 			$status = new Status( $this->settings, $this->features );
 			$status->register();
 			( new Site_Health( $status ) )->register();
@@ -93,7 +95,9 @@ final class Plugin {
 	 * @return Feature[]
 	 */
 	private function default_features() {
+		// Order of the server rules in .htaccess: the https redirect goes first, so every other rule answers on https.
 		return array(
+			new Features\Https_Redirect(),
 			new Features\Login_Url(),
 			new Features\Limit_Login(),
 			new Features\Disable_App_Passwords(),
@@ -112,6 +116,7 @@ final class Plugin {
 			new Features\Hide_Version_Files(),
 			new Features\Block_Dev_Files(),
 			new Features\Hsts(),
+			new Features\Block_Trace(),
 		);
 	}
 
@@ -129,6 +134,28 @@ final class Plugin {
 			}
 		}
 		return Htaccess::sync( $on );
+	}
+
+	/**
+	 * Option with the plugin version that wrote the current server rules.
+	 */
+	const VERSION_OPTION = 'helloadmin_guard_version';
+
+	/**
+	 * After an update, rewrites the server rules once: a new version may build them differently
+	 * (0.4 builds Permissions-Policy from the site's choices), and old checks may no longer be right.
+	 *
+	 * @return void
+	 */
+	public function maybe_upgrade() {
+		if ( get_option( self::VERSION_OPTION ) === HELLOADMIN_GUARD_VERSION || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		update_option( self::VERSION_OPTION, HELLOADMIN_GUARD_VERSION, true );
+		if ( (array) get_option( Htaccess::WRITTEN_OPTION, array() ) ) {
+			$this->sync_htaccess();
+		}
+		Status::forget();
 	}
 
 	/**

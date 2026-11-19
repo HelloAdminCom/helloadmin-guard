@@ -18,6 +18,37 @@ defined( 'ABSPATH' ) || exit;
 abstract class Feature {
 
 	/**
+	 * Values of the extra fields: saved ones, or the ones being saved while the server rules are written.
+	 *
+	 * @var array<string, string>
+	 */
+	private $values = array();
+
+	/**
+	 * Sets the values of the extra fields (see fields()).
+	 *
+	 * @param array<string, string> $values Field name => value.
+	 * @return void
+	 */
+	public function set_values( array $values ) {
+		$this->values = $values;
+	}
+
+	/**
+	 * Value of an extra field, or its default when nothing is saved.
+	 *
+	 * @param string $field Field name from fields().
+	 * @return string
+	 */
+	protected function value( $field ) {
+		if ( isset( $this->values[ $field ] ) ) {
+			return (string) $this->values[ $field ];
+		}
+		$fields = $this->fields();
+		return isset( $fields[ $field ]['default'] ) ? (string) $fields[ $field ]['default'] : '';
+	}
+
+	/**
 	 * Unique key, used in the option array and in HTML ids. Lowercase, underscores.
 	 *
 	 * @return string
@@ -175,7 +206,8 @@ abstract class Feature {
 
 	/**
 	 * Extra fields shown under the toggle, keyed by field name.
-	 * Each field: array( 'label' => string, 'type' => 'text', 'default' => string, 'description' => string ).
+	 * Each field: array( 'label' => string, 'type' => 'text' or 'checkbox', 'default' => string, 'description' => string ).
+	 * A checkbox saves '1' or '0'. Checkboxes that follow each other are shown as one group under 'group' of the first.
 	 *
 	 * @return array<string, array<string, string>>
 	 */

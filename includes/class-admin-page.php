@@ -242,6 +242,8 @@ class Admin_Page {
 
 		$on = array();
 		foreach ( $this->features as $id => $feature ) {
+			// Rules are built from the values about to be saved, not from the stored ones.
+			$feature->set_values( isset( $clean['fields'][ $id ] ) && is_array( $clean['fields'][ $id ] ) ? $clean['fields'][ $id ] : array() );
 			if ( $feature->apache_rules() && ! empty( $clean['enabled'][ $id ] ) ) {
 				$on[ $id ] = $feature;
 			}
@@ -470,7 +472,8 @@ class Admin_Page {
 		$fields    = $feature->fields();
 		$last_hint = '';
 		foreach ( $fields as $field => $args ) {
-			if ( ! empty( $args['description'] ) ) {
+			// Hints of checkboxes are short notes next to them; "Learn more" never goes there.
+			if ( ! empty( $args['description'] ) && ( ! isset( $args['type'] ) || 'checkbox' !== $args['type'] ) ) {
 				$last_hint = $field;
 			}
 		}
@@ -488,6 +491,12 @@ class Admin_Page {
 		foreach ( $fields as $field => $args ) {
 			$field_id = $html . '-' . str_replace( '_', '-', $field );
 			$has_hint = ! empty( $args['description'] );
+			if ( isset( $args['type'] ) && 'checkbox' === $args['type'] ) {
+				if ( ! empty( $args['group'] ) ) {
+					$this->render_checkbox_group( $feature, $field, $html );
+				}
+				continue;
+			}
 			printf(
 				'<dt class="hag-field-label"><label for="%1$s">%2$s</label></dt><dd><input type="text" class="hag-input" id="%1$s" name="%3$s" value="%4$s"%5$s>',
 				esc_attr( $field_id ),
@@ -520,6 +529,55 @@ class Admin_Page {
 			$this->render_rules( $feature, $manual );
 		}
 		echo '</div></div>';
+	}
+
+	/**
+	 * A row of checkboxes that starts at $first and goes on while the fields are checkboxes without their own group:
+	 * the 'group' text on the left, the boxes on the right. A hidden "0" goes before each box, so an unticked box is
+	 * saved as unticked and not replaced by its default.
+	 *
+	 * @param Feature $feature Feature.
+	 * @param string  $first   Field name with the 'group' text.
+	 * @param string  $html    HTML id prefix of the card.
+	 * @return void
+	 */
+	private function render_checkbox_group( Feature $feature, $first, $html ) {
+		$id      = $feature->id();
+		$fields  = $feature->fields();
+		$started = false;
+		foreach ( $fields as $field => $args ) {
+			if ( $field === $first ) {
+				$started = true;
+				printf(
+					'<dt class="hag-field-label" id="%1$s-label">%2$s</dt><dd><fieldset class="hag-checks" aria-labelledby="%1$s-label">',
+					esc_attr( $html . '-' . str_replace( '_', '-', $field ) ),
+					esc_html( $args['group'] )
+				);
+				if ( ! empty( $args['group_hint'] ) ) {
+					printf( '<p class="description">%s</p>', esc_html( $args['group_hint'] ) );
+				}
+			} elseif ( ! $started ) {
+				continue;
+			} elseif ( ! isset( $args['type'] ) || 'checkbox' !== $args['type'] || ! empty( $args['group'] ) ) {
+				break;
+			}
+			$name     = Settings::OPTION . '[fields][' . $id . '][' . $field . ']';
+			$field_id = $html . '-' . str_replace( '_', '-', $field );
+			$has_hint = ! empty( $args['description'] );
+			printf(
+				'<p class="hag-check-field"><input type="hidden" name="%1$s" value="0"><label for="%2$s"><input type="checkbox" id="%2$s" name="%1$s" value="1"%3$s%4$s> %5$s</label>',
+				esc_attr( $name ),
+				esc_attr( $field_id ),
+				checked( $this->settings->field( $id, $field, $args['default'] ), '1', false ),
+				$has_hint ? ' aria-describedby="' . esc_attr( $field_id . '-help' ) . '"' : '',
+				esc_html( $args['label'] )
+			);
+			if ( $has_hint ) {
+				printf( ' <span class="hag-found" id="%s">%s</span>', esc_attr( $field_id . '-help' ), esc_html( $args['description'] ) );
+			}
+			echo '</p>';
+		}
+		echo '</fieldset></dd>';
 	}
 
 	/**
