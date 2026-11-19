@@ -197,24 +197,51 @@ class Htaccess {
 	}
 
 	/**
-	 * Opens the home page from the server itself.
+	 * Opens the home page from the server itself, over https and over plain http, following redirects by hand.
 	 *
-	 * @return bool|null True if it answers without a server error, false on a 5xx answer, null if it cannot be reached
-	 *                   (some hosts block requests from a site to itself).
+	 * @return bool|null True if it answers without a server error, false on a 5xx answer or a redirect loop, null if
+	 *                   it cannot be reached (some hosts block requests from a site to itself).
 	 */
 	public static function site_responds() {
-		$response = wp_remote_get(
-			add_query_arg( 'helloadmin-guard-check', (string) time(), home_url( '/' ) ),
-			array(
-				'timeout'     => 15,
-				'redirection' => 3,
-				/** This filter is documented in wp-includes/class-wp-http-streams.php */
-				'sslverify'   => apply_filters( 'https_local_ssl_verify', false ), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core filter.
-			)
-		);
-		if ( is_wp_error( $response ) ) {
-			return null;
+		$home   = add_query_arg( 'helloadmin-guard-check', (string) time(), home_url( '/' ) );
+		$result = self::follow( $home );
+		if ( true !== $result ) {
+			return $result;
 		}
-		return (int) wp_remote_retrieve_response_code( $response ) < 500;
+		// A redirect rule may loop only for plain http visitors (a proxy that talks to the server over http).
+		if ( 0 === strpos( $home, 'https://' ) && false === self::follow( set_url_scheme( $home, 'http' ) ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Requests a URL and follows up to 5 redirects.
+	 *
+	 * @param string $url URL to open.
+	 * @return bool|null True on an answer below 500, false on 5xx or more than 5 redirects, null if unreachable.
+	 */
+	private static function follow( $url ) {
+		for ( $hop = 0; $hop <= 5; $hop++ ) {
+			$response = wp_remote_get(
+				$url,
+				array(
+					'timeout'     => 15,
+					'redirection' => 0,
+					/** This filter is documented in wp-includes/class-wp-http-streams.php */
+					'sslverify'   => apply_filters( 'https_local_ssl_verify', false ), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core filter.
+				)
+			);
+			if ( is_wp_error( $response ) ) {
+				return null;
+			}
+			$code     = (int) wp_remote_retrieve_response_code( $response );
+			$location = (string) wp_remote_retrieve_header( $response, 'location' );
+			if ( $code < 300 || $code >= 400 || '' === $location ) {
+				return $code < 500;
+			}
+			$url = \WP_Http::make_absolute_url( $location, $url );
+		}
+		return false;
 	}
 }
