@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ General tab
 * Custom login URL. The login page moves to your own address; /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in.
 * Hide user names. Closes /?author=1, the REST API user list, oEmbed author links and the users sitemap for visitors who are not logged in.
 * Turn off Application Passwords. They stop working for everyone; existing passwords are kept and work again when you turn the setting off.
-* Security headers. X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy.
+* Security headers. X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy. You tick what your site uses (quick payment buttons, visitor location, camera and microphone); the rest is turned off. Boxes for known plugins, like WooCommerce or a store locator, are ticked for you.
 * Limit login attempts. Too many failed logins from one IP address lock it out for a while.
 * Hide the WordPress version. Removes it from the generator tag, feeds and core file links, and removes the X-Powered-By header.
 * Hide the REST API index. /wp-json/ no longer lists installed plugins to visitors.
@@ -43,12 +43,14 @@ Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Ngin
 * No PHP in the uploads folder.
 * Block logs and diagnostic pages: debug.log, error_log, WooCommerce logs, phpinfo.php and other test pages.
 * Turn off folder listings.
+* Redirect http:// to https://, for every file, before WordPress starts. Safe behind Cloudflare; SSL certificate checks stay on http.
 * HTTPS only (HSTS).
 * Close internal WordPress folders: the rules from the WordPress hardening guide.
 * Hide files that show versions: readme.html, plugin readme files, install.php and upgrade.php for guests.
 * Block developer and build files: composer and npm files, source maps, Docker and deploy files.
+* Refuse TRACE and TRACK requests, which security scanners report.
 
-Before writing .htaccess the plugin keeps a copy of it and then opens your home page. If the page answers with a server error, the old file is put back and the settings stay off. Its rules sit between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" and are removed when the plugin is deactivated.
+Before writing .htaccess the plugin keeps a copy of it and then opens your home page. If the page answers with a server error or goes round in redirects, the old file is put back and the settings stay off. Its rules sit between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" and are removed when the plugin is deactivated.
 
 The plugin is available in English, Ukrainian and Russian.
 
@@ -78,9 +80,15 @@ Not yet. The custom login URL does nothing on multisite; the other settings are 
 
 = Does the plugin send any data? =
 
-No. It makes no requests to outside servers. The only request it makes is to your own home page, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
+No. It makes no requests to outside servers. It only sends requests to your own site, as a visitor who is not logged in: to check which gaps are open and, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
 
 == Changelog ==
+
+= 0.4.0 =
+* Security headers: choose what your site uses (quick payment buttons, visitor location, camera and microphone); Permissions-Policy turns off the rest, plus motion sensors and USB. Known plugins tick their box for you.
+* New server rules: redirect http:// to https://, refuse TRACE and TRACK.
+* A redirect loop after writing .htaccess counts as a broken site: the old file is put back.
+* After an update the plugin rewrites its .htaccess block once.
 
 = 0.3.0 =
 * Checks every gap from outside and shows on each card whether it is closed by this plugin, by another plugin or the server, or still open.

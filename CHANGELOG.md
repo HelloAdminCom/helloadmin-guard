@@ -4,6 +4,20 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-19
+
+Permissions-Policy that fits the site, and two more server rules.
+
+### Added
+- Security headers: three boxes "What does your site use?": quick payment buttons (Apple Pay, Google Pay, Link), visitor location, camera and microphone. Permissions-Policy turns off what is not ticked, and always turns off motion sensors and USB. A box is ticked by default when a plugin that needs it is active (WooCommerce and other payment plugins, store locators and map plugins, video call plugins); the card warns when such a plugin is found and its box is unticked. What is ticked keeps the browser default, so embedded payment and map frames keep working.
+- Redirect http:// to https:// (Advanced tab): permanent redirect for every request before WordPress starts, the first rule in the block. Proxies that send X-Forwarded-Proto (Cloudflare) do not loop; /.well-known/ and cPanel .cpaneldcv files stay on http for SSL checks; no rule while the site address is http. The check asks the plain http home page.
+- Refuse TRACE and TRACK requests (Advanced tab): 403 before WordPress starts. The check sends a TRACE request; a 2xx answer counts as open.
+- After an update to a new version the plugin rewrites its .htaccess block once and checks the site again.
+
+### Changed
+- Permissions-Policy without any box ticked: geolocation=() instead of geolocation=(self), and payment=(), accelerometer=(), gyroscope=(), magnetometer=(), usb=() added.
+- After writing .htaccess the plugin follows redirects itself, on the https and the plain http home page. More than 5 redirects count as a broken site and the old file is put back (before, a redirect loop was treated as "could not check" and the rules stayed).
+
 ## [0.3.0] - 2026-11-18
 
 The plugin now checks what the site really answers and shows it on every card.

@@ -4,35 +4,51 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://github.com/HelloAdminCom/helloadmin-guard/issues\n"
-"POT-Creation-Date: 2026-11-17 13:06+0000\n"
+"POT-Creation-Date: 2026-11-19T09:29:32+02:00\n"
+"PO-Revision-Date: 2026-11-19 10:00+0200\n"
+"Last-Translator: HelloAdmin\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: helloadmin-guard\n"
-"Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"PO-Revision-Date: 2026-11-17 15:00+0200\n"
-"Last-Translator: HelloAdmin\n"
 
 #. Plugin Name of the plugin
-#: helloadmin-guard.php includes/class-admin-page.php:103 includes/class-admin-page.php:236
+#: helloadmin-guard.php includes/class-admin-page.php:103
+#: includes/class-admin-page.php:353 includes/class-site-health.php:51
 msgid "HelloAdmin Guard"
 msgstr "HelloAdmin Guard"
+
+#. Plugin URI of the plugin
+#: helloadmin-guard.php
+msgid "https://github.com/HelloAdminCom/helloadmin-guard"
+msgstr "https://github.com/HelloAdminCom/helloadmin-guard"
 
 #. Description of the plugin
 #: helloadmin-guard.php
 msgid "WordPress security hardening without upsells. Every setting explains what it does, what may break and how to undo it."
 msgstr "Защита WordPress без платных дополнений. Каждая настройка объясняет, что она делает, что может сломаться и как это отменить."
 
-#: includes/class-admin-page.php:64
+#. Author of the plugin
+#: helloadmin-guard.php
+msgid "HelloAdmin"
+msgstr "HelloAdmin"
+
+#. Author URI of the plugin
+#: helloadmin-guard.php
+msgid "https://helloadmin.com/"
+msgstr "https://helloadmin.com/"
+
+#: includes/class-admin-page.php:73
 msgid "General"
 msgstr "Общие"
 
-#: includes/class-admin-page.php:65
+#: includes/class-admin-page.php:74
 msgid "Advanced"
 msgstr "Дополнительно"
 
-#: includes/class-admin-page.php:66
+#: includes/class-admin-page.php:75
 msgid "About"
 msgstr "О плагине"
 
@@ -41,53 +57,401 @@ msgstr "О плагине"
 msgid "HeAd Guard"
 msgstr "HeAd Guard"
 
-#: includes/class-admin-page.php:218
+#. translators: %d: number of open security gaps.
+#: includes/class-admin-page.php:128
+#, php-format
+msgid "%d open gap"
+msgid_plural "%d open gaps"
+msgstr[0] "%d открытая лазейка"
+msgstr[1] "%d открытые лазейки"
+msgstr[2] "%d открытых лазеек"
+
+#: includes/class-admin-page.php:255
+msgid "Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead."
+msgstr "Серверные правила не сохранены: это не Apache и не LiteSpeed, поэтому плагин не может их записать. Скопируйте правила из каждой карточки в конфигурацию сервера."
+
+#: includes/class-admin-page.php:256
+msgid "Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable."
+msgstr "Серверные правила не сохранены: WordPress не может записать файл .htaccess. Скопируйте правила из каждой карточки в .htaccess вручную или попросите хостинг разрешить запись в файл."
+
+#: includes/class-admin-page.php:257
+msgid "Server rules were not saved: writing the .htaccess file failed. Nothing was changed."
+msgstr "Серверные правила не сохранены: не удалось записать файл .htaccess. Ничего не изменено."
+
+#: includes/class-admin-page.php:258
+msgid "Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules."
+msgstr "Серверные правила не сохранены: после записи главная страница ответила ошибкой сервера, поэтому старый файл .htaccess возвращён. Возможно, сервер не поддерживает одно из правил."
+
+#: includes/class-admin-page.php:259
+msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
+msgstr "Серверные правила сохранены, но плагин не смог открыть главную страницу, чтобы их проверить (некоторые хостинги блокируют такие запросы). Откройте сайт в новой вкладке и убедитесь, что он работает."
+
+#: includes/class-admin-page.php:303
 msgid "Settings"
 msgstr "Настройки"
 
-#: includes/class-admin-page.php:238
+#: includes/class-admin-page.php:322
+msgid "Settings saved."
+msgstr "Настройки сохранены."
+
+#: includes/class-admin-page.php:358
 msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
 msgstr "Каждая настройка выключена, пока вы её не включите. Перед сохранением прочитайте, что она делает и что может сломаться."
 
-#: includes/class-admin-page.php:271
+#: includes/class-admin-page.php:394
 msgid "No settings on this tab yet."
 msgstr "На этой вкладке пока нет настроек."
 
-#: includes/class-admin-page.php:324
+#: includes/class-admin-page.php:424
+msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
+msgstr "Показывать число открытых лазеек рядом с HeAd Guard в меню админки"
+
+#: includes/class-admin-page.php:469
 msgid "Learn more"
 msgstr "Подробнее"
 
-#: includes/class-admin-page.php:336
+#: includes/class-admin-page.php:482
 msgid "Description"
 msgstr "Описание"
 
-#: includes/class-admin-page.php:340
+#: includes/class-admin-page.php:483
+msgid "Downsides"
+msgstr "Риски"
+
+#: includes/class-admin-page.php:486
 msgid "How to undo"
 msgstr "Как вернуть"
 
-#: includes/class-admin-page.php:402
+#: includes/class-admin-page.php:525
+msgid "I do not need this on this site (it stops counting as an open gap)"
+msgstr "Мне это не нужно на этом сайте (лазейка перестанет считаться открытой)"
+
+#: includes/class-admin-page.php:593
+msgid "high risk"
+msgstr "высокий риск"
+
+#: includes/class-admin-page.php:594
+msgid "medium risk"
+msgstr "средний риск"
+
+#: includes/class-admin-page.php:595
+msgid "low risk"
+msgstr "низкий риск"
+
+#: includes/class-admin-page.php:599
+msgid "Closed by this plugin"
+msgstr "Закрыто этим плагином"
+
+#: includes/class-admin-page.php:601
+msgid "Not working"
+msgstr "Не работает"
+
+#: includes/class-admin-page.php:601
+msgid "The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting."
+msgstr "Настройка включена, но последняя проверка всё ещё находит эту лазейку открытой. Возможно, серверные правила не работают на этом сервере или другой плагин отменяет настройку."
+
+#. translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)".
+#: includes/class-admin-page.php:607
+#, php-format
+msgid "Closed by %s. You can leave this off."
+msgstr "Закрыто: %s. Эту настройку можно не включать."
+
+#. translators: %s: names of active security plugins.
+#: includes/class-admin-page.php:610
+#, php-format
+msgid "Probably by %s or the server settings. You can leave this off."
+msgstr "Вероятно, это делает %s или настройки сервера. Эту настройку можно не включать."
+
+#: includes/class-admin-page.php:612
+msgid "By the server settings or another plugin. You can leave this off."
+msgstr "Это делают настройки сервера или другой плагин. Эту настройку можно не включать."
+
+#: includes/class-admin-page.php:614
+msgid "Already closed"
+msgstr "Уже закрыто"
+
+#. translators: %s: "high risk", "medium risk" or "low risk".
+#: includes/class-admin-page.php:617
+#, php-format
+msgid "Open, %s"
+msgstr "Открыто, %s"
+
+#: includes/class-admin-page.php:619
+msgid "Not needed"
+msgstr "Не нужно"
+
+#. translators: %s: "high risk", "medium risk" or "low risk".
+#: includes/class-admin-page.php:622
+#, php-format
+msgid "Not checked yet, %s"
+msgstr "Ещё не проверено, %s"
+
+#. translators: %s: "high risk", "medium risk" or "low risk".
+#: includes/class-admin-page.php:622
+#, php-format
+msgid "Cannot be checked, %s"
+msgstr "Не удаётся проверить, %s"
+
+#: includes/class-admin-page.php:635
+msgid "Checking what your site answers to visitors..."
+msgstr "Проверяю, что ваш сайт отвечает посетителям..."
+
+#. translators: %s: time since the last check, for example "5 minutes".
+#: includes/class-admin-page.php:638
+#, php-format
+msgid "Last check: %s ago."
+msgstr "Последняя проверка: %s назад."
+
+#: includes/class-admin-page.php:643
+msgid "Check again"
+msgstr "Проверить снова"
+
+#: includes/class-admin-page.php:659
+msgid "Optional: the same for Nginx, to add to the server block"
+msgstr "Необязательно: то же для Nginx, добавить в блок server"
+
+#: includes/class-admin-page.php:659
+msgid "Rules to add to the server block, above the PHP location"
+msgstr "Правила для блока server, над location для PHP"
+
+#: includes/class-admin-page.php:663
+msgid "Also added to .htaccess, so the server answers before PHP starts"
+msgstr "Также добавляется в .htaccess, чтобы сервер отвечал ещё до запуска PHP"
+
+#: includes/class-admin-page.php:663
+msgid "Optional: the same in .htaccess, to add by hand"
+msgstr "Необязательно: то же в .htaccess, добавить вручную"
+
+#: includes/class-admin-page.php:665
+msgid "Rules to add to .htaccess by hand"
+msgstr "Правила, которые нужно добавить в .htaccess вручную"
+
+#: includes/class-admin-page.php:665
+msgid "Rules the plugin adds to .htaccess"
+msgstr "Правила, которые плагин добавляет в .htaccess"
+
+#: includes/class-admin-page.php:670
+msgid "This setting needs Apache, LiteSpeed or Nginx."
+msgstr "Для этой настройки нужен Apache, LiteSpeed или Nginx."
+
+#: includes/class-admin-page.php:693
+msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
+msgstr "Некоторые настройки на этой вкладке записывают правила в файл .htaccess в корне сайта. Перед каждым изменением плагин сохраняет копию файла, а затем открывает главную страницу; если она отвечает ошибкой сервера, старый файл возвращается."
+
+#: includes/class-admin-page.php:695
+msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
+msgstr "WordPress не может записать файл .htaccess на этом сайте, поэтому правила ниже здесь не включить. Скопируйте их в .htaccess вручную или попросите хостинг разрешить запись в файл."
+
+#: includes/class-admin-page.php:697
+msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
+msgstr "Этот сайт работает на Nginx, а он не читает файлы .htaccess. Скопируйте правила из каждой карточки в блок server вашего сайта или отправьте их хостингу."
+
+#: includes/class-admin-page.php:699
+msgid "The server rules below need Apache, LiteSpeed or Nginx."
+msgstr "Для серверных правил ниже нужен Apache, LiteSpeed или Nginx."
+
+#: includes/class-admin-page.php:736
 msgid "HelloAdmin Guard is free and will stay free."
 msgstr "HelloAdmin Guard бесплатный и останется бесплатным."
 
-#: includes/class-admin-page.php:403
+#: includes/class-admin-page.php:737
 msgid "No paid version, no locked settings, no ads, no calls to outside servers."
 msgstr "Без платной версии, без закрытых настроек, без рекламы, без запросов к сторонним серверам."
 
-#: includes/class-admin-page.php:404
+#: includes/class-admin-page.php:738
 msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
 msgstr "Каждая настройка объясняет, что она меняет, что может сломаться и как всё вернуть. Настройка безопасности, которую вы не понимаете, — тоже риск."
 
-#: includes/class-admin-page.php:405
+#: includes/class-admin-page.php:739
 msgid "Need help with your site?"
 msgstr "Нужна помощь с сайтом?"
 
-#: includes/class-admin-page.php:410
+#: includes/class-admin-page.php:740
+msgid "This plugin was built and is maintained by a developer with more than 10 years of experience with WordPress and WooCommerce. Is your site slow, showing errors, broken after an update or hacked? Need someone to look after it? Write to me."
+msgstr "Плагин создал и поддерживает разработчик с более чем 10-летним опытом работы с WordPress и WooCommerce. Сайт долго грузится, выдаёт ошибки, сломался после обновления или его взломали? Нужен человек, который будет за ним следить? Напишите мне."
+
+#: includes/class-admin-page.php:744
 msgid "Contact HelloAdmin"
 msgstr "Написать HelloAdmin"
 
-#: includes/class-admin-page.php:412
+#: includes/class-admin-page.php:746
 msgid "Report a problem"
 msgstr "Сообщить о проблеме"
+
+#: includes/class-admin-page.php:748
+msgid "Show the welcome message again"
+msgstr "Показать приветствие ещё раз"
+
+#: includes/class-htaccess-feature.php:63
+msgid "Turn this off and save: the plugin removes its lines from .htaccess. If the site does not open at all, delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\" in the .htaccess file over FTP or in the hosting file manager."
+msgstr "Выключите эту настройку и сохраните: плагин уберёт свои строки из .htaccess. Если сайт совсем не открывается, удалите всё между \"# BEGIN HelloAdmin Guard\" и \"# END HelloAdmin Guard\" в файле .htaccess через FTP или файловый менеджер хостинга."
+
+#: includes/class-site-health.php:67
+msgid "Open HelloAdmin Guard"
+msgstr "Открыть HelloAdmin Guard"
+
+#: includes/class-site-health.php:70
+msgid "HelloAdmin Guard: no open security gaps"
+msgstr "HelloAdmin Guard: открытых лазеек нет"
+
+#: includes/class-site-health.php:73
+msgid "Security"
+msgstr "Безопасность"
+
+#: includes/class-site-health.php:76
+msgid "Every gap HelloAdmin Guard checks is closed on this site, by the plugin, by the server or by another plugin, or marked as not needed."
+msgstr "Все лазейки, которые проверяет HelloAdmin Guard, на этом сайте закрыты: плагином, сервером или другим плагином, либо отмечены как ненужные."
+
+#: includes/class-site-health.php:82
+msgid "HelloAdmin Guard has not checked this site yet"
+msgstr "HelloAdmin Guard ещё не проверял этот сайт"
+
+#: includes/class-site-health.php:84
+msgid "Open the plugin settings page once: it checks what the site answers to visitors and shows which gaps are open."
+msgstr "Откройте страницу настроек плагина один раз: он проверит, что сайт отвечает посетителям, и покажет, какие лазейки открыты."
+
+#. translators: %d: number of open security gaps.
+#: includes/class-site-health.php:88
+#, php-format
+msgid "HelloAdmin Guard: %d security gap is open"
+msgid_plural "HelloAdmin Guard: %d security gaps are open"
+msgstr[0] "HelloAdmin Guard: открыта %d лазейка"
+msgstr[1] "HelloAdmin Guard: открыты %d лазейки"
+msgstr[2] "HelloAdmin Guard: открыто %d лазеек"
+
+#: includes/class-site-health.php:90
+msgid "Some things bots look for are still open on this site. Every switch on the settings page explains what it closes, what may break and how to undo it."
+msgstr "Часть того, что ищут боты, на этом сайте всё ещё открыта. Каждый переключатель на странице настроек объясняет, что он закрывает, что может сломаться и как всё вернуть."
+
+#: includes/class-status.php:263
+msgid "Checking…"
+msgstr "Проверяю…"
+
+#: includes/class-welcome.php:145
+msgid "Hello, admin or developer!"
+msgstr "Привет, админ или разработчик!"
+
+#. translators: %s: plugin name in bold.
+#: includes/class-welcome.php:152
+#, php-format
+msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what %s does. Every gap has its own switch, so you decide what to close and what to leave open."
+msgstr "WordPress из коробки оставляет открытыми несколько лазеек: любой может узнать имена пользователей, версию WordPress и адрес страницы входа. Нет, команда WordPress не халтурит 🙂 просто некоторым сайтам они необходимы для работы. Но на большинстве сайтов эти лазейки можно и нужно закрыть. Этим и занимается %s. У каждой лазейки свой переключатель, так что вы сами решаете, что закрыть, а что оставить."
+
+#: includes/class-welcome.php:156
+msgid "Good to know"
+msgstr "Полезно знать"
+
+#: includes/class-welcome.php:158
+msgid "Nothing is on until you turn it on."
+msgstr "Ничего не включено, пока вы сами это не включите."
+
+#: includes/class-welcome.php:159
+msgid "Every switch tells you what it does, what may stop working and how to undo it."
+msgstr "Каждый переключатель объясняет, что он делает, что может перестать работать и как всё вернуть."
+
+#: includes/class-welcome.php:160
+msgid "If another plugin or your server already closes a gap, the card says so, and you can leave that switch off."
+msgstr "Если лазейку уже закрывает другой плагин или сервер, карточка это покажет, и этот переключатель можно не включать."
+
+#: includes/class-welcome.php:161
+msgid "The red number next to HeAd Guard in the menu shows how many gaps are still open."
+msgstr "Красная цифра возле HeAd Guard в меню показывает, сколько лазеек ещё открыто."
+
+#: includes/class-welcome.php:162
+msgid "The plugin is free and will stay free: no Pro version, no account, no data sent anywhere."
+msgstr "Плагин бесплатный и таким и останется: без Pro-версии, без аккаунта, без отправки данных куда бы то ни было."
+
+#: includes/class-welcome.php:163
+msgid "Every new version closes more gaps, so keep the plugin updated."
+msgstr "С каждой версией плагин закрывает новые лазейки, так что не забывайте его обновлять."
+
+#: includes/class-welcome.php:165
+msgid "Not sure where to start? Turn switches on one at a time and check your site after each one."
+msgstr "Не знаете, с чего начать? Включайте по одному и проверяйте сайт после каждого."
+
+#: includes/class-welcome.php:169
+msgid "Got it"
+msgstr "Понятно"
+
+#: includes/class-welcome.php:175
+msgid "Hide the welcome message"
+msgstr "Скрыть приветствие"
+
+#: includes/features/class-block-backups.php:36
+msgid "Block backups and database dumps"
+msgstr "Закрыть бэкапы и дампы базы данных"
+
+#: includes/features/class-block-backups.php:45
+msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator and BackWPup. A file like this left after a move gives away the whole site and its database."
+msgstr "Сервер отвечает 404 на дампы базы данных и бэкапы (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, файлы с ~ в конце), архивы в корне сайта и в папке контента (backup.zip, site.tar.gz), все файлы, имя которых начинается с wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress по-прежнему читает wp-config.php с диска), забытые installer.php от Duplicator и папки бэкапов UpdraftPlus, All-in-One WP Migration, Duplicator и BackWPup. Один такой файл, забытый после переезда, выдаёт весь сайт вместе с базой данных."
+
+#: includes/features/class-block-backups.php:54
+msgid "If you share links to archives in the site root or the content folder, or to .sql and .bak files, they stop downloading. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not through the browser."
+msgstr "Если вы даёте ссылки на архивы в корне сайта или папке контента или на файлы .sql и .bak, они перестанут скачиваться. Архивы в папке uploads останутся открытыми. Плагины бэкапов продолжат работать: они читают свои папки из PHP, а не через браузер."
+
+#: includes/features/class-block-core-internals.php:36
+msgid "Close internal WordPress folders"
+msgstr "Закрыть внутренние папки WordPress"
+
+#: includes/features/class-block-core-internals.php:45
+msgid "The server answers 404 when someone opens PHP files from wp-admin/includes, wp-includes (top level), wp-includes/theme-compat or the TinyMCE language files directly. WordPress only loads them from inside; opened from the browser, some print errors with full server paths. These are the rules from the WordPress hardening guide. Where PHP runs inside the web server (mod_php, LiteSpeed), PHP errors are also hidden from visitors."
+msgstr "Сервер отвечает 404, когда кто-то напрямую открывает PHP-файлы из wp-admin/includes, wp-includes (верхний уровень), wp-includes/theme-compat или языковые файлы TinyMCE. WordPress загружает их только изнутри; открытые из браузера, некоторые из них показывают ошибки с полными путями на сервере. Это правила из руководства WordPress по защите сайта. Там, где PHP работает внутри веб-сервера (mod_php, LiteSpeed), ошибки PHP тоже скрываются от посетителей."
+
+#: includes/features/class-block-core-internals.php:54
+msgid "If you run a Multisite network created before WordPress 3.5 that still serves uploads through wp-includes/ms-files.php, those files stop opening. Normal sites and newer networks are not affected."
+msgstr "Если у вас сеть Multisite, созданная до WordPress 3.5, и она до сих пор отдаёт загрузки через wp-includes/ms-files.php, эти файлы перестанут открываться. Обычных сайтов и новых сетей это не касается."
+
+#: includes/features/class-block-core-internals.php:74
+msgid "PHP on this server shows errors to visitors (display_errors is on in php.ini). The rules below turn it off where the server allows it; otherwise ask the host to turn it off."
+msgstr "PHP на этом сервере показывает ошибки посетителям (display_errors включён в php.ini). Правила ниже выключают это там, где сервер позволяет; иначе попросите хостинг выключить display_errors."
+
+#: includes/features/class-block-dev-files.php:36
+msgid "Block developer and build files"
+msgstr "Закрыть файлы разработки и сборки"
+
+#: includes/features/class-block-dev-files.php:45
+msgid "The server answers 404 for package and build files (composer.json, composer.lock, package.json, package-lock.json, yarn.lock, gulpfile.js, webpack and Vite configs), deploy files (Dockerfile, docker-compose.yml, wp-cli.yml, deploy.php, Makefile), php.ini copies, source maps (.map) and text files of plugins, themes and translations (.md, .txt, .po, .mo, .pot, .yml, .lock) inside the content folder, plus .md, .yml and .sh files in the site root. They list exact versions of libraries with known holes and describe the server."
+msgstr "Сервер отвечает 404 на файлы пакетов и сборки (composer.json, composer.lock, package.json, package-lock.json, yarn.lock, gulpfile.js, конфиги webpack и Vite), файлы деплоя (Dockerfile, docker-compose.yml, wp-cli.yml, deploy.php, Makefile), копии php.ini, source maps (.map) и текстовые файлы плагинов, тем и переводов (.md, .txt, .po, .mo, .pot, .yml, .lock) в папке контента, а также на файлы .md, .yml и .sh в корне сайта. В них видны точные версии библиотек с известными дырами и описание сервера."
+
+#: includes/features/class-block-dev-files.php:54
+msgid "Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open."
+msgstr "Инструменты разработчика в браузере перестанут показывать исходный код минифицированных скриптов. Загрузок это не касается. robots.txt, ads.txt и другие файлы .txt в корне сайта останутся открытыми."
+
+#: includes/features/class-block-hidden-files.php:36
+msgid "Block hidden files (.git, .env)"
+msgstr "Закрыть скрытые файлы (.git, .env)"
+
+#: includes/features/class-block-hidden-files.php:45
+msgid "The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store, editor backups like .wp-config.php.swp. These show up when a site is deployed with Git or copied from a computer."
+msgstr "Сервер отвечает 404 на каждый файл и папку, имя которых начинается с точки: .git (вся история кода), .env (пароли базы данных и ключи API), .htpasswd, .svn, .DS_Store, резервные копии редакторов вроде .wp-config.php.swp. Они появляются, когда сайт разворачивают через Git или копируют с компьютера."
+
+#: includes/features/class-block-hidden-files.php:54
+msgid "Nothing breaks on a normal site. /.well-known/ stays open: SSL certificates and app links need it."
+msgstr "На обычном сайте ничего не сломается. /.well-known/ останется открытой: эта папка нужна для SSL-сертификатов и ссылок на приложения."
+
+#: includes/features/class-block-logs.php:36
+msgid "Block logs and diagnostic pages"
+msgstr "Закрыть логи и диагностические страницы"
+
+#: includes/features/class-block-logs.php:45
+msgid "The server answers 404 for log files (debug.log, error_log, any .log), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways."
+msgstr "Сервер отвечает 404 на файлы логов (debug.log, error_log, любой .log), логи WooCommerce (uploads/wc-logs), данные Wordfence (wflogs), забытые тестовые страницы в корне сайта (phpinfo.php, info.php, test.php) и страницы состояния Apache (/server-status, /server-info). В них видны пути на сервере, имя пользователя хостинга, версии PHP и библиотек, а иногда и ошибки платёжных шлюзов."
+
+#: includes/features/class-block-logs.php:54
+msgid "You cannot open a log or a test page in the browser: read logs over SFTP or in the hosting panel instead. Logging itself keeps working."
+msgstr "Нельзя открыть лог или тестовую страницу в браузере: читайте логи через SFTP или в панели хостинга. Само логирование продолжит работать."
+
+#: includes/features/class-block-trace.php:37
+msgid "Refuse TRACE and TRACK requests"
+msgstr "Отклонять запросы TRACE и TRACK"
+
+#: includes/features/class-block-trace.php:46
+msgid "The server answers 403 to the TRACE and TRACK request methods. They only echo a request back and are used for debugging; security scanners report them as \"TRACE enabled\". Browsers do not send them, so visitors see no difference."
+msgstr "Сервер отвечает 403 на методы запроса TRACE и TRACK. Они только возвращают запрос обратно и нужны для отладки; сканеры безопасности отмечают их как «TRACE enabled». Браузеры их не отправляют, так что посетители разницы не заметят."
+
+#: includes/features/class-block-trace.php:55
+msgid "Nothing on a normal site."
+msgstr "На обычном сайте ничего."
 
 #: includes/features/class-disable-app-passwords.php:33
 msgid "Turn off Application Passwords"
@@ -105,6 +469,10 @@ msgstr "Если вы входите в мобильное приложение 
 msgid "Turn this off and save. The existing application passwords work again; nobody needs to create new ones."
 msgstr "Выключите эту настройку и сохраните. Созданные пароли приложений снова заработают, новые создавать не нужно."
 
+#: includes/features/class-disable-app-passwords.php:70
+msgid "WordPress itself (Application Passwords need HTTPS)"
+msgstr "сам WordPress (пароли приложений работают только с HTTPS)"
+
 #: includes/features/class-disable-file-editor.php:37
 msgid "Turn off the file editor"
 msgstr "Отключить редактор файлов"
@@ -121,397 +489,145 @@ msgstr "Редактировать код тем и плагинов в адми
 msgid "Turn this off and save. The editors come back at once; nothing is changed in wp-config.php."
 msgstr "Выключите эту настройку и сохраните. Редакторы сразу вернутся, в wp-config.php ничего не меняется."
 
-#: includes/features/class-disable-xmlrpc.php:33
-msgid "Turn off XML-RPC"
-msgstr "Отключить XML-RPC"
-
-#: includes/features/class-disable-xmlrpc.php:40
-msgid "Every request to /xmlrpc.php gets a 403 answer, so bots cannot try many passwords in one request through system.multicall. The X-Pingback header and the RSD link in the page source are removed too."
-msgstr "Каждый запрос к /xmlrpc.php получает ответ 403, и боты не могут перебирать много паролей одним запросом через system.multicall. Заголовок X-Pingback и ссылка RSD в коде страницы тоже убираются."
-
-#: includes/features/class-disable-xmlrpc.php:47
-msgid "If you use Jetpack or other services that connect to the site through XML-RPC, old desktop and mobile blogging apps or pingbacks, they stop working. The WordPress mobile app works through the REST API and is not affected."
-msgstr "Если вы пользуетесь Jetpack или другими сервисами, которые подключаются к сайту через XML-RPC, старыми программами для ведения блога на компьютере или телефоне или пингбеками, они перестанут работать. Мобильное приложение WordPress работает через REST API, его это не касается."
-
-#: includes/features/class-disable-xmlrpc.php:54 includes/features/class-user-enumeration.php:53
-msgid "Turn this off and save. Nothing is deleted or changed in the database."
-msgstr "Выключите эту настройку и сохраните. В базе данных ничего не удаляется и не меняется."
-
-#: includes/features/class-hide-wp-version.php:34
-msgid "Hide the WordPress version"
-msgstr "Скрыть версию WordPress"
-
-#: includes/features/class-hide-wp-version.php:48
-msgid "Nothing changes on the site itself. Online scanners and some SEO tools no longer show your WordPress version. Plugin versions in their own file links stay as they are."
-msgstr "На самом сайте ничего не изменится. Онлайн-сканеры и некоторые SEO-инструменты перестанут показывать вашу версию WordPress. Версии плагинов в ссылках на их файлы остаются."
-
-#: includes/features/class-hide-wp-version.php:55
-msgid "Turn this off and save. If a page looks broken right after that, clear the page cache once."
-msgstr "Выключите эту настройку и сохраните. Если сразу после этого страница выглядит сломанной, один раз очистите кеш страниц."
-
-#: includes/features/class-login-url.php:50
-msgid "Custom login URL"
-msgstr "Свой адрес входа"
-
-#: includes/features/class-login-url.php:57
-msgid "Moves the login page to your own address. /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in, so bots stop finding the login form."
-msgstr "Переносит страницу входа на ваш собственный адрес. /wp-login.php и /wp-admin/ показывают страницу 404 неавторизованным пользователям, и боты перестают находить форму входа."
-
-#: includes/features/class-login-url.php:64
-msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working."
-msgstr "Закладки и сохранённые пароли для старой страницы входа перестанут работать. Если какой-то плагин или приложение входит напрямую через /wp-login.php или другой плагин тоже меняет адрес входа, они перестанут работать."
-
-#: includes/features/class-login-url.php:71
-msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager: the plugin stops and /wp-login.php works again."
-msgstr "Выключите эту настройку и сохраните. Если вы забыли новый адрес и не можете войти, переименуйте папку wp-content/plugins/helloadmin-guard через FTP или файловый менеджер хостинга: плагин остановится, и /wp-login.php снова заработает."
-
-#: includes/features/class-login-url.php:96
-msgid "Login address"
-msgstr "Адрес входа"
-
-#. translators: %s: login page URL.
-#: includes/features/class-login-url.php:101
-#, php-format
-msgid "Letters, numbers and dashes, at least 4 characters. Your login page: %s. Bookmark it after saving."
-msgstr "Буквы, цифры и дефисы, не меньше 4 символов. Ваша страница входа: %s. После сохранения добавьте её в закладки."
-
-#: includes/features/class-login-url.php:122
-msgid "The login address must be at least 4 characters long."
-msgstr "Адрес входа должен быть не короче 4 символов."
-
-#: includes/features/class-login-url.php:124
-msgid "This login address is reserved by WordPress or too easy to guess. Choose another one."
-msgstr "Этот адрес входа зарезервирован WordPress или его слишком легко угадать. Выберите другой."
-
-#: includes/features/class-login-url.php:126
-msgid "A page or post already uses this address. Choose another one."
-msgstr "Этот адрес уже занят страницей или записью. Выберите другой."
-
-#: includes/features/class-login-url.php:252
-msgid "The requested URL was not found on this server."
-msgstr "Запрошенный адрес на этом сервере не найден."
-
-#: includes/features/class-security-headers.php:33
-msgid "Security headers"
-msgstr "Заголовки безопасности"
-
-#: includes/features/class-security-headers.php:40
-msgid "Adds four headers: X-Content-Type-Options: nosniff (browsers do not guess file types), X-Frame-Options: SAMEORIGIN (other sites cannot show your pages in a frame), Referrer-Policy: strict-origin-when-cross-origin (other sites see only your domain, not full URLs) and Permissions-Policy (no camera or microphone, location only for your own pages)."
-msgstr "Добавляет четыре заголовка: X-Content-Type-Options: nosniff (браузеры не угадывают тип файла), X-Frame-Options: SAMEORIGIN (другие сайты не могут показать ваши страницы во фрейме), Referrer-Policy: strict-origin-when-cross-origin (другие сайты видят только ваш домен, а не полные адреса) и Permissions-Policy (без камеры и микрофона, геолокация только для ваших страниц)."
-
-#: includes/features/class-security-headers.php:47
-msgid "If your pages are shown inside a frame on another domain, for example in a landing page builder or on a partner site, they stop opening there. If embedded widgets from other sites ask for the camera, microphone or location, they do not get it. Your own pages, the editor and the Customizer are not affected."
-msgstr "Если ваши страницы показываются во фрейме на другом домене, например в конструкторе лендингов или на сайте партнёра, там они перестанут открываться. Если встроенные виджеты с других сайтов просят камеру, микрофон или геолокацию, доступа они не получат. Ваши собственные страницы, редактор и Customizer это не затрагивает."
-
-#: includes/features/class-security-headers.php:54
-msgid "Turn this off and save. Browsers drop these headers on the next page load. If the server or another plugin also sends them, those copies stay."
-msgstr "Выключите эту настройку и сохраните. Браузеры перестанут получать эти заголовки со следующей загрузки страницы. Если их также отправляет сервер или другой плагин, те копии останутся."
-
-#: includes/features/class-user-enumeration.php:32
-msgid "Hide user names"
-msgstr "Скрыть имена пользователей"
-
-#: includes/features/class-user-enumeration.php:114
-msgid "Sorry, you are not allowed to list users."
-msgstr "Извините, вам не разрешено просматривать список пользователей."
-
-msgid "Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead."
-msgstr "Серверные правила не сохранены: это не Apache и не LiteSpeed, поэтому плагин не может их записать. Скопируйте правила из каждой карточки в конфигурацию сервера."
-
-msgid "Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable."
-msgstr "Серверные правила не сохранены: WordPress не может записать файл .htaccess. Скопируйте правила из каждой карточки в .htaccess вручную или попросите хостинг разрешить запись в файл."
-
-msgid "Server rules were not saved: writing the .htaccess file failed. Nothing was changed."
-msgstr "Серверные правила не сохранены: не удалось записать файл .htaccess. Ничего не изменено."
-
-msgid "Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules."
-msgstr "Серверные правила не сохранены: после записи главная страница ответила ошибкой сервера, поэтому старый файл .htaccess возвращён. Возможно, сервер не поддерживает одно из правил."
-
-msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
-msgstr "Серверные правила сохранены, но плагин не смог открыть главную страницу, чтобы их проверить (некоторые хостинги блокируют такие запросы). Откройте сайт в новой вкладке и убедитесь, что он работает."
-
-msgid "Rules to add to the server block, above the PHP location"
-msgstr "Правила для блока server, над location для PHP"
-
-msgid "Rules to add to .htaccess by hand"
-msgstr "Правила, которые нужно добавить в .htaccess вручную"
-
-msgid "Rules the plugin adds to .htaccess"
-msgstr "Правила, которые плагин добавляет в .htaccess"
-
-msgid "This setting needs Apache, LiteSpeed or Nginx."
-msgstr "Для этой настройки нужен Apache, LiteSpeed или Nginx."
-
-msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
-msgstr "Некоторые настройки на этой вкладке записывают правила в файл .htaccess в корне сайта. Перед каждым изменением плагин сохраняет копию файла, а затем открывает главную страницу; если она отвечает ошибкой сервера, старый файл возвращается."
-
-msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
-msgstr "WordPress не может записать файл .htaccess на этом сайте, поэтому правила ниже здесь не включить. Скопируйте их в .htaccess вручную или попросите хостинг разрешить запись в файл."
-
-msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
-msgstr "Этот сайт работает на Nginx, а он не читает файлы .htaccess. Скопируйте правила из каждой карточки в блок server вашего сайта или отправьте их хостингу."
-
-msgid "The server rules below need Apache, LiteSpeed or Nginx."
-msgstr "Для серверных правил ниже нужен Apache, LiteSpeed или Nginx."
-
-msgid "Show the welcome message again"
-msgstr "Показать приветствие ещё раз"
-
-msgid "Turn this off and save: the plugin removes its lines from .htaccess. If the site does not open at all, delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\" in the .htaccess file over FTP or in the hosting file manager."
-msgstr "Выключите эту настройку и сохраните: плагин уберёт свои строки из .htaccess. Если сайт совсем не открывается, удалите всё между \"# BEGIN HelloAdmin Guard\" и \"# END HelloAdmin Guard\" в файле .htaccess через FTP или файловый менеджер хостинга."
-
-msgid "Hide the welcome message"
-msgstr "Скрыть приветствие"
-
-msgid "Hello, admin or developer!"
-msgstr "Привет, админ или разработчик!"
-
-msgid "Nothing is on until you turn it on."
-msgstr "Ничего не включено, пока вы сами это не включите."
-
-msgid "Every switch tells you what it does, what may stop working and how to undo it."
-msgstr "Каждый переключатель объясняет, что он делает, что может перестать работать и как всё вернуть."
-
-msgid "Got it"
-msgstr "Понятно"
-
-msgid "HTTPS only (HSTS)"
-msgstr "Только HTTPS (HSTS)"
-
-msgid "Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Sent only when the page itself is loaded over HTTPS. Subdomains are not affected."
-msgstr "Добавляет заголовок Strict-Transport-Security: после первого визита браузеры год открывают ваш сайт только через HTTPS, даже если кто-то наберёт http:// или публичный Wi-Fi попробует подсунуть незащищённую версию. Отправляется только тогда, когда сама страница загружена через HTTPS. Поддомены это не затрагивает."
-
-msgid "If the SSL certificate expires or HTTPS stops working, visitors who have been to the site cannot open it at all, there is no \"continue anyway\" button. Turn this setting on only when HTTPS works on every page and the certificate renews by itself."
-msgstr "Если SSL-сертификат истечёт или HTTPS перестанет работать, посетители, которые уже были на сайте, не смогут его открыть вообще: кнопки «всё равно продолжить» не будет. Включайте эту настройку, только когда HTTPS работает на всех страницах, а сертификат обновляется сам."
-
-msgid "Turn this off and save: the header is no longer sent. Browsers that already got it keep using HTTPS until the year runs out, this cannot be taken back from the site."
-msgstr "Выключите эту настройку и сохраните: заголовок больше не будет отправляться. Браузеры, которые уже его получили, будут использовать HTTPS, пока не пройдёт год; отменить это со стороны сайта нельзя."
-
-msgid "No PHP in the uploads folder"
-msgstr "Без PHP в папке uploads"
-
-msgid "The server answers 404 to any PHP file in the uploads folder. If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
-msgstr "Сервер отвечает 404 на любой PHP-файл в папке uploads. Если слабый плагин или форма позволит кому-то загрузить туда PHP-файл, его не получится открыть из браузера."
-
-msgid "If a plugin on the site keeps its own PHP scripts in the uploads folder and opens them from the browser, it stops working. Such plugins are rare today. Images, PDFs and other uploads keep working."
-msgstr "Если на сайте есть плагин, который держит свои PHP-скрипты в папке uploads и открывает их из браузера, он перестанет работать. Сейчас такие плагины редкость. Изображения, PDF и другие загрузки продолжат работать."
-
-msgid "Hide files that show versions"
-msgstr "Скрыть файлы, которые выдают версии"
-
-msgid "Nothing breaks on the site itself: WordPress and browsers do not need these files. To install WordPress again over this site, turn the setting off first."
-msgstr "На самом сайте ничего не сломается: WordPress и браузерам эти файлы не нужны. Чтобы установить WordPress заново поверх этого сайта, настройку нужно будет выключить."
-
-msgid "Good to know"
-msgstr "Полезно знать"
-
-msgid "Not sure where to start? Turn switches on one at a time and check your site after each one."
-msgstr "Не знаете, с чего начать? Включайте по одному и проверяйте сайт после каждого."
-
-msgid "The plugin is free and will stay free: no Pro version, no account, no data sent anywhere."
-msgstr "Плагин бесплатный и таким и останется: без Pro-версии, без аккаунта, без отправки данных куда бы то ни было."
-
-msgid "Every new version closes more gaps, so keep the plugin updated."
-msgstr "С каждой версией плагин закрывает новые лазейки, так что не забывайте его обновлять."
-
-msgid "Block backups and database dumps"
-msgstr "Закрыть бэкапы и дампы базы данных"
-
-msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator and BackWPup. A file like this left after a move gives away the whole site and its database."
-msgstr "Сервер отвечает 404 на дампы базы данных и бэкапы (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, файлы с ~ в конце), архивы в корне сайта и в папке контента (backup.zip, site.tar.gz), все файлы, имя которых начинается с wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress по-прежнему читает wp-config.php с диска), забытые installer.php от Duplicator и папки бэкапов UpdraftPlus, All-in-One WP Migration, Duplicator и BackWPup. Один такой файл, забытый после переезда, выдаёт весь сайт вместе с базой данных."
-
-msgid "If you share links to archives in the site root or the content folder, or to .sql and .bak files, they stop downloading. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not through the browser."
-msgstr "Если вы даёте ссылки на архивы в корне сайта или папке контента или на файлы .sql и .bak, они перестанут скачиваться. Архивы в папке uploads останутся открытыми. Плагины бэкапов продолжат работать: они читают свои папки из PHP, а не через браузер."
-
-msgid "Close internal WordPress folders"
-msgstr "Закрыть внутренние папки WordPress"
-
-msgid "If you run a Multisite network created before WordPress 3.5 that still serves uploads through wp-includes/ms-files.php, those files stop opening. Normal sites and newer networks are not affected."
-msgstr "Если у вас сеть Multisite, созданная до WordPress 3.5, и она до сих пор отдаёт загрузки через wp-includes/ms-files.php, эти файлы перестанут открываться. Обычных сайтов и новых сетей это не касается."
-
-msgid "Block developer and build files"
-msgstr "Закрыть файлы разработки и сборки"
-
-msgid "The server answers 404 for package and build files (composer.json, composer.lock, package.json, package-lock.json, yarn.lock, gulpfile.js, webpack and Vite configs), deploy files (Dockerfile, docker-compose.yml, wp-cli.yml, deploy.php, Makefile), php.ini copies, source maps (.map) and text files of plugins, themes and translations (.md, .txt, .po, .mo, .pot, .yml, .lock) inside the content folder, plus .md, .yml and .sh files in the site root. They list exact versions of libraries with known holes and describe the server."
-msgstr "Сервер отвечает 404 на файлы пакетов и сборки (composer.json, composer.lock, package.json, package-lock.json, yarn.lock, gulpfile.js, конфиги webpack и Vite), файлы деплоя (Dockerfile, docker-compose.yml, wp-cli.yml, deploy.php, Makefile), копии php.ini, source maps (.map) и текстовые файлы плагинов, тем и переводов (.md, .txt, .po, .mo, .pot, .yml, .lock) в папке контента, а также на файлы .md, .yml и .sh в корне сайта. В них видны точные версии библиотек с известными дырами и описание сервера."
-
-msgid "Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open."
-msgstr "Инструменты разработчика в браузере перестанут показывать исходный код минифицированных скриптов. Загрузок это не касается. robots.txt, ads.txt и другие файлы .txt в корне сайта останутся открытыми."
-
-msgid "Block hidden files (.git, .env)"
-msgstr "Закрыть скрытые файлы (.git, .env)"
-
-msgid "The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store, editor backups like .wp-config.php.swp. These show up when a site is deployed with Git or copied from a computer."
-msgstr "Сервер отвечает 404 на каждый файл и папку, имя которых начинается с точки: .git (вся история кода), .env (пароли базы данных и ключи API), .htpasswd, .svn, .DS_Store, резервные копии редакторов вроде .wp-config.php.swp. Они появляются, когда сайт разворачивают через Git или копируют с компьютера."
-
-msgid "Nothing breaks on a normal site. /.well-known/ stays open: SSL certificates and app links need it."
-msgstr "На обычном сайте ничего не сломается. /.well-known/ останется открытой: эта папка нужна для SSL-сертификатов и ссылок на приложения."
-
-msgid "Block logs and diagnostic pages"
-msgstr "Закрыть логи и диагностические страницы"
-
-msgid "The server answers 404 for log files (debug.log, error_log, any .log), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways."
-msgstr "Сервер отвечает 404 на файлы логов (debug.log, error_log, любой .log), логи WooCommerce (uploads/wc-logs), данные Wordfence (wflogs), забытые тестовые страницы в корне сайта (phpinfo.php, info.php, test.php) и страницы состояния Apache (/server-status, /server-info). В них видны пути на сервере, имя пользователя хостинга, версии PHP и библиотек, а иногда и ошибки платёжных шлюзов."
-
-msgid "You cannot open a log or a test page in the browser: read logs over SFTP or in the hosting panel instead. Logging itself keeps working."
-msgstr "Нельзя открыть лог или тестовую страницу в браузере: читайте логи через SFTP или в панели хостинга. Само логирование продолжит работать."
-
+#: includes/features/class-disable-listing.php:36
 msgid "Turn off folder listings"
 msgstr "Отключить просмотр содержимого папок"
 
+#: includes/features/class-disable-listing.php:45
 msgid "Adds \"Options -Indexes\": when a folder has no index file, the server answers 403 instead of a list of all files in it. WordPress puts an empty index.php only into wp-content, plugins and themes, so on many hosts /wp-content/uploads/2025/05/ shows every uploaded file."
 msgstr "Добавляет \"Options -Indexes\": когда в папке нет индексного файла, сервер отвечает 403 вместо списка всех файлов в ней. WordPress кладёт пустой index.php только в wp-content, plugins и themes, поэтому на многих хостингах /wp-content/uploads/2025/05/ показывает каждый загруженный файл."
 
+#: includes/features/class-disable-listing.php:54
 msgid "Nothing breaks on the site. On a few hosts .htaccess may not change Options: then the home page answers with an error, the plugin puts the old file back and keeps this setting off."
 msgstr "На сайте ничего не сломается. На некоторых хостингах .htaccess не может менять Options: тогда главная страница ответит ошибкой, плагин вернёт старый файл и оставит эту настройку выключенной."
 
+#: includes/features/class-disable-xmlrpc.php:35
+msgid "Turn off XML-RPC"
+msgstr "Отключить XML-RPC"
+
+#: includes/features/class-disable-xmlrpc.php:42
+msgid "Every request to /xmlrpc.php gets a 403 answer, so bots cannot try many passwords in one request through system.multicall. The X-Pingback header and the RSD link in the page source are removed too."
+msgstr "Каждый запрос к /xmlrpc.php получает ответ 403, и боты не могут перебирать много паролей одним запросом через system.multicall. Заголовок X-Pingback и ссылка RSD в коде страницы тоже убираются."
+
+#: includes/features/class-disable-xmlrpc.php:49
+msgid "If you use Jetpack or other services that connect to the site through XML-RPC, old desktop and mobile blogging apps or pingbacks, they stop working. The WordPress mobile app works through the REST API and is not affected."
+msgstr "Если вы пользуетесь Jetpack или другими сервисами, которые подключаются к сайту через XML-RPC, старыми программами для ведения блога на компьютере или телефоне или пингбеками, они перестанут работать. Мобильное приложение WordPress работает через REST API, его это не касается."
+
+#: includes/features/class-disable-xmlrpc.php:56
+#: includes/features/class-user-enumeration.php:55
+msgid "Turn this off and save. Nothing is deleted or changed in the database."
+msgstr "Выключите эту настройку и сохраните. В базе данных ничего не удаляется и не меняется."
+
+#: includes/features/class-hide-rest-index.php:44
+msgid "Hide the REST API index"
+msgstr "Скрыть корень REST API"
+
+#: includes/features/class-hide-rest-index.php:53
+msgid "For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see \"Hide files that show versions\"."
+msgstr "Неавторизованные пользователи больше не видят в /wp-json/ список namespace и маршрутов REST API. По этому списку видна большая часть установленных плагинов (yoast/v1, wc/v3, contact-form-7/v1). Корни namespace вроде /wp-json/yoast/v1 отвечают 404 так же, как для неустановленного плагина, поэтому бот не может проверять имена плагинов по одному. Заголовок Link и тег <link>, которые указывают на API, тоже убираются. Сам API работает как раньше. Бот, который знает точный маршрут плагина, всё равно получит ответ, а имена плагинов остаются видны в коде страницы (/wp-content/plugins/...): настройка убирает готовый список, а не сами плагины. Важнее всего скрыть версию плагина, см. «Скрыть файлы, которые выдают версии»."
+
+#: includes/features/class-hide-rest-index.php:62
+msgid "If you use tools that discover the API through the /wp-json/ root or the Link header without logging in, for example some headless front ends or API explorers, they stop working. Forms, shops, the block editor and the mobile app use the routes directly and keep working."
+msgstr "Если вы пользуетесь инструментами, которые ищут API через корень /wp-json/ или заголовок Link без входа, например некоторыми headless-фронтендами или обозревателями API, они перестанут работать. Формы, магазины, редактор блоков и мобильное приложение обращаются к маршрутам напрямую и продолжат работать."
+
+#: includes/features/class-hide-rest-index.php:71
+msgid "Turn this off and save. The index and the links come back at once."
+msgstr "Выключите эту настройку и сохраните. Корень API и ссылки сразу вернутся."
+
+#: includes/features/class-hide-version-files.php:37
+msgid "Hide files that show versions"
+msgstr "Скрыть файлы, которые выдают версии"
+
+#: includes/features/class-hide-version-files.php:46
 msgid "The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes. Online scanners that guess plugin versions from readme.txt see less."
 msgstr "Сервер отвечает 404 на readme.html, license.txt, wp-config-sample.php и wp-links-opml.php в корне сайта, на файлы readme, changelog и license в папках плагинов и тем, а также на wp-admin/install.php, setup-config.php и upgrade.php (upgrade.php остаётся открытым для тех, кто вошёл). На страницах установки и обновления WordPress не загружает плагины, поэтому они показывают версию, даже когда она скрыта в других местах. Боты читают все эти файлы, чтобы найти сайты с известными дырами. Онлайн-сканеры, которые угадывают версии плагинов по readme.txt, увидят меньше."
 
-msgid "This plugin was built and is maintained by a developer with more than 10 years of experience with WordPress and WooCommerce. Is your site slow, showing errors, broken after an update or hacked? Need someone to look after it? Write to me."
-msgstr "Плагин создал и поддерживает разработчик с более чем 10-летним опытом работы с WordPress и WooCommerce. Сайт долго грузится, выдаёт ошибки, сломался после обновления или его взломали? Нужен человек, который будет за ним следить? Напишите мне."
+#: includes/features/class-hide-version-files.php:55
+msgid "Nothing breaks on the site itself: WordPress and browsers do not need these files. To install WordPress again over this site, turn the setting off first."
+msgstr "На самом сайте ничего не сломается: WordPress и браузерам эти файлы не нужны. Чтобы установить WordPress заново поверх этого сайта, настройку нужно будет выключить."
 
-#, php-format
-msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what %s does. Every gap has its own switch, so you decide what to close and what to leave open."
-msgstr "WordPress из коробки оставляет открытыми несколько лазеек: любой может узнать имена пользователей, версию WordPress и адрес страницы входа. Нет, команда WordPress не халтурит 🙂 просто некоторым сайтам они необходимы для работы. Но на большинстве сайтов эти лазейки можно и нужно закрыть. Этим и занимается %s. У каждой лазейки свой переключатель, так что вы сами решаете, что закрыть, а что оставить."
+#: includes/features/class-hide-wp-version.php:36
+msgid "Hide the WordPress version"
+msgstr "Скрыть версию WordPress"
 
-msgid "Downsides"
-msgstr "Риски"
+#: includes/features/class-hide-wp-version.php:43
+msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version and, on Apache and LiteSpeed, the server version on error pages. This only slows bots down; keeping WordPress and PHP updated is the real fix."
+msgstr "Убирает версию WordPress из тега generator в коде страниц и лентах, а также из ?ver= в ссылках на скрипты и стили ядра. Также убирает заголовок X-Powered-By с версией PHP, а на Apache и LiteSpeed ещё и версию сервера на страницах ошибок. Это только замедляет ботов; по-настоящему защищают только своевременные обновления WordPress и PHP."
 
-msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
-msgstr "Показывать число открытых лазеек рядом с HeAd Guard в меню админки"
+#: includes/features/class-hide-wp-version.php:50
+msgid "Nothing changes on the site itself. Online scanners and some SEO tools no longer show your WordPress version. Plugin versions in their own file links stay as they are."
+msgstr "На самом сайте ничего не изменится. Онлайн-сканеры и некоторые SEO-инструменты перестанут показывать вашу версию WordPress. Версии плагинов в ссылках на их файлы остаются."
 
-msgid "I do not need this on this site (it stops counting as an open gap)"
-msgstr "Мне это не нужно на этом сайте (лазейка перестанет считаться открытой)"
+#: includes/features/class-hide-wp-version.php:57
+msgid "Turn this off and save. If a page looks broken right after that, clear the page cache once."
+msgstr "Выключите эту настройку и сохраните. Если сразу после этого страница выглядит сломанной, один раз очистите кеш страниц."
 
-msgid "high risk"
-msgstr "высокий риск"
+#: includes/features/class-hsts.php:40
+msgid "HTTPS only (HSTS)"
+msgstr "Только HTTPS (HSTS)"
 
-msgid "medium risk"
-msgstr "средний риск"
+#: includes/features/class-hsts.php:49
+msgid "Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Sent only when the page itself is loaded over HTTPS. Subdomains are not affected."
+msgstr "Добавляет заголовок Strict-Transport-Security: после первого визита браузеры год открывают ваш сайт только через HTTPS, даже если кто-то наберёт http:// или публичный Wi-Fi попробует подсунуть незащищённую версию. Отправляется только тогда, когда сама страница загружена через HTTPS. Поддомены это не затрагивает."
 
-msgid "low risk"
-msgstr "низкий риск"
+#: includes/features/class-hsts.php:58
+msgid "If the SSL certificate expires or HTTPS stops working, visitors who have been to the site cannot open it at all, there is no \"continue anyway\" button. Turn this setting on only when HTTPS works on every page and the certificate renews by itself."
+msgstr "Если SSL-сертификат истечёт или HTTPS перестанет работать, посетители, которые уже были на сайте, не смогут его открыть вообще: кнопки «всё равно продолжить» не будет. Включайте эту настройку, только когда HTTPS работает на всех страницах, а сертификат обновляется сам."
 
-msgid "Closed by this plugin"
-msgstr "Закрыто этим плагином"
+#: includes/features/class-hsts.php:67
+msgid "Turn this off and save: the header is no longer sent. Browsers that already got it keep using HTTPS until the year runs out, this cannot be taken back from the site."
+msgstr "Выключите эту настройку и сохраните: заголовок больше не будет отправляться. Браузеры, которые уже его получили, будут использовать HTTPS, пока не пройдёт год; отменить это со стороны сайта нельзя."
 
-msgid "Not working"
-msgstr "Не работает"
+#: includes/features/class-https-redirect.php:38
+msgid "Redirect http:// to https://"
+msgstr "Редирект с http:// на https://"
 
-msgid "The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting."
-msgstr "Настройка включена, но последняя проверка всё ещё находит эту лазейку открытой. Возможно, серверные правила не работают на этом сервере или другой плагин отменяет настройку."
+#: includes/features/class-https-redirect.php:47
+msgid "The server answers every plain http:// request with a permanent redirect to the same https:// address, before WordPress starts: pages, images, files and old links. Behind Cloudflare or another proxy the address the visitor typed counts, so there is no redirect loop. SSL certificate checks (/.well-known/, cPanel AutoSSL files) stay on http, so certificates keep renewing."
+msgstr "Сервер отвечает на каждый обычный запрос http:// постоянным редиректом на тот же адрес https://, ещё до запуска WordPress: страницы, изображения, файлы и старые ссылки. За Cloudflare или другим прокси учитывается адрес, который набрал посетитель, так что цикла редиректов не будет. Проверки SSL-сертификатов (/.well-known/, файлы cPanel AutoSSL) остаются на http, и сертификаты продолжают обновляться."
 
-#, php-format
-msgid "Closed by %s. You can leave this off."
-msgstr "Закрыто: %s. Эту настройку можно не включать."
+#: includes/features/class-https-redirect.php:56
+msgid "If HTTPS does not work on some address, for example a subdomain or an alias without a certificate, that address stops opening. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing."
+msgstr "Если на каком-то адресе HTTPS не работает, например на поддомене или алиасе без сертификата, этот адрес перестанет открываться. Версии с www и без www остаются как есть: какая из них главная, решаете вы. Если хостинг или прокси уже перенаправляет на https, правило ничего не меняет."
 
-#, php-format
-msgid "Probably by %s or the server settings. You can leave this off."
-msgstr "Вероятно, это делает %s или настройки сервера. Эту настройку можно не включать."
+#: includes/features/class-https-redirect.php:86
+msgid "The site address in Settings, General starts with http://, so the plugin writes no rule. Switch the site to https first."
+msgstr "Адрес сайта в Настройки, Общие начинается с http://, поэтому плагин не записывает правило. Сначала переведите сайт на https."
 
-msgid "By the server settings or another plugin. You can leave this off."
-msgstr "Это делают настройки сервера или другой плагин. Эту настройку можно не включать."
-
-msgid "Already closed"
-msgstr "Уже закрыто"
-
-#, php-format
-msgid "Open, %s"
-msgstr "Открыто, %s"
-
-msgid "Not needed"
-msgstr "Не нужно"
-
-#, php-format
-msgid "Not checked yet, %s"
-msgstr "Ещё не проверено, %s"
-
-#, php-format
-msgid "Cannot be checked, %s"
-msgstr "Не удаётся проверить, %s"
-
-msgid "Checking what your site answers to visitors..."
-msgstr "Проверяю, что ваш сайт отвечает посетителям..."
-
-#, php-format
-msgid "Last check: %s ago."
-msgstr "Последняя проверка: %s назад."
-
-msgid "Check again"
-msgstr "Проверить снова"
-
-msgid "Open HelloAdmin Guard"
-msgstr "Открыть HelloAdmin Guard"
-
-msgid "HelloAdmin Guard: no open security gaps"
-msgstr "HelloAdmin Guard: открытых лазеек нет"
-
-msgid "Security"
-msgstr "Безопасность"
-
-msgid "Every gap HelloAdmin Guard checks is closed on this site, by the plugin, by the server or by another plugin, or marked as not needed."
-msgstr "Все лазейки, которые проверяет HelloAdmin Guard, на этом сайте закрыты: плагином, сервером или другим плагином, либо отмечены как ненужные."
-
-msgid "HelloAdmin Guard has not checked this site yet"
-msgstr "HelloAdmin Guard ещё не проверял этот сайт"
-
-msgid "Open the plugin settings page once: it checks what the site answers to visitors and shows which gaps are open."
-msgstr "Откройте страницу настроек плагина один раз: он проверит, что сайт отвечает посетителям, и покажет, какие лазейки открыты."
-
-msgid "Some things bots look for are still open on this site. Every switch on the settings page explains what it closes, what may break and how to undo it."
-msgstr "Часть того, что ищут боты, на этом сайте всё ещё открыта. Каждый переключатель на странице настроек объясняет, что он закрывает, что может сломаться и как всё вернуть."
-
-msgid "WordPress itself (Application Passwords need HTTPS)"
-msgstr "сам WordPress (пароли приложений работают только с HTTPS)"
-
+#: includes/features/class-limit-login.php:65
 msgid "Limit login attempts"
 msgstr "Ограничить попытки входа"
 
+#: includes/features/class-limit-login.php:74
 msgid "After too many failed logins from one IP address, every login from that address is refused for a while, even with the right password, so a bot cannot keep guessing. Works for the login page, XML-RPC and REST API logins. A successful login resets the count."
 msgstr "После нескольких неудачных входов с одного IP-адреса любой вход с этого адреса на время отклоняется, даже с правильным паролем, и бот не может продолжать подбор. Работает для страницы входа, XML-RPC и входа через REST API. Успешный вход обнуляет счётчик."
 
+#: includes/features/class-limit-login.php:83
 msgid "You can lock yourself out for a while by mistyping the password. If the site is behind a proxy or CDN that the host does not unwrap, all visitors share one address and one bot can lock everyone out: then leave this off or ask the host to pass the real visitor IP."
 msgstr "Вы можете на время заблокировать себя, если несколько раз ошибётесь в пароле. Если сайт стоит за прокси или CDN, а хостинг не передаёт настоящий адрес посетителя, у всех посетителей один адрес, и один бот может заблокировать всех. Тогда не включайте эту настройку или попросите хостинг передавать настоящий IP."
 
+#: includes/features/class-limit-login.php:92
 msgid "Turn this off and save: lockouts end at once. If you are locked out yourself, wait until the time runs out, or rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager."
 msgstr "Выключите эту настройку и сохраните: блокировки сразу снимаются. Если вы заблокировали себя, дождитесь окончания блокировки или переименуйте папку wp-content/plugins/helloadmin-guard через FTP или файловый менеджер хостинга."
 
+#: includes/features/class-limit-login.php:121
 msgid "Attempts"
 msgstr "Попыток"
 
+#: includes/features/class-limit-login.php:124
 msgid "Failed logins allowed from one address, 3 to 20."
 msgstr "Сколько неудачных входов разрешено с одного адреса, от 3 до 20."
 
+#: includes/features/class-limit-login.php:127
 msgid "Lockout, minutes"
 msgstr "Блокировка, минут"
 
+#: includes/features/class-limit-login.php:130
 msgid "How long the address stays locked, 5 to 1440 minutes (one day)."
 msgstr "На сколько минут блокируется адрес, от 5 до 1440 (сутки)."
 
-msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap. The login form answers \"Wrong username or password\" for both mistakes, and \"Lost your password?\" shows the same answer whether the user exists or not."
-msgstr "Неавторизованные пользователи больше не могут узнать имена пользователей через /?author=1, список пользователей REST API (/wp-json/wp/v2/users), ссылки на автора в oEmbed и карту сайта пользователей. Форма входа отвечает «Неверное имя пользователя или пароль» на обе ошибки, а «Забыли пароль?» показывает одинаковый ответ, есть такой пользователь или нет."
-
-msgid "If apps or scripts read the user list through the REST API without logging in, they no longer get it. For example, a headless site on Next.js or Gatsby that takes author names from /wp-json/wp/v2/users, or an \"Our authors\" block that loads the list right in the visitor's browser. Author pages drop out of wp-sitemap.xml but keep working. Someone who mistyped the user name is not told what exactly was wrong."
-msgstr "Если программы или скрипты читают список пользователей через REST API без входа, они перестанут его получать. Например, headless-сайт на Next.js или Gatsby, который берёт имена авторов из /wp-json/wp/v2/users, или блок «Наши авторы», который загружает список прямо в браузере посетителя. Страницы авторов пропадут из wp-sitemap.xml, но сами продолжат работать. Тот, кто ошибся в имени пользователя, не узнает, что именно было неверно."
-
-msgid "<strong>Error:</strong> Wrong username or password."
-msgstr "<strong>Ошибка:</strong> неверное имя пользователя или пароль."
-
-#, php-format
-msgid "%d open gap"
-msgid_plural "%d open gaps"
-msgstr[0] "%d открытая лазейка"
-msgstr[1] "%d открытые лазейки"
-msgstr[2] "%d открытых лазеек"
-
-#, php-format
-msgid "HelloAdmin Guard: %d security gap is open"
-msgid_plural "HelloAdmin Guard: %d security gaps are open"
-msgstr[0] "HelloAdmin Guard: открыта %d лазейка"
-msgstr[1] "HelloAdmin Guard: открыты %d лазейки"
-msgstr[2] "HelloAdmin Guard: открыто %d лазеек"
-
+#. translators: %d: minutes until the next login attempt is allowed.
+#: includes/features/class-limit-login.php:210
 #, php-format
 msgid "Too many failed login attempts. Try again in %d minute."
 msgid_plural "Too many failed login attempts. Try again in %d minutes."
@@ -519,52 +635,142 @@ msgstr[0] "Слишком много неудачных попыток вход�
 msgstr[1] "Слишком много неудачных попыток входа. Попробуйте снова через %d минуты."
 msgstr[2] "Слишком много неудачных попыток входа. Попробуйте снова через %d минут."
 
-msgid "Optional: the same for Nginx, to add to the server block"
-msgstr "Необязательно: то же для Nginx, добавить в блок server"
+#: includes/features/class-login-url.php:52
+msgid "Custom login URL"
+msgstr "Свой адрес входа"
 
-msgid "Also added to .htaccess, so the server answers before PHP starts"
-msgstr "Также добавляется в .htaccess, чтобы сервер отвечал ещё до запуска PHP"
+#: includes/features/class-login-url.php:59
+msgid "Moves the login page to your own address. /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in, so bots stop finding the login form."
+msgstr "Переносит страницу входа на ваш собственный адрес. /wp-login.php и /wp-admin/ показывают страницу 404 неавторизованным пользователям, и боты перестают находить форму входа."
 
-msgid "Optional: the same in .htaccess, to add by hand"
-msgstr "Необязательно: то же в .htaccess, добавить вручную"
+#: includes/features/class-login-url.php:66
+msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working."
+msgstr "Закладки и сохранённые пароли для старой страницы входа перестанут работать. Если какой-то плагин или приложение входит напрямую через /wp-login.php или другой плагин тоже меняет адрес входа, они перестанут работать."
 
-msgid "If another plugin or your server already closes a gap, the card says so, and you can leave that switch off."
-msgstr "Если лазейку уже закрывает другой плагин или сервер, карточка это покажет, и этот переключатель можно не включать."
+#: includes/features/class-login-url.php:73
+msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager: the plugin stops and /wp-login.php works again."
+msgstr "Выключите эту настройку и сохраните. Если вы забыли новый адрес и не можете войти, переименуйте папку wp-content/plugins/helloadmin-guard через FTP или файловый менеджер хостинга: плагин остановится, и /wp-login.php снова заработает."
 
-msgid "The red number next to HeAd Guard in the menu shows how many gaps are still open."
-msgstr "Красная цифра возле HeAd Guard в меню показывает, сколько лазеек ещё открыто."
+#: includes/features/class-login-url.php:164
+msgid "Login address"
+msgstr "Адрес входа"
 
-msgid "The server answers 404 when someone opens PHP files from wp-admin/includes, wp-includes (top level), wp-includes/theme-compat or the TinyMCE language files directly. WordPress only loads them from inside; opened from the browser, some print errors with full server paths. These are the rules from the WordPress hardening guide. Where PHP runs inside the web server (mod_php, LiteSpeed), PHP errors are also hidden from visitors."
-msgstr "Сервер отвечает 404, когда кто-то напрямую открывает PHP-файлы из wp-admin/includes, wp-includes (верхний уровень), wp-includes/theme-compat или языковые файлы TinyMCE. WordPress загружает их только изнутри; открытые из браузера, некоторые из них показывают ошибки с полными путями на сервере. Это правила из руководства WordPress по защите сайта. Там, где PHP работает внутри веб-сервера (mod_php, LiteSpeed), ошибки PHP тоже скрываются от посетителей."
+#. translators: %s: login page URL.
+#: includes/features/class-login-url.php:169
+#, php-format
+msgid "Letters, numbers and dashes, at least 4 characters. Your login page: %s. Bookmark it after saving."
+msgstr "Буквы, цифры и дефисы, не меньше 4 символов. Ваша страница входа: %s. После сохранения добавьте её в закладки."
 
-msgid "PHP on this server shows errors to visitors (display_errors is on in php.ini). The rules below turn it off where the server allows it; otherwise ask the host to turn it off."
-msgstr "PHP на этом сервере показывает ошибки посетителям (display_errors включён в php.ini). Правила ниже выключают это там, где сервер позволяет; иначе попросите хостинг выключить display_errors."
+#: includes/features/class-login-url.php:190
+msgid "The login address must be at least 4 characters long."
+msgstr "Адрес входа должен быть не короче 4 символов."
 
-msgid "Hide the REST API index"
-msgstr "Скрыть корень REST API"
+#: includes/features/class-login-url.php:192
+msgid "This login address is reserved by WordPress or too easy to guess. Choose another one."
+msgstr "Этот адрес входа зарезервирован WordPress или его слишком легко угадать. Выберите другой."
 
-msgid "For visitors who are not logged in, /wp-json/ no longer lists the namespaces and routes of the REST API. That list names most installed plugins (yoast/v1, wc/v3, contact-form-7/v1). Namespace roots like /wp-json/yoast/v1 answer 404, the same as for a plugin that is not installed, so a bot cannot test plugin names one by one. The Link header and the <link> tag that point to the API are removed too. The API itself keeps working. A bot that knows an exact route of a plugin still gets its answer, and plugin names stay visible in the page source (/wp-content/plugins/...): this removes the easy list, not the plugins. What really matters is the plugin version, see \"Hide files that show versions\"."
-msgstr "Неавторизованные пользователи больше не видят в /wp-json/ список namespace и маршрутов REST API. По этому списку видна большая часть установленных плагинов (yoast/v1, wc/v3, contact-form-7/v1). Корни namespace вроде /wp-json/yoast/v1 отвечают 404 так же, как для неустановленного плагина, поэтому бот не может проверять имена плагинов по одному. Заголовок Link и тег <link>, которые указывают на API, тоже убираются. Сам API работает как раньше. Бот, который знает точный маршрут плагина, всё равно получит ответ, а имена плагинов остаются видны в коде страницы (/wp-content/plugins/...): настройка убирает готовый список, а не сами плагины. Важнее всего скрыть версию плагина, см. «Скрыть файлы, которые выдают версии»."
+#: includes/features/class-login-url.php:194
+msgid "A page or post already uses this address. Choose another one."
+msgstr "Этот адрес уже занят страницей или записью. Выберите другой."
 
-msgid "If you use tools that discover the API through the /wp-json/ root or the Link header without logging in, for example some headless front ends or API explorers, they stop working. Forms, shops, the block editor and the mobile app use the routes directly and keep working."
-msgstr "Если вы пользуетесь инструментами, которые ищут API через корень /wp-json/ или заголовок Link без входа, например некоторыми headless-фронтендами или обозревателями API, они перестанут работать. Формы, магазины, редактор блоков и мобильное приложение обращаются к маршрутам напрямую и продолжат работать."
+#: includes/features/class-login-url.php:320
+msgid "The requested URL was not found on this server."
+msgstr "Запрошенный адрес на этом сервере не найден."
 
-msgid "Turn this off and save. The index and the links come back at once."
-msgstr "Выключите эту настройку и сохраните. Корень API и ссылки сразу вернутся."
+#: includes/features/class-no-php-in-uploads.php:37
+msgid "No PHP in the uploads folder"
+msgstr "Без PHP в папке uploads"
 
-msgid "Removes the WordPress version from the generator tag in the page source and feeds, and from ?ver= in the links to core scripts and styles. Also removes the X-Powered-By header with the PHP version and, on Apache and LiteSpeed, the server version on error pages. This only slows bots down; keeping WordPress and PHP updated is the real fix."
-msgstr "Убирает версию WordPress из тега generator в коде страниц и лентах, а также из ?ver= в ссылках на скрипты и стили ядра. Также убирает заголовок X-Powered-By с версией PHP, а на Apache и LiteSpeed ещё и версию сервера на страницах ошибок. Это только замедляет ботов; по-настоящему защищают только своевременные обновления WordPress и PHP."
+#: includes/features/class-no-php-in-uploads.php:46
+msgid "The server answers 404 to any PHP file in the uploads folder. If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
+msgstr "Сервер отвечает 404 на любой PHP-файл в папке uploads. Если слабый плагин или форма позволит кому-то загрузить туда PHP-файл, его не получится открыть из браузера."
 
+#: includes/features/class-no-php-in-uploads.php:55
+msgid "If a plugin on the site keeps its own PHP scripts in the uploads folder and opens them from the browser, it stops working. Such plugins are rare today. Images, PDFs and other uploads keep working."
+msgstr "Если на сайте есть плагин, который держит свои PHP-скрипты в папке uploads и открывает их из браузера, он перестанет работать. Сейчас такие плагины редкость. Изображения, PDF и другие загрузки продолжат работать."
+
+#: includes/features/class-security-headers.php:93
+msgid "Security headers"
+msgstr "Заголовки безопасности"
+
+#: includes/features/class-security-headers.php:100
+msgid "Adds four headers: X-Content-Type-Options: nosniff (browsers do not guess file types), X-Frame-Options: SAMEORIGIN (other sites cannot show your pages in a frame), Referrer-Policy: strict-origin-when-cross-origin (other sites see only your domain, not full URLs) and Permissions-Policy (your pages and anything embedded in them cannot use motion sensors, USB devices, or the browser features you do not tick below)."
+msgstr "Добавляет четыре заголовка: X-Content-Type-Options: nosniff (браузеры не угадывают тип файла), X-Frame-Options: SAMEORIGIN (другие сайты не могут показать ваши страницы во фрейме), Referrer-Policy: strict-origin-when-cross-origin (другие сайты видят только ваш домен, а не полные адреса) и Permissions-Policy (ваши страницы и всё, что в них встроено, не могут использовать датчики движения, USB-устройства и функции браузера, которые вы не отметите ниже)."
+
+#: includes/features/class-security-headers.php:107
+msgid "If your pages are shown inside a frame on another domain, for example in a landing page builder or on a partner site, they stop opening there. If you leave a box below unticked but the site uses it, that part stops working: Apple Pay and Google Pay buttons, \"find stores near me\", video calls. Tilting the phone to look around 360° videos stops working. The editor and the Customizer are not affected."
+msgstr "Если ваши страницы показываются во фрейме на другом домене, например в конструкторе лендингов или на сайте партнёра, там они перестанут открываться. Если оставить пункт ниже без отметки, а сайт его использует, эта часть перестанет работать: кнопки Apple Pay и Google Pay, «найти магазины рядом», видеозвонки. Перестанет работать просмотр видео 360° наклоном телефона. Редактор и Customizer это не затрагивает."
+
+#: includes/features/class-security-headers.php:114
+msgid "Turn this off and save. Browsers drop these headers on the next page load. If the server or another plugin also sends them, those copies stay."
+msgstr "Выключите эту настройку и сохраните. Браузеры перестанут получать эти заголовки со следующей загрузки страницы. Если их также отправляет сервер или другой плагин, те копии останутся."
+
+#: includes/features/class-security-headers.php:201
+msgid "Quick payment buttons (Apple Pay, Google Pay, Link)"
+msgstr "Кнопки быстрой оплаты (Apple Pay, Google Pay, Link)"
+
+#: includes/features/class-security-headers.php:202
+msgid "Visitor location (store locator, \"near me\" search, map with \"my location\")"
+msgstr "Местоположение посетителя (поиск магазинов, поиск «рядом со мной», карта с «моё местоположение»)"
+
+#: includes/features/class-security-headers.php:203
+msgid "Camera and microphone (video calls, recording in the browser)"
+msgstr "Камера и микрофон (видеозвонки, запись в браузере)"
+
+#. translators: %s: plugin names.
+#: includes/features/class-security-headers.php:211
+#, php-format
+msgid "Found: %s."
+msgstr "Найдено: %s."
+
+#: includes/features/class-security-headers.php:220
+msgid "What does your site use?"
+msgstr "Что использует ваш сайт?"
+
+#: includes/features/class-security-headers.php:221
+msgid "Permissions-Policy turns off what is not ticked. Boxes for plugins found on this site are ticked by default."
+msgstr "Permissions-Policy отключает всё, что не отмечено. Пункты для плагинов, найденных на этом сайте, отмечены по умолчанию."
+
+#. translators: %s: plugin names.
+#: includes/features/class-security-headers.php:236
+#, php-format
+msgid "%s may need a feature you left unticked below. Tick it if that part of the site stops working."
+msgstr "%s может понадобиться функция, которую вы оставили без отметки ниже. Отметьте её, если эта часть сайта перестанет работать."
+
+#: includes/features/class-user-enumeration.php:34
+msgid "Hide user names"
+msgstr "Скрыть имена пользователей"
+
+#: includes/features/class-user-enumeration.php:41
+msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap. The login form answers \"Wrong username or password\" for both mistakes, and \"Lost your password?\" shows the same answer whether the user exists or not."
+msgstr "Неавторизованные пользователи больше не могут узнать имена пользователей через /?author=1, список пользователей REST API (/wp-json/wp/v2/users), ссылки на автора в oEmbed и карту сайта пользователей. Форма входа отвечает «Неверное имя пользователя или пароль» на обе ошибки, а «Забыли пароль?» показывает одинаковый ответ, есть такой пользователь или нет."
+
+#: includes/features/class-user-enumeration.php:48
+msgid "If apps or scripts read the user list through the REST API without logging in, they no longer get it. For example, a headless site on Next.js or Gatsby that takes author names from /wp-json/wp/v2/users, or an \"Our authors\" block that loads the list right in the visitor's browser. Author pages drop out of wp-sitemap.xml but keep working. Someone who mistyped the user name is not told what exactly was wrong."
+msgstr "Если программы или скрипты читают список пользователей через REST API без входа, они перестанут его получать. Например, headless-сайт на Next.js или Gatsby, который берёт имена авторов из /wp-json/wp/v2/users, или блок «Наши авторы», который загружает список прямо в браузере посетителя. Страницы авторов пропадут из wp-sitemap.xml, но сами продолжат работать. Тот, кто ошибся в имени пользователя, не узнает, что именно было неверно."
+
+#. translators: %s: comma-separated user logins.
+#: includes/features/class-user-enumeration.php:91
 #, php-format
 msgid "The public name is the login for: %s. Anyone can read it under posts and comments. Change \"Display name publicly as\" in Users > Profile."
 msgstr "Публичное имя совпадает с логином для: %s. Его видно под записями и комментариями. Измените «Отображать как» в разделе Пользователи > Профиль."
 
+#. translators: %s: comma-separated user logins.
+#: includes/features/class-user-enumeration.php:95
 #, php-format
 msgid "The author page address contains the login for: %s (/author/login/). This setting hides it from the sitemap and ?author=N, but the page itself stays. WordPress has no screen to change this address."
 msgstr "Адрес страницы автора содержит логин для: %s (/author/логин/). Эта настройка убирает его из карты сайта и ?author=N, но сама страница остаётся. В WordPress нет экрана, чтобы изменить этот адрес."
 
-msgid "Settings saved."
-msgstr "Настройки сохранены."
+#: includes/features/class-user-enumeration.php:167
+msgid "<strong>Error:</strong> Wrong username or password."
+msgstr "<strong>Ошибка:</strong> неверное имя пользователя или пароль."
 
-msgid "Checking…"
-msgstr "Проверяю…"
+#: includes/features/class-user-enumeration.php:224
+msgid "Sorry, you are not allowed to list users."
+msgstr "Извините, вам не разрешено просматривать список пользователей."
+
+#~ msgid "Adds four headers: X-Content-Type-Options: nosniff (browsers do not guess file types), X-Frame-Options: SAMEORIGIN (other sites cannot show your pages in a frame), Referrer-Policy: strict-origin-when-cross-origin (other sites see only your domain, not full URLs) and Permissions-Policy (no camera or microphone, location only for your own pages)."
+#~ msgstr "Добавляет четыре заголовка: X-Content-Type-Options: nosniff (браузеры не угадывают тип файла), X-Frame-Options: SAMEORIGIN (другие сайты не могут показать ваши страницы во фрейме), Referrer-Policy: strict-origin-when-cross-origin (другие сайты видят только ваш домен, а не полные адреса) и Permissions-Policy (без камеры и микрофона, геолокация только для ваших страниц)."
+
+#~ msgid "If your pages are shown inside a frame on another domain, for example in a landing page builder or on a partner site, they stop opening there. If embedded widgets from other sites ask for the camera, microphone or location, they do not get it. Your own pages, the editor and the Customizer are not affected."
+#~ msgstr "Если ваши страницы показываются во фрейме на другом домене, например в конструкторе лендингов или на сайте партнёра, там они перестанут открываться. Если встроенные виджеты с других сайтов просят камеру, микрофон или геолокацию, доступа они не получат. Ваши собственные страницы, редактор и Customizer это не затрагивает."
