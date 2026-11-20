@@ -70,9 +70,10 @@ class Admin_Page {
 	 */
 	private function tabs() {
 		return array(
-			'general'  => __( 'General', 'helloadmin-guard' ),
-			'advanced' => __( 'Advanced', 'helloadmin-guard' ),
-			'about'    => __( 'About', 'helloadmin-guard' ),
+			'general'   => __( 'General', 'helloadmin-guard' ),
+			'advanced'  => __( 'Advanced', 'helloadmin-guard' ),
+			'emergency' => __( 'If hacked', 'helloadmin-guard' ),
+			'about'     => __( 'About', 'helloadmin-guard' ),
 		);
 	}
 
@@ -370,6 +371,8 @@ class Admin_Page {
 
 		if ( 'about' === $tab ) {
 			$this->render_about();
+		} elseif ( 'emergency' === $tab ) {
+			Emergency::render();
 		} else {
 			$this->render_features( $tab );
 		}

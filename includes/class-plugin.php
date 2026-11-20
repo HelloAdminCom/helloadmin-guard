@@ -86,6 +86,7 @@ final class Plugin {
 			( new Site_Health( $status ) )->register();
 			( new Admin_Page( $this->settings, $this->features, $status ) )->register();
 			( new Welcome() )->register();
+			( new Emergency() )->register();
 		}
 	}
 
