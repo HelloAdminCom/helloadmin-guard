@@ -101,6 +101,7 @@ final class Plugin {
 			new Features\Login_Url(),
 			new Features\Limit_Login(),
 			new Features\Disable_App_Passwords(),
+			new Features\Admin_Alert(),
 			new Features\User_Enumeration(),
 			new Features\Hide_Wp_Version(),
 			new Features\Hide_Rest_Index(),
