@@ -1,22 +1,23 @@
-# Copyright (C) HelloAdmin
-# This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://github.com/HelloAdminCom/helloadmin-guard/issues\n"
-"POT-Creation-Date: 2026-11-19T09:29:32+02:00\n"
-"PO-Revision-Date: 2026-11-19 10:00+0200\n"
 "Last-Translator: HelloAdmin\n"
-"Language: ru_RU\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-19T09:29:32+02:00\n"
+"PO-Revision-Date: 2026-11-19 10:00+0200\n"
+"Language: ru_RU\n"
 "X-Domain: helloadmin-guard\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. Plugin Name of the plugin
-#: helloadmin-guard.php includes/class-admin-page.php:103
-#: includes/class-admin-page.php:353 includes/class-site-health.php:51
+#: helloadmin-guard.php
+#: includes/class-admin-page.php:104
+#: includes/class-admin-page.php:354
+#: includes/class-site-health.php:51
 msgid "HelloAdmin Guard"
 msgstr "HelloAdmin Guard"
 
@@ -48,17 +49,17 @@ msgstr "Общие"
 msgid "Advanced"
 msgstr "Дополнительно"
 
-#: includes/class-admin-page.php:75
+#: includes/class-admin-page.php:76
 msgid "About"
 msgstr "О плагине"
 
 #. translators: Short plugin name in the admin menu. HeAd = He(llo) Ad(min), reads as "head guard".
-#: includes/class-admin-page.php:120
+#: includes/class-admin-page.php:121
 msgid "HeAd Guard"
 msgstr "HeAd Guard"
 
 #. translators: %d: number of open security gaps.
-#: includes/class-admin-page.php:128
+#: includes/class-admin-page.php:129
 #, php-format
 msgid "%d open gap"
 msgid_plural "%d open gaps"
@@ -66,219 +67,219 @@ msgstr[0] "%d открытая лазейка"
 msgstr[1] "%d открытые лазейки"
 msgstr[2] "%d открытых лазеек"
 
-#: includes/class-admin-page.php:255
+#: includes/class-admin-page.php:256
 msgid "Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead."
 msgstr "Серверные правила не сохранены: это не Apache и не LiteSpeed, поэтому плагин не может их записать. Скопируйте правила из каждой карточки в конфигурацию сервера."
 
-#: includes/class-admin-page.php:256
+#: includes/class-admin-page.php:257
 msgid "Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable."
 msgstr "Серверные правила не сохранены: WordPress не может записать файл .htaccess. Скопируйте правила из каждой карточки в .htaccess вручную или попросите хостинг разрешить запись в файл."
 
-#: includes/class-admin-page.php:257
+#: includes/class-admin-page.php:258
 msgid "Server rules were not saved: writing the .htaccess file failed. Nothing was changed."
 msgstr "Серверные правила не сохранены: не удалось записать файл .htaccess. Ничего не изменено."
 
-#: includes/class-admin-page.php:258
+#: includes/class-admin-page.php:259
 msgid "Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules."
 msgstr "Серверные правила не сохранены: после записи главная страница ответила ошибкой сервера, поэтому старый файл .htaccess возвращён. Возможно, сервер не поддерживает одно из правил."
 
-#: includes/class-admin-page.php:259
+#: includes/class-admin-page.php:260
 msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
 msgstr "Серверные правила сохранены, но плагин не смог открыть главную страницу, чтобы их проверить (некоторые хостинги блокируют такие запросы). Откройте сайт в новой вкладке и убедитесь, что он работает."
 
-#: includes/class-admin-page.php:303
+#: includes/class-admin-page.php:304
 msgid "Settings"
 msgstr "Настройки"
 
-#: includes/class-admin-page.php:322
+#: includes/class-admin-page.php:323
 msgid "Settings saved."
 msgstr "Настройки сохранены."
 
-#: includes/class-admin-page.php:358
+#: includes/class-admin-page.php:359
 msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
 msgstr "Каждая настройка выключена, пока вы её не включите. Перед сохранением прочитайте, что она делает и что может сломаться."
 
-#: includes/class-admin-page.php:394
+#: includes/class-admin-page.php:397
 msgid "No settings on this tab yet."
 msgstr "На этой вкладке пока нет настроек."
 
-#: includes/class-admin-page.php:424
+#: includes/class-admin-page.php:427
 msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
 msgstr "Показывать число открытых лазеек рядом с HeAd Guard в меню админки"
 
-#: includes/class-admin-page.php:469
+#: includes/class-admin-page.php:472
 msgid "Learn more"
 msgstr "Подробнее"
 
-#: includes/class-admin-page.php:482
+#: includes/class-admin-page.php:485
 msgid "Description"
 msgstr "Описание"
 
-#: includes/class-admin-page.php:483
+#: includes/class-admin-page.php:486
 msgid "Downsides"
 msgstr "Риски"
 
-#: includes/class-admin-page.php:486
+#: includes/class-admin-page.php:489
 msgid "How to undo"
 msgstr "Как вернуть"
 
-#: includes/class-admin-page.php:525
+#: includes/class-admin-page.php:557
 msgid "I do not need this on this site (it stops counting as an open gap)"
 msgstr "Мне это не нужно на этом сайте (лазейка перестанет считаться открытой)"
 
-#: includes/class-admin-page.php:593
+#: includes/class-admin-page.php:625
 msgid "high risk"
 msgstr "высокий риск"
 
-#: includes/class-admin-page.php:594
+#: includes/class-admin-page.php:626
 msgid "medium risk"
 msgstr "средний риск"
 
-#: includes/class-admin-page.php:595
+#: includes/class-admin-page.php:627
 msgid "low risk"
 msgstr "низкий риск"
 
-#: includes/class-admin-page.php:599
+#: includes/class-admin-page.php:631
 msgid "Closed by this plugin"
 msgstr "Закрыто этим плагином"
 
-#: includes/class-admin-page.php:601
+#: includes/class-admin-page.php:633
 msgid "Not working"
 msgstr "Не работает"
 
-#: includes/class-admin-page.php:601
+#: includes/class-admin-page.php:633
 msgid "The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting."
 msgstr "Настройка включена, но последняя проверка всё ещё находит эту лазейку открытой. Возможно, серверные правила не работают на этом сервере или другой плагин отменяет настройку."
 
 #. translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)".
-#: includes/class-admin-page.php:607
+#: includes/class-admin-page.php:639
 #, php-format
 msgid "Closed by %s. You can leave this off."
 msgstr "Закрыто: %s. Эту настройку можно не включать."
 
 #. translators: %s: names of active security plugins.
-#: includes/class-admin-page.php:610
+#: includes/class-admin-page.php:642
 #, php-format
 msgid "Probably by %s, the theme or the server settings. You can leave this off."
 msgstr "Вероятно, это делает %s, тема или настройки сервера. Эту настройку можно не включать."
 
-#: includes/class-admin-page.php:612
+#: includes/class-admin-page.php:644
 msgid "By the theme, the server settings or another plugin. You can leave this off."
 msgstr "Это делают тема, настройки сервера или другой плагин. Эту настройку можно не включать."
 
-#: includes/class-admin-page.php:614
+#: includes/class-admin-page.php:646
 msgid "Already closed"
 msgstr "Уже закрыто"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:617
+#: includes/class-admin-page.php:649
 #, php-format
 msgid "Open, %s"
 msgstr "Открыто, %s"
 
-#: includes/class-admin-page.php:619
+#: includes/class-admin-page.php:651
 msgid "Not needed"
 msgstr "Не нужно"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:622
+#: includes/class-admin-page.php:654
 #, php-format
 msgid "Not checked yet, %s"
 msgstr "Ещё не проверено, %s"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:622
+#: includes/class-admin-page.php:654
 #, php-format
 msgid "Cannot be checked, %s"
 msgstr "Не удаётся проверить, %s"
 
-#: includes/class-admin-page.php:635
+#: includes/class-admin-page.php:667
 msgid "Checking what your site answers to visitors..."
 msgstr "Проверяю, что ваш сайт отвечает посетителям..."
 
 #. translators: %s: time since the last check, for example "5 minutes".
-#: includes/class-admin-page.php:638
+#: includes/class-admin-page.php:670
 #, php-format
 msgid "Last check: %s ago."
 msgstr "Последняя проверка: %s назад."
 
-#: includes/class-admin-page.php:643
+#: includes/class-admin-page.php:675
 msgid "Check again"
 msgstr "Проверить снова"
 
-#: includes/class-admin-page.php:659
+#: includes/class-admin-page.php:691
 msgid "Optional: the same for Nginx, to add to the server block"
 msgstr "Необязательно: то же для Nginx, добавить в блок server"
 
-#: includes/class-admin-page.php:659
+#: includes/class-admin-page.php:691
 msgid "Rules to add to the server block, above the PHP location"
 msgstr "Правила для блока server, над location для PHP"
 
-#: includes/class-admin-page.php:663
+#: includes/class-admin-page.php:695
 msgid "Also added to .htaccess, so the server answers before PHP starts"
 msgstr "Также добавляется в .htaccess, чтобы сервер отвечал ещё до запуска PHP"
 
-#: includes/class-admin-page.php:663
+#: includes/class-admin-page.php:695
 msgid "Optional: the same in .htaccess, to add by hand"
 msgstr "Необязательно: то же в .htaccess, добавить вручную"
 
-#: includes/class-admin-page.php:665
+#: includes/class-admin-page.php:697
 msgid "Rules to add to .htaccess by hand"
 msgstr "Правила, которые нужно добавить в .htaccess вручную"
 
-#: includes/class-admin-page.php:665
+#: includes/class-admin-page.php:697
 msgid "Rules the plugin adds to .htaccess"
 msgstr "Правила, которые плагин добавляет в .htaccess"
 
-#: includes/class-admin-page.php:670
+#: includes/class-admin-page.php:702
 msgid "This setting needs Apache, LiteSpeed or Nginx."
 msgstr "Для этой настройки нужен Apache, LiteSpeed или Nginx."
 
-#: includes/class-admin-page.php:693
+#: includes/class-admin-page.php:725
 msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
 msgstr "Некоторые настройки на этой вкладке записывают правила в файл .htaccess в корне сайта. Перед каждым изменением плагин сохраняет копию файла, а затем открывает главную страницу; если она отвечает ошибкой сервера, старый файл возвращается."
 
-#: includes/class-admin-page.php:695
+#: includes/class-admin-page.php:727
 msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
 msgstr "WordPress не может записать файл .htaccess на этом сайте, поэтому правила ниже здесь не включить. Скопируйте их в .htaccess вручную или попросите хостинг разрешить запись в файл."
 
-#: includes/class-admin-page.php:697
+#: includes/class-admin-page.php:729
 msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
 msgstr "Этот сайт работает на Nginx, а он не читает файлы .htaccess. Скопируйте правила из каждой карточки в блок server вашего сайта или отправьте их хостингу."
 
-#: includes/class-admin-page.php:699
+#: includes/class-admin-page.php:731
 msgid "The server rules below need Apache, LiteSpeed or Nginx."
 msgstr "Для серверных правил ниже нужен Apache, LiteSpeed или Nginx."
 
-#: includes/class-admin-page.php:736
+#: includes/class-admin-page.php:768
 msgid "HelloAdmin Guard is free and will stay free."
 msgstr "HelloAdmin Guard бесплатный и останется бесплатным."
 
-#: includes/class-admin-page.php:737
+#: includes/class-admin-page.php:769
 msgid "No paid version, no locked settings, no ads, no calls to outside servers."
 msgstr "Без платной версии, без закрытых настроек, без рекламы, без запросов к сторонним серверам."
 
-#: includes/class-admin-page.php:738
+#: includes/class-admin-page.php:770
 msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
 msgstr "Каждая настройка объясняет, что она меняет, что может сломаться и как всё вернуть. Настройка безопасности, которую вы не понимаете, — тоже риск."
 
-#: includes/class-admin-page.php:739
+#: includes/class-admin-page.php:771
 msgid "Need help with your site?"
 msgstr "Нужна помощь с сайтом?"
 
-#: includes/class-admin-page.php:740
+#: includes/class-admin-page.php:772
 msgid "This plugin was built and is maintained by a developer with more than 10 years of experience with WordPress and WooCommerce. Is your site slow, showing errors, broken after an update or hacked? Need someone to look after it? Write to me."
 msgstr "Плагин создал и поддерживает разработчик с более чем 10-летним опытом работы с WordPress и WooCommerce. Сайт долго грузится, выдаёт ошибки, сломался после обновления или его взломали? Нужен человек, который будет за ним следить? Напишите мне."
 
-#: includes/class-admin-page.php:744
+#: includes/class-admin-page.php:776
 msgid "Contact HelloAdmin"
 msgstr "Написать HelloAdmin"
 
-#: includes/class-admin-page.php:746
+#: includes/class-admin-page.php:778
 msgid "Report a problem"
 msgstr "Сообщить о проблеме"
 
-#: includes/class-admin-page.php:748
+#: includes/class-admin-page.php:780
 msgid "Show the welcome message again"
 msgstr "Показать приветствие ещё раз"
 
@@ -501,19 +502,7 @@ msgstr "Добавляет \"Options -Indexes\": когда в папке нет
 msgid "Nothing breaks on the site. On a few hosts .htaccess may not change Options: then the home page answers with an error, the plugin puts the old file back and keeps this setting off."
 msgstr "На сайте ничего не сломается. На некоторых хостингах .htaccess не может менять Options: тогда главная страница ответит ошибкой, плагин вернёт старый файл и оставит эту настройку выключенной."
 
-#: includes/features/class-disable-xmlrpc.php:35
-msgid "Turn off XML-RPC"
-msgstr "Отключить XML-RPC"
-
-#: includes/features/class-disable-xmlrpc.php:42
-msgid "Every request to /xmlrpc.php gets a 403 answer, so bots cannot try many passwords in one request through system.multicall. The X-Pingback header and the RSD link in the page source are removed too."
-msgstr "Каждый запрос к /xmlrpc.php получает ответ 403, и боты не могут перебирать много паролей одним запросом через system.multicall. Заголовок X-Pingback и ссылка RSD в коде страницы тоже убираются."
-
-#: includes/features/class-disable-xmlrpc.php:49
-msgid "If you use Jetpack or other services that connect to the site through XML-RPC, old desktop and mobile blogging apps or pingbacks, they stop working. The WordPress mobile app works through the REST API and is not affected."
-msgstr "Если вы пользуетесь Jetpack или другими сервисами, которые подключаются к сайту через XML-RPC, старыми программами для ведения блога на компьютере или телефоне или пингбеками, они перестанут работать. Мобильное приложение WordPress работает через REST API, его это не касается."
-
-#: includes/features/class-disable-xmlrpc.php:56
+#: includes/features/class-disable-xmlrpc.php:71
 #: includes/features/class-user-enumeration.php:55
 msgid "Turn this off and save. Nothing is deleted or changed in the database."
 msgstr "Выключите эту настройку и сохраните. В базе данных ничего не удаляется и не меняется."
@@ -769,8 +758,282 @@ msgstr "<strong>Ошибка:</strong> неверное имя пользова�
 msgid "Sorry, you are not allowed to list users."
 msgstr "Извините, вам не разрешено просматривать список пользователей."
 
-#~ msgid "Adds four headers: X-Content-Type-Options: nosniff (browsers do not guess file types), X-Frame-Options: SAMEORIGIN (other sites cannot show your pages in a frame), Referrer-Policy: strict-origin-when-cross-origin (other sites see only your domain, not full URLs) and Permissions-Policy (no camera or microphone, location only for your own pages)."
-#~ msgstr "Добавляет четыре заголовка: X-Content-Type-Options: nosniff (браузеры не угадывают тип файла), X-Frame-Options: SAMEORIGIN (другие сайты не могут показать ваши страницы во фрейме), Referrer-Policy: strict-origin-when-cross-origin (другие сайты видят только ваш домен, а не полные адреса) и Permissions-Policy (без камеры и микрофона, геолокация только для ваших страниц)."
+#: includes/class-admin-page.php:75
+msgid "If hacked"
+msgstr "Если взломали"
 
-#~ msgid "If your pages are shown inside a frame on another domain, for example in a landing page builder or on a partner site, they stop opening there. If embedded widgets from other sites ask for the camera, microphone or location, they do not get it. Your own pages, the editor and the Customizer are not affected."
-#~ msgstr "Если ваши страницы показываются во фрейме на другом домене, например в конструкторе лендингов или на сайте партнёра, там они перестанут открываться. Если встроенные виджеты с других сайтов просят камеру, микрофон или геолокацию, доступа они не получат. Ваши собственные страницы, редактор и Customizer это не затрагивает."
+#: includes/class-emergency.php:49
+msgid "Sorry, you are not allowed to do this."
+msgstr "Извините, вам нельзя это делать."
+
+#: includes/class-emergency.php:62
+msgid "Nothing was done: tick the box to confirm first."
+msgstr "Ничего не сделано: сначала поставьте галочку для подтверждения."
+
+#. translators: 1: number of sessions, 2: number of users, 3: number of application passwords.
+#: includes/class-emergency.php:70
+#, php-format
+msgid "Done. Sessions ended: %1$d (users: %2$d). Application passwords deleted: %3$d. Your session in this browser is kept."
+msgstr "Готово. Завершено сессий: %1$d (пользователей: %2$d). Удалено паролей приложений: %3$d. Ваша сессия в этом браузере сохранена."
+
+#. translators: %s: user name.
+#: includes/class-emergency.php:142
+#, php-format
+msgid "%s pressed \"Log out everyone\" in HelloAdmin Guard."
+msgstr "Пользователь %s нажал «Завершить все сессии» в HelloAdmin Guard."
+
+#: includes/class-emergency.php:144
+msgid "If this was not you or your team, someone else has administrator access: log in, change your password and check the list of administrators."
+msgstr "Если это не вы и не ваша команда, у кого-то ещё есть доступ администратора: войдите, смените свой пароль и проверьте список администраторов."
+
+#: includes/class-emergency.php:145
+msgid "Everyone was logged out"
+msgstr "Все сессии завершены"
+
+#: includes/class-emergency.php:168
+msgid "Log out everyone"
+msgstr "Завершить все сессии"
+
+#: includes/class-emergency.php:169
+msgid "A new password does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in. This button ends every session of every user except yours in this browser, and deletes all application passwords."
+msgstr "Новый пароль не завершает уже открытые сессии, а пароли приложений работают и после его смены. Если кто-то украл пароль или cookie входа, он остаётся внутри. Эта кнопка завершает все сессии всех пользователей, кроме вашей в этом браузере, и удаляет все пароли приложений."
+
+#: includes/class-emergency.php:170
+msgid "Everyone else has to log in again. Apps and services connected with an application password stop working until you create a new one for them."
+msgstr "Всем остальным придётся войти заново. Приложения и сервисы, подключённые через пароль приложения, перестанут работать, пока вы не создадите для них новый."
+
+#: includes/class-emergency.php:174
+msgid "I understand that everyone else is logged out and all application passwords are deleted."
+msgstr "Я понимаю, что все остальные сессии будут завершены, а все пароли приложений удалены."
+
+#: includes/class-emergency.php:175
+msgid "Log out everyone and delete application passwords"
+msgstr "Завершить все сессии и удалить пароли приложений"
+
+#: includes/class-emergency.php:180
+msgid "If you think the site was hacked"
+msgstr "Если вы думаете, что сайт взломали"
+
+#: includes/class-emergency.php:183
+msgid "Before you clean anything, save a copy of the files, the database and the server logs. You will need them to find out how they got in."
+msgstr "Прежде чем что-то чистить, сохраните копию файлов, базы данных и логов сервера. Они понадобятся, чтобы выяснить, как именно взломали сайт."
+
+#: includes/class-emergency.php:184
+msgid "From a computer you trust, change the passwords of the hosting panel, SSH or SFTP, the database, every administrator and the API keys of services like a CDN."
+msgstr "С компьютера, которому вы доверяете, смените пароли панели хостинга, SSH или SFTP, базы данных, каждого администратора и ключи API сервисов вроде CDN."
+
+#: includes/class-emergency.php:185
+msgid "Press the button above, so the old sessions and application passwords stop working."
+msgstr "Нажмите кнопку выше, чтобы старые сессии и пароли приложений перестали работать."
+
+#: includes/class-emergency.php:186
+msgid "Check the administrators and the must-use plugins: the General tab has e-mail alerts and warnings for both."
+msgstr "Проверьте администраторов и must-use плагины: на вкладке «Общие» есть уведомления на почту и предупреждения для обоих."
+
+#: includes/class-emergency.php:187
+msgid "Find how they got in before you restore a backup, or the same hole lets them in again."
+msgstr "Найдите, как именно взломали сайт, прежде чем восстанавливать резервную копию, иначе та же дыра снова впустит злоумышленников."
+
+#: includes/class-feature.php:209
+msgid "Also send to"
+msgstr "Также отправлять на"
+
+#: includes/class-feature.php:212
+msgid "One more e-mail address besides the site address in Settings, General. Leave empty to use only the site address."
+msgstr "Ещё один адрес почты, кроме адреса сайта в «Настройки», «Общие». Оставьте пустым, чтобы отправлять только на адрес сайта."
+
+#. translators: %s: title of the setting.
+#: includes/class-feature.php:233
+#, php-format
+msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
+msgstr "Отправлено плагином HelloAdmin Guard. Чтобы больше не получать эти письма, выключите «%s» в HeAd Guard."
+
+#: includes/features/class-admin-alert.php:63
+msgid "E-mail me about new administrators"
+msgstr "Сообщать на почту о новых администраторах"
+
+#: includes/features/class-admin-alert.php:70
+msgid "When an account becomes an administrator, the site e-mail address gets a message with the user name, the e-mail of the account and who made the change. Once an hour the plugin also compares the administrators in the database with the list it saw last time, so an account added straight into the database, or hidden from the Users screen, is reported too. Hacked sites often get an extra admin with a random name like \"a3f9c2\"."
+msgstr "Когда учётная запись становится администратором, на адрес почты сайта приходит письмо с именем пользователя, его почтой и тем, кто сделал изменение. Раз в час плагин также сравнивает администраторов в базе данных со списком, который видел в прошлый раз, так что об учётной записи, добавленной прямо в базу или скрытой с экрана «Пользователи», вы тоже узнаете. На взломанных сайтах часто появляется лишний администратор со случайным именем вроде «a3f9c2»."
+
+#: includes/features/class-admin-alert.php:77
+msgid "Nothing stops working. You also get the e-mail when you add an administrator yourself. If e-mail from this site does not arrive, the alert does not arrive either, so check that the site can send mail."
+msgstr "Ничего не перестаёт работать. Письмо приходит и тогда, когда вы сами добавляете администратора. Если почта с этого сайта не доходит, уведомление тоже не дойдёт, так что проверьте, что сайт умеет отправлять письма."
+
+#: includes/features/class-admin-alert.php:84
+msgid "Turn this off and save. No users or roles are changed."
+msgstr "Выключите эту настройку и сохраните. Пользователи и роли не меняются."
+
+#. translators: %s: date.
+#: includes/features/class-admin-alert.php:162
+#, php-format
+msgid "Created on %s."
+msgstr "Создан %s."
+
+#. translators: %s: user name.
+#: includes/features/class-admin-alert.php:167
+#, php-format
+msgid "The administrator \"%s\" is in the database but hidden from the Users screen. Something on this site filters the user list, which is how malware hides its accounts. Check this account and the must-use plugins."
+msgstr "Администратор «%s» есть в базе данных, но скрыт с экрана «Пользователи». Что-то на этом сайте фильтрует список пользователей, именно так вредоносный код прячет свои учётные записи. Проверьте эту учётную запись и must-use плагины."
+
+#. translators: %s: user name.
+#: includes/features/class-admin-alert.php:170
+#, php-format
+msgid "The administrator \"%s\" has a name that looks random. If you do not know this account, check it."
+msgstr "У администратора «%s» имя, похожее на случайное. Если вы не знаете эту учётную запись, проверьте её."
+
+#. translators: %s: user name.
+#: includes/features/class-admin-alert.php:173
+#, php-format
+msgid "The administrator \"%s\" was added in the last 7 days."
+msgstr "Администратор «%s» добавлен за последние 7 дней."
+
+#: includes/features/class-admin-alert.php:314
+msgid "found by the hourly check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
+msgstr "найдено ежечасной проверкой: роль назначена не через WordPress, пока это уведомление было включено, например записана прямо в базу данных"
+
+#: includes/features/class-admin-alert.php:318
+msgid "no logged-in user (WP-CLI, a scheduled task or code)"
+msgstr "никто не вошёл (WP-CLI, запланированная задача или код)"
+
+#. translators: %s: user name.
+#: includes/features/class-admin-alert.php:323
+#, php-format
+msgid "New administrator: %s"
+msgstr "Новый администратор: %s"
+
+#: includes/features/class-admin-alert.php:326
+msgid "An account on your site now has the Administrator role."
+msgstr "Учётная запись на вашем сайте теперь имеет роль «Администратор»."
+
+#. translators: %s: user name.
+#: includes/features/class-admin-alert.php:329
+#, php-format
+msgid "User name: %s"
+msgstr "Имя пользователя: %s"
+
+#. translators: %s: e-mail address.
+#: includes/features/class-admin-alert.php:331
+#, php-format
+msgid "E-mail: %s"
+msgstr "Почта: %s"
+
+#. translators: %s: date and time.
+#: includes/features/class-admin-alert.php:333
+#, php-format
+msgid "Account created: %s"
+msgstr "Учётная запись создана: %s"
+
+#. translators: %s: user name or a short explanation.
+#: includes/features/class-admin-alert.php:335
+#, php-format
+msgid "Changed by: %s"
+msgstr "Кто изменил: %s"
+
+#. translators: %s: IP address.
+#: includes/features/class-admin-alert.php:338
+#, php-format
+msgid "From IP address: %s"
+msgstr "С IP-адреса: %s"
+
+#: includes/features/class-admin-alert.php:341
+msgid "If you or your team added this account, nothing to do."
+msgstr "Если эту учётную запись добавили вы или ваша команда, ничего делать не нужно."
+
+#: includes/features/class-admin-alert.php:342
+msgid "If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
+msgstr "Если нет: удалите учётную запись, смените пароли всех администраторов и хостинга и просмотрите wp-content/mu-plugins на незнакомые файлы."
+
+#: includes/features/class-disable-xmlrpc.php:50
+msgid "Turn off or limit XML-RPC"
+msgstr "Отключить или ограничить XML-RPC"
+
+#: includes/features/class-disable-xmlrpc.php:57
+msgid "XML-RPC is an old remote API and a second login door next to the login page: a custom login URL or a captcha does not cover it, and bots use its pingbacks to flood other sites. \"Turn off\" answers every request to /xmlrpc.php with 403. \"Keep for Jetpack and apps\" leaves XML-RPC working and removes only the pingback methods. Both remove the X-Pingback header."
+msgstr "XML-RPC это старый удалённый API и вторая дверь для входа рядом со страницей входа: свой адрес входа или капча её не закрывают, а pingback боты используют, чтобы засыпать запросами другие сайты. «Отключить» отвечает на каждый запрос к /xmlrpc.php кодом 403. «Оставить для Jetpack и приложений» оставляет XML-RPC рабочим и убирает только методы pingback. Оба режима убирают заголовок X-Pingback."
+
+#: includes/features/class-disable-xmlrpc.php:64
+msgid "Turn off: Jetpack and other services that connect through XML-RPC, old desktop and mobile blogging apps and pingbacks stop working. Keep for Jetpack and apps: only pingbacks stop. The WordPress mobile app works through the REST API and is not affected in either mode."
+msgstr "«Отключить»: перестают работать Jetpack и другие сервисы, которые подключаются через XML-RPC, старые программы для блогов на компьютере и телефоне и pingback. «Оставить для Jetpack и приложений»: перестают работать только pingback. Мобильное приложение WordPress работает через REST API, и ни один режим его не затрагивает."
+
+#: includes/features/class-disable-xmlrpc.php:108
+msgid "Mode"
+msgstr "Режим"
+
+#: includes/features/class-disable-xmlrpc.php:112
+msgid "Turn off (recommended if nothing on the site uses XML-RPC)"
+msgstr "Отключить (рекомендуется, если на сайте ничто не использует XML-RPC)"
+
+#: includes/features/class-disable-xmlrpc.php:113
+msgid "Keep for Jetpack and apps, turn off pingbacks"
+msgstr "Оставить для Jetpack и приложений, отключить pingback"
+
+#: includes/features/class-disable-xmlrpc.php:115
+msgid "Not sure? Choose Turn off, then check that Jetpack or your apps still work. If something breaks, switch to the second option."
+msgstr "Не уверены? Выберите «Отключить», а потом проверьте, что Jetpack или ваши приложения работают. Если что-то сломается, переключитесь на второй вариант."
+
+#: includes/features/class-mu-plugins-watch.php:66
+msgid "E-mail me about new must-use plugins"
+msgstr "Сообщать на почту о новых must-use плагинах"
+
+#: includes/features/class-mu-plugins-watch.php:73
+msgid "Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. Once an hour the plugin compares these files with the list it saw last time and e-mails the site address about new and changed ones, including files whose names start with a dot."
+msgstr "Must-use плагины в wp-content/mu-plugins и drop-in файлы вроде db.php или object-cache.php выполняются на каждой странице, их нельзя выключить в админке, и их нет в обычном списке плагинов, поэтому вредоносный код любит там прятаться. Раз в час плагин сравнивает эти файлы со списком, который видел в прошлый раз, и отправляет на адрес сайта письмо о новых и изменённых, в том числе о файлах, чьи имена начинаются с точки."
+
+#: includes/features/class-mu-plugins-watch.php:80
+msgid "Nothing stops working. You also get the e-mail when you or your host add or update a must-use plugin or a caching drop-in. If e-mail from this site does not arrive, the alert does not arrive either."
+msgstr "Ничего не перестаёт работать. Письмо приходит и тогда, когда вы или ваш хостинг добавляете или обновляете must-use плагин или drop-in кеширования. Если почта с этого сайта не доходит, уведомление тоже не дойдёт."
+
+#: includes/features/class-mu-plugins-watch.php:87
+msgid "Turn this off and save. No files are changed or deleted."
+msgstr "Выключите эту настройку и сохраните. Никакие файлы не меняются и не удаляются."
+
+#: includes/features/class-mu-plugins-watch.php:146
+msgid "Something on this site hides the Must-Use list on the Plugins screen. Malware does this to keep its files out of sight."
+msgstr "Что-то на этом сайте прячет список Must-Use на экране «Плагины». Вредоносный код так делает, чтобы его файлов не было видно."
+
+#. translators: %s: file path inside wp-content.
+#: includes/features/class-mu-plugins-watch.php:153
+#, php-format
+msgid "%s has a name that starts with a dot, so many FTP programs and file managers do not show it, but WordPress loads it on every page."
+msgstr "Имя %s начинается с точки, поэтому многие FTP-программы и файловые менеджеры его не показывают, но WordPress загружает этот файл на каждой странице."
+
+#. translators: %s: file path inside wp-content.
+#: includes/features/class-mu-plugins-watch.php:157
+#, php-format
+msgid "%s runs code it decodes first (eval with base64, gzinflate or similar). That is how malware hides what it does. Check this file."
+msgstr "%s выполняет код, который сначала расшифровывает (eval вместе с base64, gzinflate и подобным). Так вредоносный код скрывает, что делает. Проверьте этот файл."
+
+#: includes/features/class-mu-plugins-watch.php:259
+msgid "New files that WordPress now loads on every page:"
+msgstr "Новые файлы, которые WordPress теперь загружает на каждой странице:"
+
+#: includes/features/class-mu-plugins-watch.php:266
+msgid "Changed files:"
+msgstr "Изменённые файлы:"
+
+#: includes/features/class-mu-plugins-watch.php:272
+msgid "If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins add files like these too."
+msgstr "Если их добавили или обновили вы, ваш разработчик или хостинг, ничего делать не нужно. Хостинги и плагины кеширования тоже добавляют такие файлы."
+
+#: includes/features/class-mu-plugins-watch.php:273
+msgid "If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
+msgstr "Если нет: сначала скопируйте файл в безопасное место (это улика), потом удалите его с сайта, смените пароли всех администраторов и хостинга и проверьте список администраторов."
+
+#. translators: %s: file name.
+#: includes/features/class-mu-plugins-watch.php:281
+#, php-format
+msgid "New or changed must-use file: %s"
+msgstr "Новый или изменённый must-use файл: %s"
+
+#. translators: %d: number of files.
+#: includes/features/class-mu-plugins-watch.php:283
+#, php-format
+msgid "%d new or changed must-use files"
+msgstr "Новые или изменённые must-use файлы: %d"
+
+#. translators: 1: file size, 2: date and time.
+#: includes/features/class-mu-plugins-watch.php:301
+#, php-format
+msgid "%1$s, modified %2$s"
+msgstr "%1$s, изменён %2$s"
