@@ -15,11 +15,26 @@ use HelloAdmin\Guard\Probe;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * XML-RPC is the old remote API. Its system.multicall method lets a bot try hundreds of passwords in one
- * request. The core filter xmlrpc_enabled only switches off the methods that need a login, so the whole
- * endpoint is refused here instead.
+ * XML-RPC is the old remote API and a second login door next to wp-login.php: a custom login URL or a captcha
+ * on the login page does not cover it, and its pingbacks are used to flood other sites and to probe the server's
+ * network. (Since WordPress 4.4 system.multicall no longer checks more than one wrong password per request.)
+ *
+ * Mode "off": the whole endpoint is refused, because the core filter xmlrpc_enabled only switches off the
+ * methods that need a login. Mode "limit": for sites that need XML-RPC (Jetpack, old apps), the endpoint stays
+ * and only the pingback methods are removed. The FBI notice on Gootloader (CC-111626-MW) says: disable
+ * xmlrpc.php if unused, otherwise allow only the methods you need.
  */
 class Disable_Xmlrpc extends Feature {
+
+	/**
+	 * Mode: the whole endpoint answers 403.
+	 */
+	const MODE_OFF = 'off';
+
+	/**
+	 * Mode: XML-RPC stays for Jetpack and apps, pingbacks are removed.
+	 */
+	const MODE_LIMIT = 'limit';
 
 	/**
 	 * {@inheritDoc}
@@ -32,21 +47,21 @@ class Disable_Xmlrpc extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function title() {
-		return __( 'Turn off XML-RPC', 'helloadmin-guard' );
+		return __( 'Turn off or limit XML-RPC', 'helloadmin-guard' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'Every request to /xmlrpc.php gets a 403 answer, so bots cannot try many passwords in one request through system.multicall. The X-Pingback header and the RSD link in the page source are removed too.', 'helloadmin-guard' );
+		return __( 'XML-RPC is an old remote API and a second login door next to the login page: a custom login URL or a captcha does not cover it, and bots use its pingbacks to flood other sites. "Turn off" answers every request to /xmlrpc.php with 403. "Keep for Jetpack and apps" leaves XML-RPC working and removes only the pingback methods. Both remove the X-Pingback header.', 'helloadmin-guard' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'If you use Jetpack or other services that connect to the site through XML-RPC, old desktop and mobile blogging apps or pingbacks, they stop working. The WordPress mobile app works through the REST API and is not affected.', 'helloadmin-guard' );
+		return __( 'Turn off: Jetpack and other services that connect through XML-RPC, old desktop and mobile blogging apps and pingbacks stop working. Keep for Jetpack and apps: only pingbacks stop. The WordPress mobile app works through the REST API and is not affected in either mode.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -74,7 +89,44 @@ class Disable_Xmlrpc extends Feature {
 		if ( null === $answer ) {
 			return null;
 		}
-		return ! ( 200 === $answer['code'] && false !== strpos( $answer['body'], 'system.multicall' ) );
+		$open = 200 === $answer['code'] && false !== strpos( $answer['body'], 'system.multicall' );
+		// In the limit mode XML-RPC answers on purpose; the gap is closed when pingbacks are gone.
+		if ( $open && $this->is_limit_mode() ) {
+			return false === strpos( $answer['body'], 'pingback.ping' );
+		}
+		return ! $open;
+	}
+
+	/**
+	 * Mode choice.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function fields() {
+		return array(
+			'mode' => array(
+				'label'       => __( 'Mode', 'helloadmin-guard' ),
+				'type'        => 'radio',
+				'default'     => self::MODE_OFF,
+				'options'     => array(
+					self::MODE_OFF   => __( 'Turn off (recommended if nothing on the site uses XML-RPC)', 'helloadmin-guard' ),
+					self::MODE_LIMIT => __( 'Keep for Jetpack and apps, turn off pingbacks', 'helloadmin-guard' ),
+				),
+				'description' => __( 'Not sure? Choose Turn off, then check that Jetpack or your apps still work. If something breaks, switch to the second option.', 'helloadmin-guard' ),
+			),
+		);
+	}
+
+	/**
+	 * Keeps only a known mode.
+	 *
+	 * @param string $field Field name.
+	 * @param mixed  $value Raw value.
+	 * @return string
+	 */
+	public function sanitize_field( $field, $value ) {
+		unset( $field );
+		return self::MODE_LIMIT === $value ? self::MODE_LIMIT : self::MODE_OFF;
 	}
 
 	/**
@@ -83,6 +135,9 @@ class Disable_Xmlrpc extends Feature {
 	 * @return string[]
 	 */
 	public function apache_rules() {
+		if ( $this->is_limit_mode() ) {
+			return array();
+		}
 		return array(
 			'<Files xmlrpc.php>',
 			'<IfModule mod_authz_core.c>',
@@ -102,6 +157,9 @@ class Disable_Xmlrpc extends Feature {
 	 * @return string[]
 	 */
 	public function nginx_rules() {
+		if ( $this->is_limit_mode() ) {
+			return array();
+		}
 		return array(
 			'location = /' . ltrim( (string) wp_parse_url( site_url( 'xmlrpc.php' ), PHP_URL_PATH ), '/' ) . ' { return 403; }',
 		);
@@ -139,13 +197,37 @@ class Disable_Xmlrpc extends Feature {
 	 * @return void
 	 */
 	public function enable( Settings $settings ) {
+		add_filter( 'wp_headers', array( $this, 'remove_pingback_header' ) );
+		if ( $this->is_limit_mode() ) {
+			add_filter( 'xmlrpc_methods', array( $this, 'remove_pingback_methods' ) );
+			return;
+		}
 		if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
 			add_action( 'plugins_loaded', array( $this, 'refuse' ), PHP_INT_MAX );
 		}
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 		add_filter( 'xmlrpc_methods', '__return_empty_array' );
-		add_filter( 'wp_headers', array( $this, 'remove_pingback_header' ) );
 		remove_action( 'wp_head', 'rsd_link' );
+	}
+
+	/**
+	 * Whether the limit mode is chosen. Reads the saved value directly: enable() runs before translations load.
+	 *
+	 * @return bool
+	 */
+	private function is_limit_mode() {
+		return self::MODE_LIMIT === $this->saved_value( 'mode', self::MODE_OFF );
+	}
+
+	/**
+	 * Removes the pingback methods (limit mode).
+	 *
+	 * @param array<string, mixed> $methods XML-RPC methods.
+	 * @return array<string, mixed>
+	 */
+	public function remove_pingback_methods( $methods ) {
+		unset( $methods['pingback.ping'], $methods['pingback.extensions.getPingbacks'] );
+		return $methods;
 	}
 
 	/**

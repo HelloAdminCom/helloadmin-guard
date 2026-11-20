@@ -35,6 +35,18 @@ abstract class Feature {
 	}
 
 	/**
+	 * Saved value of an extra field without looking at fields(), for code that runs before translations load
+	 * (fields() builds translated labels).
+	 *
+	 * @param string $field    Field name.
+	 * @param string $fallback Value when nothing is saved.
+	 * @return string
+	 */
+	protected function saved_value( $field, $fallback ) {
+		return isset( $this->values[ $field ] ) ? (string) $this->values[ $field ] : $fallback;
+	}
+
+	/**
 	 * Value of an extra field, or its default when nothing is saved.
 	 *
 	 * @param string $field Field name from fields().
@@ -244,10 +256,11 @@ abstract class Feature {
 
 	/**
 	 * Extra fields shown under the toggle, keyed by field name.
-	 * Each field: array( 'label' => string, 'type' => 'text' or 'checkbox', 'default' => string, 'description' => string ).
+	 * Each field: array( 'label' => string, 'type' => 'text', 'checkbox' or 'radio', 'default' => string, 'description' => string ).
 	 * A checkbox saves '1' or '0'. Checkboxes that follow each other are shown as one group under 'group' of the first.
+	 * A radio field also has 'options' => array( value => label ) and saves the chosen value.
 	 *
-	 * @return array<string, array<string, string>>
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function fields() {
 		return array();

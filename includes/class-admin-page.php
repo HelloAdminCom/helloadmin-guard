@@ -500,6 +500,35 @@ class Admin_Page {
 				}
 				continue;
 			}
+			if ( isset( $args['type'] ) && 'radio' === $args['type'] && ! empty( $args['options'] ) && is_array( $args['options'] ) ) {
+				$current = $this->settings->field( $id, $field, $args['default'] );
+				printf(
+					'<dt class="hag-field-label" id="%1$s-label">%2$s</dt><dd><fieldset class="hag-radios" aria-labelledby="%1$s-label"%3$s>',
+					esc_attr( $field_id ),
+					esc_html( $args['label'] ),
+					$has_hint ? ' aria-describedby="' . esc_attr( $field_id . '-help' ) . '"' : ''
+				);
+				foreach ( $args['options'] as $value => $label ) {
+					printf(
+						'<label class="hag-radio"><input type="radio" name="%s" value="%s"%s> %s</label><br>',
+						esc_attr( Settings::OPTION . '[fields][' . $id . '][' . $field . ']' ),
+						esc_attr( (string) $value ),
+						checked( $current, (string) $value, false ),
+						esc_html( (string) $label )
+					);
+				}
+				echo '</fieldset>';
+				if ( $has_hint ) {
+					printf(
+						'<p class="description" id="%s">%s%s</p>',
+						esc_attr( $field_id . '-help' ),
+						esc_html( $args['description'] ),
+						$field === $last_hint ? $more : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts above.
+					);
+				}
+				echo '</dd>';
+				continue;
+			}
 			printf(
 				'<dt class="hag-field-label"><label for="%1$s">%2$s</label></dt><dd><input type="text" class="hag-input" id="%1$s" name="%3$s" value="%4$s"%5$s>',
 				esc_attr( $field_id ),
