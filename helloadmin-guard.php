@@ -73,5 +73,6 @@ register_deactivation_hook(
 	static function () {
 		Plugin::instance()->sync_htaccess( true );
 		Features\Admin_Alert::unschedule();
+		Features\Mu_Plugins_Watch::unschedule();
 	}
 );

@@ -187,6 +187,44 @@ abstract class Feature {
 	}
 
 	/**
+	 * The optional "Also send to" field of the settings that send e-mail alerts.
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	protected static function email_field() {
+		return array(
+			'email' => array(
+				'label'       => __( 'Also send to', 'helloadmin-guard' ),
+				'type'        => 'text',
+				'default'     => '',
+				'description' => __( 'One more e-mail address besides the site address in Settings, General. Leave empty to use only the site address.', 'helloadmin-guard' ),
+			),
+		);
+	}
+
+	/**
+	 * Sends a plain text alert to the site e-mail address, and to the "email" field address if it is set.
+	 *
+	 * @param string   $subject Subject without the site name (it is added in brackets).
+	 * @param string[] $lines   Lines of the message.
+	 * @return bool Whether wp_mail() accepted the message.
+	 */
+	protected function send_alert_mail( $subject, array $lines ) {
+		$to    = array( (string) get_option( 'admin_email' ) );
+		$extra = $this->value( 'email' );
+		if ( $extra && is_email( $extra ) && ! in_array( $extra, $to, true ) ) {
+			$to[] = $extra;
+		}
+
+		$lines[] = '';
+		/* translators: %s: title of the setting. */
+		$lines[] = sprintf( __( 'Sent by HelloAdmin Guard. To stop these e-mails, turn off "%s" in HeAd Guard.', 'helloadmin-guard' ), $this->title() );
+
+		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
+		return wp_mail( $to, '[' . $site . '] ' . $subject, implode( "\n", $lines ) );
+	}
+
+	/**
 	 * Place on the tab: lower numbers first. The list goes from the biggest risk down to the cheap rules.
 	 *
 	 * @return int

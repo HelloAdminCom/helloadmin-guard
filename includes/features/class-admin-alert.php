@@ -115,14 +115,7 @@ class Admin_Alert extends Feature {
 	 * @return array<string, array<string, string>>
 	 */
 	public function fields() {
-		return array(
-			'email' => array(
-				'label'       => __( 'Also send to', 'helloadmin-guard' ),
-				'type'        => 'text',
-				'default'     => '',
-				'description' => __( 'One more e-mail address besides the site address in Settings, General. Leave empty to use only the site address.', 'helloadmin-guard' ),
-			),
-		);
+		return self::email_field();
 	}
 
 	/**
@@ -316,13 +309,6 @@ class Admin_Alert extends Feature {
 			return;
 		}
 
-		$to    = array( (string) get_option( 'admin_email' ) );
-		$extra = $this->value( 'email' );
-		if ( $extra && is_email( $extra ) ) {
-			$to[] = $extra;
-		}
-
-		$site  = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
 		$actor = wp_get_current_user();
 		if ( 'cron' === $this->reason ) {
 			$by = __( 'found by the hourly check: the role was not set through WordPress while this alert was on, for example it was written straight into the database', 'helloadmin-guard' );
@@ -333,8 +319,8 @@ class Admin_Alert extends Feature {
 		}
 		$ip = isset( $_SERVER['REMOTE_ADDR'] ) && 'role' === $this->reason && ! ( defined( 'WP_CLI' ) && WP_CLI ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 
-		/* translators: 1: site name, 2: user name. */
-		$subject = sprintf( __( '[%1$s] New administrator: %2$s', 'helloadmin-guard' ), $site, $user->user_login );
+		/* translators: %s: user name. */
+		$subject = sprintf( __( 'New administrator: %s', 'helloadmin-guard' ), $user->user_login );
 
 		$lines   = array();
 		$lines[] = __( 'An account on your site now has the Administrator role.', 'helloadmin-guard' );
@@ -356,10 +342,8 @@ class Admin_Alert extends Feature {
 		$lines[] = __( 'If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know.', 'helloadmin-guard' );
 		$lines[] = '';
 		$lines[] = admin_url( 'users.php?role=administrator' );
-		$lines[] = '';
-		$lines[] = __( 'Sent by HelloAdmin Guard. Turn it off in HeAd Guard, "E-mail me about new administrators".', 'helloadmin-guard' );
 
-		wp_mail( $to, $subject, implode( "\n", $lines ) );
+		$this->send_alert_mail( $subject, $lines );
 	}
 
 	/**
