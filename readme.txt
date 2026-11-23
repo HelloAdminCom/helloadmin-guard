@@ -26,7 +26,7 @@ The settings are listed from the biggest risk down to the cheap rules. The plugi
 
 General tab
 
-* Turn off XML-RPC. /xmlrpc.php answers 403.
+* Turn off or limit XML-RPC. Off: /xmlrpc.php answers 403. Or keep it for Jetpack and the mobile apps and only turn off pingbacks, which bots use to flood other sites.
 * Turn off the file editor. Removes the theme and plugin file editors from wp-admin, without editing wp-config.php.
 * Custom login URL. The login page moves to your own address; /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in.
 * Hide user names. Closes /?author=1, the REST API user list, oEmbed author links and the users sitemap for visitors who are not logged in.
@@ -35,6 +35,10 @@ General tab
 * Limit login attempts. Too many failed logins from one IP address lock it out for a while.
 * Hide the WordPress version. Removes it from the generator tag, feeds and core file links, and removes the X-Powered-By header.
 * Hide the REST API index. /wp-json/ no longer lists installed plugins to visitors.
+* E-mail me about new administrators. A message when an account becomes an administrator, also when it was written straight into the database or hidden from the Users screen.
+* E-mail me about new must-use plugins. A message about new and changed files in wp-content/mu-plugins and drop-ins like db.php, where malware likes to hide.
+
+The two e-mail settings do not depend on WP-Cron: they check after every login, on admin pages and at least once an hour while the site gets visits.
 
 Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Nginx shows them to copy)
 
@@ -49,6 +53,11 @@ Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Ngin
 * Hide files that show versions: readme.html, plugin readme files, install.php and upgrade.php for guests.
 * Block developer and build files: composer and npm files, source maps, Docker and deploy files.
 * Refuse TRACE and TRACK requests, which security scanners report.
+
+If hacked tab
+
+* One button ends every session of every user except yours and deletes all application passwords. Changing a password alone does not log out someone who is already in.
+* A short checklist of what to do next.
 
 Before writing .htaccess the plugin keeps a copy of it and then opens your home page. If the page answers with a server error or goes round in redirects, the old file is put back and the settings stay off. Its rules sit between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" and are removed when the plugin is deactivated.
 
@@ -92,7 +101,7 @@ The General tab works on any server. Nginx does not read .htaccess, so on the Ad
 
 = Does the plugin send any data? =
 
-No. It makes no requests to outside servers. It only sends requests to your own site, as a visitor who is not logged in: to check which gaps are open and, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
+No. It makes no requests to outside servers. The e-mail settings send their messages through your site's own mail to the addresses you set. Otherwise the plugin only sends requests to your own site, as a visitor who is not logged in: to check which gaps are open and, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
 
 == Screenshots ==
 
@@ -102,6 +111,15 @@ No. It makes no requests to outside servers. It only sends requests to your own 
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.5.0 =
+* New: e-mail about new administrators, also ones written straight into the database or hidden from the Users screen.
+* New: e-mail about new and changed must-use plugins and drop-ins, with warnings for files whose names start with a dot and for encoded code.
+* New "If hacked" tab: log out everyone else and delete all application passwords with one button, plus a short checklist.
+* XML-RPC: turn it off, or keep it for Jetpack and apps without pingbacks.
+* The plugin keeps .htaccess in line with its settings after the site or the file was copied to another server. New command: wp helloadmin-guard sync.
+* The number of open gaps stays right when settings change outside the settings page. E-mail settings that are off are not counted as gaps.
+* New icon: three gears in the head.
 
 = 0.4.2 =
 * Limit login attempts also counts and locks REST API and XML-RPC logins with application passwords.

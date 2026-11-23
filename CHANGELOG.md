@@ -4,11 +4,22 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [Unreleased]
 
+Planned as 0.5.0.
+
 ### Added
+- Setting "E-mail me about new administrators": the role hooks report a new admin at once; a regular check compares the administrators read straight from the capabilities meta (past user query filters) with the last list, so accounts written into the database or hidden from the Users screen are reported too. The card warns about admins hidden from the Users screen, hex-like names ("a3f9c2") and admins added in the last 7 days.
+- Setting "E-mail me about new must-use plugins": new and changed files in wp-content/mu-plugins (also dot files) and known drop-ins, compared by MD5; warnings for dot files and decoded code (base64/eval patterns).
+- Both e-mail settings run their check without WP-Cron (Feature::watch()): after every login (login form or application password), on admin pages at most every 5 minutes, and on any request at most once an hour. WP-Cron runs only on visits and never with DISABLE_WP_CRON and no server cron.
+- "If hacked" tab: one button ends every session of every user except the current one and deletes all application passwords, with a confirmation box and a short response checklist.
+- XML-RPC card: choose between turning XML-RPC off and keeping it for Jetpack and apps with pingbacks off. The description says that multicall brute force is limited in core since 4.4.
 - The plugin keeps .htaccess in line with its settings: when the file holds rules of settings that are off on this site (a .htaccess copied from production to staging or local, a move to new hosting), it rewrites its block on the login page or in the admin area. Before, a copied login URL rule closed the login form with a 404. Writes only when they differ; after a failed write it waits 10 minutes before the next try.
 - WP-CLI: wp helloadmin-guard sync rewrites the block from the saved settings and names what it removed or added.
 
 ### Changed
+- Menu number and status chips: the stored check results keep a fingerprint of the settings they were taken with. Settings changed outside the settings page (SQL, database import, code) mark those cards as not checked, and they are checked again on the next settings page load. Before, a card could show "Not working" after it had been turned on that way.
+- E-mail settings that are off are not counted as open gaps and show the chip "Off, <risk>" instead of "Cannot be checked".
+- Login URL card: "How to undo" also says to delete the .htaccess block after renaming the plugin folder.
+- New icon: three gears in the head (tools/build-gears-icon.py; tools/build-shield-icon.py for a shield variant).
 - readme FAQ: renaming the plugin folder does not remove the .htaccess block, delete it by hand; same when .htaccess is read-only on deactivation; copying a site to another server.
 
 ## [0.4.2] - 2026-11-23
