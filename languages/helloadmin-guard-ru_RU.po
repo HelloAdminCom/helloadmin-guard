@@ -843,104 +843,104 @@ msgid "One more e-mail address besides the site address in Settings, General. Le
 msgstr "Ещё один адрес почты, кроме адреса сайта в «Настройки», «Общие». Оставьте пустым, чтобы отправлять только на адрес сайта."
 
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:243
+#: includes/class-feature.php:283
 #, php-format
 msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr "Отправлено плагином HelloAdmin Guard. Чтобы больше не получать эти письма, выключите «%s» в HeAd Guard."
 
-#: includes/features/class-admin-alert.php:63
+#: includes/features/class-admin-alert.php:69
 msgid "E-mail me about new administrators"
 msgstr "Сообщать на почту о новых администраторах"
 
-#: includes/features/class-admin-alert.php:70
-msgid "When an account becomes an administrator, the site e-mail address gets a message with the user name, the e-mail of the account and who made the change. Once an hour the plugin also compares the administrators in the database with the list it saw last time, so an account added straight into the database, or hidden from the Users screen, is reported too. Hacked sites often get an extra admin with a random name like \"a3f9c2\"."
-msgstr "Когда учётная запись становится администратором, на адрес почты сайта приходит письмо с именем пользователя, его почтой и тем, кто сделал изменение. Раз в час плагин также сравнивает администраторов в базе данных со списком, который видел в прошлый раз, так что об учётной записи, добавленной прямо в базу или скрытой с экрана «Пользователи», вы тоже узнаете. На взломанных сайтах часто появляется лишний администратор со случайным именем вроде «a3f9c2»."
+#: includes/features/class-admin-alert.php:76
+msgid "When an account becomes an administrator, the site e-mail address gets a message with the user name, the e-mail of the account and who made the change. The plugin also compares the administrators in the database with the list it saw last time: after every login, on admin pages and at least once an hour while the site gets visits, without WP-Cron. So an account added straight into the database, or hidden from the Users screen, is reported too, at the latest when someone logs in with it. Hacked sites often get an extra admin with a random name like \"a3f9c2\"."
+msgstr "Когда учётная запись становится администратором, на адрес почты сайта приходит письмо с именем пользователя, его почтой и тем, кто сделал изменение. Плагин также сравнивает администраторов в базе данных со списком, который видел в прошлый раз: после каждого входа, на страницах админки и не реже раза в час, пока сайт посещают, без WP-Cron. Так что об учётной записи, добавленной прямо в базу или скрытой с экрана «Пользователи», вы тоже узнаете, самое позднее тогда, когда под ней кто-то войдёт. На взломанных сайтах часто появляется лишний администратор со случайным именем вроде «a3f9c2»."
 
-#: includes/features/class-admin-alert.php:77
+#: includes/features/class-admin-alert.php:83
 msgid "Nothing stops working. You also get the e-mail when you add an administrator yourself. If e-mail from this site does not arrive, the alert does not arrive either, so check that the site can send mail."
 msgstr "Ничего не перестаёт работать. Письмо приходит и тогда, когда вы сами добавляете администратора. Если почта с этого сайта не доходит, уведомление тоже не дойдёт, так что проверьте, что сайт умеет отправлять письма."
 
-#: includes/features/class-admin-alert.php:84
+#: includes/features/class-admin-alert.php:90
 msgid "Turn this off and save. No users or roles are changed."
 msgstr "Выключите эту настройку и сохраните. Пользователи и роли не меняются."
 
 #. translators: %s: date.
-#: includes/features/class-admin-alert.php:171
+#: includes/features/class-admin-alert.php:177
 #, php-format
 msgid "Created on %s."
 msgstr "Создан %s."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:176
+#: includes/features/class-admin-alert.php:182
 #, php-format
 msgid "The administrator \"%s\" is in the database but hidden from the Users screen. Something on this site filters the user list, which is how malware hides its accounts. Check this account and the must-use plugins."
 msgstr "Администратор «%s» есть в базе данных, но скрыт с экрана «Пользователи». Что-то на этом сайте фильтрует список пользователей, именно так вредоносный код прячет свои учётные записи. Проверьте эту учётную запись и must-use плагины."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:179
+#: includes/features/class-admin-alert.php:185
 #, php-format
 msgid "The administrator \"%s\" has a name that looks random. If you do not know this account, check it."
 msgstr "У администратора «%s» имя, похожее на случайное. Если вы не знаете эту учётную запись, проверьте её."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:182
+#: includes/features/class-admin-alert.php:188
 #, php-format
 msgid "The administrator \"%s\" was added in the last 7 days."
 msgstr "Администратор «%s» добавлен за последние 7 дней."
 
-#: includes/features/class-admin-alert.php:323
-msgid "found by the hourly check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
-msgstr "найдено ежечасной проверкой: роль назначена не через WordPress, пока это уведомление было включено, например записана прямо в базу данных"
+#: includes/features/class-admin-alert.php:329
+msgid "found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
+msgstr "найдено регулярной проверкой: роль назначена не через WordPress, пока это уведомление было включено, например записана прямо в базу данных"
 
-#: includes/features/class-admin-alert.php:327
+#: includes/features/class-admin-alert.php:333
 msgid "no logged-in user (WP-CLI, a scheduled task or code)"
 msgstr "никто не вошёл (WP-CLI, запланированная задача или код)"
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:332
+#: includes/features/class-admin-alert.php:338
 #, php-format
 msgid "New administrator: %s"
 msgstr "Новый администратор: %s"
 
-#: includes/features/class-admin-alert.php:335
+#: includes/features/class-admin-alert.php:341
 msgid "An account on your site now has the Administrator role."
 msgstr "Учётная запись на вашем сайте теперь имеет роль «Администратор»."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:338
+#: includes/features/class-admin-alert.php:344
 #, php-format
 msgid "User name: %s"
 msgstr "Имя пользователя: %s"
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:340
+#: includes/features/class-admin-alert.php:346
 #, php-format
 msgid "E-mail: %s"
 msgstr "Почта: %s"
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:342
+#: includes/features/class-admin-alert.php:348
 #, php-format
 msgid "Account created: %s"
 msgstr "Учётная запись создана: %s"
 
 #. translators: %s: user name or a short explanation.
-#: includes/features/class-admin-alert.php:344
+#: includes/features/class-admin-alert.php:350
 #, php-format
 msgid "Changed by: %s"
 msgstr "Кто изменил: %s"
 
 #. translators: %s: IP address.
-#: includes/features/class-admin-alert.php:347
+#: includes/features/class-admin-alert.php:353
 #, php-format
 msgid "From IP address: %s"
 msgstr "С IP-адреса: %s"
 
-#: includes/features/class-admin-alert.php:350
+#: includes/features/class-admin-alert.php:356
 msgid "If you or your team added this account, nothing to do."
 msgstr "Если эту учётную запись добавили вы или ваша команда, ничего делать не нужно."
 
-#: includes/features/class-admin-alert.php:351
+#: includes/features/class-admin-alert.php:357
 msgid "If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
 msgstr "Если нет: удалите учётную запись, смените пароли всех администраторов и хостинга и просмотрите wp-content/mu-plugins на незнакомые файлы."
 
@@ -972,68 +972,68 @@ msgstr "Оставить для Jetpack и приложений, отключи�
 msgid "Not sure? Choose Turn off, then check that Jetpack or your apps still work. If something breaks, switch to the second option."
 msgstr "Не уверены? Выберите «Отключить», а потом проверьте, что Jetpack или ваши приложения работают. Если что-то сломается, переключитесь на второй вариант."
 
-#: includes/features/class-mu-plugins-watch.php:66
+#: includes/features/class-mu-plugins-watch.php:71
 msgid "E-mail me about new must-use plugins"
 msgstr "Сообщать на почту о новых must-use плагинах"
 
-#: includes/features/class-mu-plugins-watch.php:73
-msgid "Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. Once an hour the plugin compares these files with the list it saw last time and e-mails the site address about new and changed ones, including files whose names start with a dot."
-msgstr "Must-use плагины в wp-content/mu-plugins и drop-in файлы вроде db.php или object-cache.php выполняются на каждой странице, их нельзя выключить в админке, и их нет в обычном списке плагинов, поэтому вредоносный код любит там прятаться. Раз в час плагин сравнивает эти файлы со списком, который видел в прошлый раз, и отправляет на адрес сайта письмо о новых и изменённых, в том числе о файлах, чьи имена начинаются с точки."
+#: includes/features/class-mu-plugins-watch.php:78
+msgid "Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. After every login, on admin pages and at least once an hour while the site gets visits (without WP-Cron), the plugin compares these files with the list it saw last time and e-mails the site address about new and changed ones, including files whose names start with a dot."
+msgstr "Must-use плагины в wp-content/mu-plugins и drop-in файлы вроде db.php или object-cache.php выполняются на каждой странице, их нельзя выключить в админке, и их нет в обычном списке плагинов, поэтому вредоносный код любит там прятаться. После каждого входа, на страницах админки и не реже раза в час, пока сайт посещают (без WP-Cron), плагин сравнивает эти файлы со списком, который видел в прошлый раз, и отправляет на адрес сайта письмо о новых и изменённых, в том числе о файлах, чьи имена начинаются с точки."
 
-#: includes/features/class-mu-plugins-watch.php:80
+#: includes/features/class-mu-plugins-watch.php:85
 msgid "Nothing stops working. You also get the e-mail when you or your host add or update a must-use plugin or a caching drop-in. If e-mail from this site does not arrive, the alert does not arrive either."
 msgstr "Ничего не перестаёт работать. Письмо приходит и тогда, когда вы или ваш хостинг добавляете или обновляете must-use плагин или drop-in кеширования. Если почта с этого сайта не доходит, уведомление тоже не дойдёт."
 
-#: includes/features/class-mu-plugins-watch.php:87
+#: includes/features/class-mu-plugins-watch.php:92
 msgid "Turn this off and save. No files are changed or deleted."
 msgstr "Выключите эту настройку и сохраните. Никакие файлы не меняются и не удаляются."
 
-#: includes/features/class-mu-plugins-watch.php:155
+#: includes/features/class-mu-plugins-watch.php:160
 msgid "Something on this site hides the Must-Use list on the Plugins screen. Malware does this to keep its files out of sight."
 msgstr "Что-то на этом сайте прячет список Must-Use на экране «Плагины». Вредоносный код так делает, чтобы его файлов не было видно."
 
 #. translators: %s: file path inside wp-content.
-#: includes/features/class-mu-plugins-watch.php:162
+#: includes/features/class-mu-plugins-watch.php:167
 #, php-format
 msgid "%s has a name that starts with a dot, so many FTP programs and file managers do not show it, but WordPress loads it on every page."
 msgstr "Имя %s начинается с точки, поэтому многие FTP-программы и файловые менеджеры его не показывают, но WordPress загружает этот файл на каждой странице."
 
 #. translators: %s: file path inside wp-content.
-#: includes/features/class-mu-plugins-watch.php:166
+#: includes/features/class-mu-plugins-watch.php:171
 #, php-format
 msgid "%s runs code it decodes first (eval with base64, gzinflate or similar). That is how malware hides what it does. Check this file."
 msgstr "%s выполняет код, который сначала расшифровывает (eval вместе с base64, gzinflate и подобным). Так вредоносный код скрывает, что делает. Проверьте этот файл."
 
-#: includes/features/class-mu-plugins-watch.php:268
+#: includes/features/class-mu-plugins-watch.php:273
 msgid "New files that WordPress now loads on every page:"
 msgstr "Новые файлы, которые WordPress теперь загружает на каждой странице:"
 
-#: includes/features/class-mu-plugins-watch.php:275
+#: includes/features/class-mu-plugins-watch.php:280
 msgid "Changed files:"
 msgstr "Изменённые файлы:"
 
-#: includes/features/class-mu-plugins-watch.php:281
+#: includes/features/class-mu-plugins-watch.php:286
 msgid "If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins add files like these too."
 msgstr "Если их добавили или обновили вы, ваш разработчик или хостинг, ничего делать не нужно. Хостинги и плагины кеширования тоже добавляют такие файлы."
 
-#: includes/features/class-mu-plugins-watch.php:282
+#: includes/features/class-mu-plugins-watch.php:287
 msgid "If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
 msgstr "Если нет: сначала скопируйте файл в безопасное место (это улика), потом удалите его с сайта, смените пароли всех администраторов и хостинга и проверьте список администраторов."
 
 #. translators: %s: file name.
-#: includes/features/class-mu-plugins-watch.php:290
+#: includes/features/class-mu-plugins-watch.php:295
 #, php-format
 msgid "New or changed must-use file: %s"
 msgstr "Новый или изменённый must-use файл: %s"
 
 #. translators: %d: number of files.
-#: includes/features/class-mu-plugins-watch.php:292
+#: includes/features/class-mu-plugins-watch.php:297
 #, php-format
 msgid "%d new or changed must-use files"
 msgstr "Новые или изменённые must-use файлы: %d"
 
 #. translators: 1: file size, 2: date and time.
-#: includes/features/class-mu-plugins-watch.php:310
+#: includes/features/class-mu-plugins-watch.php:315
 #, php-format
 msgid "%1$s, modified %2$s"
 msgstr "%1$s, изменён %2$s"

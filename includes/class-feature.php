@@ -225,6 +225,46 @@ abstract class Feature {
 	}
 
 	/**
+	 * Runs a watch check (alert settings) on the moments that matter, without WP-Cron. WP-Cron runs only when the
+	 * site gets visits and never when DISABLE_WP_CRON is set without a server cron, so an hourly event can be late
+	 * or never run. Instead the check runs at the end of the request:
+	 * - after every login, with the login form or an application password (a planted account has to log in to
+	 *   be used);
+	 * - on admin pages, at most every 5 minutes;
+	 * - on any other request, at most once an hour.
+	 *
+	 * @param callable $callback Check to run.
+	 * @param string   $option   Option that keeps the time of the last run (autoloaded, so reading it is free).
+	 * @return void
+	 */
+	protected function watch( $callback, $option ) {
+		$run = static function ( $every ) use ( $callback, $option ) {
+			if ( time() - (int) get_option( $option, 0 ) < $every ) {
+				return;
+			}
+			update_option( $option, time(), true );
+			add_action( 'shutdown', $callback );
+		};
+		$now = static function () use ( $run ) {
+			$run( 0 );
+		};
+		add_action( 'wp_login', $now );
+		add_action( 'application_password_did_authenticate', $now );
+		add_action(
+			'admin_init',
+			static function () use ( $run ) {
+				$run( 5 * MINUTE_IN_SECONDS );
+			}
+		);
+		add_action(
+			'init',
+			static function () use ( $run ) {
+				$run( HOUR_IN_SECONDS );
+			}
+		);
+	}
+
+	/**
 	 * Sends a plain text alert to the site e-mail address, and to the "email" field address if it is set.
 	 *
 	 * @param string   $subject Subject without the site name (it is added in brackets).

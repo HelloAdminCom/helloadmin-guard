@@ -18,8 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * That makes them a favourite place for malware: the FBI notice on Gootloader (CC-111626-MW) names hidden
  * and fake must-use plugins in the StopAndProtect and DollyWay campaigns.
  *
- * Once an hour the plugin compares these files (name and MD5 of the content) with the list it saw last time
- * and sends one e-mail about the new and changed ones. Only files WordPress loads by itself are watched:
+ * The plugin compares these files (name and MD5 of the content) with the list it saw last time (Feature::watch():
+ * after every login, on admin pages, at least once an hour while the site gets visits; no WP-Cron) and sends one e-mail about the new and changed ones. Only files WordPress loads by itself are watched:
  * the PHP files directly in mu-plugins, also the ones whose names start with a dot, and the known drop-ins.
  */
 class Mu_Plugins_Watch extends Feature {
@@ -30,7 +30,12 @@ class Mu_Plugins_Watch extends Feature {
 	const SNAPSHOT_OPTION = 'helloadmin_guard_mu_files';
 
 	/**
-	 * Cron hook of the hourly check.
+	 * Option with the time of the last regular check.
+	 */
+	const CHECKED_OPTION = 'helloadmin_guard_mu_checked';
+
+	/**
+	 * Cron hook of the hourly check in 0.5 before the regular check replaced it; only cleaned up now.
 	 */
 	const CRON_HOOK = 'helloadmin_guard_check_mu_plugins';
 
@@ -70,7 +75,7 @@ class Mu_Plugins_Watch extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. Once an hour the plugin compares these files with the list it saw last time and e-mails the site address about new and changed ones, including files whose names start with a dot.', 'helloadmin-guard' );
+		return __( 'Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. After every login, on admin pages and at least once an hour while the site gets visits (without WP-Cron), the plugin compares these files with the list it saw last time and e-mails the site address about new and changed ones, including files whose names start with a dot.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -170,7 +175,7 @@ class Mu_Plugins_Watch extends Feature {
 	}
 
 	/**
-	 * Adds the hourly check.
+	 * Adds the regular check.
 	 *
 	 * @param Settings $settings Plugin settings.
 	 * @return void
@@ -181,9 +186,9 @@ class Mu_Plugins_Watch extends Feature {
 			update_option( self::SNAPSHOT_OPTION, self::files(), true );
 		}
 
-		add_action( self::CRON_HOOK, array( $this, 'check' ) );
-		if ( ! wp_next_scheduled( self::CRON_HOOK ) ) {
-			wp_schedule_event( time() + HOUR_IN_SECONDS, 'hourly', self::CRON_HOOK );
+		$this->watch( array( $this, 'check' ), self::CHECKED_OPTION );
+		if ( wp_next_scheduled( self::CRON_HOOK ) ) {
+			self::unschedule();
 		}
 	}
 
@@ -334,7 +339,7 @@ class Mu_Plugins_Watch extends Feature {
 	}
 
 	/**
-	 * Removes the hourly check (plugin deactivated or deleted).
+	 * Removes the old hourly cron event (plugin deactivated or deleted, or left from an earlier 0.5 build).
 	 *
 	 * @return void
 	 */

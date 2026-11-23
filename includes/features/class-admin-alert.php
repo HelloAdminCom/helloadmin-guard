@@ -17,8 +17,9 @@ defined( 'ABSPATH' ) || exit;
  * DollyWay creating hidden admins with random hex names. Two ways to notice it:
  *
  * - the role hooks (set_user_role, add_user_role) report a new admin right away;
- * - an hourly check compares the administrators in the database with the last list it saw, so an
- *   account written straight into the database is reported too.
+ * - a regular check (Feature::watch(): after every login, on admin pages, at least once an hour while the
+ *   site gets visits; no WP-Cron) compares the administrators in the database with the last list it saw, so
+ *   an account written straight into the database is reported too, at the latest when it logs in.
  *
  * The list is read with a direct query on the capabilities meta, not with get_users(): malware hides
  * its accounts by filtering the user query, and the direct query does not go through those filters.
@@ -31,7 +32,12 @@ class Admin_Alert extends Feature {
 	const SNAPSHOT_OPTION = 'helloadmin_guard_admins';
 
 	/**
-	 * Cron hook of the hourly check.
+	 * Option with the time of the last regular check.
+	 */
+	const CHECKED_OPTION = 'helloadmin_guard_admins_checked';
+
+	/**
+	 * Cron hook of the hourly check in 0.5 before the regular check replaced it; only cleaned up now.
 	 */
 	const CRON_HOOK = 'helloadmin_guard_check_admins';
 
@@ -43,11 +49,11 @@ class Admin_Alert extends Feature {
 	private $queued = false;
 
 	/**
-	 * Why the check runs: 'role' (a role hook fired in this request) or 'cron' (the hourly check).
+	 * Why the check runs: 'role' (a role hook fired in this request) or 'watch' (the regular check).
 	 *
 	 * @var string
 	 */
-	private $reason = 'cron';
+	private $reason = 'watch';
 
 	/**
 	 * {@inheritDoc}
@@ -67,7 +73,7 @@ class Admin_Alert extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'When an account becomes an administrator, the site e-mail address gets a message with the user name, the e-mail of the account and who made the change. Once an hour the plugin also compares the administrators in the database with the list it saw last time, so an account added straight into the database, or hidden from the Users screen, is reported too. Hacked sites often get an extra admin with a random name like "a3f9c2".', 'helloadmin-guard' );
+		return __( 'When an account becomes an administrator, the site e-mail address gets a message with the user name, the e-mail of the account and who made the change. The plugin also compares the administrators in the database with the list it saw last time: after every login, on admin pages and at least once an hour while the site gets visits, without WP-Cron. So an account added straight into the database, or hidden from the Users screen, is reported too, at the latest when someone logs in with it. Hacked sites often get an extra admin with a random name like "a3f9c2".', 'helloadmin-guard' );
 	}
 
 	/**
@@ -186,7 +192,7 @@ class Admin_Alert extends Feature {
 	}
 
 	/**
-	 * Adds the role hooks and the hourly check.
+	 * Adds the role hooks and the regular check.
 	 *
 	 * @param Settings $settings Plugin settings.
 	 * @return void
@@ -200,10 +206,10 @@ class Admin_Alert extends Feature {
 		add_action( 'set_user_role', array( $this, 'on_set_role' ), 10, 3 );
 		add_action( 'add_user_role', array( $this, 'on_add_role' ), 10, 2 );
 		add_action( 'granted_super_admin', array( $this, 'queue_check' ) );
-		add_action( self::CRON_HOOK, array( $this, 'check' ) );
+		$this->watch( array( $this, 'check' ), self::CHECKED_OPTION );
 
-		if ( ! wp_next_scheduled( self::CRON_HOOK ) ) {
-			wp_schedule_event( time() + HOUR_IN_SECONDS, 'hourly', self::CRON_HOOK );
+		if ( wp_next_scheduled( self::CRON_HOOK ) ) {
+			self::unschedule();
 		}
 	}
 
@@ -319,8 +325,8 @@ class Admin_Alert extends Feature {
 		}
 
 		$actor = wp_get_current_user();
-		if ( 'cron' === $this->reason ) {
-			$by = __( 'found by the hourly check: the role was not set through WordPress while this alert was on, for example it was written straight into the database', 'helloadmin-guard' );
+		if ( 'watch' === $this->reason ) {
+			$by = __( 'found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database', 'helloadmin-guard' );
 		} elseif ( $actor->exists() ) {
 			$by = $actor->user_login;
 		} else {
@@ -356,7 +362,7 @@ class Admin_Alert extends Feature {
 	}
 
 	/**
-	 * Removes the hourly check (plugin deactivated or deleted).
+	 * Removes the old hourly cron event (plugin deactivated or deleted, or left from an earlier 0.5 build).
 	 *
 	 * @return void
 	 */
