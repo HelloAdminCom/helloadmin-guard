@@ -6,6 +6,9 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 Planned as 0.5.0.
 
+### Security
+- Login URL: the new address leaked to any visitor. /wp-signup.php and /wp-register.php redirect to the registration link, and the plugin rewrote that link to the new address. Now visitors who are not logged in get the new address only on the login page itself (form, lost password, redirects after a login action); everywhere else their links keep wp-login.php, which answers 404. Exception: when anyone can register, the registration link shows it. Sites on 0.4.x with this setting on should change their login address after the update.
+
 ### Added
 - Setting "E-mail me about new administrators": the role hooks report a new admin at once; a regular check compares the administrators read straight from the capabilities meta (past user query filters) with the last list, so accounts written into the database or hidden from the Users screen are reported too. The card warns about admins hidden from the Users screen, hex-like names ("a3f9c2") and admins added in the last 7 days.
 - Setting "E-mail me about new must-use plugins": new and changed files in wp-content/mu-plugins (also dot files) and known drop-ins, compared by MD5; warnings for dot files and decoded code (base64/eval patterns).

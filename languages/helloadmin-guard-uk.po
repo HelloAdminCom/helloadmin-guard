@@ -633,8 +633,8 @@ msgid "Moves the login page to your own address. /wp-login.php and /wp-admin/ sh
 msgstr "Переносить сторінку входу на вашу власну адресу. /wp-login.php та /wp-admin/ показують сторінку 404 неавторизованим користувачам, тож боти перестають знаходити форму входу."
 
 #: includes/features/class-login-url.php:66
-msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working."
-msgstr "Закладки та збережені паролі для старої сторінки входу перестануть працювати. Якщо якийсь плагін чи застосунок входить напряму через /wp-login.php або інший плагін теж змінює адресу входу, вони перестануть працювати."
+msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working. Visitors who are not logged in never get the new address: \"Log in\" links in the theme or widgets lead them to a 404 page. Only when anyone can register on the site does the registration link show it."
+msgstr "Закладки та збережені паролі для старої сторінки входу перестануть працювати. Якщо якийсь плагін чи застосунок входить напряму через /wp-login.php або інший плагін теж змінює адресу входу, вони перестануть працювати. Відвідувачі, які не ввійшли, ніколи не отримують нову адресу: посилання «Увійти» в темі чи віджетах ведуть їх на сторінку 404. Лише коли на сайті може зареєструватися будь-хто, її покаже посилання на реєстрацію."
 
 #: includes/features/class-login-url.php:73
 msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager, then open .htaccess in the site root and delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\": that block also closes the login form on /wp-login.php. After that /wp-login.php works again."
@@ -662,7 +662,7 @@ msgstr "Цю адресу входу зарезервовано WordPress або
 msgid "A page or post already uses this address. Choose another one."
 msgstr "Ця адреса вже зайнята сторінкою або записом. Оберіть іншу."
 
-#: includes/features/class-login-url.php:344
+#: includes/features/class-login-url.php:368
 msgid "The requested URL was not found on this server."
 msgstr "Запитану адресу на цьому сервері не знайдено."
 

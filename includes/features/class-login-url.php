@@ -63,7 +63,7 @@ class Login_Url extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working.', 'helloadmin-guard' );
+		return __( 'Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working. Visitors who are not logged in never get the new address: "Log in" links in the theme or widgets lead them to a 404 page. Only when anyone can register on the site does the registration link show it.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -259,11 +259,35 @@ class Login_Url extends Feature {
 		}
 		$query = (string) wp_parse_url( $url, PHP_URL_QUERY );
 		parse_str( $query, $args );
-		if ( isset( $args['action'] ) && in_array( $args['action'], self::OPEN_ACTIONS, true ) ) {
+		$action = isset( $args['action'] ) && is_string( $args['action'] ) ? $args['action'] : '';
+		if ( in_array( $action, self::OPEN_ACTIONS, true ) ) {
+			return $url;
+		}
+		if ( ! $this->may_see_slug( $action ) ) {
 			return $url;
 		}
 		$new = trailingslashit( home_url( '/' . $this->slug ) );
 		return $query ? $new . '?' . $query : $new;
+	}
+
+	/**
+	 * Whether this request may be given the new address. Visitors who are not logged in get it only on the login
+	 * page itself (form, lost password, redirects after a login action). Everywhere else their links keep
+	 * wp-login.php, which answers 404: otherwise /wp-signup.php, /wp-register.php or a "Log in" link in the theme
+	 * would redirect or link any visitor to the new address. When anyone can register, the registration link
+	 * has to work, so it shows the address.
+	 *
+	 * @param string $action Login action of the URL.
+	 * @return bool
+	 */
+	private function may_see_slug( $action ) {
+		if ( ! function_exists( 'is_user_logged_in' ) ) {
+			return $this->is_login_slug_request(); // Before pluggable.php is loaded: no user yet.
+		}
+		if ( is_user_logged_in() || $this->is_login_slug_request() ) {
+			return true;
+		}
+		return 'register' === $action && (bool) get_option( 'users_can_register' );
 	}
 
 	/**
