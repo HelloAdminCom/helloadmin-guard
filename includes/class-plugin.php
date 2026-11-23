@@ -75,6 +75,10 @@ final class Plugin {
 			}
 		}
 
+		// Settings switched on (settings page or WP-CLI) start from what the site has now.
+		add_action( 'add_option_' . Settings::OPTION, array( $this, 'settings_added' ), 10, 2 );
+		add_action( 'update_option_' . Settings::OPTION, array( $this, 'settings_updated' ), 10, 2 );
+
 		// A .htaccess copied from another server can hold rules this copy has off (e.g. the login POST block).
 		add_action( 'login_init', array( $this, 'heal_htaccess' ) );
 		add_action( 'admin_init', array( $this, 'heal_htaccess' ) );
@@ -198,6 +202,35 @@ final class Plugin {
 			$this->sync_htaccess();
 		}
 		Status::forget();
+	}
+
+	/**
+	 * First save of the settings.
+	 *
+	 * @param string $option Option name.
+	 * @param mixed  $value  Saved value.
+	 * @return void
+	 */
+	public function settings_added( $option, $value ) {
+		unset( $option );
+		$this->settings_updated( array(), $value );
+	}
+
+	/**
+	 * Tells the settings that were just switched on.
+	 *
+	 * @param mixed $old_value Value before the save.
+	 * @param mixed $new_value Value after the save.
+	 * @return void
+	 */
+	public function settings_updated( $old_value, $new_value ) {
+		$before = is_array( $old_value ) && isset( $old_value['enabled'] ) && is_array( $old_value['enabled'] ) ? $old_value['enabled'] : array();
+		$after  = is_array( $new_value ) && isset( $new_value['enabled'] ) && is_array( $new_value['enabled'] ) ? $new_value['enabled'] : array();
+		foreach ( $this->features as $id => $feature ) {
+			if ( ! empty( $after[ $id ] ) && empty( $before[ $id ] ) ) {
+				$feature->switched_on();
+			}
+		}
 	}
 
 	/**

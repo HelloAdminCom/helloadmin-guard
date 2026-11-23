@@ -198,11 +198,6 @@ class Admin_Alert extends Feature {
 	 * @return void
 	 */
 	public function enable( Settings $settings ) {
-		// First run: remember the current admins, so only the ones added later are reported.
-		if ( false === get_option( self::SNAPSHOT_OPTION ) ) {
-			update_option( self::SNAPSHOT_OPTION, self::admin_ids(), true );
-		}
-
 		add_action( 'set_user_role', array( $this, 'on_set_role' ), 10, 3 );
 		add_action( 'add_user_role', array( $this, 'on_add_role' ), 10, 2 );
 		add_action( 'granted_super_admin', array( $this, 'queue_check' ) );
@@ -211,6 +206,16 @@ class Admin_Alert extends Feature {
 		if ( wp_next_scheduled( self::CRON_HOOK ) ) {
 			self::unschedule();
 		}
+	}
+
+	/**
+	 * Remembers the current admins when the setting is switched on, so only the ones added later are reported.
+	 * Only here: a list that goes missing later is reported, not quietly rebuilt.
+	 *
+	 * @return void
+	 */
+	public function switched_on() {
+		self::save_list( self::SNAPSHOT_OPTION, self::admin_ids() );
 	}
 
 	/**
@@ -261,16 +266,47 @@ class Admin_Alert extends Feature {
 	 * @return void
 	 */
 	public function check() {
-		$now   = self::admin_ids();
-		$known = array_map( 'intval', (array) get_option( self::SNAPSHOT_OPTION, array() ) );
-		$new   = array_diff( $now, $known );
+		$now                 = self::admin_ids();
+		list( $known, $bad ) = self::load_list( self::SNAPSHOT_OPTION );
+		$known               = array_map( 'intval', $known );
 
-		if ( $now !== $known ) {
-			update_option( self::SNAPSHOT_OPTION, $now, true );
+		if ( $bad || $now !== $known || ! self::list_is_signed( self::SNAPSHOT_OPTION ) ) {
+			self::save_list( self::SNAPSHOT_OPTION, $now );
 		}
-		foreach ( $new as $id ) {
+		if ( $bad ) {
+			// The stored list cannot be trusted: one message with every administrator instead of a diff.
+			$this->send_list_alert( $now );
+			return;
+		}
+		foreach ( array_diff( $now, $known ) as $id ) {
 			$this->send_alert( (int) $id );
 		}
+	}
+
+	/**
+	 * E-mail when the stored list of administrators was changed or removed outside the plugin.
+	 *
+	 * @param int[] $ids Administrators now.
+	 * @return void
+	 */
+	private function send_list_alert( array $ids ) {
+		$lines   = array();
+		$lines[] = __( 'The list of administrators that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert.', 'helloadmin-guard' );
+		$lines[] = __( 'If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected.', 'helloadmin-guard' );
+		$lines[] = '';
+		$lines[] = __( 'Administrators now:', 'helloadmin-guard' );
+		foreach ( $ids as $id ) {
+			$user = get_userdata( $id );
+			if ( $user ) {
+				$lines[] = '  ' . $user->user_login . ' (' . $user->user_email . ', ' . $user->user_registered . ' UTC)';
+			}
+		}
+		$lines[] = '';
+		$lines[] = __( 'If one of them is not yours: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know.', 'helloadmin-guard' );
+		$lines[] = '';
+		$lines[] = admin_url( 'users.php?role=administrator' );
+
+		$this->send_alert_mail( __( 'The list of administrators was changed outside the plugin', 'helloadmin-guard' ), $lines );
 	}
 
 	/**

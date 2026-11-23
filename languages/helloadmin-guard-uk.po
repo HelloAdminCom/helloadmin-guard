@@ -839,7 +839,7 @@ msgid "One more e-mail address besides the site address in Settings, General. Le
 msgstr "Ще одна адреса пошти, крім адреси сайту в «Налаштування», «Загальні». Залиште порожнім, щоб надсилати лише на адресу сайту."
 
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:283
+#: includes/class-feature.php:354
 #, php-format
 msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr "Надіслано плагіном HelloAdmin Guard. Щоб більше не отримувати ці листи, вимкніть «%s» у HeAd Guard."
@@ -884,59 +884,59 @@ msgstr "Адміністратор «%s» має ім'я, схоже на вип
 msgid "The administrator \"%s\" was added in the last 7 days."
 msgstr "Адміністратора «%s» додано за останні 7 днів."
 
-#: includes/features/class-admin-alert.php:329
+#: includes/features/class-admin-alert.php:365
 msgid "found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
 msgstr "знайдено регулярною перевіркою: роль призначено не через WordPress, поки це сповіщення було увімкнене, наприклад записано напряму в базу даних"
 
-#: includes/features/class-admin-alert.php:333
+#: includes/features/class-admin-alert.php:369
 msgid "no logged-in user (WP-CLI, a scheduled task or code)"
 msgstr "ніхто не увійшов (WP-CLI, запланована задача або код)"
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:338
+#: includes/features/class-admin-alert.php:374
 #, php-format
 msgid "New administrator: %s"
 msgstr "Новий адміністратор: %s"
 
-#: includes/features/class-admin-alert.php:341
+#: includes/features/class-admin-alert.php:377
 msgid "An account on your site now has the Administrator role."
 msgstr "Обліковий запис на вашому сайті тепер має роль «Адміністратор»."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:344
+#: includes/features/class-admin-alert.php:380
 #, php-format
 msgid "User name: %s"
 msgstr "Ім'я користувача: %s"
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:346
+#: includes/features/class-admin-alert.php:382
 #, php-format
 msgid "E-mail: %s"
 msgstr "Пошта: %s"
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:348
+#: includes/features/class-admin-alert.php:384
 #, php-format
 msgid "Account created: %s"
 msgstr "Обліковий запис створено: %s"
 
 #. translators: %s: user name or a short explanation.
-#: includes/features/class-admin-alert.php:350
+#: includes/features/class-admin-alert.php:386
 #, php-format
 msgid "Changed by: %s"
 msgstr "Хто змінив: %s"
 
 #. translators: %s: IP address.
-#: includes/features/class-admin-alert.php:353
+#: includes/features/class-admin-alert.php:389
 #, php-format
 msgid "From IP address: %s"
 msgstr "З IP-адреси: %s"
 
-#: includes/features/class-admin-alert.php:356
+#: includes/features/class-admin-alert.php:392
 msgid "If you or your team added this account, nothing to do."
 msgstr "Якщо цей обліковий запис додали ви або ваша команда, нічого робити не треба."
 
-#: includes/features/class-admin-alert.php:357
+#: includes/features/class-admin-alert.php:393
 msgid "If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
 msgstr "Якщо ні: видаліть обліковий запис, змініть паролі всіх адміністраторів і хостингу та перегляньте wp-content/mu-plugins на незнайомі файли."
 
@@ -1000,36 +1000,36 @@ msgstr "Ім'я %s починається з крапки, тож багато F
 msgid "%s runs code it decodes first (eval with base64, gzinflate or similar). That is how malware hides what it does. Check this file."
 msgstr "%s виконує код, який спершу розшифровує (eval разом з base64, gzinflate тощо). Так шкідливий код приховує, що робить. Перевірте цей файл."
 
-#: includes/features/class-mu-plugins-watch.php:273
+#: includes/features/class-mu-plugins-watch.php:292
 msgid "New files that WordPress now loads on every page:"
 msgstr "Нові файли, які WordPress тепер завантажує на кожній сторінці:"
 
-#: includes/features/class-mu-plugins-watch.php:280
+#: includes/features/class-mu-plugins-watch.php:299
 msgid "Changed files:"
 msgstr "Змінені файли:"
 
-#: includes/features/class-mu-plugins-watch.php:286
+#: includes/features/class-mu-plugins-watch.php:305
 msgid "If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins add files like these too."
 msgstr "Якщо їх додали чи оновили ви, ваш розробник або хостинг, нічого робити не треба. Хостинги та плагіни кешування теж додають такі файли."
 
-#: includes/features/class-mu-plugins-watch.php:287
+#: includes/features/class-mu-plugins-watch.php:306
 msgid "If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
 msgstr "Якщо ні: спершу скопіюйте файл у безпечне місце (це доказ), потім видаліть його з сайту, змініть паролі всіх адміністраторів і хостингу та перевірте список адміністраторів."
 
 #. translators: %s: file name.
-#: includes/features/class-mu-plugins-watch.php:295
+#: includes/features/class-mu-plugins-watch.php:318
 #, php-format
 msgid "New or changed must-use file: %s"
 msgstr "Новий або змінений must-use файл: %s"
 
 #. translators: %d: number of files.
-#: includes/features/class-mu-plugins-watch.php:297
+#: includes/features/class-mu-plugins-watch.php:320
 #, php-format
 msgid "%d new or changed must-use files"
 msgstr "Нові або змінені must-use файли: %d"
 
 #. translators: 1: file size, 2: date and time.
-#: includes/features/class-mu-plugins-watch.php:315
+#: includes/features/class-mu-plugins-watch.php:338
 #, php-format
 msgid "%1$s, modified %2$s"
 msgstr "%1$s, змінено %2$s"
@@ -1039,3 +1039,40 @@ msgstr "%1$s, змінено %2$s"
 #, php-format
 msgid "Off, %s"
 msgstr "Вимкнено, %s"
+
+#: includes/features/class-admin-alert.php:294
+msgid "The list of administrators that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert."
+msgstr "Список адміністраторів, який веде HelloAdmin Guard, змінили або видалили в обхід плагіна, наприклад напряму в базі даних. Можливо, хтось додав адміністратора й приховав його від цього сповіщення."
+
+#: includes/features/class-admin-alert.php:295
+#: includes/features/class-mu-plugins-watch.php:284
+msgid "If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected."
+msgstr "Якщо ви змінили солі WordPress у wp-config.php або перенесли базу даних на інший сайт, так і має бути."
+
+#: includes/features/class-admin-alert.php:297
+msgid "Administrators now:"
+msgstr "Адміністратори зараз:"
+
+#: includes/features/class-admin-alert.php:305
+msgid "If one of them is not yours: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
+msgstr "Якщо хтось із них не ваш: видаліть обліковий запис, змініть паролі всіх адміністраторів і хостингу та перевірте, чи немає в wp-content/mu-plugins незнайомих файлів."
+
+#: includes/features/class-admin-alert.php:309
+msgid "The list of administrators was changed outside the plugin"
+msgstr "Список адміністраторів змінили в обхід плагіна"
+
+#: includes/features/class-mu-plugins-watch.php:283
+msgid "The list of must-use files that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself."
+msgstr "Список must-use файлів, який веде HelloAdmin Guard, змінили або видалили в обхід плагіна, наприклад напряму в базі даних. Можливо, хтось приховав файл від цього сповіщення, тому нижче всі файли, які WordPress завантажує сам."
+
+#: includes/features/class-mu-plugins-watch.php:287
+msgid "There are no such files now."
+msgstr "Зараз таких файлів немає."
+
+#: includes/features/class-mu-plugins-watch.php:292
+msgid "Files that WordPress loads on every page:"
+msgstr "Файли, які WordPress завантажує на кожній сторінці:"
+
+#: includes/features/class-mu-plugins-watch.php:311
+msgid "The list of must-use files was changed outside the plugin"
+msgstr "Список must-use файлів змінили в обхід плагіна"

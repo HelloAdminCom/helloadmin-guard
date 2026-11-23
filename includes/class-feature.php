@@ -225,6 +225,77 @@ abstract class Feature {
 	}
 
 	/**
+	 * Called once when the setting is switched on (settings page or WP-CLI). Alert settings store what they see
+	 * now, so only later changes are reported.
+	 *
+	 * @return void
+	 */
+	public function switched_on() {
+	}
+
+	/**
+	 * Stores a watch list with a signature. The key comes from the WordPress salts (wp-config.php), not from the
+	 * database, so someone who can only write to the database (for example through SQL injection in another
+	 * plugin) cannot change the list without the plugin noticing.
+	 *
+	 * @param string       $option Option name.
+	 * @param array<mixed> $items  List to store.
+	 * @return void
+	 */
+	protected static function save_list( $option, array $items ) {
+		update_option(
+			$option,
+			array(
+				'list' => $items,
+				'sig'  => self::sign_list( $option, $items ),
+			),
+			true
+		);
+	}
+
+	/**
+	 * Reads a watch list stored by save_list().
+	 *
+	 * @param string $option Option name.
+	 * @return array{0: array<mixed>, 1: bool} The list, and whether it was changed or removed outside the plugin.
+	 *                                  A list from an earlier build without a signature is accepted once.
+	 */
+	protected static function load_list( $option ) {
+		$stored = get_option( $option, null );
+		if ( ! is_array( $stored ) ) {
+			return array( array(), true );
+		}
+		if ( ! array_key_exists( 'sig', $stored ) ) {
+			return array( $stored, false );
+		}
+		$items = isset( $stored['list'] ) && is_array( $stored['list'] ) ? $stored['list'] : array();
+		$sig   = is_string( $stored['sig'] ) ? $stored['sig'] : '';
+		return array( $items, ! hash_equals( self::sign_list( $option, $items ), $sig ) );
+	}
+
+	/**
+	 * Whether the stored list already has a signature (lists from an earlier build are re-saved once).
+	 *
+	 * @param string $option Option name.
+	 * @return bool
+	 */
+	protected static function list_is_signed( $option ) {
+		$stored = get_option( $option, null );
+		return is_array( $stored ) && array_key_exists( 'sig', $stored );
+	}
+
+	/**
+	 * HMAC of a watch list.
+	 *
+	 * @param string       $option Option name (so one list cannot be copied over another).
+	 * @param array<mixed> $items  List.
+	 * @return string
+	 */
+	private static function sign_list( $option, array $items ) {
+		return hash_hmac( 'sha256', $option . '|' . (string) wp_json_encode( $items ), wp_salt( 'auth' ) );
+	}
+
+	/**
 	 * Runs a watch check (alert settings) on the moments that matter, without WP-Cron. WP-Cron runs only when the
 	 * site gets visits and never when DISABLE_WP_CRON is set without a server cron, so an hourly event can be late
 	 * or never run. Instead the check runs at the end of the request:

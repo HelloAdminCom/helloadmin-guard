@@ -181,15 +181,20 @@ class Mu_Plugins_Watch extends Feature {
 	 * @return void
 	 */
 	public function enable( Settings $settings ) {
-		// First run: remember the current files, so only the ones added or changed later are reported.
-		if ( false === get_option( self::SNAPSHOT_OPTION ) ) {
-			update_option( self::SNAPSHOT_OPTION, self::files(), true );
-		}
-
 		$this->watch( array( $this, 'check' ), self::CHECKED_OPTION );
 		if ( wp_next_scheduled( self::CRON_HOOK ) ) {
 			self::unschedule();
 		}
+	}
+
+	/**
+	 * Remembers the current files when the setting is switched on, so only later changes are reported.
+	 * Only here: a list that goes missing later is reported, not quietly rebuilt.
+	 *
+	 * @return void
+	 */
+	public function switched_on() {
+		self::save_list( self::SNAPSHOT_OPTION, self::files() );
 	}
 
 	/**
@@ -198,8 +203,12 @@ class Mu_Plugins_Watch extends Feature {
 	 * @return void
 	 */
 	public function check() {
-		$now     = self::files();
-		$known   = (array) get_option( self::SNAPSHOT_OPTION, array() );
+		$now                 = self::files();
+		list( $known, $bad ) = self::load_list( self::SNAPSHOT_OPTION );
+		if ( $bad ) {
+			// The stored list cannot be trusted: report every file.
+			$known = array();
+		}
 		$added   = array_diff_key( $now, $known );
 		$changed = array();
 		foreach ( array_intersect_key( $now, $known ) as $path => $hash ) {
@@ -208,11 +217,11 @@ class Mu_Plugins_Watch extends Feature {
 			}
 		}
 
-		if ( $now !== $known ) {
-			update_option( self::SNAPSHOT_OPTION, $now, true );
+		if ( $bad || $now !== $known || ! self::list_is_signed( self::SNAPSHOT_OPTION ) ) {
+			self::save_list( self::SNAPSHOT_OPTION, $now );
 		}
-		if ( $added || $changed ) {
-			$this->send_alert( array_keys( $added ), array_keys( $changed ) );
+		if ( $added || $changed || $bad ) {
+			$this->send_alert( array_keys( $added ), array_keys( $changed ), $bad );
 		}
 	}
 
@@ -265,12 +274,22 @@ class Mu_Plugins_Watch extends Feature {
 	 *
 	 * @param string[] $added   New files, as stored in the list.
 	 * @param string[] $changed Changed files, as stored in the list.
+	 * @param bool     $bad     The stored list was changed or removed outside the plugin.
 	 * @return void
 	 */
-	private function send_alert( array $added, array $changed ) {
+	private function send_alert( array $added, array $changed, $bad = false ) {
 		$lines = array();
+		if ( $bad ) {
+			$lines[] = __( 'The list of must-use files that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself.', 'helloadmin-guard' );
+			$lines[] = __( 'If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected.', 'helloadmin-guard' );
+			$lines[] = '';
+			if ( ! $added ) {
+				$lines[] = __( 'There are no such files now.', 'helloadmin-guard' );
+				$lines[] = '';
+			}
+		}
 		if ( $added ) {
-			$lines[] = __( 'New files that WordPress now loads on every page:', 'helloadmin-guard' );
+			$lines[] = $bad ? __( 'Files that WordPress loads on every page:', 'helloadmin-guard' ) : __( 'New files that WordPress now loads on every page:', 'helloadmin-guard' );
 			foreach ( $added as $path ) {
 				$lines[] = '  ' . self::shown_path( $path ) . self::file_info( $path );
 			}
@@ -288,6 +307,10 @@ class Mu_Plugins_Watch extends Feature {
 		$lines[] = '';
 		$lines[] = admin_url( 'plugins.php?plugin_status=mustuse' );
 
+		if ( $bad ) {
+			$this->send_alert_mail( __( 'The list of must-use files was changed outside the plugin', 'helloadmin-guard' ), $lines );
+			return;
+		}
 		$first   = $added ? $added[0] : $changed[0];
 		$count   = count( $added ) + count( $changed );
 		$subject = 1 === $count
