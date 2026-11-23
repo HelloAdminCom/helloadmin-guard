@@ -135,6 +135,7 @@ class Status {
 			foreach ( $data['pending'] as $id ) {
 				if ( isset( $this->features[ $id ] ) ) {
 					$data['closed'][ $id ] = $this->features[ $id ]->probe();
+					$data['seen'][ $id ]   = $this->settings->fingerprint( $id );
 				}
 			}
 		} finally {
@@ -147,23 +148,43 @@ class Status {
 	/**
 	 * Stored results, or null when there are none or they are older than a day.
 	 *
-	 * @return array{time: int, closed: array<string, bool|null>, pending?: string[]}|null
+	 * @return array{time: int, closed: array<string, bool|null>, seen?: array<string, string>, pending?: string[]}|null
 	 */
 	public static function cached() {
 		$data = get_transient( self::CACHE );
-		return is_array( $data ) && isset( $data['time'], $data['closed'] ) && is_array( $data['closed'] ) ? $data : null;
+		if ( ! is_array( $data ) || ! isset( $data['time'], $data['closed'] ) || ! is_array( $data['closed'] ) ) {
+			return null;
+		}
+		// Settings changed without a save on the settings page (database import, SQL, code): results taken with the
+		// old settings no longer say anything, so treat them as not checked and check them on the next page load.
+		if ( isset( $data['seen'] ) && is_array( $data['seen'] ) ) {
+			$settings = new Settings();
+			$pending  = isset( $data['pending'] ) ? $data['pending'] : array();
+			foreach ( $data['seen'] as $id => $fingerprint ) {
+				if ( $settings->fingerprint( (string) $id ) !== $fingerprint ) {
+					unset( $data['closed'][ $id ] );
+					$pending[] = (string) $id;
+				}
+			}
+			if ( $pending ) {
+				$data['pending'] = array_values( array_unique( $pending ) );
+			}
+		}
+		return $data;
 	}
 
 	/**
 	 * Runs every check and stores the results.
 	 *
-	 * @return array{time: int, closed: array<string, bool|null>}
+	 * @return array{time: int, closed: array<string, bool|null>, seen: array<string, string>}
 	 */
 	public function run() {
 		$closed = array();
+		$seen   = array();
 		try {
 			foreach ( $this->features as $id => $feature ) {
 				$closed[ $id ] = $feature->probe();
+				$seen[ $id ]   = $this->settings->fingerprint( $id );
 			}
 		} finally {
 			Probe::cleanup();
@@ -171,6 +192,7 @@ class Status {
 		$data = array(
 			'time'   => time(),
 			'closed' => $closed,
+			'seen'   => $seen,
 		);
 		set_transient( self::CACHE, $data, self::TTL );
 		return $data;
@@ -195,7 +217,8 @@ class Status {
 	 *
 	 * @param string $id Setting id.
 	 * @return string on (closed by this plugin), broken (on here, but the check still finds the gap open),
-	 *                covered (closed by someone else), open, skipped (marked as not needed) or unknown.
+	 *                covered (closed by someone else), open, skipped (marked as not needed), off (an alert that is
+	 *                off) or unknown.
 	 */
 	public function of( $id ) {
 		$on     = $this->settings->is_enabled( $id );
@@ -208,6 +231,9 @@ class Status {
 		if ( $this->settings->is_skipped( $id ) ) {
 			return 'skipped';
 		}
+		if ( isset( $this->features[ $id ] ) && $this->features[ $id ]->is_alert() ) {
+			return 'off';
+		}
 		if ( true === $closed ) {
 			return 'covered';
 		}
@@ -217,7 +243,7 @@ class Status {
 	/**
 	 * Number of gaps that need attention: open ones and settings that are on but do not work.
 	 * A setting that is off, not skipped and not checked yet (before the first check, or just switched off) counts
-	 * as open. A check that could not tell (stored null) does not count.
+	 * as open. A check that could not tell (stored null) does not count, nor does an alert that is off.
 	 *
 	 * @return int
 	 */

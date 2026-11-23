@@ -131,6 +131,16 @@ abstract class Feature {
 	}
 
 	/**
+	 * Is this an alert (it e-mails about changes) rather than a gap? An alert that is off cannot be checked from
+	 * outside and is a choice, so it does not count as an open gap.
+	 *
+	 * @return bool
+	 */
+	public function is_alert() {
+		return false;
+	}
+
+	/**
 	 * Checks whether the gap is closed right now, by anyone: this plugin, another plugin or the server.
 	 * Most checks ask the site itself as a visitor (see Probe), so they see what a bot sees.
 	 *

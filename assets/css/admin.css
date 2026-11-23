@@ -216,12 +216,14 @@
 .hag-chip-open-medium { background: #fcf9e8; color: #6e4a00; }
 .hag-chip-open-low,
 .hag-chip-skipped,
+.hag-chip-off,
 .hag-chip-unknown { background: #f0f0f1; color: #50575e; }
 .hag-chip-broken::before,
 .hag-chip-open-high::before,
 .hag-chip-open-medium::before,
 .hag-chip-open-low::before { content: "\f534"; }
 .hag-chip-skipped::before,
+.hag-chip-off::before,
 .hag-chip-unknown::before { content: "\f460"; }
 .hag-note { margin: 6px 0 0; font-size: 12px; color: #50575e; }
 .hag-cards .hag-card > .hag-foot { margin-top: auto; }

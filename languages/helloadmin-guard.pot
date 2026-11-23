@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: HelloAdmin Guard 0.4.1\n"
+"Project-Id-Version: HelloAdmin Guard 0.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/helloadmin-guard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-20T16:35:44+02:00\n"
+"POT-Creation-Date: 2026-11-23T18:28:57+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -17,7 +17,7 @@ msgstr ""
 #. Plugin Name of the plugin
 #: helloadmin-guard.php
 #: includes/class-admin-page.php:104
-#: includes/class-admin-page.php:354
+#: includes/class-admin-page.php:348
 #: includes/class-site-health.php:51
 msgid "HelloAdmin Guard"
 msgstr ""
@@ -91,199 +91,205 @@ msgstr ""
 msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
 msgstr ""
 
-#: includes/class-admin-page.php:304
+#: includes/class-admin-page.php:298
 msgid "Settings"
 msgstr ""
 
-#: includes/class-admin-page.php:323
+#: includes/class-admin-page.php:317
 msgid "Settings saved."
 msgstr ""
 
-#: includes/class-admin-page.php:359
+#: includes/class-admin-page.php:353
 msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
 msgstr ""
 
-#: includes/class-admin-page.php:397
+#: includes/class-admin-page.php:391
 msgid "No settings on this tab yet."
 msgstr ""
 
-#: includes/class-admin-page.php:427
+#: includes/class-admin-page.php:421
 msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
 msgstr ""
 
-#: includes/class-admin-page.php:472
+#: includes/class-admin-page.php:466
 msgid "Learn more"
 msgstr ""
 
-#: includes/class-admin-page.php:485
+#: includes/class-admin-page.php:479
 msgid "Description"
 msgstr ""
 
-#: includes/class-admin-page.php:486
+#: includes/class-admin-page.php:480
 msgid "Downsides"
 msgstr ""
 
-#: includes/class-admin-page.php:489
+#: includes/class-admin-page.php:483
 msgid "How to undo"
 msgstr ""
 
-#: includes/class-admin-page.php:557
+#: includes/class-admin-page.php:551
 msgid "I do not need this on this site (it stops counting as an open gap)"
 msgstr ""
 
-#: includes/class-admin-page.php:625
+#: includes/class-admin-page.php:619
 msgid "high risk"
 msgstr ""
 
-#: includes/class-admin-page.php:626
+#: includes/class-admin-page.php:620
 msgid "medium risk"
 msgstr ""
 
-#: includes/class-admin-page.php:627
+#: includes/class-admin-page.php:621
 msgid "low risk"
 msgstr ""
 
-#: includes/class-admin-page.php:631
+#: includes/class-admin-page.php:625
 msgid "Closed by this plugin"
 msgstr ""
 
-#: includes/class-admin-page.php:633
+#: includes/class-admin-page.php:627
 msgid "Not working"
 msgstr ""
 
-#: includes/class-admin-page.php:633
+#: includes/class-admin-page.php:627
 msgid "The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting."
 msgstr ""
 
 #. translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)".
-#: includes/class-admin-page.php:639
+#: includes/class-admin-page.php:633
 #, php-format
 msgid "Closed by %s. You can leave this off."
 msgstr ""
 
 #. translators: %s: names of active security plugins.
-#: includes/class-admin-page.php:642
+#: includes/class-admin-page.php:636
 #, php-format
 msgid "Probably by %s, the theme or the server settings. You can leave this off."
 msgstr ""
 
-#: includes/class-admin-page.php:644
+#: includes/class-admin-page.php:638
 msgid "By the theme, the server settings or another plugin. You can leave this off."
 msgstr ""
 
-#: includes/class-admin-page.php:646
+#: includes/class-admin-page.php:640
 msgid "Already closed"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:649
+#: includes/class-admin-page.php:643
 #, php-format
 msgid "Open, %s"
 msgstr ""
 
-#: includes/class-admin-page.php:651
+#: includes/class-admin-page.php:645
 msgid "Not needed"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:654
+#: includes/class-admin-page.php:648
+#, php-format
+msgid "Off, %s"
+msgstr ""
+
+#. translators: %s: "high risk", "medium risk" or "low risk".
+#: includes/class-admin-page.php:651
 #, php-format
 msgid "Not checked yet, %s"
 msgstr ""
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:654
+#: includes/class-admin-page.php:651
 #, php-format
 msgid "Cannot be checked, %s"
 msgstr ""
 
-#: includes/class-admin-page.php:667
+#: includes/class-admin-page.php:664
 msgid "Checking what your site answers to visitors..."
 msgstr ""
 
 #. translators: %s: time since the last check, for example "5 minutes".
-#: includes/class-admin-page.php:670
+#: includes/class-admin-page.php:667
 #, php-format
 msgid "Last check: %s ago."
 msgstr ""
 
-#: includes/class-admin-page.php:675
+#: includes/class-admin-page.php:672
 msgid "Check again"
 msgstr ""
 
-#: includes/class-admin-page.php:691
+#: includes/class-admin-page.php:688
 msgid "Optional: the same for Nginx, to add to the server block"
 msgstr ""
 
-#: includes/class-admin-page.php:691
+#: includes/class-admin-page.php:688
 msgid "Rules to add to the server block, above the PHP location"
 msgstr ""
 
-#: includes/class-admin-page.php:695
+#: includes/class-admin-page.php:692
 msgid "Also added to .htaccess, so the server answers before PHP starts"
 msgstr ""
 
-#: includes/class-admin-page.php:695
+#: includes/class-admin-page.php:692
 msgid "Optional: the same in .htaccess, to add by hand"
 msgstr ""
 
-#: includes/class-admin-page.php:697
+#: includes/class-admin-page.php:694
 msgid "Rules to add to .htaccess by hand"
 msgstr ""
 
-#: includes/class-admin-page.php:697
+#: includes/class-admin-page.php:694
 msgid "Rules the plugin adds to .htaccess"
 msgstr ""
 
-#: includes/class-admin-page.php:702
+#: includes/class-admin-page.php:699
 msgid "This setting needs Apache, LiteSpeed or Nginx."
 msgstr ""
 
-#: includes/class-admin-page.php:725
+#: includes/class-admin-page.php:722
 msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
 msgstr ""
 
-#: includes/class-admin-page.php:727
+#: includes/class-admin-page.php:724
 msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
 msgstr ""
 
-#: includes/class-admin-page.php:729
+#: includes/class-admin-page.php:726
 msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
 msgstr ""
 
-#: includes/class-admin-page.php:731
+#: includes/class-admin-page.php:728
 msgid "The server rules below need Apache, LiteSpeed or Nginx."
 msgstr ""
 
-#: includes/class-admin-page.php:768
+#: includes/class-admin-page.php:765
 msgid "HelloAdmin Guard is free and will stay free."
 msgstr ""
 
-#: includes/class-admin-page.php:769
+#: includes/class-admin-page.php:766
 msgid "No paid version, no locked settings, no ads, no calls to outside servers."
 msgstr ""
 
-#: includes/class-admin-page.php:770
+#: includes/class-admin-page.php:767
 msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
 msgstr ""
 
-#: includes/class-admin-page.php:771
+#: includes/class-admin-page.php:768
 msgid "Need help with your site?"
 msgstr ""
 
-#: includes/class-admin-page.php:772
+#: includes/class-admin-page.php:769
 msgid "This plugin was built and is maintained by a developer with more than 10 years of experience with WordPress and WooCommerce. Is your site slow, showing errors, broken after an update or hacked? Need someone to look after it? Write to me."
 msgstr ""
 
-#: includes/class-admin-page.php:776
+#: includes/class-admin-page.php:773
 msgid "Contact HelloAdmin"
 msgstr ""
 
-#: includes/class-admin-page.php:778
+#: includes/class-admin-page.php:775
 msgid "Report a problem"
 msgstr ""
 
-#: includes/class-admin-page.php:780
+#: includes/class-admin-page.php:777
 msgid "Show the welcome message again"
 msgstr ""
 
@@ -359,16 +365,16 @@ msgstr ""
 msgid "Find how they got in before you restore a backup, or the same hole lets them in again."
 msgstr ""
 
-#: includes/class-feature.php:209
+#: includes/class-feature.php:219
 msgid "Also send to"
 msgstr ""
 
-#: includes/class-feature.php:212
+#: includes/class-feature.php:222
 msgid "One more e-mail address besides the site address in Settings, General. Leave empty to use only the site address."
 msgstr ""
 
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:233
+#: includes/class-feature.php:243
 #, php-format
 msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr ""
@@ -413,7 +419,7 @@ msgstr[1] ""
 msgid "Some things bots look for are still open on this site. Every switch on the settings page explains what it closes, what may break and how to undo it."
 msgstr ""
 
-#: includes/class-status.php:263
+#: includes/class-status.php:289
 msgid "Checking…"
 msgstr ""
 
@@ -484,82 +490,82 @@ msgid "Turn this off and save. No users or roles are changed."
 msgstr ""
 
 #. translators: %s: date.
-#: includes/features/class-admin-alert.php:162
+#: includes/features/class-admin-alert.php:171
 #, php-format
 msgid "Created on %s."
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:167
+#: includes/features/class-admin-alert.php:176
 #, php-format
 msgid "The administrator \"%s\" is in the database but hidden from the Users screen. Something on this site filters the user list, which is how malware hides its accounts. Check this account and the must-use plugins."
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:170
+#: includes/features/class-admin-alert.php:179
 #, php-format
 msgid "The administrator \"%s\" has a name that looks random. If you do not know this account, check it."
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:173
+#: includes/features/class-admin-alert.php:182
 #, php-format
 msgid "The administrator \"%s\" was added in the last 7 days."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:314
+#: includes/features/class-admin-alert.php:323
 msgid "found by the hourly check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:318
+#: includes/features/class-admin-alert.php:327
 msgid "no logged-in user (WP-CLI, a scheduled task or code)"
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:323
+#: includes/features/class-admin-alert.php:332
 #, php-format
 msgid "New administrator: %s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:326
+#: includes/features/class-admin-alert.php:335
 msgid "An account on your site now has the Administrator role."
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:329
+#: includes/features/class-admin-alert.php:338
 #, php-format
 msgid "User name: %s"
 msgstr ""
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:331
+#: includes/features/class-admin-alert.php:340
 #, php-format
 msgid "E-mail: %s"
 msgstr ""
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:333
+#: includes/features/class-admin-alert.php:342
 #, php-format
 msgid "Account created: %s"
 msgstr ""
 
 #. translators: %s: user name or a short explanation.
-#: includes/features/class-admin-alert.php:335
+#: includes/features/class-admin-alert.php:344
 #, php-format
 msgid "Changed by: %s"
 msgstr ""
 
 #. translators: %s: IP address.
-#: includes/features/class-admin-alert.php:338
+#: includes/features/class-admin-alert.php:347
 #, php-format
 msgid "From IP address: %s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:341
+#: includes/features/class-admin-alert.php:350
 msgid "If you or your team added this account, nothing to do."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:342
+#: includes/features/class-admin-alert.php:351
 msgid "If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
 msgstr ""
 
@@ -796,40 +802,40 @@ msgstr ""
 msgid "The site address in Settings, General starts with http://, so the plugin writes no rule. Switch the site to https first."
 msgstr ""
 
-#: includes/features/class-limit-login.php:65
+#: includes/features/class-limit-login.php:72
 msgid "Limit login attempts"
 msgstr ""
 
-#: includes/features/class-limit-login.php:74
+#: includes/features/class-limit-login.php:81
 msgid "After too many failed logins from one IP address, every login from that address is refused for a while, even with the right password, so a bot cannot keep guessing. Works for the login page, XML-RPC and REST API logins. A successful login resets the count."
 msgstr ""
 
-#: includes/features/class-limit-login.php:83
+#: includes/features/class-limit-login.php:90
 msgid "You can lock yourself out for a while by mistyping the password. If the site is behind a proxy or CDN that the host does not unwrap, all visitors share one address and one bot can lock everyone out: then leave this off or ask the host to pass the real visitor IP."
 msgstr ""
 
-#: includes/features/class-limit-login.php:92
+#: includes/features/class-limit-login.php:99
 msgid "Turn this off and save: lockouts end at once. If you are locked out yourself, wait until the time runs out, or rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager."
 msgstr ""
 
-#: includes/features/class-limit-login.php:121
+#: includes/features/class-limit-login.php:128
 msgid "Attempts"
 msgstr ""
 
-#: includes/features/class-limit-login.php:124
+#: includes/features/class-limit-login.php:131
 msgid "Failed logins allowed from one address, 3 to 20."
 msgstr ""
 
-#: includes/features/class-limit-login.php:127
+#: includes/features/class-limit-login.php:134
 msgid "Lockout, minutes"
 msgstr ""
 
-#: includes/features/class-limit-login.php:130
+#: includes/features/class-limit-login.php:137
 msgid "How long the address stays locked, 5 to 1440 minutes (one day)."
 msgstr ""
 
 #. translators: %d: minutes until the next login attempt is allowed.
-#: includes/features/class-limit-login.php:210
+#: includes/features/class-limit-login.php:233
 #, php-format
 msgid "Too many failed login attempts. Try again in %d minute."
 msgid_plural "Too many failed login attempts. Try again in %d minutes."
@@ -874,7 +880,7 @@ msgstr ""
 msgid "A page or post already uses this address. Choose another one."
 msgstr ""
 
-#: includes/features/class-login-url.php:320
+#: includes/features/class-login-url.php:344
 msgid "The requested URL was not found on this server."
 msgstr ""
 
@@ -894,52 +900,52 @@ msgstr ""
 msgid "Turn this off and save. No files are changed or deleted."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:146
+#: includes/features/class-mu-plugins-watch.php:155
 msgid "Something on this site hides the Must-Use list on the Plugins screen. Malware does this to keep its files out of sight."
 msgstr ""
 
 #. translators: %s: file path inside wp-content.
-#: includes/features/class-mu-plugins-watch.php:153
+#: includes/features/class-mu-plugins-watch.php:162
 #, php-format
 msgid "%s has a name that starts with a dot, so many FTP programs and file managers do not show it, but WordPress loads it on every page."
 msgstr ""
 
 #. translators: %s: file path inside wp-content.
-#: includes/features/class-mu-plugins-watch.php:157
+#: includes/features/class-mu-plugins-watch.php:166
 #, php-format
 msgid "%s runs code it decodes first (eval with base64, gzinflate or similar). That is how malware hides what it does. Check this file."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:259
+#: includes/features/class-mu-plugins-watch.php:268
 msgid "New files that WordPress now loads on every page:"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:266
+#: includes/features/class-mu-plugins-watch.php:275
 msgid "Changed files:"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:272
+#: includes/features/class-mu-plugins-watch.php:281
 msgid "If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins add files like these too."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:273
+#: includes/features/class-mu-plugins-watch.php:282
 msgid "If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
 msgstr ""
 
 #. translators: %s: file name.
-#: includes/features/class-mu-plugins-watch.php:281
+#: includes/features/class-mu-plugins-watch.php:290
 #, php-format
 msgid "New or changed must-use file: %s"
 msgstr ""
 
 #. translators: %d: number of files.
-#: includes/features/class-mu-plugins-watch.php:283
+#: includes/features/class-mu-plugins-watch.php:292
 #, php-format
 msgid "%d new or changed must-use files"
 msgstr ""
 
 #. translators: 1: file size, 2: date and time.
-#: includes/features/class-mu-plugins-watch.php:301
+#: includes/features/class-mu-plugins-watch.php:310
 #, php-format
 msgid "%1$s, modified %2$s"
 msgstr ""

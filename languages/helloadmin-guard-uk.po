@@ -16,7 +16,7 @@ msgstr ""
 #. Plugin Name of the plugin
 #: helloadmin-guard.php
 #: includes/class-admin-page.php:104
-#: includes/class-admin-page.php:354
+#: includes/class-admin-page.php:348
 #: includes/class-site-health.php:51
 msgid "HelloAdmin Guard"
 msgstr "HelloAdmin Guard"
@@ -87,199 +87,199 @@ msgstr "Серверні правила не збережено: після за
 msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
 msgstr "Серверні правила збережено, але плагін не зміг відкрити головну сторінку, щоб їх перевірити (деякі хостинги блокують такі запити). Відкрийте сайт у новій вкладці й переконайтеся, що він працює."
 
-#: includes/class-admin-page.php:304
+#: includes/class-admin-page.php:298
 msgid "Settings"
 msgstr "Налаштування"
 
-#: includes/class-admin-page.php:323
+#: includes/class-admin-page.php:317
 msgid "Settings saved."
 msgstr "Налаштування збережено."
 
-#: includes/class-admin-page.php:359
+#: includes/class-admin-page.php:353
 msgid "Each setting is off until you turn it on. Read what it does and what may break before you save."
 msgstr "Кожне налаштування вимкнене, доки ви його не ввімкнете. Перш ніж зберегти, прочитайте, що воно робить і що може зламатися."
 
-#: includes/class-admin-page.php:397
+#: includes/class-admin-page.php:391
 msgid "No settings on this tab yet."
 msgstr "На цій вкладці поки немає налаштувань."
 
-#: includes/class-admin-page.php:427
+#: includes/class-admin-page.php:421
 msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
 msgstr "Показувати кількість відкритих прогалин поруч із HeAd Guard у меню адмінки"
 
-#: includes/class-admin-page.php:472
+#: includes/class-admin-page.php:466
 msgid "Learn more"
 msgstr "Докладніше"
 
-#: includes/class-admin-page.php:485
+#: includes/class-admin-page.php:479
 msgid "Description"
 msgstr "Опис"
 
-#: includes/class-admin-page.php:486
+#: includes/class-admin-page.php:480
 msgid "Downsides"
 msgstr "Ризики"
 
-#: includes/class-admin-page.php:489
+#: includes/class-admin-page.php:483
 msgid "How to undo"
 msgstr "Як повернути"
 
-#: includes/class-admin-page.php:557
+#: includes/class-admin-page.php:551
 msgid "I do not need this on this site (it stops counting as an open gap)"
 msgstr "Мені це не потрібно на цьому сайті (прогалина перестане рахуватися відкритою)"
 
-#: includes/class-admin-page.php:625
+#: includes/class-admin-page.php:619
 msgid "high risk"
 msgstr "високий ризик"
 
-#: includes/class-admin-page.php:626
+#: includes/class-admin-page.php:620
 msgid "medium risk"
 msgstr "середній ризик"
 
-#: includes/class-admin-page.php:627
+#: includes/class-admin-page.php:621
 msgid "low risk"
 msgstr "низький ризик"
 
-#: includes/class-admin-page.php:631
+#: includes/class-admin-page.php:625
 msgid "Closed by this plugin"
 msgstr "Закрито цим плагіном"
 
-#: includes/class-admin-page.php:633
+#: includes/class-admin-page.php:627
 msgid "Not working"
 msgstr "Не працює"
 
-#: includes/class-admin-page.php:633
+#: includes/class-admin-page.php:627
 msgid "The setting is on, but the last check still found this gap open. Server rules may not work on this server, or another plugin undoes the setting."
 msgstr "Налаштування ввімкнене, але остання перевірка досі знаходить цю прогалину відкритою. Можливо, серверні правила не працюють на цьому сервері або інший плагін скасовує налаштування."
 
 #. translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)".
-#: includes/class-admin-page.php:639
+#: includes/class-admin-page.php:633
 #, php-format
 msgid "Closed by %s. You can leave this off."
 msgstr "Закрито: %s. Це налаштування можна не вмикати."
 
 #. translators: %s: names of active security plugins.
-#: includes/class-admin-page.php:642
+#: includes/class-admin-page.php:636
 #, php-format
 msgid "Probably by %s, the theme or the server settings. You can leave this off."
 msgstr "Імовірно, це робить %s, тема або налаштування сервера. Це налаштування можна не вмикати."
 
-#: includes/class-admin-page.php:644
+#: includes/class-admin-page.php:638
 msgid "By the theme, the server settings or another plugin. You can leave this off."
 msgstr "Це роблять тема, налаштування сервера або інший плагін. Це налаштування можна не вмикати."
 
-#: includes/class-admin-page.php:646
+#: includes/class-admin-page.php:640
 msgid "Already closed"
 msgstr "Уже закрито"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:649
+#: includes/class-admin-page.php:643
 #, php-format
 msgid "Open, %s"
 msgstr "Відкрито, %s"
 
-#: includes/class-admin-page.php:651
+#: includes/class-admin-page.php:645
 msgid "Not needed"
 msgstr "Не потрібно"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:654
+#: includes/class-admin-page.php:651
 #, php-format
 msgid "Not checked yet, %s"
 msgstr "Ще не перевірено, %s"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:654
+#: includes/class-admin-page.php:651
 #, php-format
 msgid "Cannot be checked, %s"
 msgstr "Не вдається перевірити, %s"
 
-#: includes/class-admin-page.php:667
+#: includes/class-admin-page.php:664
 msgid "Checking what your site answers to visitors..."
 msgstr "Перевіряю, що ваш сайт відповідає відвідувачам..."
 
 #. translators: %s: time since the last check, for example "5 minutes".
-#: includes/class-admin-page.php:670
+#: includes/class-admin-page.php:667
 #, php-format
 msgid "Last check: %s ago."
 msgstr "Остання перевірка: %s тому."
 
-#: includes/class-admin-page.php:675
+#: includes/class-admin-page.php:672
 msgid "Check again"
 msgstr "Перевірити знову"
 
-#: includes/class-admin-page.php:691
+#: includes/class-admin-page.php:688
 msgid "Optional: the same for Nginx, to add to the server block"
 msgstr "Необов’язково: те саме для Nginx, додати в блок server"
 
-#: includes/class-admin-page.php:691
+#: includes/class-admin-page.php:688
 msgid "Rules to add to the server block, above the PHP location"
 msgstr "Правила для блоку server, над location для PHP"
 
-#: includes/class-admin-page.php:695
+#: includes/class-admin-page.php:692
 msgid "Also added to .htaccess, so the server answers before PHP starts"
 msgstr "Також додається в .htaccess, щоб сервер відповідав ще до запуску PHP"
 
-#: includes/class-admin-page.php:695
+#: includes/class-admin-page.php:692
 msgid "Optional: the same in .htaccess, to add by hand"
 msgstr "Необов’язково: те саме в .htaccess, додати вручну"
 
-#: includes/class-admin-page.php:697
+#: includes/class-admin-page.php:694
 msgid "Rules to add to .htaccess by hand"
 msgstr "Правила, які треба додати в .htaccess вручну"
 
-#: includes/class-admin-page.php:697
+#: includes/class-admin-page.php:694
 msgid "Rules the plugin adds to .htaccess"
 msgstr "Правила, які плагін додає в .htaccess"
 
-#: includes/class-admin-page.php:702
+#: includes/class-admin-page.php:699
 msgid "This setting needs Apache, LiteSpeed or Nginx."
 msgstr "Для цього налаштування потрібен Apache, LiteSpeed або Nginx."
 
-#: includes/class-admin-page.php:725
+#: includes/class-admin-page.php:722
 msgid "Some settings on this tab write rules into the .htaccess file in the site root. Before every change the plugin keeps a copy of the file and then opens your home page; if the page answers with a server error, the old file is put back."
 msgstr "Деякі налаштування на цій вкладці записують правила в файл .htaccess у корені сайту. Перед кожною зміною плагін зберігає копію файлу, а потім відкриває головну сторінку; якщо вона відповідає помилкою сервера, старий файл повертається."
 
-#: includes/class-admin-page.php:727
+#: includes/class-admin-page.php:724
 msgid "WordPress cannot write the .htaccess file on this site, so the rules below cannot be switched on here. Copy them into .htaccess by hand, or ask your host to make the file writable."
 msgstr "WordPress не може записати файл .htaccess на цьому сайті, тому правила нижче тут не ввімкнути. Скопіюйте їх у .htaccess вручну або попросіть хостинг дозволити запис у файл."
 
-#: includes/class-admin-page.php:729
+#: includes/class-admin-page.php:726
 msgid "This site runs on Nginx, which does not read .htaccess files. Copy the rules from each card into the server block of your site, or send them to your host."
 msgstr "Цей сайт працює на Nginx, а він не читає файли .htaccess. Скопіюйте правила з кожної картки в блок server вашого сайту або надішліть їх хостингу."
 
-#: includes/class-admin-page.php:731
+#: includes/class-admin-page.php:728
 msgid "The server rules below need Apache, LiteSpeed or Nginx."
 msgstr "Для серверних правил нижче потрібен Apache, LiteSpeed або Nginx."
 
-#: includes/class-admin-page.php:768
+#: includes/class-admin-page.php:765
 msgid "HelloAdmin Guard is free and will stay free."
 msgstr "HelloAdmin Guard безкоштовний і залишиться безкоштовним."
 
-#: includes/class-admin-page.php:769
+#: includes/class-admin-page.php:766
 msgid "No paid version, no locked settings, no ads, no calls to outside servers."
 msgstr "Без платної версії, без заблокованих налаштувань, без реклами, без запитів до сторонніх серверів."
 
-#: includes/class-admin-page.php:770
+#: includes/class-admin-page.php:767
 msgid "Every setting tells you what it changes, what may break and how to turn it back, because a security setting you do not understand is a risk too."
 msgstr "Кожне налаштування пояснює, що воно змінює, що може зламатися і як усе повернути. Налаштування безпеки, якого ви не розумієте, — теж ризик."
 
-#: includes/class-admin-page.php:771
+#: includes/class-admin-page.php:768
 msgid "Need help with your site?"
 msgstr "Потрібна допомога із сайтом?"
 
-#: includes/class-admin-page.php:772
+#: includes/class-admin-page.php:769
 msgid "This plugin was built and is maintained by a developer with more than 10 years of experience with WordPress and WooCommerce. Is your site slow, showing errors, broken after an update or hacked? Need someone to look after it? Write to me."
 msgstr "Плагін створив і підтримує розробник із понад 10-річним досвідом роботи з WordPress і WooCommerce. Сайт довго завантажується, видає помилки, перестав працювати після оновлення або його зламали? Потрібна людина, яка стежитиме за ним? Напишіть мені."
 
-#: includes/class-admin-page.php:776
+#: includes/class-admin-page.php:773
 msgid "Contact HelloAdmin"
 msgstr "Написати HelloAdmin"
 
-#: includes/class-admin-page.php:778
+#: includes/class-admin-page.php:775
 msgid "Report a problem"
 msgstr "Повідомити про проблему"
 
-#: includes/class-admin-page.php:780
+#: includes/class-admin-page.php:777
 msgid "Show the welcome message again"
 msgstr "Показати привітання ще раз"
 
@@ -324,7 +324,7 @@ msgstr[2] "HelloAdmin Guard: відкрито %d прогалин"
 msgid "Some things bots look for are still open on this site. Every switch on the settings page explains what it closes, what may break and how to undo it."
 msgstr "Частина того, що шукають боти, на цьому сайті досі відкрита. Кожен перемикач на сторінці налаштувань пояснює, що він закриває, що може зламатися і як усе повернути."
 
-#: includes/class-status.php:263
+#: includes/class-status.php:289
 msgid "Checking…"
 msgstr "Перевіряю…"
 
@@ -583,40 +583,40 @@ msgstr "Якщо на якійсь адресі HTTPS не працює, нап�
 msgid "The site address in Settings, General starts with http://, so the plugin writes no rule. Switch the site to https first."
 msgstr "Адреса сайту в Налаштування, Загальні починається з http://, тому плагін не записує правило. Спершу переведіть сайт на https."
 
-#: includes/features/class-limit-login.php:65
+#: includes/features/class-limit-login.php:72
 msgid "Limit login attempts"
 msgstr "Обмежити спроби входу"
 
-#: includes/features/class-limit-login.php:74
+#: includes/features/class-limit-login.php:81
 msgid "After too many failed logins from one IP address, every login from that address is refused for a while, even with the right password, so a bot cannot keep guessing. Works for the login page, XML-RPC and REST API logins. A successful login resets the count."
 msgstr "Після кількох невдалих входів з однієї IP-адреси будь-який вхід з цієї адреси на деякий час відхиляється, навіть із правильним паролем, і бот не може продовжувати підбір. Працює для сторінки входу, XML-RPC і входу через REST API. Успішний вхід обнуляє лічильник."
 
-#: includes/features/class-limit-login.php:83
+#: includes/features/class-limit-login.php:90
 msgid "You can lock yourself out for a while by mistyping the password. If the site is behind a proxy or CDN that the host does not unwrap, all visitors share one address and one bot can lock everyone out: then leave this off or ask the host to pass the real visitor IP."
 msgstr "Ви можете на деякий час заблокувати себе, якщо кілька разів помилитеся в паролі. Якщо сайт стоїть за проксі або CDN, а хостинг не передає справжню адресу відвідувача, у всіх відвідувачів одна адреса, і один бот може заблокувати всіх. Тоді не вмикайте це налаштування або попросіть хостинг передавати справжню IP-адресу."
 
-#: includes/features/class-limit-login.php:92
+#: includes/features/class-limit-login.php:99
 msgid "Turn this off and save: lockouts end at once. If you are locked out yourself, wait until the time runs out, or rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager."
 msgstr "Вимкніть це налаштування і збережіть: блокування одразу знімаються. Якщо ви заблокували себе, дочекайтеся закінчення блокування або перейменуйте папку wp-content/plugins/helloadmin-guard через FTP або файловий менеджер хостингу."
 
-#: includes/features/class-limit-login.php:121
+#: includes/features/class-limit-login.php:128
 msgid "Attempts"
 msgstr "Спроб"
 
-#: includes/features/class-limit-login.php:124
+#: includes/features/class-limit-login.php:131
 msgid "Failed logins allowed from one address, 3 to 20."
 msgstr "Скільки невдалих входів дозволено з однієї адреси, від 3 до 20."
 
-#: includes/features/class-limit-login.php:127
+#: includes/features/class-limit-login.php:134
 msgid "Lockout, minutes"
 msgstr "Блокування, хвилин"
 
-#: includes/features/class-limit-login.php:130
+#: includes/features/class-limit-login.php:137
 msgid "How long the address stays locked, 5 to 1440 minutes (one day)."
 msgstr "На скільки хвилин блокується адреса, від 5 до 1440 (доба)."
 
 #. translators: %d: minutes until the next login attempt is allowed.
-#: includes/features/class-limit-login.php:210
+#: includes/features/class-limit-login.php:233
 #, php-format
 msgid "Too many failed login attempts. Try again in %d minute."
 msgid_plural "Too many failed login attempts. Try again in %d minutes."
@@ -662,7 +662,7 @@ msgstr "Цю адресу входу зарезервовано WordPress або
 msgid "A page or post already uses this address. Choose another one."
 msgstr "Ця адреса вже зайнята сторінкою або записом. Оберіть іншу."
 
-#: includes/features/class-login-url.php:320
+#: includes/features/class-login-url.php:344
 msgid "The requested URL was not found on this server."
 msgstr "Запитану адресу на цьому сервері не знайдено."
 
@@ -834,16 +834,16 @@ msgstr "Перевірте адміністраторів і must-use плагі
 msgid "Find how they got in before you restore a backup, or the same hole lets them in again."
 msgstr "Знайдіть, як саме зламали сайт, перш ніж відновлювати резервну копію, інакше та сама діра знову впустить зловмисників."
 
-#: includes/class-feature.php:209
+#: includes/class-feature.php:219
 msgid "Also send to"
 msgstr "Також надсилати на"
 
-#: includes/class-feature.php:212
+#: includes/class-feature.php:222
 msgid "One more e-mail address besides the site address in Settings, General. Leave empty to use only the site address."
 msgstr "Ще одна адреса пошти, крім адреси сайту в «Налаштування», «Загальні». Залиште порожнім, щоб надсилати лише на адресу сайту."
 
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:233
+#: includes/class-feature.php:243
 #, php-format
 msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr "Надіслано плагіном HelloAdmin Guard. Щоб більше не отримувати ці листи, вимкніть «%s» у HeAd Guard."
@@ -865,82 +865,82 @@ msgid "Turn this off and save. No users or roles are changed."
 msgstr "Вимкніть це налаштування і збережіть. Користувачі та ролі не змінюються."
 
 #. translators: %s: date.
-#: includes/features/class-admin-alert.php:162
+#: includes/features/class-admin-alert.php:171
 #, php-format
 msgid "Created on %s."
 msgstr "Створено %s."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:167
+#: includes/features/class-admin-alert.php:176
 #, php-format
 msgid "The administrator \"%s\" is in the database but hidden from the Users screen. Something on this site filters the user list, which is how malware hides its accounts. Check this account and the must-use plugins."
 msgstr "Адміністратор «%s» є в базі даних, але прихований з екрана «Користувачі». Щось на цьому сайті фільтрує список користувачів, саме так шкідливий код ховає свої облікові записи. Перевірте цей обліковий запис і must-use плагіни."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:170
+#: includes/features/class-admin-alert.php:179
 #, php-format
 msgid "The administrator \"%s\" has a name that looks random. If you do not know this account, check it."
 msgstr "Адміністратор «%s» має ім'я, схоже на випадкове. Якщо ви не знаєте цього облікового запису, перевірте його."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:173
+#: includes/features/class-admin-alert.php:182
 #, php-format
 msgid "The administrator \"%s\" was added in the last 7 days."
 msgstr "Адміністратора «%s» додано за останні 7 днів."
 
-#: includes/features/class-admin-alert.php:314
+#: includes/features/class-admin-alert.php:323
 msgid "found by the hourly check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
 msgstr "знайдено щогодинною перевіркою: роль призначено не через WordPress, поки це сповіщення було увімкнене, наприклад записано напряму в базу даних"
 
-#: includes/features/class-admin-alert.php:318
+#: includes/features/class-admin-alert.php:327
 msgid "no logged-in user (WP-CLI, a scheduled task or code)"
 msgstr "ніхто не увійшов (WP-CLI, запланована задача або код)"
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:323
+#: includes/features/class-admin-alert.php:332
 #, php-format
 msgid "New administrator: %s"
 msgstr "Новий адміністратор: %s"
 
-#: includes/features/class-admin-alert.php:326
+#: includes/features/class-admin-alert.php:335
 msgid "An account on your site now has the Administrator role."
 msgstr "Обліковий запис на вашому сайті тепер має роль «Адміністратор»."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:329
+#: includes/features/class-admin-alert.php:338
 #, php-format
 msgid "User name: %s"
 msgstr "Ім'я користувача: %s"
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:331
+#: includes/features/class-admin-alert.php:340
 #, php-format
 msgid "E-mail: %s"
 msgstr "Пошта: %s"
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:333
+#: includes/features/class-admin-alert.php:342
 #, php-format
 msgid "Account created: %s"
 msgstr "Обліковий запис створено: %s"
 
 #. translators: %s: user name or a short explanation.
-#: includes/features/class-admin-alert.php:335
+#: includes/features/class-admin-alert.php:344
 #, php-format
 msgid "Changed by: %s"
 msgstr "Хто змінив: %s"
 
 #. translators: %s: IP address.
-#: includes/features/class-admin-alert.php:338
+#: includes/features/class-admin-alert.php:347
 #, php-format
 msgid "From IP address: %s"
 msgstr "З IP-адреси: %s"
 
-#: includes/features/class-admin-alert.php:341
+#: includes/features/class-admin-alert.php:350
 msgid "If you or your team added this account, nothing to do."
 msgstr "Якщо цей обліковий запис додали ви або ваша команда, нічого робити не треба."
 
-#: includes/features/class-admin-alert.php:342
+#: includes/features/class-admin-alert.php:351
 msgid "If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
 msgstr "Якщо ні: видаліть обліковий запис, змініть паролі всіх адміністраторів і хостингу та перегляньте wp-content/mu-plugins на незнайомі файли."
 
@@ -988,52 +988,58 @@ msgstr "Нічого не перестає працювати. Лист прих
 msgid "Turn this off and save. No files are changed or deleted."
 msgstr "Вимкніть це налаштування і збережіть. Жодні файли не змінюються і не видаляються."
 
-#: includes/features/class-mu-plugins-watch.php:146
+#: includes/features/class-mu-plugins-watch.php:155
 msgid "Something on this site hides the Must-Use list on the Plugins screen. Malware does this to keep its files out of sight."
 msgstr "Щось на цьому сайті ховає список Must-Use на екрані «Плагіни». Шкідливий код так робить, щоб його файлів не було видно."
 
 #. translators: %s: file path inside wp-content.
-#: includes/features/class-mu-plugins-watch.php:153
+#: includes/features/class-mu-plugins-watch.php:162
 #, php-format
 msgid "%s has a name that starts with a dot, so many FTP programs and file managers do not show it, but WordPress loads it on every page."
 msgstr "Ім'я %s починається з крапки, тож багато FTP-програм і файлових менеджерів його не показують, але WordPress завантажує цей файл на кожній сторінці."
 
 #. translators: %s: file path inside wp-content.
-#: includes/features/class-mu-plugins-watch.php:157
+#: includes/features/class-mu-plugins-watch.php:166
 #, php-format
 msgid "%s runs code it decodes first (eval with base64, gzinflate or similar). That is how malware hides what it does. Check this file."
 msgstr "%s виконує код, який спершу розшифровує (eval разом з base64, gzinflate тощо). Так шкідливий код приховує, що робить. Перевірте цей файл."
 
-#: includes/features/class-mu-plugins-watch.php:259
+#: includes/features/class-mu-plugins-watch.php:268
 msgid "New files that WordPress now loads on every page:"
 msgstr "Нові файли, які WordPress тепер завантажує на кожній сторінці:"
 
-#: includes/features/class-mu-plugins-watch.php:266
+#: includes/features/class-mu-plugins-watch.php:275
 msgid "Changed files:"
 msgstr "Змінені файли:"
 
-#: includes/features/class-mu-plugins-watch.php:272
+#: includes/features/class-mu-plugins-watch.php:281
 msgid "If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins add files like these too."
 msgstr "Якщо їх додали чи оновили ви, ваш розробник або хостинг, нічого робити не треба. Хостинги та плагіни кешування теж додають такі файли."
 
-#: includes/features/class-mu-plugins-watch.php:273
+#: includes/features/class-mu-plugins-watch.php:282
 msgid "If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
 msgstr "Якщо ні: спершу скопіюйте файл у безпечне місце (це доказ), потім видаліть його з сайту, змініть паролі всіх адміністраторів і хостингу та перевірте список адміністраторів."
 
 #. translators: %s: file name.
-#: includes/features/class-mu-plugins-watch.php:281
+#: includes/features/class-mu-plugins-watch.php:290
 #, php-format
 msgid "New or changed must-use file: %s"
 msgstr "Новий або змінений must-use файл: %s"
 
 #. translators: %d: number of files.
-#: includes/features/class-mu-plugins-watch.php:283
+#: includes/features/class-mu-plugins-watch.php:292
 #, php-format
 msgid "%d new or changed must-use files"
 msgstr "Нові або змінені must-use файли: %d"
 
 #. translators: 1: file size, 2: date and time.
-#: includes/features/class-mu-plugins-watch.php:301
+#: includes/features/class-mu-plugins-watch.php:310
 #, php-format
 msgid "%1$s, modified %2$s"
 msgstr "%1$s, змінено %2$s"
+
+#. translators: %s: "high risk", "medium risk" or "low risk".
+#: includes/class-admin-page.php:648
+#, php-format
+msgid "Off, %s"
+msgstr "Вимкнено, %s"

@@ -86,6 +86,17 @@ class Settings {
 	}
 
 	/**
+	 * Short hash of what a feature is set to (on or off and its extra fields), so stored check results can tell
+	 * whether they were taken with the same settings.
+	 *
+	 * @param string $id Feature id.
+	 * @return string
+	 */
+	public function fingerprint( $id ) {
+		return md5( (string) wp_json_encode( array( $this->is_enabled( $id ), $this->fields_of( $id ) ) ) );
+	}
+
+	/**
 	 * Builds a clean option value from the submitted form. Unknown keys are dropped.
 	 *
 	 * @param mixed     $input    Raw $_POST data for the option.

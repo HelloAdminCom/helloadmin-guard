@@ -95,6 +95,15 @@ class Mu_Plugins_Watch extends Feature {
 	}
 
 	/**
+	 * Sends e-mails, nothing to check from outside.
+	 *
+	 * @return bool
+	 */
+	public function is_alert() {
+		return true;
+	}
+
+	/**
 	 * Risk while off.
 	 *
 	 * @return string

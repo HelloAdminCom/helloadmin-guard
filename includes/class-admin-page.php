@@ -643,6 +643,9 @@ class Admin_Page {
 				return array( 'open-' . $risk, sprintf( __( 'Open, %s', 'helloadmin-guard' ), $risks[ $risk ] ), '' );
 			case 'skipped':
 				return array( 'skipped', __( 'Not needed', 'helloadmin-guard' ), '' );
+			case 'off':
+				/* translators: %s: "high risk", "medium risk" or "low risk". */
+				return array( 'off', sprintf( __( 'Off, %s', 'helloadmin-guard' ), $risks[ $risk ] ), '' );
 			default:
 				/* translators: %s: "high risk", "medium risk" or "low risk". */
 				$label = null === Status::cached() ? __( 'Not checked yet, %s', 'helloadmin-guard' ) : __( 'Cannot be checked, %s', 'helloadmin-guard' );
