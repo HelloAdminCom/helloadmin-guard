@@ -146,6 +146,24 @@ class Htaccess {
 	}
 
 	/**
+	 * Whether every rule line of a feature is one plain line. Some rules are built from values in the database
+	 * (the site address in siteurl and home). A line break or another control character there would add a
+	 * directive of someone else's choice to .htaccess, for example php_value auto_prepend_file. Such a feature
+	 * is left out of the file, so it stays off.
+	 *
+	 * @param Feature $feature Feature.
+	 * @return bool
+	 */
+	public static function safe_rules( $feature ) {
+		foreach ( $feature->apache_rules() as $line ) {
+			if ( ! is_string( $line ) || preg_match( '/[\x00-\x08\x0A-\x1F\x7F]/', $line ) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Lines of the block for the given features, each part signed with the feature id.
 	 *
 	 * @param Feature[] $features Enabled features.
@@ -170,7 +188,8 @@ class Htaccess {
 	 *                        not_checked (rules kept, but the home page could not be loaded to check them).
 	 */
 	public static function sync( array $features ) {
-		$lines = self::lines( $features );
+		$features = array_filter( $features, array( __CLASS__, 'safe_rules' ) );
+		$lines    = self::lines( $features );
 		// Removing always works, also from WP-CLI where the server type is unknown (plugin deactivated there).
 		if ( $lines && 'apache' !== self::server() ) {
 			return new \WP_Error( 'not_apache' );
