@@ -637,8 +637,8 @@ msgid "Bookmarks and saved passwords for the old login page stop working. If a p
 msgstr "Закладки и сохранённые пароли для старой страницы входа перестанут работать. Если какой-то плагин или приложение входит напрямую через /wp-login.php или другой плагин тоже меняет адрес входа, они перестанут работать."
 
 #: includes/features/class-login-url.php:73
-msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager: the plugin stops and /wp-login.php works again."
-msgstr "Выключите эту настройку и сохраните. Если вы забыли новый адрес и не можете войти, переименуйте папку wp-content/plugins/helloadmin-guard через FTP или файловый менеджер хостинга: плагин остановится, и /wp-login.php снова заработает."
+msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager, then open .htaccess in the site root and delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\": that block also closes the login form on /wp-login.php. After that /wp-login.php works again."
+msgstr "Выключите эту настройку и сохраните. Если вы забыли новый адрес и не можете войти, переименуйте папку wp-content/plugins/helloadmin-guard через FTP или файловый менеджер хостинга, затем откройте .htaccess в корне сайта и удалите всё между \"# BEGIN HelloAdmin Guard\" и \"# END HelloAdmin Guard\": этот блок тоже закрывает форму входа на /wp-login.php. После этого /wp-login.php снова заработает."
 
 #: includes/features/class-login-url.php:164
 msgid "Login address"

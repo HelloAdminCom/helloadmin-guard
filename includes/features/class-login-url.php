@@ -70,7 +70,7 @@ class Login_Url extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function undo() {
-		return __( 'Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager: the plugin stops and /wp-login.php works again.', 'helloadmin-guard' );
+		return __( 'Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager, then open .htaccess in the site root and delete everything between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard": that block also closes the login form on /wp-login.php. After that /wp-login.php works again.', 'helloadmin-guard' );
 	}
 
 	/**
