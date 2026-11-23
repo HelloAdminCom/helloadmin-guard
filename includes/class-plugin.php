@@ -205,6 +205,20 @@ final class Plugin {
 	}
 
 	/**
+	 * Plugin deactivated: e-mail about it if an alert setting is on.
+	 *
+	 * @return void
+	 */
+	public function deactivated() {
+		foreach ( $this->features as $id => $feature ) {
+			if ( $feature->is_alert() && $this->settings->is_enabled( $id ) ) {
+				$feature->send_deactivation_mail();
+				return;
+			}
+		}
+	}
+
+	/**
 	 * First save of the settings.
 	 *
 	 * @param string $option Option name.

@@ -225,6 +225,35 @@ abstract class Feature {
 	}
 
 	/**
+	 * E-mail that the plugin was deactivated: with it every setting and alert stops, so an intruder with an
+	 * administrator account would turn it off first. Sent by the first alert setting that is on.
+	 *
+	 * @return void
+	 */
+	public function send_deactivation_mail() {
+		$actor = function_exists( 'wp_get_current_user' ) ? wp_get_current_user() : null;
+		$by    = $actor && $actor->exists() ? $actor->user_login : __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
+		$ip    = isset( $_SERVER['REMOTE_ADDR'] ) && ! ( defined( 'WP_CLI' ) && WP_CLI ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+
+		$lines   = array();
+		$lines[] = __( 'HelloAdmin Guard was deactivated on your site. Its settings and e-mail alerts no longer work.', 'helloadmin-guard' );
+		$lines[] = '';
+		/* translators: %s: user name or a short explanation. */
+		$lines[] = sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $by );
+		if ( $ip ) {
+			/* translators: %s: IP address. */
+			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+		}
+		$lines[] = '';
+		$lines[] = __( 'If you or your team did it, nothing to do.', 'helloadmin-guard' );
+		$lines[] = __( 'If not: someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on.', 'helloadmin-guard' );
+		$lines[] = '';
+		$lines[] = admin_url( 'plugins.php' );
+
+		$this->send_alert_mail( __( 'HelloAdmin Guard was deactivated', 'helloadmin-guard' ), $lines );
+	}
+
+	/**
 	 * Called once when the setting is switched on (settings page or WP-CLI). Alert settings store what they see
 	 * now, so only later changes are reported.
 	 *

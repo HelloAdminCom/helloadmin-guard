@@ -115,6 +115,7 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 = 0.5.0 =
 * Security: the custom login address no longer leaks to visitors through /wp-signup.php, /wp-register.php or "Log in" links. If you use it, change the address after updating.
 * Security: the e-mail settings notice when their lists are changed or removed straight in the database.
+* An e-mail when the plugin is deactivated, if one of the e-mail settings is on.
 * New: e-mail about new administrators, also ones written straight into the database or hidden from the Users screen.
 * New: e-mail about new and changed must-use plugins and drop-ins, with warnings for files whose names start with a dot and for encoded code.
 * New "If hacked" tab: log out everyone else and delete all application passwords with one button, plus a short checklist.

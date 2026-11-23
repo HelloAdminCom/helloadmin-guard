@@ -839,7 +839,7 @@ msgid "One more e-mail address besides the site address in Settings, General. Le
 msgstr "Ще одна адреса пошти, крім адреси сайту в «Налаштування», «Загальні». Залиште порожнім, щоб надсилати лише на адресу сайту."
 
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:354
+#: includes/class-feature.php:383
 #, php-format
 msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr "Надіслано плагіном HelloAdmin Guard. Щоб більше не отримувати ці листи, вимкніть «%s» у HeAd Guard."
@@ -888,6 +888,7 @@ msgstr "Адміністратора «%s» додано за останні 7 �
 msgid "found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
 msgstr "знайдено регулярною перевіркою: роль призначено не через WordPress, поки це сповіщення було увімкнене, наприклад записано напряму в базу даних"
 
+#: includes/class-feature.php:235
 #: includes/features/class-admin-alert.php:369
 msgid "no logged-in user (WP-CLI, a scheduled task or code)"
 msgstr "ніхто не увійшов (WP-CLI, запланована задача або код)"
@@ -921,12 +922,14 @@ msgid "Account created: %s"
 msgstr "Обліковий запис створено: %s"
 
 #. translators: %s: user name or a short explanation.
+#: includes/class-feature.php:242
 #: includes/features/class-admin-alert.php:386
 #, php-format
 msgid "Changed by: %s"
 msgstr "Хто змінив: %s"
 
 #. translators: %s: IP address.
+#: includes/class-feature.php:245
 #: includes/features/class-admin-alert.php:389
 #, php-format
 msgid "From IP address: %s"
@@ -1076,3 +1079,19 @@ msgstr "Файли, які WordPress завантажує на кожній ст
 #: includes/features/class-mu-plugins-watch.php:311
 msgid "The list of must-use files was changed outside the plugin"
 msgstr "Список must-use файлів змінили в обхід плагіна"
+
+#: includes/class-feature.php:239
+msgid "HelloAdmin Guard was deactivated on your site. Its settings and e-mail alerts no longer work."
+msgstr "На вашому сайті деактивували HelloAdmin Guard. Його налаштування й сповіщення поштою більше не працюють."
+
+#: includes/class-feature.php:248
+msgid "If you or your team did it, nothing to do."
+msgstr "Якщо це зробили ви або ваша команда, нічого робити не треба."
+
+#: includes/class-feature.php:249
+msgid "If not: someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on."
+msgstr "Якщо ні: це зробив хтось з обліковим записом адміністратора. Увійдіть, перевірте список адміністраторів, змініть паролі всіх адміністраторів і хостингу та знову увімкніть плагін."
+
+#: includes/class-feature.php:253
+msgid "HelloAdmin Guard was deactivated"
+msgstr "HelloAdmin Guard деактивовано"

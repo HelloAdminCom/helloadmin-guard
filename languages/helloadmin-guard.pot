@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-23T21:16:57+02:00\n"
+"POT-Creation-Date: 2026-11-23T21:18:09+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -369,8 +369,43 @@ msgstr ""
 msgid "One more e-mail address besides the site address in Settings, General. Leave empty to use only the site address."
 msgstr ""
 
+#: includes/class-feature.php:235
+#: includes/features/class-admin-alert.php:369
+msgid "no logged-in user (WP-CLI, a scheduled task or code)"
+msgstr ""
+
+#: includes/class-feature.php:239
+msgid "HelloAdmin Guard was deactivated on your site. Its settings and e-mail alerts no longer work."
+msgstr ""
+
+#. translators: %s: user name or a short explanation.
+#: includes/class-feature.php:242
+#: includes/features/class-admin-alert.php:386
+#, php-format
+msgid "Changed by: %s"
+msgstr ""
+
+#. translators: %s: IP address.
+#: includes/class-feature.php:245
+#: includes/features/class-admin-alert.php:389
+#, php-format
+msgid "From IP address: %s"
+msgstr ""
+
+#: includes/class-feature.php:248
+msgid "If you or your team did it, nothing to do."
+msgstr ""
+
+#: includes/class-feature.php:249
+msgid "If not: someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on."
+msgstr ""
+
+#: includes/class-feature.php:253
+msgid "HelloAdmin Guard was deactivated"
+msgstr ""
+
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:354
+#: includes/class-feature.php:383
 #, php-format
 msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr ""
@@ -534,10 +569,6 @@ msgstr ""
 msgid "found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:369
-msgid "no logged-in user (WP-CLI, a scheduled task or code)"
-msgstr ""
-
 #. translators: %s: user name.
 #: includes/features/class-admin-alert.php:374
 #, php-format
@@ -564,18 +595,6 @@ msgstr ""
 #: includes/features/class-admin-alert.php:384
 #, php-format
 msgid "Account created: %s"
-msgstr ""
-
-#. translators: %s: user name or a short explanation.
-#: includes/features/class-admin-alert.php:386
-#, php-format
-msgid "Changed by: %s"
-msgstr ""
-
-#. translators: %s: IP address.
-#: includes/features/class-admin-alert.php:389
-#, php-format
-msgid "From IP address: %s"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:392
