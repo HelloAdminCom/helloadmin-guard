@@ -795,42 +795,38 @@ msgid "Log out everyone"
 msgstr "Завершить все сессии"
 
 #: includes/class-emergency.php:169
-msgid "This button ends every session of every user except yours in this browser, and deletes all application passwords. A new password does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in."
-msgstr "Эта кнопка завершает все сессии всех пользователей, кроме вашей в этом браузере, и удаляет все пароли приложений. Новый пароль не завершает уже открытые сессии, а пароли приложений работают и после его смены. Если кто-то украл пароль или cookie входа, он остаётся внутри."
+msgid "This button ends every session of every user except yours in this browser, and deletes all application passwords. Everyone else has to log in again, and apps and services connected with an application password stop working until you create new passwords for them. A new password alone is not enough: it does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in."
+msgstr "Эта кнопка завершает все сессии всех пользователей, кроме вашей в этом браузере, и удаляет все пароли приложений. Всем остальным придётся войти заново, а приложения и сервисы, подключённые через пароль приложения, перестанут работать, пока вы не создадите для них новые пароли. Одной смены пароля мало: она не завершает уже открытые сессии, а пароли приложений продолжают работать. Если кто-то украл пароль или cookie входа, он так и останется внутри."
 
-#: includes/class-emergency.php:170
-msgid "Everyone else has to log in again. Apps and services connected with an application password stop working until you create a new one for them."
-msgstr "Всем остальным придётся войти заново. Приложения и сервисы, подключённые через пароль приложения, перестанут работать, пока вы не создадите для них новый."
-
-#: includes/class-emergency.php:174
+#: includes/class-emergency.php:173
 msgid "I understand that everyone else is logged out and all application passwords are deleted."
 msgstr "Я понимаю, что все остальные сессии будут завершены, а все пароли приложений удалены."
 
-#: includes/class-emergency.php:175
+#: includes/class-emergency.php:174
 msgid "Log out everyone and delete application passwords"
 msgstr "Завершить все сессии и удалить пароли приложений"
 
-#: includes/class-emergency.php:180
+#: includes/class-emergency.php:179
 msgid "If you think the site was hacked"
 msgstr "Если вы думаете, что сайт взломали"
 
-#: includes/class-emergency.php:183
+#: includes/class-emergency.php:182
 msgid "Before you clean anything, save a copy of the files, the database and the server logs. You will need them to find out how they got in."
 msgstr "Прежде чем что-то чистить, сохраните копию файлов, базы данных и логов сервера. Они понадобятся, чтобы выяснить, как именно взломали сайт."
 
-#: includes/class-emergency.php:184
+#: includes/class-emergency.php:183
 msgid "From a computer you trust, change the passwords of the hosting panel, SSH or SFTP, the database, every administrator and the API keys of services like a CDN."
 msgstr "С компьютера, которому вы доверяете, смените пароли панели хостинга, SSH или SFTP, базы данных, каждого администратора и ключи API сервисов вроде CDN."
 
-#: includes/class-emergency.php:185
+#: includes/class-emergency.php:184
 msgid "Press the button above, so the old sessions and application passwords stop working."
 msgstr "Нажмите кнопку выше, чтобы старые сессии и пароли приложений перестали работать."
 
-#: includes/class-emergency.php:186
+#: includes/class-emergency.php:185
 msgid "Check the administrators and the must-use plugins: the General tab has e-mail alerts and warnings for both."
 msgstr "Проверьте администраторов и must-use плагины: на вкладке «Общие» есть уведомления на почту и предупреждения для обоих."
 
-#: includes/class-emergency.php:187
+#: includes/class-emergency.php:186
 msgid "Find how they got in before you restore a backup, or the same hole lets them in again."
 msgstr "Найдите, как именно взломали сайт, прежде чем восстанавливать резервную копию, иначе та же дыра снова впустит злоумышленников."
 
