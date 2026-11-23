@@ -48,6 +48,13 @@ class Limit_Login extends Feature {
 	private $minutes = 15;
 
 	/**
+	 * Whether an application password failure was just counted; wp_login_failed follows it on XML-RPC.
+	 *
+	 * @var bool
+	 */
+	private $app_counted = false;
+
+	/**
 	 * Setting key.
 	 *
 	 * @return string
@@ -189,8 +196,24 @@ class Limit_Login extends Feature {
 		$this->attempts = (int) $settings->field( $this->id(), 'attempts', '5' );
 		$this->minutes  = (int) $settings->field( $this->id(), 'minutes', '15' );
 		add_filter( 'authenticate', array( $this, 'refuse_locked' ), 99 );
-		add_action( 'wp_login_failed', array( $this, 'count_failure' ) );
+		add_action( 'wp_login_failed', array( $this, 'count_login_failure' ) );
 		add_action( 'wp_login', array( $this, 'reset' ) );
+		// REST API and XML-RPC logins with an application password skip the filter and the action above.
+		add_action( 'wp_authenticate_application_password_errors', array( $this, 'refuse_locked_app' ) );
+		add_action( 'application_password_failed_authentication', array( $this, 'count_app_failure' ) );
+	}
+
+	/**
+	 * Refuses a valid application password from a locked address.
+	 *
+	 * @param \WP_Error $errors Errors collected for this application password check.
+	 * @return void
+	 */
+	public function refuse_locked_app( $errors ) {
+		$locked = $this->refuse_locked( null );
+		if ( $errors instanceof \WP_Error && is_wp_error( $locked ) ) {
+			$errors->add( $locked->get_error_code(), $locked->get_error_message() );
+		}
 	}
 
 	/**
@@ -213,6 +236,34 @@ class Limit_Login extends Feature {
 			);
 		}
 		return $user;
+	}
+
+	/**
+	 * Counts a failed application password, but not the answer "application passwords are off":
+	 * that is no password guess.
+	 *
+	 * @param mixed $error Authentication error.
+	 * @return void
+	 */
+	public function count_app_failure( $error ) {
+		if ( is_wp_error( $error ) && 0 === strpos( (string) $error->get_error_code(), 'application_passwords_disabled' ) ) {
+			return;
+		}
+		$this->count_failure();
+		$this->app_counted = true;
+	}
+
+	/**
+	 * Counts a failed login, unless it is the same application password failure counted a moment ago.
+	 *
+	 * @return void
+	 */
+	public function count_login_failure() {
+		if ( $this->app_counted ) {
+			$this->app_counted = false;
+			return;
+		}
+		$this->count_failure();
 	}
 
 	/**

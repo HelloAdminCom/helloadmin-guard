@@ -104,10 +104,11 @@ class Hide_Version_Files extends Htaccess_Feature {
 	public function apache_rules() {
 		$dirs  = self::rel( plugins_url() ) . '|' . self::rel( get_theme_root_uri() );
 		$admin = self::rel( admin_url() );
+		$core  = self::prefix( site_url( '/' ) );
 		return array(
 			'<IfModule mod_rewrite.c>',
 			'RewriteEngine On',
-			'RewriteRule ^(readme\.html|license\.txt|wp-config-sample\.php|wp-links-opml\.php)$ - [NC,R=404,L]',
+			'RewriteRule ^' . $core . '(readme\.html|license\.txt|wp-config-sample\.php|wp-links-opml\.php)$ - [NC,R=404,L]',
 			'RewriteRule ^(' . $dirs . ')/[^/]+/(readme|changelog|license)\.(txt|md)$ - [NC,R=404,L]',
 			'RewriteRule ^' . $admin . '/(install|setup-config)\.php$ - [NC,R=404,L]',
 			// Admins open upgrade.php when WordPress asks for a database update: only visitors without a login cookie get 404.
@@ -124,11 +125,11 @@ class Hide_Version_Files extends Htaccess_Feature {
 	 * @return string[]
 	 */
 	public function nginx_rules() {
-		$dirs = self::rel( plugins_url() ) . '|' . self::rel( get_theme_root_uri() );
+		$dirs = self::abs( plugins_url() ) . '|' . self::abs( get_theme_root_uri() );
 		return array(
-			'location ~* ^/(readme\.html|license\.txt|wp-config-sample\.php|wp-links-opml\.php)$ { return 404; }',
+			'location ~* ^/' . self::prefix( site_url( '/' ), true ) . '(readme\.html|license\.txt|wp-config-sample\.php|wp-links-opml\.php)$ { return 404; }',
 			'location ~* ^/(' . $dirs . ')/[^/]+/(readme|changelog|license)\.(txt|md)$ { return 404; }',
-			'location ~* ^/' . self::rel( admin_url() ) . '/(install|setup-config)\.php$ { return 404; }',
+			'location ~* ^/' . self::abs( admin_url() ) . '/(install|setup-config)\.php$ { return 404; }',
 		);
 	}
 }

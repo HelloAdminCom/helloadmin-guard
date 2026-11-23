@@ -117,17 +117,18 @@ class No_Php_In_Uploads extends Htaccess_Feature {
 	 */
 	public function nginx_rules() {
 		return array(
-			'location ~* ^/' . $this->uploads() . '/.*\.(php[0-9]?|phtml|phar|pht|phps)$ { return 404; }',
+			'location ~* ^/' . $this->uploads( true ) . '/.*\.(php[0-9]?|phtml|phar|pht|phps)$ { return 404; }',
 		);
 	}
 
 	/**
-	 * Uploads folder relative to the site root, as a regex fragment.
+	 * Uploads folder as a regex fragment.
 	 *
+	 * @param bool $full True for the path from the server root (Nginx), false for the path from the site root (.htaccess).
 	 * @return string
 	 */
-	private function uploads() {
+	private function uploads( $full = false ) {
 		$uploads = wp_upload_dir( null, false );
-		return self::rel( $uploads['baseurl'] );
+		return $full ? self::abs( $uploads['baseurl'] ) : self::rel( $uploads['baseurl'] );
 	}
 }

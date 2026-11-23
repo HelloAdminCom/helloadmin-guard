@@ -115,11 +115,12 @@ class Block_Logs extends Htaccess_Feature {
 	 * @return string[]
 	 */
 	public function nginx_rules() {
-		$content = self::rel( content_url() );
+		$content = self::abs( content_url() );
+		$root    = self::prefix( home_url( '/' ), true );
 		return array(
 			'location ~* (\\.log|/error_log)$ { return 404; }',
 			'location ~* ^/' . $content . '/(uploads/wc-logs|wflogs)(/|$) { return 404; }',
-			'location ~* ^/(phpinfo|php_info|info|test)\\.php$ { return 404; }',
+			'location ~* ^/' . $root . '(phpinfo|php_info|info|test)\\.php$ { return 404; }',
 		);
 	}
 }

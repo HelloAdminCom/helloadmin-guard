@@ -40,6 +40,33 @@ class Htaccess {
 	}
 
 	/**
+	 * Settings to save after a failed sync. The file did not change, so the switches must match it: a setting
+	 * whose rules are still in the file stays on (turning off login_url while its POST block stays would
+	 * lock the admin out), and a server rule setting that could not be written stays off. General settings
+	 * work in PHP without their rules, so they may stay on.
+	 *
+	 * @param array<string, bool>   $enabled Settings about to be saved as on.
+	 * @param array<string, object> $tried   Features whose rules were to be written, by id.
+	 * @param \WP_Error             $error   Result of sync().
+	 * @return array<string, bool>
+	 */
+	public static function settle( array $enabled, array $tried, \WP_Error $error ) {
+		if ( 'not_checked' === $error->get_error_code() ) {
+			return $enabled;
+		}
+		$written = (array) get_option( self::WRITTEN_OPTION, array() );
+		foreach ( $tried as $id => $feature ) {
+			if ( $feature instanceof Htaccess_Feature && ! in_array( $id, $written, true ) ) {
+				unset( $enabled[ $id ] );
+			}
+		}
+		foreach ( $written as $id ) {
+			$enabled[ (string) $id ] = true;
+		}
+		return $enabled;
+	}
+
+	/**
 	 * Remembers which settings have their rules in the file.
 	 *
 	 * @param Feature[] $features Features whose rules were written.

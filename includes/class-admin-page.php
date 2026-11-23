@@ -259,14 +259,8 @@ class Admin_Page {
 				'not_checked'  => __( 'Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works.', 'helloadmin-guard' ),
 			);
 			$code     = (string) $result->get_error_code();
-			// Server rule settings (Advanced tab) stay off; General settings keep working in PHP without their rules.
-			if ( 'not_checked' !== $code ) {
-				foreach ( $on as $id => $feature ) {
-					if ( $feature instanceof Htaccess_Feature ) {
-						unset( $clean['enabled'][ $id ] );
-					}
-				}
-			}
+
+			$clean['enabled'] = Htaccess::settle( isset( $clean['enabled'] ) && is_array( $clean['enabled'] ) ? $clean['enabled'] : array(), $on, $result );
 			if ( function_exists( 'add_settings_error' ) && isset( $messages[ $code ] ) ) {
 				add_settings_error( Settings::OPTION, 'helloadmin_guard_htaccess', $messages[ $code ], 'not_checked' === $code ? 'warning' : 'error' );
 			}

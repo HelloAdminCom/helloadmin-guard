@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.4.1
+Stable tag: 0.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,13 @@ No. It makes no requests to outside servers. It only sends requests to your own 
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.4.2 =
+* Limit login attempts also counts and locks REST API and XML-RPC logins with application passwords.
+* Nginx rules work when WordPress lives in a subfolder; the .htaccess rule for core files works when WordPress has its own folder.
+* If .htaccess cannot be written, settings whose rules are still in the file stay on, so the switches always match the file (settings page and WP-CLI).
+* The login URL setting changes only links to this site's wp-login.php, not other links that mention it.
+* Translations come from translate.wordpress.org instead of the plugin folder.
 
 = 0.4.1 =
 * When a gap is closed by something the plugin cannot name, the card also mentions the theme.
