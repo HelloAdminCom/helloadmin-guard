@@ -40,6 +40,26 @@ class Htaccess {
 	}
 
 	/**
+	 * Ids of the settings whose rules are in the plugin block of .htaccess now, read from the file itself
+	 * (each part of the block starts with "# <id>"). The file may come from another copy of the site.
+	 *
+	 * @return string[]
+	 */
+	public static function ids_in_file() {
+		$fs   = self::fs();
+		$path = self::path();
+		if ( ! $fs->exists( $path ) ) {
+			return array();
+		}
+		$pattern = '/' . preg_quote( '# BEGIN ' . self::MARKER, '/' ) . '(.*?)' . preg_quote( '# END ' . self::MARKER, '/' ) . '/s';
+		if ( ! preg_match( $pattern, (string) $fs->get_contents( $path ), $block ) ) {
+			return array();
+		}
+		preg_match_all( '/^# ([a-z0-9_]+)\s*$/m', $block[1], $ids );
+		return array_values( array_unique( $ids[1] ) );
+	}
+
+	/**
 	 * Settings to save after a failed sync. The file did not change, so the switches must match it: a setting
 	 * whose rules are still in the file stays on (turning off login_url while its POST block stays would
 	 * lock the admin out), and a server rule setting that could not be written stays off. General settings

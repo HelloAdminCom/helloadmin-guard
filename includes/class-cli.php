@@ -191,6 +191,41 @@ class Cli {
 	}
 
 	/**
+	 * Rewrites the plugin block in .htaccess from the saved settings, for example after the site or its .htaccess
+	 * was copied from another server.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp helloadmin-guard sync
+	 *
+	 * @return void
+	 */
+	public function sync() {
+		// WP-CLI has no web server to detect: an existing .htaccess file means Apache or LiteSpeed.
+		global $is_apache;
+		if ( ! $is_apache && file_exists( Htaccess::path() ) ) {
+			$is_apache = true; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- WP-CLI has no web server to detect.
+		}
+		$before = Htaccess::ids_in_file();
+		$result = Plugin::instance()->sync_htaccess();
+		Status::forget();
+		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
+			\WP_CLI::error( 'Server rules were not written (' . $result->get_error_code() . '). .htaccess is unchanged.' );
+		}
+		if ( is_wp_error( $result ) ) {
+			\WP_CLI::warning( 'The home page could not be opened to check the rules. Open the site to make sure it works.' );
+		}
+		$after   = Htaccess::ids_in_file();
+		$removed = array_diff( $before, $after );
+		$added   = array_diff( $after, $before );
+		\WP_CLI::success(
+			( $removed || $added ? '.htaccess now matches the settings.' : '.htaccess already matched the settings.' )
+			. ( $removed ? ' Removed: ' . implode( ', ', $removed ) . '.' : '' )
+			. ( $added ? ' Added: ' . implode( ', ', $added ) . '.' : '' )
+		);
+	}
+
+	/**
 	 * Settings in the order of the settings page.
 	 *
 	 * @return Feature[]

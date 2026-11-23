@@ -64,7 +64,7 @@ The plugin is available in English, Ukrainian and Russian.
 
 = I turned something on and can't log in. What now? =
 
-Rename the folder wp-content/plugins/helloadmin-guard over FTP or in your hosting file manager. WordPress turns the plugin off and every setting stops working at once. Rename it back and fix the setting in the HelloAdmin Guard menu.
+Rename the folder wp-content/plugins/helloadmin-guard over FTP or in your hosting file manager. WordPress turns the plugin off and every setting stops working at once. A renamed plugin cannot clean up after itself, so also open .htaccess in the site root and delete everything between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" (with the login URL setting, that block closes the login form on wp-login.php). Rename the folder back and fix the setting in the HelloAdmin Guard menu.
 
 = Does it work together with other security plugins? =
 
@@ -72,7 +72,7 @@ Yes. The plugin checks what the site answers, so when Wordfence, Solid Security 
 
 = Is there a command line? =
 
-Yes: wp helloadmin-guard status, check, enable and disable.
+Yes: wp helloadmin-guard status, check, enable, disable and sync.
 
 = Does it work on multisite? =
 
@@ -80,7 +80,11 @@ Not yet. The custom login URL does nothing on multisite; the other settings are 
 
 = What happens when I deactivate or delete the plugin? =
 
-Deactivating turns every setting off at once and removes the plugin's block from .htaccess; your choices are kept and come back when you activate it again. Deleting the plugin also removes its settings from the database.
+Deactivating turns every setting off at once and removes the plugin's block from .htaccess; your choices are kept and come back when you activate it again. Deleting the plugin also removes its settings from the database. If WordPress cannot write .htaccess at that moment (for example the file is read-only), the block stays: delete everything between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" by hand.
+
+= I copied the site or its .htaccess to another server. Anything to watch? =
+
+The .htaccess file carries the plugin's server rules, the settings live in the database. When the copied file has rules for settings that are off on the new copy, the plugin rewrites its block on the next visit to the login page or the admin area. Without that, a login URL rule from the old server could close the login form. You can also run wp helloadmin-guard sync.
 
 = Does it work on Nginx? =
 

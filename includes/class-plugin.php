@@ -75,6 +75,10 @@ final class Plugin {
 			}
 		}
 
+		// A .htaccess copied from another server can hold rules this copy has off (e.g. the login POST block).
+		add_action( 'login_init', array( $this, 'heal_htaccess' ) );
+		add_action( 'admin_init', array( $this, 'heal_htaccess' ) );
+
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			\WP_CLI::add_command( 'helloadmin-guard', new Cli( $this->features ) );
 		}
@@ -121,6 +125,41 @@ final class Plugin {
 			new Features\Hsts(),
 			new Features\Block_Trace(),
 		);
+	}
+
+	/**
+	 * Transient that pauses heal_htaccess() after a failed attempt.
+	 */
+	const HEAL_WAIT = 'helloadmin_guard_heal_wait';
+
+	/**
+	 * Rewrites the .htaccess block when it holds rules of settings that are off on this site. That happens when
+	 * .htaccess comes from another copy of the site (staging, local, a move to new hosting): with the login URL
+	 * setting off here and its rule in the file, the login form would get a 404. Runs on the login page and in
+	 * the admin area; writes only when the file and the settings differ.
+	 *
+	 * @return void
+	 */
+	public function heal_htaccess() {
+		if ( 'apache' !== Htaccess::server() || get_transient( self::HEAL_WAIT ) ) {
+			return;
+		}
+		$want = array();
+		foreach ( $this->features as $id => $feature ) {
+			if ( $feature->apache_rules() && $this->settings->is_enabled( $id ) ) {
+				$want[] = $id;
+			}
+		}
+		$stale = array_diff( array_intersect( Htaccess::ids_in_file(), array_keys( $this->features ) ), $want );
+		if ( ! $stale ) {
+			return;
+		}
+		$result = $this->sync_htaccess();
+		// No retry on every page view while the file cannot be fixed (each try may load the home page to check it).
+		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
+			set_transient( self::HEAL_WAIT, 1, 10 * MINUTE_IN_SECONDS );
+		}
+		Status::forget();
 	}
 
 	/**

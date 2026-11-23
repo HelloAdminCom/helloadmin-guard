@@ -4,6 +4,13 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [Unreleased]
 
+### Added
+- The plugin keeps .htaccess in line with its settings: when the file holds rules of settings that are off on this site (a .htaccess copied from production to staging or local, a move to new hosting), it rewrites its block on the login page or in the admin area. Before, a copied login URL rule closed the login form with a 404. Writes only when they differ; after a failed write it waits 10 minutes before the next try.
+- WP-CLI: wp helloadmin-guard sync rewrites the block from the saved settings and names what it removed or added.
+
+### Changed
+- readme FAQ: renaming the plugin folder does not remove the .htaccess block, delete it by hand; same when .htaccess is read-only on deactivation; copying a site to another server.
+
 ## [0.4.2] - 2026-11-23
 
 Fixes from the first wordpress.org review.
