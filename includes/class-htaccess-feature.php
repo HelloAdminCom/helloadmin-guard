@@ -100,6 +100,39 @@ abstract class Htaccess_Feature extends Feature {
 		if ( '' !== $home && 0 === strpos( $path, $home ) ) {
 			$path = substr( $path, strlen( $home ) );
 		}
+		return self::quote( $path );
+	}
+
+	/**
+	 * Full path of a URL from the server root, as a regex fragment, for example "blog/wp-content/uploads"
+	 * when WordPress lives in /blog/. Nginx matches the whole request path, so its rules need this one.
+	 *
+	 * @param string $url Full URL inside the site.
+	 * @return string
+	 */
+	protected static function abs( $url ) {
+		return self::quote( (string) wp_parse_url( $url, PHP_URL_PATH ) );
+	}
+
+	/**
+	 * Folder of a URL as a regex prefix with a trailing slash, or an empty string for the root.
+	 *
+	 * @param string $url  Full URL of the folder, for example home_url( '/' ).
+	 * @param bool   $full True for the path from the server root (Nginx), false for the path from the site root (.htaccess).
+	 * @return string
+	 */
+	protected static function prefix( $url, $full = false ) {
+		$path = $full ? self::abs( $url ) : self::rel( $url );
+		return '' === $path ? '' : $path . '/';
+	}
+
+	/**
+	 * Path as a regex fragment without slashes at the ends.
+	 *
+	 * @param string $path URL path.
+	 * @return string
+	 */
+	private static function quote( $path ) {
 		// preg_quote() also escapes dashes; servers do not need that and the rules read better without.
 		return str_replace( '\\-', '-', preg_quote( trim( $path, '/' ), '#' ) );
 	}

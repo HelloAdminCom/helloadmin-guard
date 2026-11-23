@@ -4,6 +4,19 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-11-23
+
+Fixes from the first wordpress.org review.
+
+### Fixed
+- Limit login attempts: logins with an application password (REST API, XML-RPC) skip the `authenticate` filter and `wp_login_failed`, so they were neither counted nor locked. Now they are counted (`application_password_failed_authentication`, except "application passwords are off") and refused while locked (`wp_authenticate_application_password_errors`). An XML-RPC failure that fires both actions counts once.
+- Nginx rules to copy used paths relative to the site, so they missed files when WordPress lives in a subfolder. They are built from the full path now. The .htaccess rule for readme.html and other core files takes the WordPress folder into account when WordPress has its own folder.
+- When .htaccess could not be written, turning a setting off still saved it as off while its rules stayed in the file (for example the POST block of the login URL setting). Settings page and WP-CLI now keep the switches in line with the file: rules still in the file = setting stays on, new server rules not written = setting stays off. WP-CLI names only the settings that really changed and exits with an error when nothing did.
+- Login URL: only links whose path is this site's wp-login.php are changed. Before, any link with "wp-login.php" anywhere (a query argument, another site in a redirect) was rewritten.
+
+### Changed
+- Translations are no longer bundled and `load_plugin_textdomain()` is gone: wordpress.org delivers them from translate.wordpress.org. The languages/ folder stays in the repository as the source for that.
+
 ## [0.4.1] - 2026-11-19
 
 ### Changed

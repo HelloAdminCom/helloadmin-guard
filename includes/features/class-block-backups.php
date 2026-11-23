@@ -117,13 +117,14 @@ class Block_Backups extends Htaccess_Feature {
 	 * @return string[]
 	 */
 	public function nginx_rules() {
-		$content = self::rel( content_url() );
+		$content = self::abs( content_url() );
+		$root    = self::prefix( home_url( '/' ), true );
 		return array(
 			'location ~* /wp-config[^/]*$ { return 404; }',
 			'location ~* \\.(sql|sql\\.gz|sql\\.zip|sqlite|sqlite3|db|bak|old|orig|save|wpress)$ { return 404; }',
 			'location ~ ~$ { return 404; }',
-			'location ~* ^/(' . $content . '/)?[^/]+\\.(zip|tar|tar\\.gz|tgz|gz|7z|rar)$ { return 404; }',
-			'location ~* ^/(installer|installer-backup)\\.php$ { return 404; }',
+			'location ~* ^/' . $root . '(' . self::rel( content_url() ) . '/)?[^/]+\\.(zip|tar|tar\\.gz|tgz|gz|7z|rar)$ { return 404; }',
+			'location ~* ^/' . $root . '(installer|installer-backup)\\.php$ { return 404; }',
 			'location ~* ^/' . $content . '/(updraft|ai1wm-backups|backups-dup-lite|backups-dup-pro|backup-db|backupwordpress[^/]*|uploads/backwpup[^/]*)(/|$) { return 404; }',
 		);
 	}

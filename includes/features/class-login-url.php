@@ -254,7 +254,7 @@ class Login_Url extends Feature {
 	 * @return mixed
 	 */
 	public function filter_url( $url ) {
-		if ( ! is_string( $url ) || false === strpos( $url, 'wp-login.php' ) ) {
+		if ( ! is_string( $url ) || ! $this->is_own_login_url( $url ) ) {
 			return $url;
 		}
 		$query = (string) wp_parse_url( $url, PHP_URL_QUERY );
@@ -264,6 +264,30 @@ class Login_Url extends Feature {
 		}
 		$new = trailingslashit( home_url( '/' . $this->slug ) );
 		return $query ? $new . '?' . $query : $new;
+	}
+
+	/**
+	 * Whether a URL points to this site's wp-login.php. Only the path counts: "wp-login.php" inside a query
+	 * argument (a redirect_to back to the login page) or on another site stays as it is.
+	 *
+	 * @param string $url URL from a filter.
+	 * @return bool
+	 */
+	private function is_own_login_url( $url ) {
+		$path = (string) wp_parse_url( $url, PHP_URL_PATH );
+		if ( 'wp-login.php' !== wp_basename( $path ) ) {
+			return false;
+		}
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+		if ( null === $host || false === $host ) {
+			return true; // Relative URL: always this site.
+		}
+		// Raw options: site_url() would run this filter again.
+		$hosts = array(
+			strtolower( (string) wp_parse_url( (string) get_option( 'siteurl' ), PHP_URL_HOST ) ),
+			strtolower( (string) wp_parse_url( (string) get_option( 'home' ), PHP_URL_HOST ) ),
+		);
+		return in_array( strtolower( (string) $host ), $hosts, true );
 	}
 
 	/**

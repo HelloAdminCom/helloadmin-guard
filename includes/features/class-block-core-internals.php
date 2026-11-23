@@ -139,8 +139,8 @@ class Block_Core_Internals extends Htaccess_Feature {
 	 * @return string[]
 	 */
 	public function nginx_rules() {
-		$admin    = self::rel( admin_url() );
-		$includes = self::rel( includes_url() );
+		$admin    = self::abs( admin_url() );
+		$includes = self::abs( includes_url() );
 		return array(
 			'location ~* ^/' . $admin . '/includes/ { return 404; }',
 			'location ~* ^/' . $includes . '/[^/]+\\.php$ { return 404; }',

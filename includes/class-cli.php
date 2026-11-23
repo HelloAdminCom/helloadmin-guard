@@ -168,19 +168,26 @@ class Cli {
 		}
 		$result = Htaccess::sync( $rules );
 		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
-			foreach ( $rules as $id => $feature ) {
-				if ( $feature instanceof Htaccess_Feature && in_array( $id, $ids, true ) ) {
-					unset( $option['enabled'][ $id ] );
-				}
-			}
-			\WP_CLI::warning( 'Server rules were not written (' . $result->get_error_code() . '); those settings stay off.' );
+			$before            = isset( $option['enabled'] ) && is_array( $option['enabled'] ) ? $option['enabled'] : array();
+			$option['enabled'] = Htaccess::settle( $before, $rules, $result );
+			$kept              = array_keys( array_diff_key( $option['enabled'], $before ) );
+			\WP_CLI::warning( 'Server rules were not written (' . $result->get_error_code() . '). .htaccess is unchanged: new server rule settings stay off' . ( $kept ? ', and these stay on because their rules are still in the file: ' . implode( ', ', $kept ) : '' ) . '.' );
 		} elseif ( is_wp_error( $result ) ) {
 			\WP_CLI::warning( 'Server rules were written, but the home page could not be opened to check them. Open the site to make sure it works.' );
 		}
 
 		update_option( Settings::OPTION, $option );
 		Status::forget();
-		\WP_CLI::success( ( $on ? 'Enabled: ' : 'Disabled: ' ) . implode( ', ', $ids ) );
+		$done = array();
+		foreach ( $ids as $id ) {
+			if ( ! empty( $option['enabled'][ $id ] ) === $on ) {
+				$done[] = $id;
+			}
+		}
+		if ( ! $done ) {
+			\WP_CLI::error( 'Nothing changed.' );
+		}
+		\WP_CLI::success( ( $on ? 'Enabled: ' : 'Disabled: ' ) . implode( ', ', $done ) );
 	}
 
 	/**

@@ -138,11 +138,12 @@ class Block_Dev_Files extends Htaccess_Feature {
 	 * @return string[]
 	 */
 	public function nginx_rules() {
-		$content = self::rel( content_url() );
+		$content = self::abs( content_url() );
+		$root    = self::prefix( home_url( '/' ), true );
 		return array(
 			'location ~* /(composer\\.(json|lock)|package(-lock)?\\.json|yarn\\.lock|pnpm-lock\\.yaml|gulpfile\\.js|gruntfile\\.js|webpack\\.config\\.js|vite\\.config\\.[jt]s|Dockerfile|docker-compose[^/]*\\.ya?ml|wp-cli\\.yml|deploy\\.php|Makefile|php5?\\.ini|php\\.info)$ { return 404; }',
 			'location ~* \\.map$ { return 404; }',
-			'location ~* ^/[^/]+\\.(md|ya?ml|sh|neon|dist)$ { return 404; }',
+			'location ~* ^/' . $root . '[^/]+\\.(md|ya?ml|sh|neon|dist)$ { return 404; }',
 			'location ~* ^/' . $content . '/(?!' . $this->uploads_inside() . '/).+\\.(md|txt|pot|po|mo|ya?ml|lock|dist|neon|sh)$ { return 404; }',
 		);
 	}
