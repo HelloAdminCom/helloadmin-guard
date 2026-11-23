@@ -795,8 +795,8 @@ msgid "Log out everyone"
 msgstr "Завершить все сессии"
 
 #: includes/class-emergency.php:169
-msgid "A new password does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in. This button ends every session of every user except yours in this browser, and deletes all application passwords."
-msgstr "Новый пароль не завершает уже открытые сессии, а пароли приложений работают и после его смены. Если кто-то украл пароль или cookie входа, он остаётся внутри. Эта кнопка завершает все сессии всех пользователей, кроме вашей в этом браузере, и удаляет все пароли приложений."
+msgid "This button ends every session of every user except yours in this browser, and deletes all application passwords. A new password does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in."
+msgstr "Эта кнопка завершает все сессии всех пользователей, кроме вашей в этом браузере, и удаляет все пароли приложений. Новый пароль не завершает уже открытые сессии, а пароли приложений работают и после его смены. Если кто-то украл пароль или cookie входа, он остаётся внутри."
 
 #: includes/class-emergency.php:170
 msgid "Everyone else has to log in again. Apps and services connected with an application password stop working until you create a new one for them."

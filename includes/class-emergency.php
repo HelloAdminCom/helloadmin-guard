@@ -166,7 +166,7 @@ class Emergency {
 
 		echo '<div class="hag-card hag-emergency">';
 		echo '<h2>' . esc_html__( 'Log out everyone', 'helloadmin-guard' ) . '</h2>';
-		echo '<p>' . esc_html__( 'A new password does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in. This button ends every session of every user except yours in this browser, and deletes all application passwords.', 'helloadmin-guard' ) . '</p>';
+		echo '<p>' . esc_html__( 'This button ends every session of every user except yours in this browser, and deletes all application passwords. A new password does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in.', 'helloadmin-guard' ) . '</p>';
 		echo '<p>' . esc_html__( 'Everyone else has to log in again. Apps and services connected with an application password stop working until you create a new one for them.', 'helloadmin-guard' ) . '</p>';
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION ) . '">';
