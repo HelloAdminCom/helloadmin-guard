@@ -2,9 +2,7 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
-
-Planned as 0.5.0.
+## [0.5.0] - 2026-11-23
 
 ### Security
 - Login URL: the new address leaked to any visitor. /wp-signup.php and /wp-register.php redirect to the registration link, and the plugin rewrote that link to the new address. Now visitors who are not logged in get the new address only on the login page itself (form, lost password, redirects after a login action); everywhere else their links keep wp-login.php, which answers 404. Exception: when anyone can register, the registration link shows it. Sites on 0.4.x with this setting on should change their login address after the update.
