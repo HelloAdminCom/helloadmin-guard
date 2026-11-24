@@ -105,14 +105,25 @@ class User_Enumeration extends Feature {
 	public function probe() {
 		$author = Probe::request( '/?author=' . self::admin_id() );
 		$users  = Probe::request( '/?rest_route=/wp/v2/users' );
-		if ( null === $author || null === $users ) {
+		// WordPress matches REST routes in any letter case, so the same list must be closed as /wp/v2/Users too.
+		$mixed = Probe::request( '/?rest_route=/wp/v2/Users' );
+		if ( null === $author || null === $users || null === $mixed ) {
 			return null;
 		}
-		$location   = isset( $author['headers']['location'] ) ? $author['headers']['location'] : '';
-		$author_ok  = ! ( in_array( $author['code'], array( 301, 302 ), true ) && false !== strpos( $location, '/author/' ) );
-		$list       = json_decode( $users['body'], true );
-		$users_open = 200 === $users['code'] && is_array( $list ) && isset( $list[0]['slug'] );
-		return $author_ok && ! $users_open;
+		$location  = isset( $author['headers']['location'] ) ? $author['headers']['location'] : '';
+		$author_ok = ! ( in_array( $author['code'], array( 301, 302 ), true ) && false !== strpos( $location, '/author/' ) );
+		return $author_ok && ! self::lists_users( $users ) && ! self::lists_users( $mixed );
+	}
+
+	/**
+	 * Whether a REST answer is a readable user list.
+	 *
+	 * @param array{code: int, body: string} $answer Probe answer.
+	 * @return bool
+	 */
+	private static function lists_users( array $answer ) {
+		$list = json_decode( $answer['body'], true );
+		return 200 === $answer['code'] && is_array( $list ) && isset( $list[0]['slug'] );
 	}
 
 	/**
@@ -220,7 +231,8 @@ class User_Enumeration extends Feature {
 		if ( null !== $result || is_user_logged_in() ) {
 			return $result;
 		}
-		if ( 0 === strpos( $request->get_route(), '/wp/v2/users' ) ) {
+		// Case-insensitive like the REST server itself: /wp/v2/USERS reaches the same endpoint.
+		if ( preg_match( '#^/wp/v2/users(/|$)#i', $request->get_route() ) ) {
 			return new \WP_Error( 'rest_user_cannot_view', __( 'Sorry, you are not allowed to list users.', 'helloadmin-guard' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return $result;

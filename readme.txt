@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,12 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.5.1 =
+* Security: "Hide user names" now also closes the REST API user list when the address is typed in another letter case (/wp-json/wp/v2/Users). The status check tests this too.
+* The http to https redirect works only for the site's own address and its www version.
+* The check that the site still opens after a .htaccess change follows redirects only within the site.
+* Deleting the plugin also removes its .htaccess block, if one was left behind.
 
 = 0.5.0 =
 * Security: the custom login address no longer leaks to visitors through /wp-signup.php, /wp-register.php or "Log in" links. If you use it, change the address after updating.

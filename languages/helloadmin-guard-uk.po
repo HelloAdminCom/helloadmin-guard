@@ -576,8 +576,8 @@ msgid "The server answers every plain http:// request with a permanent redirect 
 msgstr "Сервер відповідає на кожен звичайний запит http:// постійною переадресацією на ту саму адресу https://, ще до запуску WordPress: сторінки, зображення, файли й старі посилання. За Cloudflare або іншим проксі враховується адреса, яку набрав відвідувач, тож циклу переадресацій не буде. Перевірки SSL-сертифікатів (/.well-known/, файли cPanel AutoSSL) лишаються на http, і сертифікати й далі оновлюються."
 
 #: includes/features/class-https-redirect.php:56
-msgid "If HTTPS does not work on some address, for example a subdomain or an alias without a certificate, that address stops opening. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing."
-msgstr "Якщо на якійсь адресі HTTPS не працює, наприклад на піддомені чи псевдонімі без сертифіката, ця адреса перестане відкриватися. Версії з www і без www лишаються як є: яка з них головна, вирішуєте ви. Якщо хостинг або проксі вже переадресовує на https, правило нічого не змінює."
+msgid "Only the site address and its www version are redirected. If HTTPS does not work on one of them, for example www without a certificate, that address stops opening. Other domain names pointed at the site stay on http. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing."
+msgstr "Переадресовуються лише адреса сайту та її версія з www. Якщо на одній із них HTTPS не працює, наприклад на www без сертифіката, ця адреса перестане відкриватися. Інші домени, спрямовані на сайт, лишаються на http. Версії з www і без www лишаються як є: яка з них головна, вирішуєте ви. Якщо хостинг або проксі вже переадресовує на https, правило нічого не змінює."
 
 #: includes/features/class-https-redirect.php:86
 msgid "The site address in Settings, General starts with http://, so the plugin writes no rule. Switch the site to https first."

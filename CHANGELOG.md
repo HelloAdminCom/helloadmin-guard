@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.5.1] - 2026-11-24
+
+### Security
+- Hide user names: the REST API user list stayed open to visitors under another letter case. The REST server matches routes case-insensitively (/wp/v2/USERS reaches the users endpoint), the plugin compared the route case-sensitively. Now the check is case-insensitive, and the status check also requests /wp/v2/Users.
+- Redirect http:// to https://: the rule builds the target from the Host header, so on a server that answers any host name it redirected to that name. Now it runs only for the host names of home and siteurl (with or without www.); other names pointed at the site are left to WordPress.
+- The check that the site still opens after a .htaccess change followed any redirect. Now it follows only redirects to the site's own host; a redirect elsewhere counts as an answer.
+
+### Changed
+- uninstall.php removes the plugin's .htaccess block too (deactivation already does), for a block left behind, for example by a restored backup.
+- README.md lists the current settings.
+
 ## [0.5.0] - 2026-11-23
 
 ### Security

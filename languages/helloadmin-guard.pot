@@ -831,7 +831,7 @@ msgid "The server answers every plain http:// request with a permanent redirect 
 msgstr ""
 
 #: includes/features/class-https-redirect.php:56
-msgid "If HTTPS does not work on some address, for example a subdomain or an alias without a certificate, that address stops opening. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing."
+msgid "Only the site address and its www version are redirected. If HTTPS does not work on one of them, for example www without a certificate, that address stops opening. Other domain names pointed at the site stay on http. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing."
 msgstr ""
 
 #: includes/features/class-https-redirect.php:86

@@ -53,7 +53,7 @@ class Https_Redirect extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'If HTTPS does not work on some address, for example a subdomain or an alias without a certificate, that address stops opening. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing.', 'helloadmin-guard' );
+		return __( 'Only the site address and its www version are redirected. If HTTPS does not work on one of them, for example www without a certificate, that address stops opening. Other domain names pointed at the site stay on http. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -72,6 +72,25 @@ class Https_Redirect extends Htaccess_Feature {
 	 */
 	private static function https_site() {
 		return 0 === strpos( (string) get_option( 'home' ), 'https://' );
+	}
+
+	/**
+	 * Host names of the site address (home and siteurl), without www., escaped for a rewrite pattern.
+	 * Empty when a name has characters a host name cannot have.
+	 *
+	 * @return string[]
+	 */
+	private static function site_hosts() {
+		$hosts = array();
+		foreach ( array( 'home', 'siteurl' ) as $option ) {
+			$host = strtolower( (string) wp_parse_url( (string) get_option( $option ), PHP_URL_HOST ) );
+			$host = (string) preg_replace( '/^www\\./', '', $host );
+			if ( ! preg_match( '/^[a-z0-9.-]+$/', $host ) ) {
+				return array();
+			}
+			$hosts[] = preg_quote( $host, '#' );
+		}
+		return array_values( array_unique( $hosts ) );
 	}
 
 	/**
@@ -127,7 +146,8 @@ class Https_Redirect extends Htaccess_Feature {
 	 * @return string[]
 	 */
 	public function apache_rules() {
-		if ( ! self::https_site() ) {
+		$hosts = self::site_hosts();
+		if ( ! self::https_site() || ! $hosts ) {
 			return array();
 		}
 		return array(
@@ -135,6 +155,8 @@ class Https_Redirect extends Htaccess_Feature {
 			'RewriteEngine On',
 			// Only the visitor's own request, not the second pass after WordPress rewrites it to index.php.
 			'RewriteCond %{ENV:REDIRECT_STATUS} ^$',
+			// Only this site's own names: the redirect target is built from the Host header the visitor sent.
+			'RewriteCond %{HTTP_HOST} ^(www\\.)?(' . implode( '|', $hosts ) . ')(:[0-9]+)?$ [NC]',
 			'RewriteCond %{HTTPS} !=on',
 			'RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]',
 			'RewriteCond %{REQUEST_URI} !^/\\.well-known/',

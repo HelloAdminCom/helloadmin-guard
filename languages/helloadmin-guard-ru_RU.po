@@ -576,8 +576,8 @@ msgid "The server answers every plain http:// request with a permanent redirect 
 msgstr "Сервер отвечает на каждый обычный запрос http:// постоянным редиректом на тот же адрес https://, ещё до запуска WordPress: страницы, изображения, файлы и старые ссылки. За Cloudflare или другим прокси учитывается адрес, который набрал посетитель, так что цикла редиректов не будет. Проверки SSL-сертификатов (/.well-known/, файлы cPanel AutoSSL) остаются на http, и сертификаты продолжают обновляться."
 
 #: includes/features/class-https-redirect.php:56
-msgid "If HTTPS does not work on some address, for example a subdomain or an alias without a certificate, that address stops opening. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing."
-msgstr "Если на каком-то адресе HTTPS не работает, например на поддомене или алиасе без сертификата, этот адрес перестанет открываться. Версии с www и без www остаются как есть: какая из них главная, решаете вы. Если хостинг или прокси уже перенаправляет на https, правило ничего не меняет."
+msgid "Only the site address and its www version are redirected. If HTTPS does not work on one of them, for example www without a certificate, that address stops opening. Other domain names pointed at the site stay on http. The www and non-www versions are left as they are: which one is main is your choice. If your host or proxy already redirects to https, the rule does nothing."
+msgstr "Перенаправляются только адрес сайта и его версия с www. Если на одном из них HTTPS не работает, например на www без сертификата, этот адрес перестанет открываться. Другие домены, направленные на сайт, остаются на http. Версии с www и без www остаются как есть: какая из них главная, решаете вы. Если хостинг или прокси уже перенаправляет на https, правило ничего не меняет."
 
 #: includes/features/class-https-redirect.php:86
 msgid "The site address in Settings, General starts with http://, so the plugin writes no rule. Switch the site to https first."

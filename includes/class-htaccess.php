@@ -285,7 +285,8 @@ class Htaccess {
 	 * Requests a URL and follows up to 5 redirects.
 	 *
 	 * @param string $url URL to open.
-	 * @return bool|null True on an answer below 500, false on 5xx or more than 5 redirects, null if unreachable.
+	 * @return bool|null True on an answer below 500 (a redirect to another host counts as one), false on 5xx or more than
+	 *                   5 redirects, null if unreachable.
 	 */
 	private static function follow( $url ) {
 		for ( $hop = 0; $hop <= 5; $hop++ ) {
@@ -307,7 +308,25 @@ class Htaccess {
 				return $code < 500;
 			}
 			$url = \WP_Http::make_absolute_url( $location, $url );
+			// Only this site's own addresses are followed: the check must not become a request to another host.
+			if ( ! self::own_host( $url ) ) {
+				return true;
+			}
 		}
 		return false;
+	}
+
+	/**
+	 * Whether a URL is on the site's own host (home or siteurl, with or without www.).
+	 *
+	 * @param string $url Absolute URL.
+	 * @return bool
+	 */
+	private static function own_host( $url ) {
+		$strip = static function ( $address ) {
+			return (string) preg_replace( '/^www\\./', '', strtolower( (string) wp_parse_url( (string) $address, PHP_URL_HOST ) ) );
+		};
+		$host  = $strip( $url );
+		return '' !== $host && in_array( $host, array( $strip( get_option( 'home' ) ), $strip( get_option( 'siteurl' ) ) ), true );
 	}
 }
