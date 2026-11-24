@@ -610,7 +610,7 @@ msgid "Block backups and database dumps"
 msgstr ""
 
 #: includes/features/class-block-backups.php:45
-msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator and BackWPup. A file like this left after a move gives away the whole site and its database."
+msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sql.bz2, .sql.xz, .sqlite, .db, .dump, .bak, .old, .orig, .save, .wpress, Akeeba .jpa, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config and has a dot (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator, BackWPup and WPvivid. A file like this left after a move gives away the whole site and its database."
 msgstr ""
 
 #: includes/features/class-block-backups.php:54
@@ -642,7 +642,7 @@ msgid "The server answers 404 for package and build files (composer.json, compos
 msgstr ""
 
 #: includes/features/class-block-dev-files.php:54
-msgid "Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open."
+msgid "Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open. The .txt and .md files inside plugin and theme folders answer 404 too: a plugin that opens its own text file in the browser, for example a changelog in a pop-up, no longer shows it."
 msgstr ""
 
 #: includes/features/class-block-hidden-files.php:36
@@ -662,7 +662,7 @@ msgid "Block logs and diagnostic pages"
 msgstr ""
 
 #: includes/features/class-block-logs.php:45
-msgid "The server answers 404 for log files (debug.log, error_log, any .log), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways."
+msgid "The server answers 404 for log files (debug.log, error_log, php_errorlog, any .log, also numbered copies like error_log.1), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages (phpinfo.php in any folder, info.php and test.php in the site root) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways."
 msgstr ""
 
 #: includes/features/class-block-logs.php:54
@@ -811,7 +811,7 @@ msgid "HTTPS only (HSTS)"
 msgstr ""
 
 #: includes/features/class-hsts.php:49
-msgid "Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Sent only when the page itself is loaded over HTTPS. Subdomains are not affected."
+msgid "Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Browsers accept it only from pages loaded over HTTPS. Subdomains are not affected."
 msgstr ""
 
 #: includes/features/class-hsts.php:58
@@ -887,7 +887,7 @@ msgid "Moves the login page to your own address. /wp-login.php and /wp-admin/ sh
 msgstr ""
 
 #: includes/features/class-login-url.php:66
-msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working. Visitors who are not logged in never get the new address: \"Log in\" links in the theme or widgets lead them to a 404 page. Only when anyone can register on the site does the registration link show it."
+msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working. Visitors who are not logged in never get the new address: \"Log in\" links in the theme or widgets lead them to a 404 page. Only when anyone can register on the site does the registration link show it. If a page cache keeps pages of logged-in users (for example Cloudflare \"Cache Everything\" with an Edge TTL that ignores the headers of the site and no exception for the login cookie), the \"Log out\" link in the cached toolbar shows the new address to everyone."
 msgstr ""
 
 #: includes/features/class-login-url.php:73
@@ -1007,7 +1007,7 @@ msgid "No PHP in the uploads folder"
 msgstr ""
 
 #: includes/features/class-no-php-in-uploads.php:46
-msgid "The server answers 404 to any PHP file in the uploads folder. If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
+msgid "The server answers 404 to any PHP file in the uploads folder, also one with a second extension (shell.php.jpg). If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
 msgstr ""
 
 #: includes/features/class-no-php-in-uploads.php:55
@@ -1067,7 +1067,7 @@ msgid "Hide user names"
 msgstr ""
 
 #: includes/features/class-user-enumeration.php:41
-msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap. The login form answers \"Wrong username or password\" for both mistakes, and \"Lost your password?\" shows the same answer whether the user exists or not."
+msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author names and links, the users sitemap and the author class on comments (comment-author-admin). The login form answers \"Wrong username or password\" for both mistakes, and \"Lost your password?\" shows the same answer whether the user exists or not."
 msgstr ""
 
 #: includes/features/class-user-enumeration.php:48
@@ -1092,4 +1092,15 @@ msgstr ""
 
 #: includes/features/class-user-enumeration.php:224
 msgid "Sorry, you are not allowed to list users."
+msgstr ""
+
+msgid "On a multisite network this button logs out the users of every site, so only a network administrator (super admin) can use it."
+msgstr ""
+
+#. translators: %s: user name.
+msgid "The account \"%s\" has administrator rights without the Administrator role: through another role or rights added to the account itself. Malware does this so the account does not show up as an administrator. If you did not set this up, check this account."
+msgstr ""
+
+#. translators: %s: IP address.
+msgid "The site sees your address as %s, which belongs to Cloudflare. The real visitor address does not reach WordPress, so all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host to turn on the real visitor IP for Cloudflare (mod_remoteip or the Cloudflare module), or leave this setting off until then."
 msgstr ""

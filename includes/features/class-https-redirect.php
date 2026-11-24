@@ -173,7 +173,8 @@ class Https_Redirect extends Htaccess_Feature {
 	 */
 	public function nginx_rules() {
 		return array(
-			'# A separate server block for plain http (port 80):',
+			'# A separate server block for plain http (port 80), with server_name listing only your own domains',
+			'# (not a default_server block: $host is the name the visitor sent):',
 			'location /.well-known/ { try_files $uri =404; }',
 			'location / { return 301 https://$host$request_uri; }',
 		);

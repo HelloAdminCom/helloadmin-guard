@@ -149,6 +149,7 @@ class Security_Headers extends Feature {
 		foreach ( $this->headers() as $name => $value ) {
 			$lines[] = 'Header set ' . $name . ' "' . $value . '"';
 		}
+		$lines[] = 'RequestHeader set ' . \HelloAdmin\Guard\Htaccess::flag_header( $this->id() ) . ' 1';
 		$lines[] = '</IfModule>';
 		return $lines;
 	}
@@ -338,8 +339,9 @@ class Security_Headers extends Feature {
 		foreach ( headers_list() as $line ) {
 			$present[] = strtolower( trim( strstr( $line, ':', true ) ) );
 		}
-		// The same headers in .htaccess: Apache with PHP-FPM would send both copies.
-		if ( \HelloAdmin\Guard\Htaccess::written( $this->id() ) ) {
+		// The server already sends them from .htaccess (Apache with PHP-FPM would send both copies). Checked per
+		// request, not by "rules written": the rules may have been removed, or mod_headers may be off.
+		if ( \HelloAdmin\Guard\Htaccess::served( $this->id() ) ) {
 			return;
 		}
 		foreach ( $this->headers() as $name => $value ) {

@@ -203,7 +203,8 @@ class Disable_Xmlrpc extends Feature {
 			return;
 		}
 		if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
-			add_action( 'plugins_loaded', array( $this, 'refuse' ), PHP_INT_MAX );
+			// Right away (this runs on plugins_loaded), so other plugins' plugins_loaded callbacks never see the request.
+			$this->refuse();
 		}
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 		add_filter( 'xmlrpc_methods', '__return_empty_array' );

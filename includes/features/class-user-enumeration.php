@@ -38,7 +38,7 @@ class User_Enumeration extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap. The login form answers "Wrong username or password" for both mistakes, and "Lost your password?" shows the same answer whether the user exists or not.', 'helloadmin-guard' );
+		return __( 'Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author names and links, the users sitemap and the author class on comments (comment-author-admin). The login form answers "Wrong username or password" for both mistakes, and "Lost your password?" shows the same answer whether the user exists or not.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -161,6 +161,7 @@ class User_Enumeration extends Feature {
 		add_action( 'parse_request', array( $this, 'block_author_query' ), 1 );
 		add_filter( 'rest_pre_dispatch', array( $this, 'block_rest_users' ), 10, 3 );
 		add_filter( 'oembed_response_data', array( $this, 'strip_oembed_author' ) );
+		add_filter( 'comment_class', array( $this, 'strip_comment_author_class' ), 10, 4 );
 		add_filter( 'wp_sitemaps_add_provider', array( $this, 'drop_users_sitemap' ), 10, 2 );
 		add_filter( 'authenticate', array( $this, 'same_login_error' ), 100 );
 		add_action( 'lostpassword_post', array( $this, 'same_lost_password_answer' ), 10, 2 );
@@ -245,8 +246,32 @@ class User_Enumeration extends Feature {
 	 * @return array<string, mixed>
 	 */
 	public function strip_oembed_author( $data ) {
-		unset( $data['author_url'] );
+		// The name too: by default it is the login (display name = user name after install).
+		unset( $data['author_url'], $data['author_name'] );
 		return $data;
+	}
+
+	/**
+	 * WordPress adds "comment-author-<author page slug>" to comments of registered users, and that slug is the
+	 * login by default. The class is removed; "byuser" and "bypostauthor" stay for theme styles.
+	 *
+	 * @param string[]         $classes    Comment classes.
+	 * @param string|string[]  $css_class  Extra classes passed to comment_class().
+	 * @param int|string       $comment_id Comment ID.
+	 * @param \WP_Comment|null $comment    Comment.
+	 * @return string[]
+	 */
+	public function strip_comment_author_class( $classes, $css_class, $comment_id, $comment ) {
+		unset( $css_class, $comment_id );
+		if ( ! $comment instanceof \WP_Comment || ! $comment->user_id ) {
+			return $classes;
+		}
+		$user = get_userdata( (int) $comment->user_id );
+		if ( ! $user ) {
+			return $classes;
+		}
+		$own = 'comment-author-' . sanitize_html_class( $user->user_nicename, (string) $comment->user_id );
+		return array_values( array_diff( (array) $classes, array( $own ) ) );
 	}
 
 	/**

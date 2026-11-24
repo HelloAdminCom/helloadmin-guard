@@ -52,7 +52,7 @@ abstract class Feature {
 	 * @param string $field Field name from fields().
 	 * @return string
 	 */
-	protected function value( $field ) {
+	public function value( $field ) {
 		if ( isset( $this->values[ $field ] ) ) {
 			return (string) $this->values[ $field ];
 		}
@@ -226,11 +226,12 @@ abstract class Feature {
 
 	/**
 	 * E-mail that the plugin was deactivated: with it every setting and alert stops, so an intruder with an
-	 * administrator account would turn it off first. Sent by the first alert setting that is on.
+	 * administrator account would turn it off first. Sent once, by the first alert setting that is on.
 	 *
+	 * @param string[] $extra Extra addresses of all alert settings that are on.
 	 * @return void
 	 */
-	public function send_deactivation_mail() {
+	public function send_deactivation_mail( array $extra = array() ) {
 		$actor = function_exists( 'wp_get_current_user' ) ? wp_get_current_user() : null;
 		$by    = $actor && $actor->exists() ? $actor->user_login : __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 		$ip    = isset( $_SERVER['REMOTE_ADDR'] ) && ! ( defined( 'WP_CLI' ) && WP_CLI ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
@@ -250,7 +251,7 @@ abstract class Feature {
 		$lines[] = '';
 		$lines[] = admin_url( 'plugins.php' );
 
-		$this->send_alert_mail( __( 'HelloAdmin Guard was deactivated', 'helloadmin-guard' ), $lines );
+		$this->send_alert_mail( __( 'HelloAdmin Guard was deactivated', 'helloadmin-guard' ), $lines, $extra );
 	}
 
 	/**
@@ -369,13 +370,15 @@ abstract class Feature {
 	 *
 	 * @param string   $subject Subject without the site name (it is added in brackets).
 	 * @param string[] $lines   Lines of the message.
+	 * @param string[] $extra   More addresses besides the site address and this setting's own extra address.
 	 * @return bool Whether wp_mail() accepted the message.
 	 */
-	protected function send_alert_mail( $subject, array $lines ) {
-		$to    = array( (string) get_option( 'admin_email' ) );
-		$extra = $this->value( 'email' );
-		if ( $extra && is_email( $extra ) && ! in_array( $extra, $to, true ) ) {
-			$to[] = $extra;
+	protected function send_alert_mail( $subject, array $lines, array $extra = array() ) {
+		$to = array( (string) get_option( 'admin_email' ) );
+		foreach ( array_merge( array( (string) $this->value( 'email' ) ), $extra ) as $address ) {
+			if ( $address && is_email( $address ) && ! in_array( $address, $to, true ) ) {
+				$to[] = $address;
+			}
 		}
 
 		$lines[] = '';

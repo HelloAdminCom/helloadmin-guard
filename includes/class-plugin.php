@@ -137,10 +137,11 @@ final class Plugin {
 	const HEAL_WAIT = 'helloadmin_guard_heal_wait';
 
 	/**
-	 * Rewrites the .htaccess block when it holds rules of settings that are off on this site. That happens when
-	 * .htaccess comes from another copy of the site (staging, local, a move to new hosting): with the login URL
-	 * setting off here and its rule in the file, the login form would get a 404. Runs on the login page and in
-	 * the admin area; writes only when the file and the settings differ.
+	 * Rewrites the .htaccess block when it differs from the block the current settings would write: rules of
+	 * settings that are off (a .htaccess copied from another copy of the site: staging, local, a move to new
+	 * hosting; with the login URL setting off here and its rule in the file, the login form would get a 404),
+	 * rules of settings that are on but were removed or edited by hand or by another plugin. Runs on the login
+	 * page and in the admin area; writes only when the file and the settings differ.
 	 *
 	 * @return void
 	 */
@@ -151,13 +152,14 @@ final class Plugin {
 		$want = array();
 		foreach ( $this->features as $id => $feature ) {
 			if ( $feature->apache_rules() && $this->settings->is_enabled( $id ) ) {
-				$want[] = $id;
+				$want[] = $feature;
 			}
 		}
-		$stale = array_diff( array_intersect( Htaccess::ids_in_file(), array_keys( $this->features ) ), $want );
-		if ( ! $stale ) {
+		if ( Htaccess::block_matches( $want ) ) {
 			return;
 		}
+		// Taken before writing: parallel requests (bots on the login page) must not all write and check the file.
+		set_transient( self::HEAL_WAIT, 1, 2 * MINUTE_IN_SECONDS );
 		$result = $this->sync_htaccess();
 		// No retry on every page view while the file cannot be fixed (each try may load the home page to check it).
 		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
@@ -210,11 +212,18 @@ final class Plugin {
 	 * @return void
 	 */
 	public function deactivated() {
+		$sender = null;
+		$extra  = array();
 		foreach ( $this->features as $id => $feature ) {
 			if ( $feature->is_alert() && $this->settings->is_enabled( $id ) ) {
-				$feature->send_deactivation_mail();
-				return;
+				$sender  = $sender ? $sender : $feature;
+				$extra[] = (string) $feature->value( 'email' );
 			}
+		}
+		// One e-mail, also to the extra address of every e-mail setting that is on (a second mailbox may be set
+		// on only one of them).
+		if ( $sender ) {
+			$sender->send_deactivation_mail( $extra );
 		}
 	}
 

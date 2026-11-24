@@ -42,7 +42,7 @@ class Block_Backups extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'The server answers 404 for database dumps and backups (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator and BackWPup. A file like this left after a move gives away the whole site and its database.', 'helloadmin-guard' );
+		return __( 'The server answers 404 for database dumps and backups (.sql, .sql.gz, .sql.bz2, .sql.xz, .sqlite, .db, .dump, .bak, .old, .orig, .save, .wpress, Akeeba .jpa, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config and has a dot (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator, BackWPup and WPvivid. A file like this left after a move gives away the whole site and its database.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -101,12 +101,13 @@ class Block_Backups extends Htaccess_Feature {
 		return array(
 			'<IfModule mod_rewrite.c>',
 			'RewriteEngine On',
-			'RewriteRule (^|/)wp-config[^/]*$ - [NC,R=404,L]',
-			'RewriteRule \\.(sql|sql\\.gz|sql\\.zip|sqlite|sqlite3|db|bak|old|orig|save|wpress)$ - [NC,R=404,L]',
+			// Copies like wp-config.php.bak or "wp-config - Copy.php" have a dot; /wp-config-tips (a post) has none.
+			'RewriteRule (^|/)wp-config[^/]*\\.[^/]*$ - [NC,R=404,L]',
+			'RewriteRule \\.(sql|sql\\.gz|sql\\.zip|sql\\.bz2|sql\\.xz|sqlite|sqlite3|db|dump|bak|old|orig|save|wpress|jpa)$ - [NC,R=404,L]',
 			'RewriteRule ~$ - [R=404,L]',
-			'RewriteRule ^(' . $content . '/)?[^/]+\\.(zip|tar|tar\\.gz|tgz|gz|7z|rar)$ - [NC,R=404,L]',
+			'RewriteRule ^(' . $content . '/)?[^/]+\\.(zip|tar|tar\\.gz|tgz|gz|tar\\.bz2|tbz2|bz2|tar\\.xz|xz|7z|rar)$ - [NC,R=404,L]',
 			'RewriteRule ^(installer|installer-backup)\\.php$ - [NC,R=404,L]',
-			'RewriteRule ^' . $content . '/(updraft|ai1wm-backups|backups-dup-lite|backups-dup-pro|backup-db|backupwordpress[^/]*|uploads/backwpup[^/]*)(/|$) - [NC,R=404,L]',
+			'RewriteRule ^' . $content . '/(updraft|ai1wm-backups|backups-dup-lite|backups-dup-pro|backup-db|backupwordpress[^/]*|backwpup-[^/]*|wpvividbackups|uploads/backwpup[^/]*)(/|$) - [NC,R=404,L]',
 			'</IfModule>',
 		);
 	}
@@ -120,12 +121,12 @@ class Block_Backups extends Htaccess_Feature {
 		$content = self::abs( content_url() );
 		$root    = self::prefix( home_url( '/' ), true );
 		return array(
-			'location ~* /wp-config[^/]*$ { return 404; }',
-			'location ~* \\.(sql|sql\\.gz|sql\\.zip|sqlite|sqlite3|db|bak|old|orig|save|wpress)$ { return 404; }',
+			'location ~* /wp-config[^/]*\\.[^/]*$ { return 404; }',
+			'location ~* \\.(sql|sql\\.gz|sql\\.zip|sql\\.bz2|sql\\.xz|sqlite|sqlite3|db|dump|bak|old|orig|save|wpress|jpa)$ { return 404; }',
 			'location ~ ~$ { return 404; }',
-			'location ~* ^/' . $root . '(' . self::rel( content_url() ) . '/)?[^/]+\\.(zip|tar|tar\\.gz|tgz|gz|7z|rar)$ { return 404; }',
+			'location ~* ^/' . $root . '(' . self::rel( content_url() ) . '/)?[^/]+\\.(zip|tar|tar\\.gz|tgz|gz|tar\\.bz2|tbz2|bz2|tar\\.xz|xz|7z|rar)$ { return 404; }',
 			'location ~* ^/' . $root . '(installer|installer-backup)\\.php$ { return 404; }',
-			'location ~* ^/' . $content . '/(updraft|ai1wm-backups|backups-dup-lite|backups-dup-pro|backup-db|backupwordpress[^/]*|uploads/backwpup[^/]*)(/|$) { return 404; }',
+			'location ~* ^/' . $content . '/(updraft|ai1wm-backups|backups-dup-lite|backups-dup-pro|backup-db|backupwordpress[^/]*|backwpup-[^/]*|wpvividbackups|uploads/backwpup[^/]*)(/|$) { return 404; }',
 		);
 	}
 }

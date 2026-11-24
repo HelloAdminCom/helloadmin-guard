@@ -153,15 +153,15 @@ class Admin_Alert extends Feature {
 	public function warnings() {
 		$warnings = array();
 		$all      = self::admin_ids();
-		$visible  = array_map(
+		$visible  = $all ? array_map(
 			'intval',
 			get_users(
 				array(
-					'role'   => 'administrator',
-					'fields' => 'ID',
+					'include' => $all,
+					'fields'  => 'ID',
 				)
 			)
-		);
+		) : array();
 		$week_ago = time() - WEEK_IN_SECONDS;
 
 		foreach ( $all as $id ) {
@@ -177,6 +177,10 @@ class Admin_Alert extends Feature {
 				? ' ' . sprintf( __( 'Created on %s.', 'helloadmin-guard' ), wp_date( (string) get_option( 'date_format' ), $registered ) )
 				: '';
 
+			if ( ! in_array( 'administrator', (array) $user->roles, true ) && ! is_super_admin( $id ) ) {
+				/* translators: %s: user name. */
+				$warnings[] = sprintf( __( 'The account "%s" has administrator rights without the Administrator role: through another role or rights added to the account itself. Malware does this so the account does not show up as an administrator. If you did not set this up, check this account.', 'helloadmin-guard' ), $login ) . $created;
+			}
 			if ( ! in_array( $id, $visible, true ) ) {
 				/* translators: %s: user name. */
 				$warnings[] = sprintf( __( 'The administrator "%s" is in the database but hidden from the Users screen. Something on this site filters the user list, which is how malware hides its accounts. Check this account and the must-use plugins.', 'helloadmin-guard' ), $login ) . $created;
@@ -200,6 +204,8 @@ class Admin_Alert extends Feature {
 	public function enable( Settings $settings ) {
 		add_action( 'set_user_role', array( $this, 'on_set_role' ), 10, 3 );
 		add_action( 'add_user_role', array( $this, 'on_add_role' ), 10, 2 );
+		add_action( 'added_user_meta', array( $this, 'on_caps_meta' ), 10, 3 );
+		add_action( 'updated_user_meta', array( $this, 'on_caps_meta' ), 10, 3 );
 		add_action( 'granted_super_admin', array( $this, 'queue_check' ) );
 		$this->watch( array( $this, 'check' ), self::CHECKED_OPTION );
 
@@ -227,10 +233,9 @@ class Admin_Alert extends Feature {
 	 * @return void
 	 */
 	public function on_set_role( $user_id, $role, $old_roles ) {
-		unset( $user_id );
-		if ( 'administrator' === $role && ! in_array( 'administrator', (array) $old_roles, true ) ) {
-			$this->queue_check();
-		}
+		unset( $user_id, $role, $old_roles );
+		// Any role: a custom role may carry administrator rights. The check compares the full list, so it is cheap.
+		$this->queue_check();
 	}
 
 	/**
@@ -241,8 +246,22 @@ class Admin_Alert extends Feature {
 	 * @return void
 	 */
 	public function on_add_role( $user_id, $role ) {
-		unset( $user_id );
-		if ( 'administrator' === $role ) {
+		unset( $user_id, $role );
+		$this->queue_check();
+	}
+
+	/**
+	 * Rights changed on an account directly (WP_User::add_cap() writes the capabilities meta).
+	 *
+	 * @param int    $meta_id  Meta ID.
+	 * @param int    $user_id  User ID.
+	 * @param string $meta_key Meta key.
+	 * @return void
+	 */
+	public function on_caps_meta( $meta_id, $user_id, $meta_key ) {
+		global $wpdb;
+		unset( $meta_id, $user_id );
+		if ( $wpdb->get_blog_prefix() . 'capabilities' === $meta_key ) {
 			$this->queue_check();
 		}
 	}
@@ -310,21 +329,56 @@ class Admin_Alert extends Feature {
 	}
 
 	/**
-	 * IDs of all administrators of this site, read past any user query filters.
+	 * Rights that make an account an administrator in practice: with any of them it can take over the site.
+	 */
+	const ADMIN_CAPS = array( 'manage_options', 'promote_users', 'edit_plugins', 'activate_plugins', 'install_plugins', 'unfiltered_upload' );
+
+	/**
+	 * Roles of this site that hold one of ADMIN_CAPS, read straight from the database (the roles option can be
+	 * filtered too). Always includes "administrator".
+	 *
+	 * @return string[]
+	 */
+	private static function admin_roles() {
+		global $wpdb;
+		$raw   = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- on purpose, past option filters; changes with every role edit.
+			$wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", $wpdb->get_blog_prefix() . 'user_roles' )
+		);
+		$roles = is_string( $raw ) ? maybe_unserialize( $raw ) : array();
+		$found = array( 'administrator' );
+		foreach ( is_array( $roles ) ? $roles : array() as $name => $role ) {
+			$caps = isset( $role['capabilities'] ) && is_array( $role['capabilities'] ) ? array_keys( array_filter( $role['capabilities'] ) ) : array();
+			if ( is_string( $name ) && array_intersect( self::ADMIN_CAPS, $caps ) ) {
+				$found[] = $name;
+			}
+		}
+		return array_values( array_unique( $found ) );
+	}
+
+	/**
+	 * IDs of all administrators of this site, read past any user query filters: the Administrator role, any other
+	 * role with administrator rights (ADMIN_CAPS), and accounts with such rights added to the account itself.
 	 *
 	 * @return int[] Sorted IDs.
 	 */
 	public static function admin_ids() {
 		global $wpdb;
 
-		$ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- on purpose: get_users() can be filtered by malware that hides accounts; the result changes with every role change, so no cache.
+		$likes = array();
+		foreach ( self::admin_roles() as $role ) {
+			$likes[] = '%' . $wpdb->esc_like( '"' . $role . '";b:1' ) . '%';
+		}
+		foreach ( self::ADMIN_CAPS as $cap ) {
+			$likes[] = '%' . $wpdb->esc_like( '"' . $cap . '";b:1' ) . '%';
+		}
+		$where = implode( ' OR ', array_fill( 0, count( $likes ), 'meta_value LIKE %s' ) );
+		$ids   = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- on purpose: get_users() can be filtered by malware that hides accounts; the result changes with every role change, so no cache.
 			$wpdb->prepare(
-				"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value LIKE %s",
-				$wpdb->get_blog_prefix() . 'capabilities',
-				'%' . $wpdb->esc_like( '"administrator"' ) . '%'
+				"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND ( {$where} )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $where is only "meta_value LIKE %s" placeholders.
+				array_merge( array( $wpdb->get_blog_prefix() . 'capabilities' ), $likes )
 			)
 		);
-		$ids = array_map( 'intval', $ids );
+		$ids   = array_map( 'intval', $ids );
 		if ( is_multisite() ) {
 			foreach ( get_super_admins() as $login ) {
 				$user = get_user_by( 'login', $login );

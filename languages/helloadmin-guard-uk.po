@@ -383,8 +383,8 @@ msgid "Block backups and database dumps"
 msgstr "Закрити бекапи й дампи бази даних"
 
 #: includes/features/class-block-backups.php:45
-msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator and BackWPup. A file like this left after a move gives away the whole site and its database."
-msgstr "Сервер відповідає 404 на дампи бази даних і бекапи (.sql, .sql.gz, .sqlite, .db, .bak, .old, .orig, .save, .wpress, файли із ~ у кінці), архіви в корені сайту та в папці контенту (backup.zip, site.tar.gz), усі файли, назва яких починається з wp-config (wp-config.txt, wp-config.old, wp-config.php.save; WordPress і далі читає wp-config.php з диска), забуті installer.php від Duplicator і папки бекапів UpdraftPlus, All-in-One WP Migration, Duplicator та BackWPup. Один такий файл, забутий після переїзду, видає весь сайт разом із базою даних."
+msgid "The server answers 404 for database dumps and backups (.sql, .sql.gz, .sql.bz2, .sql.xz, .sqlite, .db, .dump, .bak, .old, .orig, .save, .wpress, Akeeba .jpa, files ending with ~), archives in the site root and in the content folder (backup.zip, site.tar.gz), every file whose name starts with wp-config and has a dot (wp-config.txt, wp-config.old, wp-config.php.save; WordPress still reads wp-config.php from the disk), Duplicator installer.php leftovers and the backup folders of UpdraftPlus, All-in-One WP Migration, Duplicator, BackWPup and WPvivid. A file like this left after a move gives away the whole site and its database."
+msgstr "Сервер відповідає 404 на дампи бази даних і бекапи (.sql, .sql.gz, .sql.bz2, .sql.xz, .sqlite, .db, .dump, .bak, .old, .orig, .save, .wpress, .jpa від Akeeba, файли із ~ у кінці), архіви в корені сайту та в папці контенту (backup.zip, site.tar.gz), усі файли, назва яких починається з wp-config і містить крапку (wp-config.txt, wp-config.old, wp-config.php.save; WordPress і далі читає wp-config.php з диска), забуті installer.php від Duplicator і папки бекапів UpdraftPlus, All-in-One WP Migration, Duplicator, BackWPup та WPvivid. Один такий файл, забутий після переїзду, видає весь сайт разом із базою даних."
 
 #: includes/features/class-block-backups.php:54
 msgid "If you share links to archives in the site root or the content folder, or to .sql and .bak files, they stop downloading. Archives in the uploads folder stay open. Backup plugins keep working: they read their folders from PHP, not through the browser."
@@ -415,8 +415,8 @@ msgid "The server answers 404 for package and build files (composer.json, compos
 msgstr "Сервер відповідає 404 на файли пакетів і збирання (composer.json, composer.lock, package.json, package-lock.json, yarn.lock, gulpfile.js, конфіги webpack та Vite), файли деплою (Dockerfile, docker-compose.yml, wp-cli.yml, deploy.php, Makefile), копії php.ini, source maps (.map) і текстові файли плагінів, тем і перекладів (.md, .txt, .po, .mo, .pot, .yml, .lock) у папці контенту, а також на файли .md, .yml та .sh у корені сайту. У них видно точні версії бібліотек із відомими дірками та опис сервера."
 
 #: includes/features/class-block-dev-files.php:54
-msgid "Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open."
-msgstr "Інструменти розробника в браузері перестануть показувати вихідний код мініфікованих скриптів. Завантажень це не стосується. robots.txt, ads.txt та інші файли .txt у корені сайту залишаться відкритими."
+msgid "Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open. The .txt and .md files inside plugin and theme folders answer 404 too: a plugin that opens its own text file in the browser, for example a changelog in a pop-up, no longer shows it."
+msgstr "Інструменти розробника в браузері перестануть показувати вихідний код мініфікованих скриптів. Завантажень це не стосується. robots.txt, ads.txt та інші файли .txt у корені сайту залишаться відкритими. Файли .txt та .md у папках плагінів і тем теж відповідатимуть 404: плагін, який відкриває свій текстовий файл у браузері, наприклад список змін у спливному вікні, більше його не покаже."
 
 #: includes/features/class-block-hidden-files.php:36
 msgid "Block hidden files (.git, .env)"
@@ -435,8 +435,8 @@ msgid "Block logs and diagnostic pages"
 msgstr "Закрити логи та діагностичні сторінки"
 
 #: includes/features/class-block-logs.php:45
-msgid "The server answers 404 for log files (debug.log, error_log, any .log), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways."
-msgstr "Сервер відповідає 404 на файли логів (debug.log, error_log, будь-який .log), логи WooCommerce (uploads/wc-logs), дані Wordfence (wflogs), забуті тестові сторінки в корені сайту (phpinfo.php, info.php, test.php) і сторінки стану Apache (/server-status, /server-info). У них видно шляхи на сервері, ім’я користувача хостингу, версії PHP і бібліотек, а іноді й помилки платіжних шлюзів."
+msgid "The server answers 404 for log files (debug.log, error_log, php_errorlog, any .log, also numbered copies like error_log.1), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages (phpinfo.php in any folder, info.php and test.php in the site root) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways."
+msgstr "Сервер відповідає 404 на файли логів (debug.log, error_log, php_errorlog, будь-який .log, а також нумеровані копії на кшталт error_log.1), логи WooCommerce (uploads/wc-logs), дані Wordfence (wflogs), забуті тестові сторінки (phpinfo.php у будь-якій папці, info.php та test.php у корені сайту) і сторінки стану Apache (/server-status, /server-info). У них видно шляхи на сервері, ім’я користувача хостингу, версії PHP і бібліотек, а іноді й помилки платіжних шлюзів."
 
 #: includes/features/class-block-logs.php:54
 msgid "You cannot open a log or a test page in the browser: read logs over SFTP or in the hosting panel instead. Logging itself keeps working."
@@ -556,8 +556,8 @@ msgid "HTTPS only (HSTS)"
 msgstr "Тільки HTTPS (HSTS)"
 
 #: includes/features/class-hsts.php:49
-msgid "Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Sent only when the page itself is loaded over HTTPS. Subdomains are not affected."
-msgstr "Додає заголовок Strict-Transport-Security: після першого візиту браузери рік відкривають ваш сайт лише через HTTPS, навіть якщо хтось набере http:// або публічний Wi-Fi спробує підсунути незахищену версію. Надсилається лише тоді, коли сама сторінка завантажена через HTTPS. Піддомени це не зачіпає."
+msgid "Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Browsers accept it only from pages loaded over HTTPS. Subdomains are not affected."
+msgstr "Додає заголовок Strict-Transport-Security: після першого візиту браузери рік відкривають ваш сайт лише через HTTPS, навіть якщо хтось набере http:// або публічний Wi-Fi спробує підсунути незахищену версію. Браузери приймають його лише від сторінок, завантажених через HTTPS. Піддомени це не зачіпає."
 
 #: includes/features/class-hsts.php:58
 msgid "If the SSL certificate expires or HTTPS stops working, visitors who have been to the site cannot open it at all, there is no \"continue anyway\" button. Turn this setting on only when HTTPS works on every page and the certificate renews by itself."
@@ -633,8 +633,8 @@ msgid "Moves the login page to your own address. /wp-login.php and /wp-admin/ sh
 msgstr "Переносить сторінку входу на вашу власну адресу. /wp-login.php та /wp-admin/ показують сторінку 404 неавторизованим користувачам, тож боти перестають знаходити форму входу."
 
 #: includes/features/class-login-url.php:66
-msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working. Visitors who are not logged in never get the new address: \"Log in\" links in the theme or widgets lead them to a 404 page. Only when anyone can register on the site does the registration link show it."
-msgstr "Закладки та збережені паролі для старої сторінки входу перестануть працювати. Якщо якийсь плагін чи застосунок входить напряму через /wp-login.php або інший плагін теж змінює адресу входу, вони перестануть працювати. Відвідувачі, які не ввійшли, ніколи не отримують нову адресу: посилання «Увійти» в темі чи віджетах ведуть їх на сторінку 404. Лише коли на сайті може зареєструватися будь-хто, її покаже посилання на реєстрацію."
+msgid "Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working. Visitors who are not logged in never get the new address: \"Log in\" links in the theme or widgets lead them to a 404 page. Only when anyone can register on the site does the registration link show it. If a page cache keeps pages of logged-in users (for example Cloudflare \"Cache Everything\" with an Edge TTL that ignores the headers of the site and no exception for the login cookie), the \"Log out\" link in the cached toolbar shows the new address to everyone."
+msgstr "Закладки та збережені паролі для старої сторінки входу перестануть працювати. Якщо якийсь плагін чи застосунок входить напряму через /wp-login.php або інший плагін теж змінює адресу входу, вони перестануть працювати. Відвідувачі, які не ввійшли, ніколи не отримують нову адресу: посилання «Увійти» в темі чи віджетах ведуть їх на сторінку 404. Лише коли на сайті може зареєструватися будь-хто, її покаже посилання на реєстрацію. Якщо кеш сторінок зберігає сторінки користувачів, які ввійшли (наприклад, Cloudflare «Cache Everything» з Edge TTL, що ігнорує заголовки сайту, і без винятку для cookie входу), посилання «Вийти» в закешованій панелі покаже нову адресу всім."
 
 #: includes/features/class-login-url.php:73
 msgid "Turn this off and save. If you forgot the new address and cannot log in, rename the folder wp-content/plugins/helloadmin-guard over FTP or in the hosting file manager, then open .htaccess in the site root and delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\": that block also closes the login form on /wp-login.php. After that /wp-login.php works again."
@@ -671,8 +671,8 @@ msgid "No PHP in the uploads folder"
 msgstr "Без PHP у папці uploads"
 
 #: includes/features/class-no-php-in-uploads.php:46
-msgid "The server answers 404 to any PHP file in the uploads folder. If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
-msgstr "Сервер відповідає 404 на будь-який PHP-файл у папці uploads. Якщо слабкий плагін або форма дозволить комусь завантажити туди PHP-файл, його не вдасться відкрити з браузера."
+msgid "The server answers 404 to any PHP file in the uploads folder, also one with a second extension (shell.php.jpg). If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
+msgstr "Сервер відповідає 404 на будь-який PHP-файл у папці uploads, також із другим розширенням (shell.php.jpg). Якщо слабкий плагін або форма дозволить комусь завантажити туди PHP-файл, його не вдасться відкрити з браузера."
 
 #: includes/features/class-no-php-in-uploads.php:55
 msgid "If a plugin on the site keeps its own PHP scripts in the uploads folder and opens them from the browser, it stops working. Such plugins are rare today. Images, PDFs and other uploads keep working."
@@ -731,8 +731,8 @@ msgid "Hide user names"
 msgstr "Приховати імена користувачів"
 
 #: includes/features/class-user-enumeration.php:41
-msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author links and the users sitemap. The login form answers \"Wrong username or password\" for both mistakes, and \"Lost your password?\" shows the same answer whether the user exists or not."
-msgstr "Неавторизовані користувачі більше не можуть дізнатися імена користувачів через /?author=1, список користувачів REST API (/wp-json/wp/v2/users), посилання на автора в oEmbed і карту сайту користувачів. Форма входу відповідає «Неправильне ім’я користувача або пароль» на обидві помилки, а «Забули пароль?» показує однакову відповідь, є такий користувач чи ні."
+msgid "Visitors who are not logged in can no longer get user names from /?author=1, the REST API user list (/wp-json/wp/v2/users), oEmbed author names and links, the users sitemap and the author class on comments (comment-author-admin). The login form answers \"Wrong username or password\" for both mistakes, and \"Lost your password?\" shows the same answer whether the user exists or not."
+msgstr "Неавторизовані користувачі більше не можуть дізнатися імена користувачів через /?author=1, список користувачів REST API (/wp-json/wp/v2/users), ім’я та посилання на автора в oEmbed, карту сайту користувачів і клас автора в коментарях (comment-author-admin). Форма входу відповідає «Неправильне ім’я користувача або пароль» на обидві помилки, а «Забули пароль?» показує однакову відповідь, є такий користувач чи ні."
 
 #: includes/features/class-user-enumeration.php:48
 msgid "If apps or scripts read the user list through the REST API without logging in, they no longer get it. For example, a headless site on Next.js or Gatsby that takes author names from /wp-json/wp/v2/users, or an \"Our authors\" block that loads the list right in the visitor's browser. Author pages drop out of wp-sitemap.xml but keep working. Someone who mistyped the user name is not told what exactly was wrong."
@@ -1095,3 +1095,14 @@ msgstr "Якщо ні: це зробив хтось з обліковим зап
 #: includes/class-feature.php:253
 msgid "HelloAdmin Guard was deactivated"
 msgstr "HelloAdmin Guard деактивовано"
+
+msgid "On a multisite network this button logs out the users of every site, so only a network administrator (super admin) can use it."
+msgstr "У мережі multisite ця кнопка завершує сеанси користувачів усіх сайтів, тому користуватися нею може лише адміністратор мережі (super admin)."
+
+#. translators: %s: user name.
+msgid "The account \"%s\" has administrator rights without the Administrator role: through another role or rights added to the account itself. Malware does this so the account does not show up as an administrator. If you did not set this up, check this account."
+msgstr "Обліковий запис «%s» має права адміністратора без ролі «Адміністратор»: через іншу роль або права, додані самому запису. Так робить шкідливий код, щоб запис не показувався як адміністратор. Якщо ви цього не налаштовували, перевірте цей запис."
+
+#. translators: %s: IP address.
+msgid "The site sees your address as %s, which belongs to Cloudflare. The real visitor address does not reach WordPress, so all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host to turn on the real visitor IP for Cloudflare (mod_remoteip or the Cloudflare module), or leave this setting off until then."
+msgstr "Сайт бачить вашу адресу як %s, а вона належить Cloudflare. Справжня адреса відвідувача не доходить до WordPress, тож усі відвідувачі ділять кілька адрес Cloudflare, і один бот може заблокувати вхід усім. Попросіть хостинг увімкнути справжню IP-адресу відвідувача для Cloudflare (mod_remoteip або модуль Cloudflare) або до того часу не вмикайте це налаштування."

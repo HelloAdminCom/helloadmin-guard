@@ -51,7 +51,7 @@ class Block_Dev_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function may_break() {
-		return __( 'Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open.', 'helloadmin-guard' );
+		return __( 'Browser developer tools no longer show the source code of minified scripts. Uploads are not affected. robots.txt, ads.txt and other .txt files in the site root stay open. The .txt and .md files inside plugin and theme folders answer 404 too: a plugin that opens its own text file in the browser, for example a changelog in a pop-up, no longer shows it.', 'helloadmin-guard' );
 	}
 
 	/**

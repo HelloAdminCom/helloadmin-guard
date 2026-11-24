@@ -2,6 +2,28 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.5.2] - 2026-11-24
+
+### Security
+- E-mail me about new administrators: the list of administrators is read from the capabilities meta for the Administrator role, for every other role that holds manage_options, promote_users, edit_plugins, activate_plugins, install_plugins or unfiltered_upload (roles read straight from the user_roles option), and for accounts with one of these rights added to the account itself. Before, a custom role like "adm1n" with full rights, or rights added to an editor, went unnoticed. Any role change and any change of the capabilities meta queues the check. New card warning for administrators without the Administrator role.
+- Security headers and HSTS: PHP skipped its headers whenever the rules had been written to .htaccess, so with mod_headers off, or with the rules removed by hand, nobody sent them. The rules now also set a request header (RequestHeader, same module) and PHP skips only when the request carries it.
+- Self-heal of .htaccess: the block in the file is compared with the block the settings would write, so removed or edited rules are rewritten too, not only rules of settings that are off. A 2-minute lock is taken before writing, so parallel requests to the login page do not all write and check the file. The check after writing waits 10 s per request instead of 15.
+- No PHP in the uploads folder: also files with a second extension (shell.php.jpg), which run as PHP on servers set up with AddHandler.
+- Hide user names: oEmbed answers lose author_name too (the login by default), comments of registered users lose the comment-author-<nicename> class.
+- Turn off XML-RPC: the request is refused in enable() on plugins_loaded, not at the end of plugins_loaded.
+
+### Changed
+- Block logs: error_log.N, php_errorlog, numbered .log copies; phpinfo.php and php_info.php in any folder (info.php and test.php stay root-only: plugins may ship files with these names).
+- Block backups: .sql.bz2, .sql.xz, .dump, .jpa (Akeeba), .tar.bz2, .tbz2, .bz2, .tar.xz, .xz archives, wp-content/wpvividbackups and wp-content/backwpup-*; the wp-config rule needs a dot after the name, so /wp-config-tips (a post without the trailing slash) reaches WordPress.
+- Login URL: the POST rule for wp-login.php is case-insensitive; may-break text mentions page caches that store pages of logged-in users.
+- Nginx texts: ^~ locations for wp-admin/includes and wp-includes/theme-compat (win over a PHP location placed above them), a note on server_name for the http to https block.
+- Deactivation e-mail goes also to the extra address of every e-mail setting that is on, not only the first one.
+- Multisite: the "If hacked" button only for super admins (it ends sessions of every user of the network), e-mail to the network address.
+- Limit login: card warning when REMOTE_ADDR is a Cloudflare address (the host does not pass the real visitor IP).
+- Status check: leftover test folders older than ten minutes are removed (a PHP fatal error skips "finally").
+- uninstall.php also deletes the status and heal transients.
+- Texts and uk/ru translations updated for the cards above.
+
 ## [0.5.1] - 2026-11-24
 
 ### Security

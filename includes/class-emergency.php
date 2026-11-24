@@ -40,12 +40,22 @@ class Emergency {
 	}
 
 	/**
+	 * Who may press the button. On multisite it ends sessions of every user of the network, so only a super
+	 * admin may, not the admin of one site.
+	 *
+	 * @return bool
+	 */
+	private static function allowed() {
+		return is_multisite() ? is_super_admin() : current_user_can( 'manage_options' );
+	}
+
+	/**
 	 * Handles the button: checks the nonce and the confirmation, does the cleanup, redirects back.
 	 *
 	 * @return void
 	 */
 	public function handle() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! self::allowed() ) {
 			wp_die( esc_html__( 'Sorry, you are not allowed to do this.', 'helloadmin-guard' ), '', array( 'response' => 403 ) );
 		}
 		check_admin_referer( self::ACTION );
@@ -142,7 +152,8 @@ class Emergency {
 		$lines   = array( sprintf( __( '%s pressed "Log out everyone" in HelloAdmin Guard.', 'helloadmin-guard' ), $user->user_login ), '', $result );
 		$lines[] = '';
 		$lines[] = __( 'If this was not you or your team, someone else has administrator access: log in, change your password and check the list of administrators.', 'helloadmin-guard' );
-		wp_mail( (string) get_option( 'admin_email' ), '[' . $site . '] ' . __( 'Everyone was logged out', 'helloadmin-guard' ), implode( "\n", $lines ) );
+		$to      = is_multisite() ? (string) get_site_option( 'admin_email' ) : (string) get_option( 'admin_email' );
+		wp_mail( $to, '[' . $site . '] ' . __( 'Everyone was logged out', 'helloadmin-guard' ), implode( "\n", $lines ) );
 	}
 
 	/**
@@ -167,12 +178,16 @@ class Emergency {
 		echo '<div class="hag-card hag-emergency">';
 		echo '<h2>' . esc_html__( 'Log out everyone', 'helloadmin-guard' ) . '</h2>';
 		echo '<p>' . esc_html__( 'This button ends every session of every user except yours in this browser, and deletes all application passwords. Everyone else has to log in again, and apps and services connected with an application password stop working until you create new passwords for them. A new password alone is not enough: it does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in.', 'helloadmin-guard' ) . '</p>';
-		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
-		echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION ) . '">';
-		wp_nonce_field( self::ACTION );
-		echo '<p><label><input type="checkbox" name="hag_confirm" value="1" required> ' . esc_html__( 'I understand that everyone else is logged out and all application passwords are deleted.', 'helloadmin-guard' ) . '</label></p>';
-		echo '<p><button type="submit" class="button button-primary">' . esc_html__( 'Log out everyone and delete application passwords', 'helloadmin-guard' ) . '</button></p>';
-		echo '</form>';
+		if ( self::allowed() ) {
+			echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
+			echo '<input type="hidden" name="action" value="' . esc_attr( self::ACTION ) . '">';
+			wp_nonce_field( self::ACTION );
+			echo '<p><label><input type="checkbox" name="hag_confirm" value="1" required> ' . esc_html__( 'I understand that everyone else is logged out and all application passwords are deleted.', 'helloadmin-guard' ) . '</label></p>';
+			echo '<p><button type="submit" class="button button-primary">' . esc_html__( 'Log out everyone and delete application passwords', 'helloadmin-guard' ) . '</button></p>';
+			echo '</form>';
+		} else {
+			echo '<p><strong>' . esc_html__( 'On a multisite network this button logs out the users of every site, so only a network administrator (super admin) can use it.', 'helloadmin-guard' ) . '</strong></p>';
+		}
 		echo '</div>';
 
 		echo '<div class="hag-card">';

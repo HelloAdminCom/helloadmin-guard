@@ -13,6 +13,8 @@ require_once __DIR__ . '/includes/class-htaccess.php';
 \HelloAdmin\Guard\Htaccess::sync( array() );
 
 delete_option( 'helloadmin_guard_settings' );
+delete_transient( 'helloadmin_guard_status' );
+delete_transient( 'helloadmin_guard_heal_wait' );
 delete_option( 'helloadmin_guard_htaccess_backup' );
 delete_option( 'helloadmin_guard_rules_written' );
 delete_option( 'helloadmin_guard_version' );

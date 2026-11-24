@@ -100,6 +100,7 @@ class Probe {
 			return '';
 		}
 		if ( '' === self::$dir ) {
+			self::remove_leftovers( $uploads['basedir'] );
 			self::$dir = 'helloadmin-guard-check-' . strtolower( wp_generate_password( 12, false ) );
 		}
 		$dir = trailingslashit( $uploads['basedir'] ) . self::$dir;
@@ -111,6 +112,23 @@ class Probe {
 			return '';
 		}
 		return (string) wp_parse_url( trailingslashit( $uploads['baseurl'] ) . self::$dir . '/' . rawurlencode( $name ), PHP_URL_PATH );
+	}
+
+	/**
+	 * Removes test folders left by an earlier check that died before cleanup() (a PHP fatal error or the time
+	 * limit stops the script without running "finally"). Only folders older than ten minutes: a check started
+	 * by another admin at the same moment keeps its folder.
+	 *
+	 * @param string $basedir Uploads folder.
+	 * @return void
+	 */
+	private static function remove_leftovers( $basedir ) {
+		$old = glob( trailingslashit( $basedir ) . 'helloadmin-guard-check-*', GLOB_ONLYDIR );
+		foreach ( is_array( $old ) ? $old : array() as $dir ) {
+			if ( preg_match( '/helloadmin-guard-check-[a-z0-9]{12}$/', $dir ) && time() - (int) filemtime( $dir ) > 10 * MINUTE_IN_SECONDS ) {
+				self::fs()->rmdir( $dir, true );
+			}
+		}
 	}
 
 	/**

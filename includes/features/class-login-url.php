@@ -63,7 +63,7 @@ class Login_Url extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working. Visitors who are not logged in never get the new address: "Log in" links in the theme or widgets lead them to a 404 page. Only when anyone can register on the site does the registration link show it.', 'helloadmin-guard' );
+		return __( 'Bookmarks and saved passwords for the old login page stop working. If a plugin or app logs in through /wp-login.php directly, or another plugin also changes the login URL, it stops working. Visitors who are not logged in never get the new address: "Log in" links in the theme or widgets lead them to a 404 page. Only when anyone can register on the site does the registration link show it. If a page cache keeps pages of logged-in users (for example Cloudflare "Cache Everything" with an Edge TTL that ignores the headers of the site and no exception for the login cookie), the "Log out" link in the cached toolbar shows the new address to everyone.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Login_Url extends Feature {
 			'RewriteEngine On',
 			'RewriteCond %{REQUEST_METHOD} POST',
 			'RewriteCond %{QUERY_STRING} !(^|&)action=(postpass|confirmaction)(&|$) [NC]',
-			'RewriteRule ^' . $login . '$ - [R=404,L]',
+			'RewriteRule ^' . $login . '$ - [NC,R=404,L]',
 			'</IfModule>',
 		);
 	}

@@ -43,7 +43,7 @@ class No_Php_In_Uploads extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'The server answers 404 to any PHP file in the uploads folder. If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser.', 'helloadmin-guard' );
+		return __( 'The server answers 404 to any PHP file in the uploads folder, also one with a second extension (shell.php.jpg). If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -105,7 +105,7 @@ class No_Php_In_Uploads extends Htaccess_Feature {
 		return array(
 			'<IfModule mod_rewrite.c>',
 			'RewriteEngine On',
-			'RewriteRule ^' . $this->uploads() . '/.*\.(php[0-9]?|phtml|phar|pht|phps)$ - [NC,R=404,L]',
+			'RewriteRule ^' . $this->uploads() . '/.*\.(php[0-9]?|phtml|phar|pht|phps)(\.|$) - [NC,R=404,L]',
 			'</IfModule>',
 		);
 	}
@@ -117,7 +117,7 @@ class No_Php_In_Uploads extends Htaccess_Feature {
 	 */
 	public function nginx_rules() {
 		return array(
-			'location ~* ^/' . $this->uploads( true ) . '/.*\.(php[0-9]?|phtml|phar|pht|phps)$ { return 404; }',
+			'location ~* ^/' . $this->uploads( true ) . '/.*\.(php[0-9]?|phtml|phar|pht|phps)(\.|$) { return 404; }',
 		);
 	}
 

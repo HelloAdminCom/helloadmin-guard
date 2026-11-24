@@ -187,6 +187,78 @@ class Limit_Login extends Feature {
 	}
 
 	/**
+	 * Cloudflare address ranges (https://www.cloudflare.com/ips/, November 2026).
+	 */
+	const CLOUDFLARE = array(
+		'173.245.48.0/20',
+		'103.21.244.0/22',
+		'103.22.200.0/22',
+		'103.31.4.0/22',
+		'141.101.64.0/18',
+		'108.162.192.0/18',
+		'190.93.240.0/20',
+		'188.114.96.0/20',
+		'197.234.240.0/22',
+		'198.41.128.0/17',
+		'162.158.0.0/15',
+		'104.16.0.0/13',
+		'104.24.0.0/14',
+		'172.64.0.0/13',
+		'131.0.72.0/22',
+		'2400:cb00::/32',
+		'2606:4700::/32',
+		'2803:f800::/32',
+		'2405:b500::/32',
+		'2405:8100::/32',
+		'2a06:98c0::/29',
+		'2c0f:f248::/32',
+	);
+
+	/**
+	 * Warns when the visitor address the site sees is a Cloudflare server: the host does not pass the real
+	 * visitor IP, so all visitors share a few addresses and one bot can lock everyone out.
+	 *
+	 * @return string[]
+	 */
+	public function warnings() {
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		foreach ( self::CLOUDFLARE as $range ) {
+			if ( self::in_range( $ip, $range ) ) {
+				/* translators: %s: IP address. */
+				return array( sprintf( __( 'The site sees your address as %s, which belongs to Cloudflare. The real visitor address does not reach WordPress, so all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host to turn on the real visitor IP for Cloudflare (mod_remoteip or the Cloudflare module), or leave this setting off until then.', 'helloadmin-guard' ), $ip ) );
+			}
+		}
+		return array();
+	}
+
+	/**
+	 * Whether an IPv4 or IPv6 address is inside a CIDR range.
+	 *
+	 * @param string $ip    Address.
+	 * @param string $range Range like 104.16.0.0/13.
+	 * @return bool
+	 */
+	public static function in_range( $ip, $range ) {
+		list( $net, $bits ) = explode( '/', $range );
+		$ip_bin             = @inet_pton( $ip ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- an invalid address only means "not in range".
+		$net_bin            = @inet_pton( $net ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- same.
+		if ( false === $ip_bin || false === $net_bin || strlen( $ip_bin ) !== strlen( $net_bin ) ) {
+			return false;
+		}
+		$bits  = (int) $bits;
+		$bytes = intdiv( $bits, 8 );
+		if ( substr( $ip_bin, 0, $bytes ) !== substr( $net_bin, 0, $bytes ) ) {
+			return false;
+		}
+		$rest = $bits % 8;
+		if ( 0 === $rest ) {
+			return true;
+		}
+		$mask = chr( ( 0xff << ( 8 - $rest ) ) & 0xff );
+		return ( $ip_bin[ $bytes ] & $mask ) === ( $net_bin[ $bytes ] & $mask );
+	}
+
+	/**
 	 * Adds the hooks.
 	 *
 	 * @param Settings $settings Plugin settings.

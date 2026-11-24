@@ -40,6 +40,31 @@ class Htaccess {
 	}
 
 	/**
+	 * Request header the server adds when it applies the header rules of a setting. Set with mod_headers, the same
+	 * module that sends the response headers: when the module is off or the rules were removed, the request
+	 * arrives without it and PHP sends the headers itself. Dashes only: Apache drops header names with
+	 * underscores before PHP sees them.
+	 *
+	 * @param string $id Feature id.
+	 * @return string
+	 */
+	public static function flag_header( $id ) {
+		return 'X-Helloadmin-Guard-' . str_replace( '_', '-', $id );
+	}
+
+	/**
+	 * Whether the server applied the header rules of a setting to this request (see flag_header()). A visitor
+	 * can send the header himself, but that only matters where mod_headers is off, and only for his own page.
+	 *
+	 * @param string $id Feature id.
+	 * @return bool
+	 */
+	public static function served( $id ) {
+		$key = 'HTTP_' . strtoupper( str_replace( '-', '_', self::flag_header( $id ) ) );
+		return ! empty( $_SERVER[ $key ] ) || ! empty( $_SERVER[ 'REDIRECT_' . $key ] );
+	}
+
+	/**
 	 * Ids of the settings whose rules are in the plugin block of .htaccess now, read from the file itself
 	 * (each part of the block starts with "# <id>"). The file may come from another copy of the site.
 	 *
@@ -161,6 +186,26 @@ class Htaccess {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Whether the plugin block in the file is exactly the block these features would write. False when rules were
+	 * removed, edited or added by hand, by another plugin or with a file copied from another site.
+	 *
+	 * @param Feature[] $features Enabled features with server rules.
+	 * @return bool
+	 */
+	public static function block_matches( array $features ) {
+		$fs      = self::fs();
+		$path    = self::path();
+		$content = $fs->exists( $path ) ? str_replace( "\r\n", "\n", (string) $fs->get_contents( $path ) ) : '';
+		$lines   = self::lines( array_filter( $features, array( __CLASS__, 'safe_rules' ) ) );
+		$pattern = '/' . preg_quote( '# BEGIN ' . self::MARKER, '/' ) . '.*?' . preg_quote( '# END ' . self::MARKER, '/' ) . '/s';
+		$found   = preg_match( $pattern, $content, $block ) ? $block[0] : '';
+		if ( ! $lines ) {
+			return '' === $found;
+		}
+		return trim( self::build( '', $lines ) ) === $found;
 	}
 
 	/**
@@ -293,7 +338,7 @@ class Htaccess {
 			$response = wp_remote_get(
 				$url,
 				array(
-					'timeout'     => 15,
+					'timeout'     => 10,
 					'redirection' => 0,
 					/** This filter is documented in wp-includes/class-wp-http-streams.php */
 					'sslverify'   => apply_filters( 'https_local_ssl_verify', false ), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core filter.

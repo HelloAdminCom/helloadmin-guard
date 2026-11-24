@@ -2,7 +2,7 @@
 
 WordPress security hardening without upsells. Every setting explains what it does, what may break and how to undo it.
 
-> Version 0.5.1. Submitted to wordpress.org, waiting for review.
+> Version 0.5.2. Submitted to wordpress.org, waiting for review.
 
 ## Why another security plugin
 

@@ -46,7 +46,7 @@ class Hsts extends Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Sent only when the page itself is loaded over HTTPS. Subdomains are not affected.', 'helloadmin-guard' );
+		return __( 'Adds the Strict-Transport-Security header: after the first visit, browsers open your site only over HTTPS for one year, even if someone types http:// or a public Wi-Fi tries to send them to the plain version. Browsers accept it only from pages loaded over HTTPS. Subdomains are not affected.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -107,6 +107,7 @@ class Hsts extends Feature {
 		return array(
 			'<IfModule mod_headers.c>',
 			'Header set Strict-Transport-Security "' . self::VALUE . '"',
+			'RequestHeader set ' . \HelloAdmin\Guard\Htaccess::flag_header( $this->id() ) . ' 1',
 			'</IfModule>',
 		);
 	}
@@ -167,7 +168,7 @@ class Hsts extends Feature {
 	 * @return void
 	 */
 	public function send() {
-		if ( ! is_ssl() || headers_sent() || \HelloAdmin\Guard\Htaccess::written( $this->id() ) ) {
+		if ( ! is_ssl() || headers_sent() || \HelloAdmin\Guard\Htaccess::served( $this->id() ) ) {
 			return;
 		}
 		foreach ( headers_list() as $line ) {

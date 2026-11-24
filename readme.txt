@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,16 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.5.2 =
+* Security: "E-mail me about new administrators" also reports accounts with administrator rights through another role or rights added to the account itself, not only the Administrator role.
+* Security: security headers and HSTS are sent from PHP whenever the server does not send them (mod_headers off, or the rules removed from .htaccess).
+* Security: the plugin rewrites its .htaccess block when rules in it were removed or edited, not only when rules of settings that are off are there.
+* "No PHP in the uploads folder" also closes files with a second extension (shell.php.jpg).
+* More log, backup and dump names closed: error_log.1, php_errorlog, phpinfo.php in any folder, .sql.bz2, .sql.xz, .dump, Akeeba .jpa, WPvivid and older BackWPup folders.
+* Hide user names: oEmbed no longer gives the author name, and comments lose the comment-author-<name> class.
+* XML-RPC turned off: the request is refused earlier, before other plugins see it.
+* Smaller fixes: the deactivation e-mail goes to the extra address of every e-mail setting, the "If hacked" button is for super admins only on multisite, a warning on the Limit login card when the site sees Cloudflare addresses instead of visitors, leftover check folders are removed, wp-config rule no longer catches post addresses like /wp-config-tips.
 
 = 0.5.1 =
 * Security: "Hide user names" now also closes the REST API user list when the address is typed in another letter case (/wp-json/wp/v2/Users). The status check tests this too.

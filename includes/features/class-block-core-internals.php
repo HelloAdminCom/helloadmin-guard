@@ -142,10 +142,11 @@ class Block_Core_Internals extends Htaccess_Feature {
 		$admin    = self::abs( admin_url() );
 		$includes = self::abs( includes_url() );
 		return array(
-			'location ~* ^/' . $admin . '/includes/ { return 404; }',
+			// ^~ prefix locations win over every regex location, also a PHP location placed above them.
+			'location ^~ /' . $admin . '/includes/ { return 404; }',
 			'location ~* ^/' . $includes . '/[^/]+\\.php$ { return 404; }',
 			'location ~* ^/' . $includes . '/js/tinymce/langs/.+\\.php { return 404; }',
-			'location ~* ^/' . $includes . '/theme-compat/ { return 404; }',
+			'location ^~ /' . $includes . '/theme-compat/ { return 404; }',
 		);
 	}
 }

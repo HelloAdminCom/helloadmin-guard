@@ -42,7 +42,7 @@ class Block_Logs extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'The server answers 404 for log files (debug.log, error_log, any .log), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages in the site root (phpinfo.php, info.php, test.php) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways.', 'helloadmin-guard' );
+		return __( 'The server answers 404 for log files (debug.log, error_log, php_errorlog, any .log, also numbered copies like error_log.1), WooCommerce logs (uploads/wc-logs), Wordfence data (wflogs), forgotten test pages (phpinfo.php in any folder, info.php and test.php in the site root) and the Apache status pages (/server-status, /server-info). They show server paths, the hosting user name, versions of PHP and libraries, and sometimes errors from payment gateways.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -101,9 +101,10 @@ class Block_Logs extends Htaccess_Feature {
 		return array(
 			'<IfModule mod_rewrite.c>',
 			'RewriteEngine On',
-			'RewriteRule (\\.log|(^|/)error_log)$ - [NC,R=404,L]',
+			'RewriteRule (\\.log(\\.[0-9]+)?|(^|/)(error_log|php_errorlog)(\\.[0-9]+)?)$ - [NC,R=404,L]',
 			'RewriteRule ^' . $content . '/(uploads/wc-logs|wflogs)(/|$) - [NC,R=404,L]',
-			'RewriteRule ^(phpinfo|php_info|info|test)\\.php$ - [NC,R=404,L]',
+			'RewriteRule (^|/)(phpinfo|php_info)\\.php$ - [NC,R=404,L]',
+			'RewriteRule ^(info|test)\\.php$ - [NC,R=404,L]',
 			'RewriteRule ^(server-status|server-info)(/|$) - [NC,R=404,L]',
 			'</IfModule>',
 		);
@@ -118,9 +119,10 @@ class Block_Logs extends Htaccess_Feature {
 		$content = self::abs( content_url() );
 		$root    = self::prefix( home_url( '/' ), true );
 		return array(
-			'location ~* (\\.log|/error_log)$ { return 404; }',
+			'location ~* (\\.log(\\.[0-9]+)?|/(error_log|php_errorlog)(\\.[0-9]+)?)$ { return 404; }',
 			'location ~* ^/' . $content . '/(uploads/wc-logs|wflogs)(/|$) { return 404; }',
-			'location ~* ^/' . $root . '(phpinfo|php_info|info|test)\\.php$ { return 404; }',
+			'location ~* /(phpinfo|php_info)\\.php$ { return 404; }',
+			'location ~* ^/' . $root . '(info|test)\\.php$ { return 404; }',
 		);
 	}
 }
