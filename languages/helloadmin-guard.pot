@@ -650,7 +650,7 @@ msgid "Block hidden files (.git, .env)"
 msgstr ""
 
 #: includes/features/class-block-hidden-files.php:45
-msgid "The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store, editor backups like .wp-config.php.swp. These show up when a site is deployed with Git or copied from a computer."
+msgid "The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store (a hidden macOS file that lists the files in its folder), editor backups like .wp-config.php.swp. Also for files Windows and macOS leave behind: Thumbs.db, desktop.ini and __MACOSX folders from zip archives. These show up when a site is deployed with Git or copied from a computer."
 msgstr ""
 
 #: includes/features/class-block-hidden-files.php:54
@@ -1007,7 +1007,7 @@ msgid "No PHP in the uploads folder"
 msgstr ""
 
 #: includes/features/class-no-php-in-uploads.php:46
-msgid "The server answers 404 to any PHP file in the uploads folder, also one with a second extension (shell.php.jpg). If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
+msgid "The server answers 404 to any PHP file in the uploads folder, also one with a second extension (shell.php.jpg). If one of the site's plugins or forms has a hole in file uploads and someone puts a PHP file there, it cannot be opened from the browser."
 msgstr ""
 
 #: includes/features/class-no-php-in-uploads.php:55

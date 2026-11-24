@@ -13,6 +13,7 @@ All notable changes to this project are documented here. Versions follow [Semant
 - Turn off XML-RPC: the request is refused in enable() on plugins_loaded, not at the end of plugins_loaded.
 
 ### Changed
+- Block hidden files: also Thumbs.db, desktop.ini (Windows) and __MACOSX folders from zip archives made on a Mac, in any letter case; the card explains what .DS_Store is.
 - Block logs: error_log.N, php_errorlog, numbered .log copies; phpinfo.php and php_info.php in any folder (info.php and test.php stay root-only: plugins may ship files with these names).
 - Block backups: .sql.bz2, .sql.xz, .dump, .jpa (Akeeba), .tar.bz2, .tbz2, .bz2, .tar.xz, .xz archives, wp-content/wpvividbackups and wp-content/backwpup-*; the wp-config rule needs a dot after the name, so /wp-config-tips (a post without the trailing slash) reaches WordPress.
 - Login URL: the POST rule for wp-login.php is case-insensitive; may-break text mentions page caches that store pages of logged-in users.

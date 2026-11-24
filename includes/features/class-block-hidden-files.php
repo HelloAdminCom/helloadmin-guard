@@ -42,7 +42,7 @@ class Block_Hidden_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store, editor backups like .wp-config.php.swp. These show up when a site is deployed with Git or copied from a computer.', 'helloadmin-guard' );
+		return __( 'The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store (a hidden macOS file that lists the files in its folder), editor backups like .wp-config.php.swp. Also for files Windows and macOS leave behind: Thumbs.db, desktop.ini and __MACOSX folders from zip archives. These show up when a site is deployed with Git or copied from a computer.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -101,6 +101,8 @@ class Block_Hidden_Files extends Htaccess_Feature {
 			'<IfModule mod_rewrite.c>',
 			'RewriteEngine On',
 			'RewriteRule (^|/)\\.(?!well-known(/|$)) - [R=404,L]',
+			// Windows and macOS leftovers whose names do not start with a dot.
+			'RewriteRule (^|/)(Thumbs\\.db$|desktop\\.ini$|__MACOSX(/|$)) - [NC,R=404,L]',
 			'</IfModule>',
 		);
 	}
@@ -113,6 +115,7 @@ class Block_Hidden_Files extends Htaccess_Feature {
 	public function nginx_rules() {
 		return array(
 			'location ~ /\\.(?!well-known(/|$)) { return 404; }',
+			'location ~* /(thumbs\\.db$|desktop\\.ini$|__macosx(/|$)) { return 404; }',
 		);
 	}
 }

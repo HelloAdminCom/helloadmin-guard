@@ -117,6 +117,7 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 * Security: security headers and HSTS are sent from PHP whenever the server does not send them (mod_headers off, or the rules removed from .htaccess).
 * Security: the plugin rewrites its .htaccess block when rules in it were removed or edited, not only when rules of settings that are off are there.
 * "No PHP in the uploads folder" also closes files with a second extension (shell.php.jpg).
+* "Block hidden files" also closes Thumbs.db, desktop.ini and __MACOSX folders left by Windows and macOS.
 * More log, backup and dump names closed: error_log.1, php_errorlog, phpinfo.php in any folder, .sql.bz2, .sql.xz, .dump, Akeeba .jpa, WPvivid and older BackWPup folders.
 * Hide user names: oEmbed no longer gives the author name, and comments lose the comment-author-<name> class.
 * XML-RPC turned off: the request is refused earlier, before other plugins see it.

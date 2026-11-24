@@ -423,8 +423,8 @@ msgid "Block hidden files (.git, .env)"
 msgstr "Закрыть скрытые файлы (.git, .env)"
 
 #: includes/features/class-block-hidden-files.php:45
-msgid "The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store, editor backups like .wp-config.php.swp. These show up when a site is deployed with Git or copied from a computer."
-msgstr "Сервер отвечает 404 на каждый файл и папку, имя которых начинается с точки: .git (вся история кода), .env (пароли базы данных и ключи API), .htpasswd, .svn, .DS_Store, резервные копии редакторов вроде .wp-config.php.swp. Они появляются, когда сайт разворачивают через Git или копируют с компьютера."
+msgid "The server answers 404 for every file and folder whose name starts with a dot: .git (the whole code history), .env (database passwords and API keys), .htpasswd, .svn, .DS_Store (a hidden macOS file that lists the files in its folder), editor backups like .wp-config.php.swp. Also for files Windows and macOS leave behind: Thumbs.db, desktop.ini and __MACOSX folders from zip archives. These show up when a site is deployed with Git or copied from a computer."
+msgstr "Сервер отвечает 404 на каждый файл и папку, имя которых начинается с точки: .git (вся история кода), .env (пароли базы данных и ключи API), .htpasswd, .svn, .DS_Store (скрытый файл macOS со списком файлов папки), резервные копии редакторов вроде .wp-config.php.swp. А также на файлы, которые оставляют Windows и macOS: Thumbs.db, desktop.ini и папки __MACOSX из zip-архивов. Они появляются, когда сайт разворачивают через Git или копируют с компьютера."
 
 #: includes/features/class-block-hidden-files.php:54
 msgid "If a plugin or theme serves files to visitors from a folder whose name starts with a dot (rare), they stop opening. /.well-known/ stays open: SSL certificates and app links need it."
@@ -671,8 +671,8 @@ msgid "No PHP in the uploads folder"
 msgstr "Без PHP в папке uploads"
 
 #: includes/features/class-no-php-in-uploads.php:46
-msgid "The server answers 404 to any PHP file in the uploads folder, also one with a second extension (shell.php.jpg). If a weak plugin or form lets someone upload a PHP file there, it cannot be opened from the browser."
-msgstr "Сервер отвечает 404 на любой PHP-файл в папке uploads, в том числе со вторым расширением (shell.php.jpg). Если слабый плагин или форма позволит кому-то загрузить туда PHP-файл, его не получится открыть из браузера."
+msgid "The server answers 404 to any PHP file in the uploads folder, also one with a second extension (shell.php.jpg). If one of the site's plugins or forms has a hole in file uploads and someone puts a PHP file there, it cannot be opened from the browser."
+msgstr "Сервер отвечает 404 на любой PHP-файл в папке uploads, в том числе со вторым расширением (shell.php.jpg). Если в одном из плагинов сайта или в форме есть дыра в загрузке файлов и кто-то положит туда PHP-файл, открыть его из браузера не получится."
 
 #: includes/features/class-no-php-in-uploads.php:55
 msgid "If a plugin on the site keeps its own PHP scripts in the uploads folder and opens them from the browser, it stops working. Such plugins are rare today. Images, PDFs and other uploads keep working."
