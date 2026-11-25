@@ -240,13 +240,15 @@ abstract class Feature {
 	 * @return string Empty when unknown.
 	 */
 	public static function visitor_ip() {
-		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-		if ( self::is_cloudflare( $ip ) && isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
-			$real = trim( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) );
-			if ( filter_var( $real, FILTER_VALIDATE_IP ) ) {
-				$ip = $real;
-			}
+		static $memo = array();
+		$ip          = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$cf          = isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ? trim( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) ) : '';
+		$key         = $ip . '|' . $cf;
+		if ( ! isset( $memo[ $key ] ) ) {
+			// The Cloudflare range check runs once per request (it walks every range).
+			$memo[ $key ] = ( '' !== $cf && filter_var( $cf, FILTER_VALIDATE_IP ) && self::is_cloudflare( $ip ) ) ? $cf : $ip;
 		}
+		$ip = $memo[ $key ];
 		/**
 		 * Visitor IP address used for login limits and shown in alert e-mails. Change it only if your server puts
 		 * the real address elsewhere and you trust that source.

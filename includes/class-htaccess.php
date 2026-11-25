@@ -279,8 +279,8 @@ class Htaccess {
 		}
 		$check = self::site_responds();
 		if ( false === $check ) {
-			$fs->put_contents( $path, $before, $mode );
-			return new \WP_Error( 'site_broken' );
+			// If even the old file cannot be written back, say so: the site may be down until it is fixed by hand.
+			return $fs->put_contents( $path, $before, $mode ) ? new \WP_Error( 'site_broken' ) : new \WP_Error( 'restore_failed' );
 		}
 		self::remember( $features );
 		return null === $check ? new \WP_Error( 'not_checked' ) : true;

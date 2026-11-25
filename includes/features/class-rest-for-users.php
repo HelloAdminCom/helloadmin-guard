@@ -31,6 +31,13 @@ class Rest_For_Users extends Feature {
 	const CORE = array( 'wp/v2', 'wp-site-health/v1', 'wp-block-editor/v1', 'wp-abilities/v1' );
 
 	/**
+	 * Routes kept open, parsed on the first request.
+	 *
+	 * @var string[]|null
+	 */
+	private $open = null;
+
+	/**
 	 * Setting key.
 	 *
 	 * @return string
@@ -186,7 +193,10 @@ class Rest_For_Users extends Feature {
 		}
 		// Letter case does not matter to the REST server: /WP/V2/posts reaches the same route.
 		$route = strtolower( '/' . ltrim( $request->get_route(), '/' ) );
-		foreach ( self::routes( $this->saved_value( 'keep_open', '' ) ) as $open ) {
+		if ( null === $this->open ) {
+			$this->open = self::routes( $this->saved_value( 'keep_open', '' ) ); // Once per request, not per batch item.
+		}
+		foreach ( $this->open as $open ) {
 			if ( $route === $open || 0 === strpos( $route, $open . '/' ) ) {
 				return $result;
 			}

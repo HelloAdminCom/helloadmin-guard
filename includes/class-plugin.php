@@ -140,6 +140,11 @@ final class Plugin {
 	const HEAL_WAIT = 'helloadmin_guard_heal_wait';
 
 	/**
+	 * Option with a stamp of the .htaccess file (time, size) and of its expected rules at the last match.
+	 */
+	const HEAL_SEEN = 'helloadmin_guard_heal_seen';
+
+	/**
 	 * Rewrites the .htaccess block when it differs from the block the current settings would write: rules of
 	 * settings that are off (a .htaccess copied from another copy of the site: staging, local, a move to new
 	 * hosting; with the login URL setting off here and its rule in the file, the login form would get a 404),
@@ -158,7 +163,16 @@ final class Plugin {
 				$want[] = $feature;
 			}
 		}
+		// Reading and parsing the file on every admin and login page view is skipped while neither the file (time and
+		// size) nor the rules it should hold changed since it last matched.
+		$path = Htaccess::path();
+		clearstatcache( true, $path );
+		$stamp = md5( ( file_exists( $path ) ? filemtime( $path ) . '|' . filesize( $path ) : '-' ) . '|' . md5( implode( "\n", Htaccess::lines( $want ) ) ) );
+		if ( get_option( self::HEAL_SEEN ) === $stamp ) {
+			return;
+		}
 		if ( Htaccess::block_matches( $want ) ) {
+			update_option( self::HEAL_SEEN, $stamp, true );
 			return;
 		}
 		// Taken before writing: parallel requests (bots on the login page) must not all write and check the file.
@@ -220,7 +234,10 @@ final class Plugin {
 		foreach ( $this->features as $id => $feature ) {
 			if ( $feature->is_alert() && $this->settings->is_enabled( $id ) ) {
 				$sender  = $sender ? $sender : $feature;
-				$extra[] = (string) $feature->value( 'email' );
+				$address = (string) $feature->value( 'email' );
+				if ( '' !== $address ) {
+					$extra[] = $address;
+				}
 			}
 		}
 		// One e-mail, also to the extra address of every e-mail setting that is on (a second mailbox may be set

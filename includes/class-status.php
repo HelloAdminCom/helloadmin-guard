@@ -85,7 +85,15 @@ class Status {
 	 */
 	public static function forget() {
 		delete_transient( self::CACHE );
+		self::$memo = false;
 	}
+
+	/**
+	 * Stored results read in this request (false: not read yet). count() asks for every feature.
+	 *
+	 * @var array<string, mixed>|null|false
+	 */
+	private static $memo = false;
 
 	/**
 	 * After a save, marks the settings that were switched or edited as due for a new check and forgets their old
@@ -117,6 +125,7 @@ class Status {
 		if ( $pending ) {
 			$data['pending'] = array_values( array_unique( $pending ) );
 			set_transient( self::CACHE, $data, self::TTL );
+			self::$memo = false;
 		}
 	}
 
@@ -143,6 +152,7 @@ class Status {
 		}
 		unset( $data['pending'] );
 		set_transient( self::CACHE, $data, self::TTL );
+		self::$memo = false;
 	}
 
 	/**
@@ -151,6 +161,19 @@ class Status {
 	 * @return array{time: int, closed: array<string, bool|null>, seen?: array<string, string>, pending?: string[]}|null
 	 */
 	public static function cached() {
+		if ( false !== self::$memo ) {
+			return self::$memo;
+		}
+		self::$memo = self::read_cache();
+		return self::$memo;
+	}
+
+	/**
+	 * Reads the stored results (see cached()).
+	 *
+	 * @return array{time: int, closed: array<string, bool|null>, seen?: array<string, string>, pending?: string[]}|null
+	 */
+	private static function read_cache() {
 		$data = get_transient( self::CACHE );
 		if ( ! is_array( $data ) || ! isset( $data['time'], $data['closed'] ) || ! is_array( $data['closed'] ) ) {
 			return null;
@@ -195,6 +218,7 @@ class Status {
 			'seen'   => $seen,
 		);
 		set_transient( self::CACHE, $data, self::TTL );
+		self::$memo = false;
 		return $data;
 	}
 

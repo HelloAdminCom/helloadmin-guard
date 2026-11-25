@@ -302,6 +302,11 @@ class Mu_Plugins_Watch extends Feature {
 	 *                               "site:wp-config.php" => MD5 of the content, sorted by path.
 	 */
 	public static function files() {
+		static $memo = null;
+		// The card warnings and the regular check may both ask in one request: scan and hash the files once.
+		if ( null !== $memo ) {
+			return $memo;
+		}
 		$files = array();
 		$dir   = WPMU_PLUGIN_DIR;
 		$base  = basename( $dir );
@@ -333,6 +338,7 @@ class Mu_Plugins_Watch extends Feature {
 			}
 		}
 		ksort( $files );
+		$memo = $files;
 		return $files;
 	}
 

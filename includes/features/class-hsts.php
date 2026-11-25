@@ -168,7 +168,10 @@ class Hsts extends Feature {
 	 * @return void
 	 */
 	public function send() {
-		if ( ! is_ssl() || headers_sent() || \HelloAdmin\Guard\Htaccess::served( $this->id() ) ) {
+		// Behind a proxy that ends HTTPS, is_ssl() is false; the proxy says so in X-Forwarded-Proto. Browsers ignore
+		// this header on plain http, so a forged value changes nothing.
+		$https = is_ssl() || ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) ) );
+		if ( ! $https || headers_sent() || \HelloAdmin\Guard\Htaccess::served( $this->id() ) ) {
 			return;
 		}
 		foreach ( headers_list() as $line ) {

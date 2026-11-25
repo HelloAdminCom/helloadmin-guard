@@ -262,9 +262,12 @@ class Security_Headers extends Feature {
 		if ( ! isset( self::KNOWN[ $field ] ) ) {
 			return array();
 		}
-		$active = (array) get_option( 'active_plugins', array() );
-		if ( is_multisite() ) {
-			$active = array_merge( $active, array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) ) );
+		static $active = null;
+		if ( null === $active ) {
+			$active = (array) get_option( 'active_plugins', array() );
+			if ( is_multisite() ) {
+				$active = array_merge( $active, array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) ) );
+			}
 		}
 		$found = array();
 		foreach ( $active as $file ) {

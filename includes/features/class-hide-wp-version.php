@@ -166,12 +166,16 @@ class Hide_Wp_Version extends Feature {
 		if ( ! is_string( $src ) || is_admin() ) {
 			return $src;
 		}
-		$version = (string) get_bloginfo( 'version' );
-		$query   = (string) wp_parse_url( $src, PHP_URL_QUERY );
+		static $version = null, $masked = null;
+		if ( null === $version ) {
+			$version = (string) get_bloginfo( 'version' );
+			$masked  = substr( wp_hash( 'helloadmin-guard-ver-' . $version ), 0, 8 );
+		}
+		$query = (string) wp_parse_url( $src, PHP_URL_QUERY );
 		parse_str( $query, $args );
 		if ( ! isset( $args['ver'] ) || $args['ver'] !== $version ) {
 			return $src;
 		}
-		return add_query_arg( 'ver', substr( wp_hash( 'helloadmin-guard-ver-' . $version ), 0, 8 ), $src );
+		return add_query_arg( 'ver', $masked, $src );
 	}
 }

@@ -253,11 +253,12 @@ class Admin_Page {
 		$result = Htaccess::sync( $on );
 		if ( is_wp_error( $result ) ) {
 			$messages = array(
-				'not_apache'   => __( 'Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead.', 'helloadmin-guard' ),
-				'not_writable' => __( 'Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable.', 'helloadmin-guard' ),
-				'write_failed' => __( 'Server rules were not saved: writing the .htaccess file failed. Nothing was changed.', 'helloadmin-guard' ),
-				'site_broken'  => __( 'Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules.', 'helloadmin-guard' ),
-				'not_checked'  => __( 'Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works.', 'helloadmin-guard' ),
+				'not_apache'     => __( 'Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead.', 'helloadmin-guard' ),
+				'not_writable'   => __( 'Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable.', 'helloadmin-guard' ),
+				'write_failed'   => __( 'Server rules were not saved: writing the .htaccess file failed. Nothing was changed.', 'helloadmin-guard' ),
+				'site_broken'    => __( 'Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules.', 'helloadmin-guard' ),
+				'restore_failed' => __( 'After writing the server rules the home page answered with a server error, and the old .htaccess file could not be written back. Open .htaccess in the site root over FTP or in the hosting file manager and delete everything between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard".', 'helloadmin-guard' ),
+				'not_checked'    => __( 'Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works.', 'helloadmin-guard' ),
 			);
 			$code     = (string) $result->get_error_code();
 

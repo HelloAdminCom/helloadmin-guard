@@ -140,7 +140,7 @@ class Settings {
 		$value = is_array( $value ) ? $value : array();
 		return array(
 			'enabled' => isset( $value['enabled'] ) && is_array( $value['enabled'] ) ? array_map( 'boolval', $value['enabled'] ) : array(),
-			'fields'  => isset( $value['fields'] ) && is_array( $value['fields'] ) ? $value['fields'] : array(),
+			'fields'  => isset( $value['fields'] ) && is_array( $value['fields'] ) ? array_filter( $value['fields'], 'is_array' ) : array(),
 			'skip'    => isset( $value['skip'] ) && is_array( $value['skip'] ) ? array_map( 'boolval', $value['skip'] ) : array(),
 			'prefs'   => isset( $value['prefs'] ) && is_array( $value['prefs'] ) ? $value['prefs'] : array(),
 		);

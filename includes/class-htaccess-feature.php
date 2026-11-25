@@ -74,19 +74,26 @@ abstract class Htaccess_Feature extends Feature {
 	}
 
 	/**
+	 * Path of a URL with the home path cut off (unchanged when the URL is outside home).
+	 *
+	 * @param string $url Full URL.
+	 * @return string
+	 */
+	private static function inside_home( $url ) {
+		// With a trailing slash on both, so the home address itself without its slash also counts as inside.
+		$path = trailingslashit( (string) wp_parse_url( $url, PHP_URL_PATH ) );
+		$home = trailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
+		return 0 === strpos( $path, $home ) ? substr( $path, strlen( $home ) ) : $path;
+	}
+
+	/**
 	 * Path of a URL relative to the site root, plain, with a trailing slash, for example "wp-includes/".
 	 *
 	 * @param string $url Full URL inside the site.
 	 * @return string
 	 */
 	protected static function rel_path( $url ) {
-		// With a trailing slash on both, so the home address itself without its slash also counts as inside.
-		$path = trailingslashit( (string) wp_parse_url( $url, PHP_URL_PATH ) );
-		$home = trailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
-		if ( 0 === strpos( $path, $home ) ) {
-			$path = substr( $path, strlen( $home ) );
-		}
-		return trailingslashit( trim( $path, '/' ) );
+		return trailingslashit( trim( self::inside_home( $url ), '/' ) );
 	}
 
 	/**
@@ -96,13 +103,7 @@ abstract class Htaccess_Feature extends Feature {
 	 * @return string
 	 */
 	protected static function rel( $url ) {
-		// With a trailing slash on both, so the home address itself without its slash also counts as inside.
-		$path = trailingslashit( (string) wp_parse_url( $url, PHP_URL_PATH ) );
-		$home = trailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
-		if ( 0 === strpos( $path, $home ) ) {
-			$path = substr( $path, strlen( $home ) );
-		}
-		return self::quote( $path );
+		return self::quote( self::inside_home( $url ) );
 	}
 
 	/**

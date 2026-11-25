@@ -180,7 +180,11 @@ class Cli {
 			$before            = isset( $option['enabled'] ) && is_array( $option['enabled'] ) ? $option['enabled'] : array();
 			$option['enabled'] = Htaccess::settle( $before, $rules, $result );
 			$kept              = array_keys( array_diff_key( $option['enabled'], $before ) );
-			\WP_CLI::warning( 'Server rules were not written (' . $result->get_error_code() . '). .htaccess is unchanged: new server rule settings stay off' . ( $kept ? ', and these stay on because their rules are still in the file: ' . implode( ', ', $kept ) : '' ) . '.' );
+			if ( 'restore_failed' === $result->get_error_code() ) {
+				\WP_CLI::warning( 'The home page answered with a server error after writing the rules, and the old .htaccess could not be written back. Delete everything between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" in ' . Htaccess::path() . ' by hand.' );
+			} else {
+				\WP_CLI::warning( 'Server rules were not written (' . $result->get_error_code() . '). .htaccess is unchanged: new server rule settings stay off' . ( $kept ? ', and these stay on because their rules are still in the file: ' . implode( ', ', $kept ) : '' ) . '.' );
+			}
 		} elseif ( is_wp_error( $result ) ) {
 			\WP_CLI::warning( 'Server rules were written, but the home page could not be opened to check them. Open the site to make sure it works.' );
 		}
