@@ -165,11 +165,20 @@ class Block_Inactive_Plugins extends Htaccess_Feature {
 		if ( ! $folders ) {
 			return true; // Nothing to close.
 		}
-		$files = array_keys( get_plugins( '/' . $folders[0] ) );
-		if ( ! $files ) {
-			return null;
+		// Up to three plugins: one may close its own folder (Akismet ships a .htaccess), which says nothing about the rest.
+		$checked = 0;
+		foreach ( array_slice( $folders, 0, 3 ) as $folder ) {
+			$files = array_keys( get_plugins( '/' . $folder ) );
+			if ( ! $files ) {
+				continue;
+			}
+			$closed = Probe::closed( '/' . self::rel_path( plugins_url( '/' ) ) . $folder . '/' . $files[0] );
+			if ( true !== $closed ) {
+				return $closed;
+			}
+			++$checked;
 		}
-		return Probe::closed( '/' . self::rel_path( plugins_url( '/' ) ) . $folders[0] . '/' . $files[0] );
+		return $checked ? true : null;
 	}
 
 	/**
