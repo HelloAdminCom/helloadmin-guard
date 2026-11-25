@@ -177,8 +177,9 @@ class User_Names {
 			$found[ $id ] = array( $where[0], $where[1], ! $is_public );
 		}
 		$users = array();
-		cache_users( array_keys( array_slice( $found, 0, self::LIMIT, true ) ) );
-		foreach ( array_slice( $found, 0, self::LIMIT, true ) as $id => $info ) {
+		$shown = array_slice( $found, 0, self::LIMIT, true );
+		cache_users( array_keys( $shown ) );
+		foreach ( $shown as $id => $info ) {
 			$user = get_userdata( $id );
 			if ( $user ) {
 				$users[] = array(

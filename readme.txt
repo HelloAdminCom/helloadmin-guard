@@ -117,7 +117,7 @@ The core namespaces wp/v2 (posts, pages, media, categories, search, users), wp-s
 
 = What does the Fix button in "Hide user names" change? =
 
-For one user: the public name ("Display name publicly as") becomes the name you type, the author page address is made from that name when it was the login (the old address answers "not found"), and the user's old comments get the new name. The login and the password stay the same.
+For one user: the public name ("Display name publicly as") becomes the name you type, the author page address is made from that name when it was the login (the old address answers "not found"), and the user's old comments get the new name. The login and the password stay the same. After a Fix, clear the cache of your page cache and SEO plugins: they may still show the old name or author address until then.
 
 = Does it work on Nginx? =
 
