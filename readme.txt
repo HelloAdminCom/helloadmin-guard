@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.5.2
+Stable tag: 0.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,14 +29,15 @@ General tab
 * Turn off or limit XML-RPC. Off: /xmlrpc.php answers 403. Or keep it for Jetpack and the mobile apps and only turn off pingbacks, which bots use to flood other sites.
 * Turn off the file editor. Removes the theme and plugin file editors from wp-admin, without editing wp-config.php.
 * Custom login URL. The login page moves to your own address; /wp-login.php and /wp-admin/ show a 404 page to visitors who are not logged in.
-* Hide user names. Closes /?author=1, the REST API user list, oEmbed author links and the users sitemap for visitors who are not logged in.
+* Hide user names. Closes /?author=1, the REST API user list, oEmbed author links and the users sitemap for visitors who are not logged in. Lists users whose login shows on the site, with a Fix button; author pages can redirect to the blog or answer 404.
 * Turn off Application Passwords. They stop working for everyone; existing passwords are kept and work again when you turn the setting off.
 * Security headers. X-Content-Type-Options, X-Frame-Options, Referrer-Policy and Permissions-Policy. You tick what your site uses (quick payment buttons, visitor location, camera and microphone); the rest is turned off. Boxes for known plugins, like WooCommerce or a store locator, are ticked for you.
-* Limit login attempts. Too many failed logins from one IP address lock it out for a while.
+* Limit login attempts. Too many failed logins from one IP address lock it out for a while. A strict mode also stops attacks from many addresses: new devices wait, known browsers get in.
 * Hide the WordPress version. Removes it from the generator tag, feeds and core file links, and removes the X-Powered-By header.
-* Hide the REST API index. /wp-json/ no longer lists installed plugins to visitors.
-* E-mail me about new administrators. A message when an account becomes an administrator, also when it was written straight into the database or hidden from the Users screen.
-* E-mail me about new must-use plugins. A message about new and changed files in wp-content/mu-plugins and drop-ins like db.php, where malware likes to hide.
+* Hide the REST API index. /wp-json/ no longer lists installed plugins to visitors, and the card warns about random-looking REST routes.
+* Core REST API only for logged-in users. Posts, pages, media and the other core routes answer only logged-in users; plugin routes stay open.
+* E-mail me about new administrators. A message when an account becomes an administrator, also when it was written straight into the database or hidden from the Users screen; also when an administrator's e-mail or password changes, the site e-mail changes, or anyone can register with a dangerous role.
+* E-mail me about changed must-use plugins and site files. A message about new and changed files in wp-content/mu-plugins and its subfolders, drop-ins like db.php, wp-config.php, index.php, .user.ini and php.ini, where malware likes to hide.
 
 The two e-mail settings do not depend on WP-Cron: they check after every login, on admin pages and at least once an hour while the site gets visits.
 
@@ -52,6 +53,7 @@ Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Ngin
 * Close internal WordPress folders: the rules from the WordPress hardening guide.
 * Hide files that show versions: readme.html, plugin readme files, install.php and upgrade.php for guests.
 * Block developer and build files: composer and npm files, source maps, Docker and deploy files.
+* Block PHP files of inactive plugins: they answer 404 when opened by address.
 * Refuse TRACE and TRACK requests, which security scanners report.
 
 If hacked tab
@@ -135,6 +137,16 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.6.0 =
+* New: "Core REST API only for logged-in users" closes wp/v2 and the other core routes to visitors who are not logged in; forms, shops and other plugin routes stay open.
+* New: "Block PHP files of inactive plugins": PHP files of plugins that are off answer 404 when opened by address.
+* Hide user names: a list of users whose login shows on the site, with a Fix button (public name, author page address, old comments); author pages can redirect to the blog or answer 404.
+* Admin alerts: e-mail when anyone can register with a dangerous role, when an administrator's e-mail or password changes, and when the site e-mail changes.
+* File alerts also watch wp-config.php, index.php, .user.ini, php.ini and subfolders of mu-plugins.
+* Limit login: strict mode against attacks from many addresses (known browsers and password resets still get in); real visitor IP behind Cloudflare; warnings for proxies that hide the visitor IP.
+* Hide the REST API index warns about random-looking REST routes and routes that run code from uploads.
+* Fixes: a REST batch call could cause a PHP fatal error with Hide user names on, login page views counted as failed logins during a lockout, a stray "1" next to the menu during the first check, and smaller fixes from two rounds of code review.
 
 = 0.5.2 =
 * Security: "E-mail me about new administrators" also reports accounts with administrator rights through another role or rights added to the account itself, not only the Administrator role.

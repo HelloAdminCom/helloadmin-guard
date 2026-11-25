@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] - 0.6.0
+## [0.6.0] - 2026-11-25
 
 ### Added
 - Core REST API only for logged-in users (new card): wp/v2, wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1 answer 401 to visitors who are not logged in, also inside batch calls; oEmbed and plugin routes stay open; "Keep open for visitors" field for exceptions.
