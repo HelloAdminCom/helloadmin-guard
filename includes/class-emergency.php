@@ -148,8 +148,9 @@ class Emergency {
 	private static function notify( $result ) {
 		$user = wp_get_current_user();
 		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
+		$who  = $user->exists() ? $user->user_login : __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 		/* translators: %s: user name. */
-		$lines   = array( sprintf( __( '%s pressed "Log out everyone" in HelloAdmin Guard.', 'helloadmin-guard' ), $user->user_login ), '', $result );
+		$lines   = array( sprintf( __( '%s pressed "Log out everyone" in HelloAdmin Guard.', 'helloadmin-guard' ), $who ), '', $result );
 		$lines[] = '';
 		$lines[] = __( 'If this was not you or your team, someone else has administrator access: log in, change your password and check the list of administrators.', 'helloadmin-guard' );
 		$to      = is_multisite() ? (string) get_site_option( 'admin_email' ) : (string) get_option( 'admin_email' );

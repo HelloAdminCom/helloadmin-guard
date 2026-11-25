@@ -72,7 +72,9 @@ class Settings {
 	 * @return string
 	 */
 	public function field( $id, $field, $fallback = '' ) {
-		return isset( $this->data['fields'][ $id ][ $field ] ) ? $this->data['fields'][ $id ][ $field ] : $fallback;
+		$value = isset( $this->data['fields'][ $id ][ $field ] ) ? $this->data['fields'][ $id ][ $field ] : null;
+		// A value changed by hand or imported may be an array; only text and numbers count.
+		return is_scalar( $value ) ? (string) $value : $fallback;
 	}
 
 	/**
@@ -82,7 +84,8 @@ class Settings {
 	 * @return array<string, string>
 	 */
 	public function fields_of( $id ) {
-		return isset( $this->data['fields'][ $id ] ) && is_array( $this->data['fields'][ $id ] ) ? $this->data['fields'][ $id ] : array();
+		$fields = isset( $this->data['fields'][ $id ] ) && is_array( $this->data['fields'][ $id ] ) ? $this->data['fields'][ $id ] : array();
+		return array_map( 'strval', array_filter( $fields, 'is_scalar' ) );
 	}
 
 	/**

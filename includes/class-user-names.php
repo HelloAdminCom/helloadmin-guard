@@ -152,6 +152,8 @@ class User_Names {
 					'capability' => 'edit_posts',
 					'fields'     => 'ID',
 					'number'     => 100,
+					'orderby'    => 'ID',
+					'order'      => 'DESC',
 					'date_query' => array( array( 'after' => '7 days ago' ) ),
 				)
 			)
