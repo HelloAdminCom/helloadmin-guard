@@ -106,7 +106,7 @@ class Hide_Rest_Index extends Feature {
 		foreach ( rest_get_server()->get_routes() as $route => $handlers ) {
 			$namespace = (string) strtok( ltrim( (string) $route, '/' ), '/' ) . '/' . (string) strtok( '/' );
 			// The namespace root is WordPress's own index route: its code is in core, not in the plugin.
-			if ( isset( $found[ $namespace ] ) || '/' === $namespace || '/' . $namespace === untrailingslashit( (string) $route ) ) {
+			if ( isset( $found[ $namespace ] ) || '/' === $namespace || untrailingslashit( (string) $route ) === '/' . $namespace ) {
 				continue;
 			}
 			$file   = self::handler_file( (array) $handlers );
