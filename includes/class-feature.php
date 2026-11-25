@@ -334,16 +334,18 @@ abstract class Feature {
 	 * Reads a watch list stored by save_list().
 	 *
 	 * @param string $option Option name.
-	 * @return array{0: array<mixed>, 1: bool} The list, and whether it was changed or removed outside the plugin.
-	 *                                  A list from an earlier build without a signature is accepted once.
+	 * @return array{0: array<mixed>, 1: bool} The list, and whether it was changed or removed outside the plugin
+	 *                                  (a missing signature counts as changed).
 	 */
 	protected static function load_list( $option ) {
 		$stored = get_option( $option, null );
 		if ( ! is_array( $stored ) ) {
 			return array( array(), true );
 		}
+		// Every released version signs its lists (since 0.5.0), so a list without a signature was changed outside
+		// the plugin: someone with write access to the database could otherwise drop "sig" and plant a list.
 		if ( ! array_key_exists( 'sig', $stored ) ) {
-			return array( $stored, false );
+			return array( array(), true );
 		}
 		$items = isset( $stored['list'] ) && is_array( $stored['list'] ) ? $stored['list'] : array();
 		$sig   = is_string( $stored['sig'] ) ? $stored['sig'] : '';

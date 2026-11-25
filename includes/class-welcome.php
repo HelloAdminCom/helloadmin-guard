@@ -145,14 +145,14 @@ class Welcome {
 			esc_html__( 'Hello, admin or developer!', 'helloadmin-guard' )
 		);
 		echo '<div class="hag-welcome-body">';
-		printf(
-			'<p>%s</p>',
+		echo '<p>' . wp_kses(
 			sprintf(
 				/* translators: %s: plugin name in bold. */
-				esc_html__( 'Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what %s does. Every gap has its own switch, so you decide what to close and what to leave open.', 'helloadmin-guard' ),
+				__( 'Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what %s does. Every gap has its own switch, so you decide what to close and what to leave open.', 'helloadmin-guard' ),
 				'<strong>HelloAdmin Guard</strong>'
-			) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped text, fixed markup.
-		);
+			),
+			array( 'strong' => array() )
+		) . '</p>';
 		echo '<h3>' . esc_html__( 'Good to know', 'helloadmin-guard' ) . '</h3>';
 		echo '<ul class="hag-checks">';
 		echo '<li>' . esc_html__( 'Nothing is on until you turn it on.', 'helloadmin-guard' ) . '</li>';

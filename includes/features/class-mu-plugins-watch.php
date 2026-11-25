@@ -402,9 +402,9 @@ class Mu_Plugins_Watch extends Feature {
 		if ( '' === $code ) {
 			return false;
 		}
-		$runs   = preg_match( '/\b(eval|assert)\s*\(/i', $code );
-		$decode = preg_match( '/\b(base64_decode|gzinflate|gzuncompress|gzdecode|str_rot13|hex2bin)\s*\(/i', $code );
-		return $runs && $decode;
+		// The decoding call inside the eval() or assert() call itself, not anywhere in the file: big libraries have
+		// both functions in different places. assert() stays: on PHP 7 it still runs a string as code.
+		return (bool) preg_match( '/\b(eval|assert)\s*\([^;]{0,200}?\b(base64_decode|gzinflate|gzuncompress|gzdecode|str_rot13|hex2bin)\s*\(/is', $code );
 	}
 
 	/**

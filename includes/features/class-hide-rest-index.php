@@ -104,13 +104,14 @@ class Hide_Rest_Index extends Feature {
 		$found    = array();
 		$warnings = array();
 		foreach ( rest_get_server()->get_routes() as $route => $handlers ) {
-			$namespace = (string) strtok( ltrim( (string) $route, '/' ), '/' ) . '/' . (string) strtok( '/' );
+			$parts     = explode( '/', ltrim( (string) $route, '/' ), 3 );
+			$namespace = $parts[0] . '/' . ( isset( $parts[1] ) ? $parts[1] : '' );
 			// The namespace root is WordPress's own index route: its code is in core, not in the plugin.
 			if ( isset( $found[ $namespace ] ) || '/' === $namespace || untrailingslashit( (string) $route ) === '/' . $namespace ) {
 				continue;
 			}
 			$file   = self::handler_file( (array) $handlers );
-			$random = (bool) preg_match( '/(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{6,}/', strtok( $namespace, '/' ) );
+			$random = (bool) preg_match( '/(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{6,}/', $parts[0] );
 			$odd    = '' !== $file && ( false !== strpos( $file, "eval()'d code" ) || ( '' !== $uploads && 0 === strpos( $file, $uploads ) ) );
 			if ( ! $random && ! $odd ) {
 				continue;

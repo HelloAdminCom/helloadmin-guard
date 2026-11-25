@@ -30,6 +30,11 @@ class User_Names {
 	const LIMIT = 20;
 
 	/**
+	 * Most users looked at, newest first (a shop may have thousands of customers whose display name is the login).
+	 */
+	const MAX_CANDIDATES = 1000;
+
+	/**
 	 * Query argument with the user ID of the pressed button.
 	 */
 	const USER_ARG = 'hag_fix_user';
@@ -109,46 +114,81 @@ class User_Names {
 	 * somewhere public (published posts, approved comments), and new users who can write posts (added in the
 	 * last 7 days: their first post will show the login). Customers of a shop who never post are left out.
 	 *
+	 * Built for big sites: one query over the users table picks users whose name or address looks like the login
+	 * and who have a published post or an approved comment (EXISTS on the post_author and user_id indexes),
+	 * newest first, at most MAX_CANDIDATES; then the exact rules are checked in PHP.
+	 *
 	 * @return array{users: array<int, array{id: int, login: string, name: bool, slug: bool, fresh: bool, proposal: string}>, total: int}
 	 */
 	public static function leaks() {
 		global $wpdb;
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- small aggregate queries for the settings page only.
-		$authors   = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_author > 0" );
-		$commenter = $wpdb->get_col( "SELECT DISTINCT user_id FROM {$wpdb->comments} WHERE comment_approved = '1' AND user_id > 0" );
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery
-		$public = array_map( 'intval', array_merge( $authors, $commenter ) );
-
-		$fresh = get_users(
-			array(
-				'capability' => 'edit_posts',
-				'fields'     => 'ID',
-				'number'     => 100,
-				'date_query' => array( array( 'after' => '7 days ago' ) ),
+		$match = "( u.display_name = u.user_login OR u.user_nicename = LOWER( u.user_login ) OR u.user_nicename = LOWER( REPLACE( REPLACE( u.user_login, '.', '-' ), ' ', '-' ) ) )";
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- read-only, $match is a fixed string; EXISTS uses the post_author and user_id indexes.
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT u.ID, u.user_login, u.user_nicename, u.display_name FROM {$wpdb->users} u WHERE {$match}
+				AND ( EXISTS ( SELECT 1 FROM {$wpdb->posts} p WHERE p.post_author = u.ID AND p.post_status = 'publish' )
+					OR EXISTS ( SELECT 1 FROM {$wpdb->comments} c WHERE c.user_id = u.ID AND c.comment_approved = '1' ) )
+				ORDER BY u.ID DESC LIMIT %d",
+				self::MAX_CANDIDATES
 			)
 		);
-		$fresh = array_map( 'intval', $fresh );
-		$ids   = array_values( array_unique( array_merge( $public, $fresh ) ) );
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$leaking = array();
+		$public  = array();
+		foreach ( (array) $rows as $row ) {
+			$public[] = (int) $row->ID;
+			// The SQL above is a rough filter; the exact rules are these.
+			$name = self::same( $row->display_name, $row->user_login );
+			$slug = sanitize_title( $row->user_login ) === $row->user_nicename;
+			if ( $name || $slug ) {
+				$leaking[ (int) $row->ID ] = array( $name, $slug );
+			}
+		}
+		$fresh = array_map(
+			'intval',
+			get_users(
+				array(
+					'capability' => 'edit_posts',
+					'fields'     => 'ID',
+					'number'     => 100,
+					'date_query' => array( array( 'after' => '7 days ago' ) ),
+				)
+			)
+		);
+		// New users who can write posts but have not posted yet: at most 100, loaded one by one.
+		foreach ( array_diff( $fresh, $public ) as $id ) {
+			$user = get_userdata( $id );
+			if ( $user && ( self::name_leaks( $user ) || self::slug_leaks( $user ) ) ) {
+				$leaking[ $id ] = array( self::name_leaks( $user ), self::slug_leaks( $user ) );
+			}
+		}
+		krsort( $leaking ); // Newest first, fresh users among them.
 
 		$found = array();
-		foreach ( array_chunk( $ids, 200 ) as $chunk ) {
-			foreach ( get_users( array( 'include' => $chunk ) ) as $user ) {
-				$name = self::name_leaks( $user );
-				$slug = self::slug_leaks( $user );
-				if ( $name || $slug ) {
-					$found[] = array(
-						'id'       => (int) $user->ID,
-						'login'    => $user->user_login,
-						'name'     => $name,
-						'slug'     => $slug,
-						'fresh'    => in_array( (int) $user->ID, $fresh, true ) && ! in_array( (int) $user->ID, $public, true ),
-						'proposal' => self::proposal( $user ),
-					);
-				}
+		foreach ( $leaking as $id => $where ) {
+			$is_public = in_array( $id, $public, true );
+			if ( ! $is_public && ! in_array( $id, $fresh, true ) ) {
+				continue;
+			}
+			$found[ $id ] = array( $where[0], $where[1], ! $is_public );
+		}
+		$users = array();
+		foreach ( array_slice( $found, 0, self::LIMIT, true ) as $id => $info ) {
+			$user = get_userdata( $id );
+			if ( $user ) {
+				$users[] = array(
+					'id'       => (int) $id,
+					'login'    => $user->user_login,
+					'name'     => $info[0],
+					'slug'     => $info[1],
+					'fresh'    => $info[2],
+					'proposal' => self::proposal( $user ),
+				);
 			}
 		}
 		return array(
-			'users' => array_slice( $found, 0, self::LIMIT ),
+			'users' => $users,
 			'total' => count( $found ),
 		);
 	}

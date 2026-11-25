@@ -344,8 +344,10 @@ class Login_Url extends Feature {
 	 * @return void
 	 */
 	private function serve_login() {
-		// wp-login.php and the functions it defines read these as globals.
-		global $error, $interim_login, $action, $user_login;
+		// wp-login.php normally runs in the global scope. Its own functions read $error, $interim_login and $action as
+		// globals; the rest of its top-level variables are made global too, for plugins (two-factor, captcha) that
+		// read them from $GLOBALS during the login, reset or registration steps.
+		global $error, $interim_login, $action, $user_login, $user, $errors, $redirect_to, $requested_redirect_to, $rp_key, $rp_cookie, $reauth, $rememberme, $user_email;
 
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- plugins check $pagenow to detect the login page.
 		$GLOBALS['pagenow'] = 'wp-login.php';

@@ -768,12 +768,13 @@ class Admin_Alert extends Feature {
 	public static function admin_ids() {
 		global $wpdb;
 
+		// The API stores true (b:1), but code that writes the meta itself may store 1 or "1": WordPress treats those
+		// as granted too, so all three forms are looked for.
 		$likes = array();
-		foreach ( self::admin_roles() as $role ) {
-			$likes[] = '%' . $wpdb->esc_like( '"' . $role . '";b:1' ) . '%';
-		}
-		foreach ( self::ADMIN_CAPS as $cap ) {
-			$likes[] = '%' . $wpdb->esc_like( '"' . $cap . '";b:1' ) . '%';
+		foreach ( array_merge( self::admin_roles(), self::ADMIN_CAPS ) as $name ) {
+			foreach ( array( 'b:1;', 'i:1;', 's:1:"1";' ) as $value ) {
+				$likes[] = '%' . $wpdb->esc_like( '"' . $name . '";' . $value ) . '%';
+			}
 		}
 		$where = implode( ' OR ', array_fill( 0, count( $likes ), 'meta_value LIKE %s' ) );
 		$ids   = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- on purpose: get_users() can be filtered by malware that hides accounts; the result changes with every role change, so no cache.

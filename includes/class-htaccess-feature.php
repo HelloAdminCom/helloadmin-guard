@@ -80,9 +80,10 @@ abstract class Htaccess_Feature extends Feature {
 	 * @return string
 	 */
 	protected static function rel_path( $url ) {
-		$path = (string) wp_parse_url( $url, PHP_URL_PATH );
-		$home = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
-		if ( '' !== $home && 0 === strpos( $path, $home ) ) {
+		// With a trailing slash on both, so the home address itself without its slash also counts as inside.
+		$path = trailingslashit( (string) wp_parse_url( $url, PHP_URL_PATH ) );
+		$home = trailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
+		if ( 0 === strpos( $path, $home ) ) {
 			$path = substr( $path, strlen( $home ) );
 		}
 		return trailingslashit( trim( $path, '/' ) );
@@ -95,9 +96,10 @@ abstract class Htaccess_Feature extends Feature {
 	 * @return string
 	 */
 	protected static function rel( $url ) {
-		$path = (string) wp_parse_url( $url, PHP_URL_PATH );
-		$home = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
-		if ( '' !== $home && 0 === strpos( $path, $home ) ) {
+		// With a trailing slash on both, so the home address itself without its slash also counts as inside.
+		$path = trailingslashit( (string) wp_parse_url( $url, PHP_URL_PATH ) );
+		$home = trailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
+		if ( 0 === strpos( $path, $home ) ) {
 			$path = substr( $path, strlen( $home ) );
 		}
 		return self::quote( $path );
