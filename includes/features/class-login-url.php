@@ -275,7 +275,8 @@ class Login_Url extends Feature {
 	 * page itself (form, lost password, redirects after a login action). Everywhere else their links keep
 	 * wp-login.php, which answers 404: otherwise /wp-signup.php, /wp-register.php or a "Log in" link in the theme
 	 * would redirect or link any visitor to the new address. When anyone can register, the registration link
-	 * has to work, so it shows the address.
+	 * has to work, so it shows the address: then /wp-signup.php and /wp-register.php redirect guests to the
+	 * registration form at the new address (by design, the card text says so).
 	 *
 	 * @param string $action Login action of the URL.
 	 * @return bool

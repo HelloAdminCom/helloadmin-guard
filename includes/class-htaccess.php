@@ -61,12 +61,14 @@ class Htaccess {
 	 */
 	public static function served( $id ) {
 		$key = 'HTTP_' . strtoupper( str_replace( '-', '_', self::flag_header( $id ) ) );
-		return ! empty( $_SERVER[ $key ] ) || ! empty( $_SERVER[ 'REDIRECT_' . $key ] );
+		// Each internal redirect (for example index.php, then an ErrorDocument) adds one more REDIRECT_ prefix.
+		return ! empty( $_SERVER[ $key ] ) || ! empty( $_SERVER[ 'REDIRECT_' . $key ] ) || ! empty( $_SERVER[ 'REDIRECT_REDIRECT_' . $key ] );
 	}
 
 	/**
 	 * Ids of the settings whose rules are in the plugin block of .htaccess now, read from the file itself
-	 * (each part of the block starts with "# <id>"). The file may come from another copy of the site.
+	 * (each part of the block starts with "# <id>"). The file may come from another copy of the site. When the file
+	 * holds more than one block (pasted twice by hand), the ids of all blocks count: their rules all work.
 	 *
 	 * @return string[]
 	 */
@@ -77,10 +79,10 @@ class Htaccess {
 			return array();
 		}
 		$pattern = '/' . preg_quote( '# BEGIN ' . self::MARKER, '/' ) . '(.*?)' . preg_quote( '# END ' . self::MARKER, '/' ) . '/s';
-		if ( ! preg_match( $pattern, (string) $fs->get_contents( $path ), $block ) ) {
+		if ( ! preg_match_all( $pattern, (string) $fs->get_contents( $path ), $blocks ) ) {
 			return array();
 		}
-		preg_match_all( '/^# ([a-z0-9_]+)\s*$/m', $block[1], $ids );
+		preg_match_all( '/^# ([a-z0-9_]+)\s*$/m', implode( "\n", $blocks[1] ), $ids );
 		return array_values( array_unique( $ids[1] ) );
 	}
 
@@ -190,7 +192,8 @@ class Htaccess {
 
 	/**
 	 * Whether the plugin block in the file is exactly the block these features would write. False when rules were
-	 * removed, edited or added by hand, by another plugin or with a file copied from another site.
+	 * removed, edited or added by hand, by another plugin or with a file copied from another site. A second block
+	 * also counts as a mismatch: the next sync writes one block and removes the rest.
 	 *
 	 * @param Feature[] $features Enabled features with server rules.
 	 * @return bool
@@ -201,7 +204,11 @@ class Htaccess {
 		$content = $fs->exists( $path ) ? str_replace( "\r\n", "\n", (string) $fs->get_contents( $path ) ) : '';
 		$lines   = self::lines( array_filter( $features, array( __CLASS__, 'safe_rules' ) ) );
 		$pattern = '/' . preg_quote( '# BEGIN ' . self::MARKER, '/' ) . '.*?' . preg_quote( '# END ' . self::MARKER, '/' ) . '/s';
-		$found   = preg_match( $pattern, $content, $block ) ? $block[0] : '';
+		$count   = preg_match_all( $pattern, $content, $blocks );
+		if ( $count > 1 ) {
+			return false;
+		}
+		$found = $count ? $blocks[0][0] : '';
 		if ( ! $lines ) {
 			return '' === $found;
 		}

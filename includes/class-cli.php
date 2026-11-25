@@ -146,6 +146,12 @@ class Cli {
 
 		$option = get_option( Settings::OPTION, array() );
 		$option = is_array( $option ) ? $option : array();
+		// A damaged option (a string instead of a list) would break unset() and the loops below.
+		foreach ( array( 'enabled', 'skip' ) as $key ) {
+			if ( isset( $option[ $key ] ) && ! is_array( $option[ $key ] ) ) {
+				$option[ $key ] = array();
+			}
+		}
 		foreach ( $ids as $id ) {
 			if ( $on ) {
 				$option['enabled'][ $id ] = true;
@@ -165,6 +171,9 @@ class Cli {
 		global $is_apache;
 		if ( ! $is_apache && file_exists( Htaccess::path() ) ) {
 			$is_apache = true; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- WP-CLI has no web server to detect.
+			if ( $rules ) {
+				\WP_CLI::log( 'Server rules go to ' . Htaccess::path() . '. If this site runs on Nginx, that file is ignored: copy the Nginx rules from the Advanced tab into the server config.' );
+			}
 		}
 		$result = Htaccess::sync( $rules );
 		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {

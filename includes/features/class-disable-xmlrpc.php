@@ -199,7 +199,8 @@ class Disable_Xmlrpc extends Feature {
 	public function enable( Settings $settings ) {
 		add_filter( 'wp_headers', array( $this, 'remove_pingback_header' ) );
 		if ( $this->is_limit_mode() ) {
-			add_filter( 'xmlrpc_methods', array( $this, 'remove_pingback_methods' ) );
+			// Last, so a plugin that adds its own pingback methods later does not bring them back.
+			add_filter( 'xmlrpc_methods', array( $this, 'remove_pingback_methods' ), PHP_INT_MAX );
 			return;
 		}
 		if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
