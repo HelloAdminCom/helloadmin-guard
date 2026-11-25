@@ -47,6 +47,23 @@ class Admin_Alert extends Feature {
 	const REGISTRATION_OPTION = 'helloadmin_guard_registration';
 
 	/**
+	 * Option with the e-mail and a password fingerprint of every administrator, signed like the admin list.
+	 */
+	const CREDS_OPTION = 'helloadmin_guard_admin_creds';
+
+	/**
+	 * Option with the site e-mail address seen last time.
+	 */
+	const SITE_EMAIL_OPTION = 'helloadmin_guard_site_email';
+
+	/**
+	 * True once the account check is queued for the end of this request.
+	 *
+	 * @var bool
+	 */
+	private $creds_queued = false;
+
+	/**
 	 * Rights that a role given to anyone who registers must not have. Besides ADMIN_CAPS: unfiltered_html lets
 	 * a script into posts that runs when an administrator opens them, the rest edit other people's content,
 	 * users or the theme.
@@ -93,6 +110,7 @@ class Admin_Alert extends Feature {
 	 */
 	public function what() {
 		return __( 'When an account becomes an administrator, the site e-mail address gets a message with the user name, the e-mail of the account and who made the change. The plugin also compares the administrators in the database with the list it saw last time: after every login, on admin pages and at least once an hour while the site gets visits, without WP-Cron. So an account added straight into the database, or hidden from the Users screen, is reported too, at the latest when someone logs in with it. Hacked sites often get an extra admin with a random name like "a3f9c2".', 'helloadmin-guard' )
+			. ' ' . __( 'Taking over an existing administrator is reported too: an e-mail goes out when the e-mail address or the password of any administrator changes, and when the site e-mail address changes (then to the old address as well, because the alerts would go to the new one).', 'helloadmin-guard' )
 			. ' ' . __( 'You also get an e-mail when anyone becomes able to register on the site, or when the role for new users changes while registration is open. A known attack through a plugin hole turns on "Anyone can register" with Administrator as the new user role, then simply registers.', 'helloadmin-guard' );
 	}
 
@@ -235,6 +253,10 @@ class Admin_Alert extends Feature {
 		add_action( 'added_user_meta', array( $this, 'on_caps_meta' ), 10, 3 );
 		add_action( 'updated_user_meta', array( $this, 'on_caps_meta' ), 10, 3 );
 		add_action( 'granted_super_admin', array( $this, 'queue_check' ) );
+		add_action( 'profile_update', array( $this, 'queue_creds_check' ) );
+		add_action( 'after_password_reset', array( $this, 'queue_creds_check' ) );
+		add_action( 'wp_set_password', array( $this, 'queue_creds_check' ) );
+		add_action( 'update_option_admin_email', array( $this, 'queue_creds_check' ) );
 		foreach ( array( 'users_can_register', 'default_role' ) as $name ) {
 			add_action( 'add_option_' . $name, array( $this, 'queue_registration_check' ) );
 			add_action( 'update_option_' . $name, array( $this, 'queue_registration_check' ) );
@@ -255,6 +277,8 @@ class Admin_Alert extends Feature {
 	public function switched_on() {
 		self::save_list( self::SNAPSHOT_OPTION, self::admin_ids() );
 		update_option( self::REGISTRATION_OPTION, self::registration_key(), false );
+		self::save_list( self::CREDS_OPTION, self::creds() );
+		update_option( self::SITE_EMAIL_OPTION, (string) get_option( 'admin_email' ), false );
 	}
 
 	/**
@@ -319,6 +343,7 @@ class Admin_Alert extends Feature {
 	 */
 	public function check() {
 		$this->check_registration();
+		$this->check_creds();
 		$now                 = self::admin_ids();
 		list( $known, $bad ) = self::load_list( self::SNAPSHOT_OPTION );
 		$known               = array_map( 'intval', $known );
@@ -334,6 +359,154 @@ class Admin_Alert extends Feature {
 		foreach ( array_diff( $now, $known ) as $id ) {
 			$this->send_alert( (int) $id );
 		}
+	}
+
+	/**
+	 * Checks the administrator accounts at the end of the request, when the change is saved.
+	 *
+	 * @return void
+	 */
+	public function queue_creds_check() {
+		if ( ! $this->creds_queued ) {
+			$this->creds_queued = true;
+			$this->reason       = 'role';
+			add_action( 'shutdown', array( $this, 'check_creds' ) );
+		}
+	}
+
+	/**
+	 * E-mail and a password fingerprint of every administrator. The fingerprint is an HMAC of the stored password
+	 * hash, so the option holds nothing that helps to guess the password.
+	 *
+	 * @return array<int, array{e: string, p: string}> Keyed by user ID.
+	 */
+	private static function creds() {
+		$found = array();
+		foreach ( self::admin_ids() as $id ) {
+			$user = get_userdata( $id );
+			if ( $user ) {
+				$found[ $id ] = array(
+					'e' => strtolower( $user->user_email ),
+					'p' => substr( hash_hmac( 'sha256', $user->user_pass, wp_salt( 'auth' ) ), 0, 20 ),
+				);
+			}
+		}
+		return $found;
+	}
+
+	/**
+	 * Sends an e-mail when the e-mail address or the password of an administrator changed, or the site e-mail
+	 * address. New administrators are only recorded: the new administrator alert reports them.
+	 *
+	 * @return void
+	 */
+	public function check_creds() {
+		$this->check_site_email();
+		$now                 = self::creds();
+		list( $known, $bad ) = self::load_list( self::CREDS_OPTION );
+		$missing             = null === get_option( self::CREDS_OPTION, null );
+		if ( $now !== $known || $bad ) {
+			self::save_list( self::CREDS_OPTION, $now );
+		}
+		if ( $missing ) {
+			return; // First run after an update: only remember.
+		}
+		if ( $bad ) {
+			$this->send_alert_mail(
+				__( 'The record of administrator accounts was changed outside the plugin', 'helloadmin-guard' ),
+				array(
+					__( 'HelloAdmin Guard keeps the e-mail addresses of the administrators and a fingerprint of their passwords, to notice when an existing administrator account is taken over. That record was changed or removed outside the plugin, for example straight in the database. The plugin cannot tell now whether an e-mail address or a password changed before that.', 'helloadmin-guard' ),
+					__( 'If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected.', 'helloadmin-guard' ),
+					'',
+					admin_url( 'users.php?role=administrator' ),
+				)
+			);
+			return;
+		}
+		foreach ( $now as $id => $current ) {
+			if ( isset( $known[ $id ] ) && is_array( $known[ $id ] ) && $known[ $id ] !== $current ) {
+				$this->send_creds_alert( (int) $id, $known[ $id ], $current );
+			}
+		}
+	}
+
+	/**
+	 * E-mail about a changed administrator account.
+	 *
+	 * @param int                   $user_id User ID.
+	 * @param array<string, string> $before  Stored e-mail and fingerprint.
+	 * @param array<string, string> $after   Current e-mail and fingerprint.
+	 * @return void
+	 */
+	private function send_creds_alert( $user_id, array $before, array $after ) {
+		$user = get_userdata( $user_id );
+		if ( ! $user ) {
+			return;
+		}
+		$lines = array();
+		$email = isset( $before['e'] ) && $before['e'] !== $after['e'];
+		$pass  = isset( $before['p'] ) && $before['p'] !== $after['p'];
+		if ( $email ) {
+			/* translators: 1: old e-mail address, 2: new e-mail address. */
+			$lines[] = sprintf( __( 'E-mail address: %1$s -> %2$s', 'helloadmin-guard' ), $before['e'], $after['e'] );
+		}
+		if ( $pass ) {
+			$lines[] = __( 'The password was changed.', 'helloadmin-guard' );
+		}
+		/* translators: %s: user name or a short explanation. */
+		$lines[] = sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $this->changed_by() );
+		$ip      = $this->request_ip();
+		if ( $ip ) {
+			/* translators: %s: IP address. */
+			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+		}
+		$lines[] = '';
+		$lines[] = __( 'If you or this administrator made the change, nothing to do.', 'helloadmin-guard' );
+		$lines[] = __( 'If not: someone may have taken over this account. Set a new password for it (Users > Profile, or "Lost your password?" with an address you control), use "If hacked" in HeAd Guard to log everyone out, and check the other administrators.', 'helloadmin-guard' );
+		$lines[] = '';
+		$lines[] = admin_url( 'user-edit.php?user_id=' . $user_id );
+
+		$subject = $email
+			/* translators: %s: user name. */
+			? sprintf( __( 'Administrator e-mail changed: %s', 'helloadmin-guard' ), $user->user_login )
+			/* translators: %s: user name. */
+			: sprintf( __( 'Administrator password changed: %s', 'helloadmin-guard' ), $user->user_login );
+		// The old address gets it too: after a takeover the new one belongs to the intruder.
+		$this->send_alert_mail( $subject, $lines, $email ? array( $before['e'] ) : array() );
+	}
+
+	/**
+	 * E-mail when the site e-mail address (Settings > General) changes, to the old and the new address: all alerts
+	 * go to this address, so an intruder would change it first.
+	 *
+	 * @return void
+	 */
+	private function check_site_email() {
+		$now  = strtolower( (string) get_option( 'admin_email' ) );
+		$seen = get_option( self::SITE_EMAIL_OPTION, null );
+		if ( $now === $seen ) {
+			return;
+		}
+		update_option( self::SITE_EMAIL_OPTION, $now, false );
+		if ( ! is_string( $seen ) || '' === $seen ) {
+			return;
+		}
+		$lines = array(
+			/* translators: 1: old e-mail address, 2: new e-mail address. */
+			sprintf( __( 'The site e-mail address in Settings > General changed: %1$s -> %2$s. Security alerts and password reset links for the site go to this address.', 'helloadmin-guard' ), $seen, $now ),
+			/* translators: %s: user name or a short explanation. */
+			sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $this->changed_by() ),
+		);
+		$ip    = $this->request_ip();
+		if ( $ip ) {
+			/* translators: %s: IP address. */
+			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+		}
+		$lines[] = '';
+		$lines[] = __( 'If you did not make this change, set your address back in Settings > General and check the administrators.', 'helloadmin-guard' );
+		$lines[] = '';
+		$lines[] = admin_url( 'options-general.php' );
+		$this->send_alert_mail( __( 'The site e-mail address changed', 'helloadmin-guard' ), $lines, array( $seen ) );
 	}
 
 	/**

@@ -21,6 +21,8 @@ delete_option( 'helloadmin_guard_version' );
 delete_option( 'helloadmin_guard_admins' );
 delete_option( 'helloadmin_guard_admins_checked' );
 delete_option( 'helloadmin_guard_registration' );
+delete_option( 'helloadmin_guard_admin_creds' );
+delete_option( 'helloadmin_guard_site_email' );
 wp_clear_scheduled_hook( 'helloadmin_guard_check_admins' );
 delete_option( 'helloadmin_guard_mu_files' );
 delete_option( 'helloadmin_guard_mu_checked' );
