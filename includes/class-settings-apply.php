@@ -66,7 +66,10 @@ class Settings_Apply {
 			),
 			$context
 		);
-		$key     = md5( (string) wp_json_encode( array( $settings, $context ) ) );
+		$changed = array_map( 'strval', (array) $context['changed'] );
+		sort( $changed );
+		$context['changed'] = $changed; // Stable order, so the same call gets the same fingerprint.
+		$key                = md5( (string) wp_json_encode( array( $settings, $context ) ) );
 		if ( isset( $this->done[ $key ] ) ) {
 			$again                      = $this->done[ $key ];
 			$again['skipped_duplicate'] = true;
@@ -95,12 +98,25 @@ class Settings_Apply {
 			$messages = array_merge( $messages, $this->cli_notes( $rules, $context ) );
 		}
 
-		$rolled = array();
-		$kept   = array();
-		$result = Htaccess::sync( $rules );
+		$rolled  = array();
+		$kept    = array();
+		$assumed = 'cli' === $context['source'] && 'apache' !== Htaccess::server() && file_exists( Htaccess::path() );
+		if ( $assumed ) {
+			Htaccess::assume_server( 'apache' );
+		}
+		try {
+			$result = Htaccess::sync( $rules );
+		} finally {
+			if ( $assumed ) {
+				Htaccess::assume_server( null );
+			}
+		}
 		if ( is_wp_error( $result ) ) {
 			$code = (string) $result->get_error_code();
 			if ( 'not_checked' !== $code ) {
+				// settle() turns off the server rule settings whose rules were not written, and turns on every
+				// setting whose rules are still in the file. rolled_back: asked on, now off. kept: not asked on,
+				// still on because its rules stay in the file (an "off" that could not be written).
 				$before  = $enabled;
 				$enabled = Htaccess::settle( $enabled, $rules, $result );
 				$rolled  = array_keys( array_diff_key( array_filter( $before ), array_filter( $enabled ) ) );
@@ -155,10 +171,8 @@ class Settings_Apply {
 				'data' => array(),
 			);
 		}
-		// WP-CLI has no web server to detect: an existing .htaccess file means Apache or LiteSpeed.
-		global $is_apache;
-		if ( ! $is_apache && file_exists( Htaccess::path() ) ) {
-			$is_apache = true; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- WP-CLI has no web server to detect.
+		// WP-CLI has no web server to detect: an existing .htaccess file means Apache or LiteSpeed (assumed in apply()).
+		if ( 'apache' !== Htaccess::server() && file_exists( Htaccess::path() ) ) {
 			if ( $rules ) {
 				$notes[] = array(
 					'type' => 'info',

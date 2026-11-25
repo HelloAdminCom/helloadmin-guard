@@ -228,48 +228,33 @@ class Admin_Page {
 	}
 
 	/**
-	 * Writes the server rules for the settings about to be saved. If that fails, those settings are saved as off and
-	 * the admin sees why.
+	 * Applies the settings about to be saved (Settings_Apply): server rules written and checked, settings that could
+	 * not be applied turned off, messages shown on the next page. WordPress then saves what this returns, once.
 	 *
 	 * @param array<string, mixed> $clean Sanitized option value.
 	 * @return array<string, mixed>
 	 */
 	private function apply_htaccess( array $clean ) {
-		static $done = null;
-		// WordPress may run the sanitize callback twice on the first save; write the file once.
-		if ( null !== $done ) {
-			return $done;
+		if ( null === $this->applier ) {
+			// One instance per request: WordPress may run the sanitize callback twice on the first save, and the
+			// second identical call gets the first result instead of writing the file again.
+			$this->applier = new Settings_Apply( $this->features );
 		}
-
-		$on = array();
-		foreach ( $this->features as $id => $feature ) {
-			// Rules are built from the values about to be saved, not from the stored ones.
-			$feature->set_values( isset( $clean['fields'][ $id ] ) && is_array( $clean['fields'][ $id ] ) ? $clean['fields'][ $id ] : array() );
-			if ( $feature->apache_rules() && ! empty( $clean['enabled'][ $id ] ) ) {
-				$on[ $id ] = $feature;
+		$result = $this->applier->apply( $clean, array( 'source' => 'admin' ) );
+		if ( ! $result['skipped_duplicate'] && function_exists( 'add_settings_error' ) ) {
+			foreach ( $result['messages'] as $message ) {
+				add_settings_error( Settings::OPTION, 'helloadmin_guard_htaccess', $message['text'], 'error' === $message['type'] ? 'error' : 'warning' );
 			}
 		}
-
-		$result = Htaccess::sync( $on );
-		if ( is_wp_error( $result ) ) {
-			$messages = array(
-				'not_apache'     => __( 'Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead.', 'helloadmin-guard' ),
-				'not_writable'   => __( 'Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable.', 'helloadmin-guard' ),
-				'write_failed'   => __( 'Server rules were not saved: writing the .htaccess file failed. Nothing was changed.', 'helloadmin-guard' ),
-				'site_broken'    => __( 'Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules.', 'helloadmin-guard' ),
-				'restore_failed' => __( 'After writing the server rules the home page answered with a server error, and the old .htaccess file could not be written back. Open .htaccess in the site root over FTP or in the hosting file manager and delete everything between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard".', 'helloadmin-guard' ),
-				'not_checked'    => __( 'Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works.', 'helloadmin-guard' ),
-			);
-			$code     = (string) $result->get_error_code();
-
-			$clean['enabled'] = Htaccess::settle( isset( $clean['enabled'] ) && is_array( $clean['enabled'] ) ? $clean['enabled'] : array(), $on, $result );
-			if ( function_exists( 'add_settings_error' ) && isset( $messages[ $code ] ) ) {
-				add_settings_error( Settings::OPTION, 'helloadmin_guard_htaccess', $messages[ $code ], 'not_checked' === $code ? 'warning' : 'error' );
-			}
-		}
-		$done = $clean;
-		return $clean;
+		return $result['settings'];
 	}
+
+	/**
+	 * Applies the settings of a save (created on the first save of the request).
+	 *
+	 * @var Settings_Apply|null
+	 */
+	private $applier = null;
 
 	/**
 	 * Menu number colour on every admin page; the page CSS and JS on this page only.

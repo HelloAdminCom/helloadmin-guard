@@ -128,12 +128,33 @@ class Htaccess {
 	}
 
 	/**
+	 * Server type assumed for a while (WP-CLI has no web server to detect), or null.
+	 *
+	 * @var string|null
+	 */
+	private static $assumed = null;
+
+	/**
+	 * Assumes a server type until called with null. WP-CLI uses it while writing rules: an existing .htaccess file
+	 * there means Apache or LiteSpeed. Unlike setting the global $is_apache, it is undone right after.
+	 *
+	 * @param string|null $server apache, nginx, other or null to stop assuming.
+	 * @return void
+	 */
+	public static function assume_server( $server ) {
+		self::$assumed = $server;
+	}
+
+	/**
 	 * Web server type: apache (also LiteSpeed), nginx or other.
 	 *
 	 * @return string
 	 */
 	public static function server() {
 		global $is_apache, $is_nginx;
+		if ( null !== self::$assumed ) {
+			return self::$assumed;
+		}
 		if ( $is_apache ) {
 			return 'apache';
 		}
@@ -280,7 +301,13 @@ class Htaccess {
 		$check = self::site_responds();
 		if ( false === $check ) {
 			// If even the old file cannot be written back, say so: the site may be down until it is fixed by hand.
-			return $fs->put_contents( $path, $before, $mode ) ? new \WP_Error( 'site_broken' ) : new \WP_Error( 'restore_failed' );
+			if ( $fs->put_contents( $path, $before, $mode ) ) {
+				return new \WP_Error( 'site_broken' );
+			}
+			// The new rules stay in the file, so their settings stay on: the page shows what the file really does,
+			// and turning one off removes its lines once the file is writable again.
+			self::remember( $features );
+			return new \WP_Error( 'restore_failed' );
 		}
 		self::remember( $features );
 		return null === $check ? new \WP_Error( 'not_checked' ) : true;

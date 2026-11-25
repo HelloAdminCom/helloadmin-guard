@@ -129,6 +129,27 @@ class Cli {
 	}
 
 	/**
+	 * Prints the messages of Settings_Apply::apply(). Errors do not stop the command: what could be applied is
+	 * still saved and reported.
+	 *
+	 * @param array<string, mixed> $result Result of apply().
+	 * @return void
+	 */
+	private static function print_messages( array $result ) {
+		foreach ( (array) $result['messages'] as $message ) {
+			$text = (string) $message['text'];
+			if ( ! empty( $message['data']['kept'] ) ) {
+				$text .= ' These stay on because their rules are still in the file: ' . implode( ', ', (array) $message['data']['kept'] ) . '.';
+			}
+			if ( 'info' === $message['type'] ) {
+				\WP_CLI::log( $text );
+			} else {
+				\WP_CLI::warning( $text );
+			}
+		}
+	}
+
+	/**
 	 * Saves the new state and syncs the server rules.
 	 *
 	 * @param string[] $ids Setting ids.
@@ -140,10 +161,6 @@ class Cli {
 		if ( $unknown ) {
 			\WP_CLI::error( 'Unknown setting: ' . implode( ', ', $unknown ) . '. See wp helloadmin-guard status.' );
 		}
-		if ( $on && in_array( 'login_url', $ids, true ) ) {
-			\WP_CLI::warning( 'login_url uses the login address saved on the settings page; check it there before you log out.' );
-		}
-
 		$option = get_option( Settings::OPTION, array() );
 		$option = is_array( $option ) ? $option : array();
 		// A damaged option (a string instead of a list) would break unset() and the loops below.
@@ -161,33 +178,16 @@ class Cli {
 			}
 		}
 
-		$rules = array();
-		foreach ( $this->features as $id => $feature ) {
-			if ( $feature->apache_rules() && ! empty( $option['enabled'][ $id ] ) ) {
-				$rules[ $id ] = $feature;
-			}
-		}
-		// WP-CLI has no web server to detect: an existing .htaccess file means Apache or LiteSpeed.
-		global $is_apache;
-		if ( ! $is_apache && file_exists( Htaccess::path() ) ) {
-			$is_apache = true; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- WP-CLI has no web server to detect.
-			if ( $rules ) {
-				\WP_CLI::log( 'Server rules go to ' . Htaccess::path() . '. If this site runs on Nginx, that file is ignored: copy the Nginx rules from the Advanced tab into the server config.' );
-			}
-		}
-		$result = Htaccess::sync( $rules );
-		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
-			$before            = isset( $option['enabled'] ) && is_array( $option['enabled'] ) ? $option['enabled'] : array();
-			$option['enabled'] = Htaccess::settle( $before, $rules, $result );
-			$kept              = array_keys( array_diff_key( $option['enabled'], $before ) );
-			if ( 'restore_failed' === $result->get_error_code() ) {
-				\WP_CLI::warning( 'The home page answered with a server error after writing the rules, and the old .htaccess could not be written back. Delete everything between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" in ' . Htaccess::path() . ' by hand.' );
-			} else {
-				\WP_CLI::warning( 'Server rules were not written (' . $result->get_error_code() . '). .htaccess is unchanged: new server rule settings stay off' . ( $kept ? ', and these stay on because their rules are still in the file: ' . implode( ', ', $kept ) : '' ) . '.' );
-			}
-		} elseif ( is_wp_error( $result ) ) {
-			\WP_CLI::warning( 'Server rules were written, but the home page could not be opened to check them. Open the site to make sure it works.' );
-		}
+		$result = ( new Settings_Apply( $this->features ) )->apply(
+			$option,
+			array(
+				'source'  => 'cli',
+				'changed' => $ids,
+				'on'      => $on,
+			)
+		);
+		self::print_messages( $result );
+		$option = $result['settings'];
 
 		update_option( Settings::OPTION, $option );
 		Status::forget();
@@ -214,19 +214,26 @@ class Cli {
 	 * @return void
 	 */
 	public function sync() {
-		// WP-CLI has no web server to detect: an existing .htaccess file means Apache or LiteSpeed.
-		global $is_apache;
-		if ( ! $is_apache && file_exists( Htaccess::path() ) ) {
-			$is_apache = true; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- WP-CLI has no web server to detect.
+		// WP-CLI has no web server to detect: an existing .htaccess file means Apache or LiteSpeed, for this write only.
+		$assumed = 'apache' !== Htaccess::server() && file_exists( Htaccess::path() );
+		if ( $assumed ) {
+			Htaccess::assume_server( 'apache' );
 		}
 		$before = Htaccess::ids_in_file();
-		$result = Plugin::instance()->sync_htaccess();
+		try {
+			$result = Plugin::instance()->sync_htaccess();
+		} finally {
+			if ( $assumed ) {
+				Htaccess::assume_server( null );
+			}
+		}
 		Status::forget();
 		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
-			\WP_CLI::error( 'Server rules were not written (' . $result->get_error_code() . '). .htaccess is unchanged.' );
+			$code = (string) $result->get_error_code();
+			\WP_CLI::error( 'restore_failed' === $code ? Settings_Apply::text( $code, 'cli' ) : 'Server rules were not written (' . $code . '). .htaccess is unchanged.' );
 		}
 		if ( is_wp_error( $result ) ) {
-			\WP_CLI::warning( 'The home page could not be opened to check the rules. Open the site to make sure it works.' );
+			\WP_CLI::warning( Settings_Apply::text( 'not_checked', 'cli' ) );
 		}
 		$after   = Htaccess::ids_in_file();
 		$removed = array_diff( $before, $after );
