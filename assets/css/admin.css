@@ -300,27 +300,28 @@
 .hag-view-compact .hag-card:not(.hag-open) .hag-toggle { min-width: 0; }
 .hag-view-brief .hag-card:not(.hag-open) .hag-title,
 .hag-view-compact .hag-card:not(.hag-open) .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* An opened card stays in its place and opens downwards over the cards below it (to 24rem in the short view, 22rem in
-   the compact one), so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
-.hag-view-brief { --hag-h: 8.125rem; --hag-open: 24rem; }
-.hag-view-compact { --hag-h: 4.75rem; --hag-open: 22rem; }
+/* An opened card stays in its place and opens downwards over the cards below it (2 in the short view, 3 in the compact
+   one), so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
+.hag-view-brief { --hag-h: 8.125rem; --hag-n: 2; }
+.hag-view-compact { --hag-h: 5rem; --hag-n: 3; }
 .hag-view-brief .hag-card.hag-open,
 .hag-view-compact .hag-card.hag-open {
-	position: relative; z-index: 5; overflow-y: auto;
-	height: var(--hag-open);
-	margin-bottom: calc(var(--hag-h) - var(--hag-open));
+	position: relative; z-index: 5; overflow-x: hidden; overflow-y: auto;
+	/* Ends exactly on the bottom edge of a card below, so no strip of a covered card shows. */
+	height: calc((var(--hag-h) + 16px) * (var(--hag-n) + 1) - 16px);
+	margin-bottom: calc(-1 * (var(--hag-h) + 16px) * var(--hag-n));
 	box-shadow: 0 8px 24px rgba(0, 0, 0, .18); border-color: #2271b1;
 }
 .hag-view-brief .hag-card.hag-open.hag-open-up,
 .hag-view-compact .hag-card.hag-open.hag-open-up {
-	margin-bottom: 0; margin-top: calc(var(--hag-h) - var(--hag-open));
+	margin-bottom: 0; margin-top: calc(-1 * (var(--hag-h) + 16px) * var(--hag-n));
 }
-.hag-card.hag-open > .hag-toggle-body { position: sticky; bottom: 0; z-index: 1; width: auto; padding: 4px 2px; background: #fff; }
+.hag .hag-card.hag-open > .hag-toggle-body { position: sticky; bottom: 0; z-index: 1; width: auto; margin-top: 8px; padding: 4px 2px; background: #fff; }
 /* A white strip under "Hide details" across the card, so the scrolled text does not show through next to it. */
 .hag-card.hag-open > .hag-toggle-body::before { content: ""; position: absolute; top: -4px; bottom: -16px; left: -24px; right: -100vw; z-index: -1; background: #fff; }
 .hag-cards .hag-card { min-width: 0; }
 .hag-cards .hag-card pre { max-width: 100%; overflow-x: auto; }
-.hag-toggle-body { margin-top: auto; align-self: flex-start !important; padding: 8px 0 0; color: #2271b1; text-decoration: underline; cursor: pointer; }
+.hag .hag-card .hag-toggle-body { margin-top: auto; align-self: flex-start !important; padding: 10px 0 0; color: #2271b1; text-decoration: underline; cursor: pointer; }
 .hag-toggle-body:hover, .hag-toggle-body:focus { color: #135e96; }
 /* In a card of fixed height the texts give way, never the "Details" link. */
 .hag-view-brief .hag-card:not(.hag-open) > *,
