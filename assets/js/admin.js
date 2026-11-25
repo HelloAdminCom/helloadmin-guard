@@ -124,9 +124,26 @@
 				var message = result && result.data && result.data.message ? result.data.message : data.fixFailed;
 				if ( result && result.success ) {
 					var td = document.createElement( 'td' );
+					var check = document.createElement( 'span' );
+					var url = result.data.url || '';
 					td.colSpan = 2;
 					td.className = 'hag-fix-ok';
-					td.textContent = '✓ ' + message;
+					check.className = 'hag-fix-check';
+					check.setAttribute( 'aria-hidden', 'true' );
+					check.textContent = '✓';
+					td.appendChild( check );
+					// The new author page address becomes a link; the rest stays plain text.
+					var at = url ? message.indexOf( url ) : -1;
+					td.appendChild( document.createTextNode( at < 0 ? message : message.slice( 0, at ) ) );
+					if ( at >= 0 ) {
+						var link = document.createElement( 'a' );
+						link.href = url;
+						link.target = '_blank';
+						link.rel = 'noopener';
+						link.textContent = url;
+						td.appendChild( link );
+						td.appendChild( document.createTextNode( message.slice( at + url.length ) ) );
+					}
 					button.parentNode.remove();
 					cell.replaceWith( td );
 					row.classList.add( 'hag-fix-done' );

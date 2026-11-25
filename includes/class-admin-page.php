@@ -282,8 +282,11 @@ class Admin_Page {
 		if ( ! in_array( $hook_suffix, array( 'toplevel_page_' . self::SLUG ), true ) ) {
 			return;
 		}
-		wp_enqueue_style( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/css/admin.css', array(), HELLOADMIN_GUARD_VERSION );
-		wp_enqueue_script( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/js/admin.js', array(), HELLOADMIN_GUARD_VERSION, array( 'in_footer' => true ) );
+		// The file time joins the version: an edited file is not served from the browser cache.
+		$css = HELLOADMIN_GUARD_VERSION . '.' . (int) filemtime( HELLOADMIN_GUARD_DIR . 'assets/css/admin.css' );
+		$js  = HELLOADMIN_GUARD_VERSION . '.' . (int) filemtime( HELLOADMIN_GUARD_DIR . 'assets/js/admin.js' );
+		wp_enqueue_style( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/css/admin.css', array(), $css );
+		wp_enqueue_script( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/js/admin.js', array(), $js, array( 'in_footer' => true ) );
 		wp_localize_script( 'helloadmin-guard-admin', 'helloadminGuard', array_merge( Welcome::script_data(), Status::script_data(), User_Names::script_data() ) );
 	}
 

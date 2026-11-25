@@ -82,7 +82,12 @@ class User_Names {
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 		}
-		wp_send_json_success( array( 'message' => $result ) );
+		wp_send_json_success(
+			array(
+				'message' => $result,
+				'url'     => get_author_posts_url( $id ),
+			)
+		);
 	}
 
 	/**
@@ -291,7 +296,8 @@ class User_Names {
 
 		$back = wp_get_referer();
 		$back = $back ? $back : admin_url( 'admin.php?page=' . Admin_Page::SLUG );
-		wp_safe_redirect( add_query_arg( 'settings-updated', 'true', remove_query_arg( array( 'settings-updated', self::USER_ARG, self::NONCE_ARG ), $back ) ) );
+		// Back to the card, not to the top of the page.
+		wp_safe_redirect( add_query_arg( 'settings-updated', 'true', remove_query_arg( array( 'settings-updated', self::USER_ARG, self::NONCE_ARG ), $back ) ) . '#hag-user-enumeration' );
 		exit;
 	}
 
