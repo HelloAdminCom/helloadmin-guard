@@ -90,6 +90,80 @@ class Hide_Rest_Index extends Feature {
 	}
 
 	/**
+	 * REST namespaces that look planted: a random hex part in the name (the SocGholish fake plugin registers routes
+	 * like /wp-json/<words>-<hex>/v1/<hex>), or route code that lives in the uploads folder or in eval()'d code.
+	 * Each warning names the file that registered the route, so the admin can see which plugin it is.
+	 *
+	 * @return string[]
+	 */
+	public function warnings() {
+		if ( ! function_exists( 'rest_get_server' ) ) {
+			return array();
+		}
+		$uploads  = wp_normalize_path( (string) wp_get_upload_dir()['basedir'] );
+		$found    = array();
+		$warnings = array();
+		foreach ( rest_get_server()->get_routes() as $route => $handlers ) {
+			$namespace = (string) strtok( ltrim( (string) $route, '/' ), '/' ) . '/' . (string) strtok( '/' );
+			// The namespace root is WordPress's own index route: its code is in core, not in the plugin.
+			if ( isset( $found[ $namespace ] ) || '/' === $namespace || '/' . $namespace === untrailingslashit( (string) $route ) ) {
+				continue;
+			}
+			$file   = self::handler_file( (array) $handlers );
+			$random = (bool) preg_match( '/(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{6,}/', strtok( $namespace, '/' ) );
+			$odd    = '' !== $file && ( false !== strpos( $file, "eval()'d code" ) || ( '' !== $uploads && 0 === strpos( $file, $uploads ) ) );
+			if ( ! $random && ! $odd ) {
+				continue;
+			}
+			$found[ $namespace ] = true;
+			$where               = '' !== $file ? self::short_path( $file ) : __( 'unknown file', 'helloadmin-guard' );
+			$warnings[]          = $odd
+				/* translators: 1: REST namespace, 2: file path. */
+				? sprintf( __( 'The REST namespace %1$s runs code from %2$s, which is not a plugin or theme folder. Malware adds its own API routes this way. Check this file.', 'helloadmin-guard' ), $namespace, $where )
+				/* translators: 1: REST namespace, 2: file path. */
+				: sprintf( __( 'The REST namespace %1$s has a random-looking name, like the fake plugins of the SocGholish malware. It is registered in %2$s. If you do not know this plugin, check it.', 'helloadmin-guard' ), $namespace, $where );
+		}
+		return $warnings;
+	}
+
+	/**
+	 * File of the first route handler callback.
+	 *
+	 * @param array<mixed> $handlers Route handlers.
+	 * @return string Normalized path, or empty when unknown.
+	 */
+	private static function handler_file( array $handlers ) {
+		foreach ( $handlers as $handler ) {
+			$callback = is_array( $handler ) && isset( $handler['callback'] ) ? $handler['callback'] : null;
+			try {
+				if ( is_array( $callback ) && 2 === count( $callback ) && ( is_object( $callback[0] ) || is_string( $callback[0] ) ) && is_string( $callback[1] ) && method_exists( $callback[0], $callback[1] ) ) {
+					$reflection = new \ReflectionMethod( $callback[0], $callback[1] );
+				} elseif ( $callback instanceof \Closure || ( is_string( $callback ) && function_exists( $callback ) ) ) {
+					$reflection = new \ReflectionFunction( $callback );
+				} else {
+					continue;
+				}
+			} catch ( \ReflectionException $e ) {
+				continue;
+			}
+			$file = $reflection->getFileName();
+			return is_string( $file ) ? wp_normalize_path( $file ) : '';
+		}
+		return '';
+	}
+
+	/**
+	 * Path relative to the site folder when possible.
+	 *
+	 * @param string $file Normalized full path.
+	 * @return string
+	 */
+	private static function short_path( $file ) {
+		$root = wp_normalize_path( ABSPATH );
+		return 0 === strpos( $file, $root ) ? substr( $file, strlen( $root ) ) : $file;
+	}
+
+	/**
 	 * Is the index hidden from visitors?
 	 *
 	 * @return bool|null
