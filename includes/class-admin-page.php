@@ -489,7 +489,16 @@ class Admin_Page {
 		}
 
 		echo '<dl class="hag-explain">';
-		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'Description', 'helloadmin-guard' ), esc_html( $feature->what() ) );
+		// The first sentence and the rest apart: the details panel shows only the rest, the card shows the first sentence.
+		$lead = self::lead( $feature->what() );
+		$rest = trim( (string) substr( $feature->what(), strlen( $lead ) ) );
+		printf(
+			'<dt class="%1$s">%2$s</dt><dd class="%1$s"><span class="hag-desc-lead">%3$s</span>%4$s</dd>',
+			'' === $rest ? 'hag-desc hag-desc-one' : 'hag-desc',
+			esc_html__( 'Description', 'helloadmin-guard' ),
+			esc_html( $lead ),
+			'' === $rest ? '' : ' <span class="hag-desc-rest">' . esc_html( $rest ) . '</span>'
+		);
 		printf( '<dt>%s</dt><dd>%s</dd>', esc_html__( 'Downsides', 'helloadmin-guard' ), esc_html( $feature->may_break() ) );
 		printf(
 			'<dt>%s</dt><dd>%s%s</dd>',
