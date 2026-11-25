@@ -2532,18 +2532,6 @@ msgstr "Все файлы, за которыми следит это уведо�
 msgid "Details"
 msgstr "Подробнее"
 
-#: includes/class-card-view.php:54
-msgid "Full texts"
-msgstr "Полные тексты"
-
-#: includes/class-card-view.php:55
-msgid "Short texts, details on click"
-msgstr "Коротко, остальное – по клику"
-
-#: includes/class-card-view.php:56
-msgid "Only the switches"
-msgstr "Только переключатели"
-
 #: includes/class-card-view.php:102
 msgid "Hide details"
 msgstr "Свернуть"
@@ -2551,3 +2539,15 @@ msgstr "Свернуть"
 #: includes/class-card-view.php:113
 msgid "Card view"
 msgstr "Вид карточек"
+
+#: includes/class-card-view.php:54
+msgid "Full description"
+msgstr "Полное описание"
+
+#: includes/class-card-view.php:55
+msgid "Short description"
+msgstr "Краткое описание"
+
+#: includes/class-card-view.php:56
+msgid "Switch only"
+msgstr "Только переключатель"

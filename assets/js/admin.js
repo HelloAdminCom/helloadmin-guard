@@ -207,7 +207,21 @@
 	} );
 	function toggle( card, open ) {
 		var link = card.querySelector( '.hag-toggle-body' );
+		if ( open ) {
+			// One card open at a time: it lies over its neighbours.
+			Array.prototype.forEach.call( cards.querySelectorAll( '.hag-open' ), function ( other ) {
+				if ( other !== card ) {
+					toggle( other, false );
+				}
+			} );
+		}
+		card.classList.remove( 'hag-open-up' );
 		card.classList.toggle( 'hag-open', open );
+		card.scrollTop = 0;
+		// Not enough room below inside the list: open upwards instead.
+		if ( open && card.getBoundingClientRect().bottom > cards.getBoundingClientRect().bottom + 1 ) {
+			card.classList.add( 'hag-open-up' );
+		}
 		if ( link ) {
 			link.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
 			link.textContent = open ? data.hideText : data.showText;
@@ -221,8 +235,13 @@
 		var card = link.closest( '.hag-card' );
 		var open = ! card.classList.contains( 'hag-open' );
 		toggle( card, open );
-		if ( ! open ) {
-			card.scrollIntoView( { block: 'nearest' } );
+		card.scrollIntoView( { block: 'nearest' } );
+	} );
+	document.addEventListener( 'keydown', function ( event ) {
+		var card = cards.querySelector( '.hag-open' );
+		if ( 'Escape' === event.key && card ) {
+			toggle( card, false );
+			card.querySelector( '.hag-toggle-body' ).focus();
 		}
 	} );
 	// A link to a card (#hag-…-card, for example from the gap list) opens it in the short views.

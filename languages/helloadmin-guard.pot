@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T18:50:49+02:00\n"
+"POT-Creation-Date: 2026-11-25T19:09:25+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -279,15 +279,15 @@ msgid "Show the welcome message again"
 msgstr ""
 
 #: includes/class-card-view.php:54
-msgid "Full texts"
+msgid "Full description"
 msgstr ""
 
 #: includes/class-card-view.php:55
-msgid "Short texts, details on click"
+msgid "Short description"
 msgstr ""
 
 #: includes/class-card-view.php:56
-msgid "Only the switches"
+msgid "Switch only"
 msgstr ""
 
 #: includes/class-card-view.php:102

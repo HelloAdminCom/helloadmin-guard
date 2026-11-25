@@ -51,9 +51,9 @@ class Card_View {
 	 */
 	public static function views() {
 		return array(
-			'full'    => array( __( 'Full texts', 'helloadmin-guard' ), 'dashicons-text-page' ),
-			'brief'   => array( __( 'Short texts, details on click', 'helloadmin-guard' ), 'dashicons-excerpt-view' ),
-			'compact' => array( __( 'Only the switches', 'helloadmin-guard' ), 'dashicons-list-view' ),
+			'full'    => array( __( 'Full description', 'helloadmin-guard' ), 'dashicons-text-page' ),
+			'brief'   => array( __( 'Short description', 'helloadmin-guard' ), 'dashicons-excerpt-view' ),
+			'compact' => array( __( 'Switch only', 'helloadmin-guard' ), 'dashicons-list-view' ),
 		);
 	}
 

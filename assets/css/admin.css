@@ -284,8 +284,8 @@
 .hag-view-compact .hag-card:not(.hag-open) .hag-note,
 .hag-view-compact .hag-card:not(.hag-open) .hag-warning,
 .hag-cards .hag-open .hag-lead { display: none; }
-.hag-view-brief .hag-card:not(.hag-open) { height: 11.5rem; overflow: hidden; }
-.hag-view-compact .hag-card:not(.hag-open) { height: 4.75rem; overflow: hidden; }
+.hag-view-brief .hag-card:not(.hag-open) { height: var(--hag-h); overflow: hidden; }
+.hag-view-compact .hag-card:not(.hag-open) { height: var(--hag-h); overflow: hidden; }
 .hag-view-brief .hag-card:not(.hag-open) .hag-note,
 .hag-view-brief .hag-card:not(.hag-open) .hag-warning,
 .hag-card .hag-lead { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
@@ -296,9 +296,22 @@
 .hag-view-compact .hag-card:not(.hag-open) .hag-toggle { min-width: 0; }
 .hag-view-brief .hag-card:not(.hag-open) .hag-title,
 .hag-view-compact .hag-card:not(.hag-open) .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* The opened card takes a whole row; the next cards fill the place it left, so no hole stays in the grid. */
-.hag-view-brief, .hag-view-compact { grid-auto-flow: row dense; }
-.hag-cards .hag-open { grid-column: 1 / -1; }
+/* An opened card stays in its place and opens downwards over the cards below it (2 in the short view, 3 in the
+   compact one), so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
+.hag-view-brief { --hag-h: 11.5rem; --hag-n: 2; }
+.hag-view-compact { --hag-h: 4.75rem; --hag-n: 3; }
+.hag-view-brief .hag-card.hag-open,
+.hag-view-compact .hag-card.hag-open {
+	position: relative; z-index: 5; overflow-y: auto;
+	height: calc((var(--hag-h) + 16px) * (var(--hag-n) + 1) - 16px);
+	margin-bottom: calc(-1 * (var(--hag-h) + 16px) * var(--hag-n));
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .18); border-color: #2271b1;
+}
+.hag-view-brief .hag-card.hag-open.hag-open-up,
+.hag-view-compact .hag-card.hag-open.hag-open-up {
+	margin-bottom: 0; margin-top: calc(-1 * (var(--hag-h) + 16px) * var(--hag-n));
+}
+.hag-card.hag-open > .hag-toggle-body { position: sticky; bottom: 0; width: auto; padding: 4px 2px; background: #fff; }
 .hag-cards .hag-card { min-width: 0; }
 .hag-cards .hag-card pre { max-width: 100%; overflow-x: auto; }
 .hag-toggle-body { margin-top: auto; align-self: flex-start !important; padding: 8px 0 0; color: #2271b1; text-decoration: underline; cursor: pointer; }

@@ -2516,18 +2516,6 @@ msgstr "Усі файли, за якими стежить це сповіщен�
 msgid "Details"
 msgstr "Докладніше"
 
-#: includes/class-card-view.php:54
-msgid "Full texts"
-msgstr "Повні тексти"
-
-#: includes/class-card-view.php:55
-msgid "Short texts, details on click"
-msgstr "Коротко, решта – за кліком"
-
-#: includes/class-card-view.php:56
-msgid "Only the switches"
-msgstr "Лише перемикачі"
-
 #: includes/class-card-view.php:102
 msgid "Hide details"
 msgstr "Згорнути"
@@ -2535,3 +2523,15 @@ msgstr "Згорнути"
 #: includes/class-card-view.php:113
 msgid "Card view"
 msgstr "Вигляд карток"
+
+#: includes/class-card-view.php:54
+msgid "Full description"
+msgstr "Повний опис"
+
+#: includes/class-card-view.php:55
+msgid "Short description"
+msgstr "Короткий опис"
+
+#: includes/class-card-view.php:56
+msgid "Switch only"
+msgstr "Лише перемикач"
