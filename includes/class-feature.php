@@ -227,7 +227,7 @@ abstract class Feature {
 				'label'       => __( 'Also send to', 'helloadmin-guard' ),
 				'type'        => 'text',
 				'default'     => '',
-				'description' => __( 'One more e-mail address besides the administration e-mail in Settings, General. Leave empty to use only that one.', 'helloadmin-guard' ),
+				'description' => __( 'One more e-mail address besides the administration e-mail in Settings → General. Leave empty to use only that one.', 'helloadmin-guard' ),
 			),
 		);
 	}

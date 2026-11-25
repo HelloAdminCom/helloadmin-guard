@@ -109,7 +109,7 @@ class Limit_Login extends Feature {
 	 */
 	public function what() {
 		return __( 'After too many failed logins from one IP address, every login from that address is refused for a while, even with the right password, so a bot cannot keep guessing. Works for the login page, XML-RPC and REST API logins. A successful login resets the count.', 'helloadmin-guard' )
-			. ' ' . __( 'Botnets guess from thousands of addresses, a few tries each, which a limit per address does not stop. The strict mode below counts failed logins from all addresses together; when there are too many, logins from new devices are refused for a while. Browsers that logged in to this site before carry a signed cookie and still get in, and "Lost your password?" keeps working: a password reset makes that browser known. The administration e-mail (Settings, General) gets a message about the attack.', 'helloadmin-guard' );
+			. ' ' . __( 'Botnets guess from thousands of addresses, a few tries each, which a limit per address does not stop. The strict mode below counts failed logins from all addresses together; when there are too many, logins from new devices are refused for a while. Browsers that logged in to this site before carry a signed cookie and still get in, and "Lost your password?" keeps working: a password reset makes that browser known. The administration e-mail (Settings → General) gets a message about the attack.', 'helloadmin-guard' );
 	}
 
 	/**

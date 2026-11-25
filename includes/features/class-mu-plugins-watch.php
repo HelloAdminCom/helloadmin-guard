@@ -110,7 +110,7 @@ class Mu_Plugins_Watch extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. The same goes for wp-config.php and index.php, and for .user.ini or php.ini in the site folder, which can add a file to every request. After every login, on admin pages and at least once an hour while the site gets visits (without WP-Cron), the plugin compares these files with the list it saw last time and e-mails the administration address (Settings, General) about new and changed ones, including files whose names start with a dot and PHP files in subfolders of mu-plugins (except the folders hosts manage themselves).', 'helloadmin-guard' );
+		return __( 'Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. The same goes for wp-config.php and index.php, and for .user.ini or php.ini in the site folder, which can add a file to every request. After every login, on admin pages and at least once an hour while the site gets visits (without WP-Cron), the plugin compares these files with the list it saw last time and e-mails the administration address (Settings → General) about new and changed ones, including files whose names start with a dot and PHP files in subfolders of mu-plugins (except the folders hosts manage themselves).', 'helloadmin-guard' );
 	}
 
 	/**

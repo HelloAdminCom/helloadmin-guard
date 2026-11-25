@@ -102,7 +102,7 @@ class Https_Redirect extends Htaccess_Feature {
 		if ( self::https_site() ) {
 			return array();
 		}
-		return array( __( 'The site address in Settings, General starts with http://, so the plugin writes no rule. Switch the site to https first.', 'helloadmin-guard' ) );
+		return array( __( 'The site address in Settings → General starts with http://, so the plugin writes no rule. Switch the site to https first.', 'helloadmin-guard' ) );
 	}
 
 	/**

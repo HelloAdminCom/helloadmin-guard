@@ -194,7 +194,7 @@ class Admin_Alert extends Feature {
 		if ( null !== $state && $state['open'] && self::risky_role( $state['role'] ) ) {
 			$warnings[] = sprintf(
 				/* translators: %s: role name. */
-				__( 'Anyone can register on this site and gets the role "%s", which can change other people\'s content, users or the site itself. If you did not set this up on purpose, set the new user role to Subscriber or turn off "Anyone can register" in Settings > General.', 'helloadmin-guard' ),
+				__( 'Anyone can register on this site and gets the role "%s", which can change other people\'s content, users or the site itself. If you did not set this up on purpose, set the new user role to Subscriber or turn off "Anyone can register" in Settings → General.', 'helloadmin-guard' ),
 				self::role_name( $state['role'] )
 			);
 		}
@@ -510,7 +510,7 @@ class Admin_Alert extends Feature {
 	}
 
 	/**
-	 * E-mail when the site e-mail address (Settings > General) changes, to the old and the new address: all alerts
+	 * E-mail when the site e-mail address (Settings → General) changes, to the old and the new address: all alerts
 	 * go to this address, so an intruder would change it first.
 	 *
 	 * @return void
@@ -528,7 +528,7 @@ class Admin_Alert extends Feature {
 		}
 		$lines = array(
 			/* translators: 1: old e-mail address, 2: new e-mail address. */
-			sprintf( __( 'The site e-mail address in Settings > General changed: %1$s -> %2$s. Security alerts and password reset links for the site go to this address.', 'helloadmin-guard' ), $seen, $now ),
+			sprintf( __( 'The site e-mail address in Settings → General changed: %1$s -> %2$s. Security alerts and password reset links for the site go to this address.', 'helloadmin-guard' ), $seen, $now ),
 			/* translators: %s: user name or a short explanation. */
 			sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $this->changed_by() ),
 		);
@@ -538,7 +538,7 @@ class Admin_Alert extends Feature {
 			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
 		}
 		$lines[] = '';
-		$lines[] = __( 'If you did not make this change, set your address back in Settings > General and check the administrators.', 'helloadmin-guard' );
+		$lines[] = __( 'If you did not make this change, set your address back in Settings → General and check the administrators.', 'helloadmin-guard' );
 		$lines[] = '';
 		$lines[] = admin_url( 'options-general.php' );
 		$this->send_alert_mail( __( 'The site e-mail address changed', 'helloadmin-guard' ), $lines, array( $seen ) );
@@ -656,7 +656,7 @@ class Admin_Alert extends Feature {
 		}
 		$lines[] = '';
 		$lines[] = __( 'If you opened registration on purpose (a shop, a membership site), keep the new user role at Subscriber or the role your shop or membership plugin uses for customers.', 'helloadmin-guard' );
-		$lines[] = __( 'If not: turn off "Anyone can register" and set the new user role to Subscriber in Settings > General, then look at the users registered since this e-mail and update or remove the plugin that let the settings change.', 'helloadmin-guard' );
+		$lines[] = __( 'If not: turn off "Anyone can register" and set the new user role to Subscriber in Settings → General, then look at the users registered since this e-mail and update or remove the plugin that let the settings change.', 'helloadmin-guard' );
 		$lines[] = '';
 		$lines[] = admin_url( 'options-general.php' );
 
