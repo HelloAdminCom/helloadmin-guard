@@ -208,33 +208,14 @@
 	function toggle( card, open ) {
 		var link = card.querySelector( '.hag-toggle-body' );
 		if ( open ) {
-			// One card open at a time: it lies over its neighbours.
+			// One card open at a time.
 			Array.prototype.forEach.call( cards.querySelectorAll( '.hag-open' ), function ( other ) {
 				if ( other !== card ) {
 					toggle( other, false );
 				}
 			} );
 		}
-		card.classList.remove( 'hag-open-up' );
-		card.style.removeProperty( '--hag-open-h' );
 		card.classList.toggle( 'hag-open', open );
-		card.scrollTop = 0;
-		if ( open ) {
-			// Exactly as tall as its text: it lies over the cards below, no empty space and no scrolling.
-			card.style.height = 'auto';
-			card.style.marginBottom = '0';
-			var natural = card.offsetHeight;
-			card.style.height = '';
-			card.style.marginBottom = '';
-			card.style.setProperty( '--hag-open-h', natural + 'px' );
-		}
-		// Not enough room below inside the list: open upwards, if there is room above.
-		if ( open && card.getBoundingClientRect().bottom > cards.getBoundingClientRect().bottom + 1 ) {
-			card.classList.add( 'hag-open-up' );
-			if ( card.getBoundingClientRect().top < cards.getBoundingClientRect().top - 1 ) {
-				card.classList.remove( 'hag-open-up' );
-			}
-		}
 		if ( link ) {
 			link.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
 			link.textContent = open ? data.hideText : data.showText;

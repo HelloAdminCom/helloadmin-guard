@@ -257,6 +257,13 @@ class Admin_Page {
 	private $applier = null;
 
 	/**
+	 * Place of the card being rendered in the list (CSS order when the columns dissolve into one grid).
+	 *
+	 * @var int
+	 */
+	private $card_order = 0;
+
+	/**
 	 * Menu number colour on every admin page; the page CSS and JS on this page only.
 	 *
 	 * @param string $hook_suffix Current admin page.
@@ -400,9 +407,19 @@ class Admin_Page {
 				return $a->priority() <=> $b->priority();
 			}
 		);
+		// Two columns in the markup: in the short views each column is its own stack, so an opened card pushes down only
+		// the cards under it. Elsewhere the columns dissolve into one grid and "order" keeps the list order.
 		printf( '<div class="hag-cards hag-view-%s">', esc_attr( Card_View::current() ) );
-		foreach ( $features as $feature ) {
-			$this->render_card( $feature );
+		$features = array_values( $features );
+		foreach ( array( 0, 1 ) as $column ) {
+			echo '<div class="hag-col">';
+			foreach ( $features as $i => $feature ) {
+				if ( $i % 2 === $column ) {
+					$this->card_order = $i;
+					$this->render_card( $feature );
+				}
+			}
+			echo '</div>';
 		}
 		echo '</div>';
 		if ( 'general' === $tab ) {
@@ -431,7 +448,7 @@ class Admin_Page {
 		// Server rules can be switched on only where the plugin can write them; elsewhere the card shows them to copy.
 		$manual = $feature instanceof Htaccess_Feature && ( 'apache' !== Htaccess::server() || ! Htaccess::writable() );
 
-		echo '<div class="hag-card" id="' . esc_attr( $html . '-card' ) . '"><div class="hag-head">';
+		printf( '<div class="hag-card" id="%s" style="order: %d"><div class="hag-head">', esc_attr( $html . '-card' ), (int) $this->card_order );
 		printf(
 			'<label class="hag-toggle" for="%1$s"><input type="checkbox" role="switch" id="%1$s" name="%2$s" value="1" %3$s%5$s><span class="hag-switch" aria-hidden="true"></span><span class="hag-title">%4$s</span></label>',
 			esc_attr( $html ),

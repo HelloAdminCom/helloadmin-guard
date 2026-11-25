@@ -276,8 +276,7 @@
 .hag-view-full .hag-lead,
 .hag-view-full .hag-toggle-body { display: none; }
 
-/* Short and compact views: every card has the same height; "Details" opens one card across the whole row, so the
-   others keep their size. */
+/* Short and compact views: every closed card has the same height; "Details" opens one card in its place. */
 .hag-view-brief .hag-card:not(.hag-open) .hag-body,
 .hag-view-compact .hag-card:not(.hag-open) .hag-body,
 .hag-view-compact .hag-card:not(.hag-open) .hag-lead,
@@ -300,24 +299,18 @@
 .hag-view-compact .hag-card:not(.hag-open) .hag-toggle { min-width: 0; }
 .hag-view-brief .hag-card:not(.hag-open) .hag-title,
 .hag-view-compact .hag-card:not(.hag-open) .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* An opened card stays in its place and opens downwards over the cards below it (exactly as tall as its text, see admin.js), so
-   nothing moves, nothing scrolls and no empty space stays under "Hide details", so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
 .hag-view-brief { --hag-h: 10rem; }
 .hag-view-compact { --hag-h: 5.75rem; }
-.hag-view-brief .hag-card.hag-open,
-.hag-view-compact .hag-card.hag-open {
-	position: relative; z-index: 5; overflow-x: hidden; overflow-y: auto;
-	height: var(--hag-open-h, auto);
-	margin-bottom: calc(var(--hag-h) - var(--hag-open-h, var(--hag-h)));
-	box-shadow: 0 8px 24px rgba(0, 0, 0, .18); border-color: #2271b1;
+/* Columns: by default they dissolve, and the cards stand in the grid in list order (one column on laptops, rows of two
+   in the full view). In the short views on a wide screen each column is its own stack: an opened card grows in its
+   place and pushes down only the cards under it; the other column does not move. */
+.hag-col { display: contents; }
+@container (min-width: 1296px) {
+	.hag-view-brief, .hag-view-compact { align-items: start; }
+	.hag-view-brief .hag-col, .hag-view-compact .hag-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 }
-.hag-view-brief .hag-card.hag-open.hag-open-up,
-.hag-view-compact .hag-card.hag-open.hag-open-up {
-	margin-bottom: 0; margin-top: calc(var(--hag-h) - var(--hag-open-h, var(--hag-h)));
-}
-.hag .hag-card.hag-open > .hag-toggle-body { position: sticky; bottom: 0; z-index: 1; width: auto; margin-top: 8px; padding: 4px 2px; background: #fff; }
-/* A white strip under "Hide details" across the card, so the scrolled text does not show through next to it. */
-.hag-card.hag-open > .hag-toggle-body::before { content: ""; position: absolute; top: -4px; bottom: -16px; left: -24px; right: -100vw; z-index: -1; background: #fff; }
+.hag-cards .hag-card.hag-open { border-color: #2271b1; box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
+.hag .hag-card.hag-open > .hag-toggle-body { margin-top: 8px; }
 .hag-cards .hag-card { min-width: 0; }
 .hag-cards .hag-card pre { max-width: 100%; overflow-x: auto; }
 .hag .hag-card .hag-toggle-body { margin-top: auto; align-self: flex-start !important; padding: 10px 0 0; color: #2271b1; text-decoration: underline; cursor: pointer; }
