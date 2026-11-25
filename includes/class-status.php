@@ -242,8 +242,11 @@ class Status {
 
 	/**
 	 * Number of gaps that need attention: open ones and settings that are on but do not work.
-	 * A setting that is off, not skipped and not checked yet (before the first check, or just switched off) counts
-	 * as open. A check that could not tell (stored null) does not count, nor does an alert that is off.
+	 * A setting that is off, not skipped and was just switched off (the stored check has no result for it) counts
+	 * as open. With no stored check at all (first run, or results dropped after an update or a .htaccess fix) the
+	 * check is still running: such settings do not count yet, otherwise the menu shows a number for a few seconds
+	 * that disappears once the check finds the gap closed another way. A check that could not tell (stored null)
+	 * does not count, nor does an alert that is off.
 	 *
 	 * @return int
 	 */
@@ -252,7 +255,7 @@ class Status {
 		$cached = self::cached();
 		foreach ( array_keys( $this->features ) as $id ) {
 			$status    = $this->of( $id );
-			$unchecked = null === $cached || ! array_key_exists( $id, $cached['closed'] );
+			$unchecked = null !== $cached && ! array_key_exists( $id, $cached['closed'] );
 			if ( in_array( $status, array( 'open', 'broken' ), true ) || ( 'unknown' === $status && $unchecked ) ) {
 				++$count;
 			}
