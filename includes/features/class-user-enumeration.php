@@ -22,6 +22,21 @@ defined( 'ABSPATH' ) || exit;
 class User_Enumeration extends Feature {
 
 	/**
+	 * Author pages stay as they are.
+	 */
+	const AUTHORS_KEEP = 'keep';
+
+	/**
+	 * Author pages redirect to the blog page.
+	 */
+	const AUTHORS_BLOG = 'blog';
+
+	/**
+	 * Author pages answer 404.
+	 */
+	const AUTHORS_404 = '404';
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function id() {
@@ -61,6 +76,39 @@ class User_Enumeration extends Feature {
 	 */
 	public function group() {
 		return 'leaks';
+	}
+
+	/**
+	 * What visitors get on author pages.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function fields() {
+		return array(
+			'author_pages' => array(
+				'label'       => __( 'Author pages for visitors', 'helloadmin-guard' ),
+				'type'        => 'radio',
+				'default'     => self::AUTHORS_KEEP,
+				'options'     => array(
+					self::AUTHORS_KEEP => __( 'Keep them (sites with several authors)', 'helloadmin-guard' ),
+					self::AUTHORS_BLOG => __( 'Redirect to the blog page (blogs with one author)', 'helloadmin-guard' ),
+					self::AUTHORS_404  => __( 'Answer "not found"', 'helloadmin-guard' ),
+				),
+				'description' => __( 'With one author, /author/name/ only repeats the blog and shows the author address. With the last two options every /author/.../ address answers the same, whether such an author exists or not, and author links in the theme lead to the blog page. Logged-in users still see author pages.', 'helloadmin-guard' ),
+			),
+		);
+	}
+
+	/**
+	 * Keeps only a known choice.
+	 *
+	 * @param string $field Field name.
+	 * @param mixed  $value Raw value.
+	 * @return string
+	 */
+	public function sanitize_field( $field, $value ) {
+		unset( $field );
+		return in_array( $value, array( self::AUTHORS_BLOG, self::AUTHORS_404 ), true ) ? (string) $value : self::AUTHORS_KEEP;
 	}
 
 	/**
@@ -140,6 +188,47 @@ class User_Enumeration extends Feature {
 		add_filter( 'wp_sitemaps_add_provider', array( $this, 'drop_users_sitemap' ), 10, 2 );
 		add_filter( 'authenticate', array( $this, 'same_login_error' ), 100 );
 		add_action( 'lostpassword_post', array( $this, 'same_lost_password_answer' ), 10, 2 );
+		if ( self::AUTHORS_KEEP !== $this->saved_value( 'author_pages', self::AUTHORS_KEEP ) ) {
+			add_action( 'template_redirect', array( $this, 'author_pages' ), 1 );
+			add_filter( 'author_link', array( $this, 'blog_url' ) );
+		}
+	}
+
+	/**
+	 * Author pages for visitors: a redirect to the blog page or 404. Every /author/.../ address gets the same
+	 * answer, also for an author that does not exist: if only real authors were redirected, the difference
+	 * between the redirect and a 404 would tell which author addresses exist.
+	 *
+	 * @return void
+	 */
+	public function author_pages() {
+		global $wp, $wp_query;
+		if ( is_user_logged_in() || ! ( is_author() || ! empty( $wp->query_vars['author_name'] ) ) ) {
+			return;
+		}
+		if ( self::AUTHORS_BLOG === $this->saved_value( 'author_pages', self::AUTHORS_KEEP ) ) {
+			wp_safe_redirect( $this->blog_url(), 301 );
+			exit;
+		}
+		$wp_query->set_404();
+		status_header( 404 );
+		nocache_headers();
+	}
+
+	/**
+	 * The blog page: the posts page when the front page is a static page, else the home page.
+	 *
+	 * @return string
+	 */
+	public function blog_url() {
+		$posts = (int) get_option( 'page_for_posts' );
+		if ( 'page' === get_option( 'show_on_front' ) && $posts ) {
+			$url = get_permalink( $posts );
+			if ( $url ) {
+				return $url;
+			}
+		}
+		return home_url( '/' );
 	}
 
 	/**
