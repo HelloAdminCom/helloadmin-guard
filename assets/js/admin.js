@@ -237,6 +237,7 @@
 			link.textContent = open ? data.hideText : data.showText;
 		}
 	}
+	var byMouse = true;
 	cards.addEventListener( 'click', function ( event ) {
 		var link = event.target.closest( '.hag-toggle-body' );
 		if ( ! link ) {
@@ -244,6 +245,8 @@
 		}
 		var card = link.closest( '.hag-card' );
 		var open = ! card.classList.contains( 'hag-open' );
+		// A mouse click has a click count; Enter or Space on the focused link has none.
+		byMouse = event.detail > 0;
 		toggle( card, open );
 		card.scrollIntoView( { block: 'nearest' } );
 	} );
@@ -257,8 +260,14 @@
 	document.addEventListener( 'keydown', function ( event ) {
 		var card = cards.querySelector( '.hag-open' );
 		if ( 'Escape' === event.key && card ) {
+			var link = card.querySelector( '.hag-toggle-body' );
 			toggle( card, false );
-			card.querySelector( '.hag-toggle-body' ).focus();
+			// Opened from the keyboard: the focus goes back to its link. Opened with the mouse: no focus frame appears.
+			if ( byMouse ) {
+				link.blur();
+			} else {
+				link.focus();
+			}
 		}
 	} );
 	// A link to a card (#hag-…-card, for example from the gap list) opens it in the short views.
