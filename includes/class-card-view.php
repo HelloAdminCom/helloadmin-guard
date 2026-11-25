@@ -113,7 +113,7 @@ class Card_View {
 		printf( '<div class="hag-views hide-if-no-js" role="group" aria-label="%s">', esc_attr__( 'Card view', 'helloadmin-guard' ) );
 		foreach ( self::views() as $slug => $view ) {
 			printf(
-				'<button type="button" class="button hag-view" data-view="%1$s" aria-pressed="%2$s" title="%3$s"><span class="dashicons %4$s" aria-hidden="true"></span><span class="screen-reader-text">%3$s</span></button>',
+				'<button type="button" class="button hag-view" data-view="%1$s" aria-pressed="%2$s" data-tip="%3$s"><span class="dashicons %4$s" aria-hidden="true"></span><span class="screen-reader-text">%3$s</span></button>',
 				esc_attr( $slug ),
 				$slug === $current ? 'true' : 'false',
 				esc_attr( $view[0] ),
