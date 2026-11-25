@@ -274,6 +274,15 @@ class Limit_Login extends Feature {
 	public function warnings() {
 		// Behind Cloudflare the plugin reads CF-Connecting-IP itself; the warning is for the case it does not arrive.
 		$ip = self::visitor_ip();
+		if ( self::is_internal( $ip ) && ! self::is_local_site() ) {
+			return array(
+				sprintf(
+					/* translators: %s: IP address. */
+					__( 'The site sees your address as %s, an address inside the server or its network. A proxy in front of the site (for example Nginx in front of Apache) does not pass the real visitor address, so all visitors share it and one bot can lock everyone out. Ask the host to pass the real visitor IP (mod_remoteip or the real IP module), or leave this setting off until then. Developers can also set the address with the helloadmin_guard_client_ip filter.', 'helloadmin-guard' ),
+					$ip
+				),
+			);
+		}
 		foreach ( self::CLOUDFLARE as $range ) {
 			if ( self::in_range( $ip, $range ) ) {
 				/* translators: %s: IP address. */
@@ -281,6 +290,38 @@ class Limit_Login extends Feature {
 			}
 		}
 		return array();
+	}
+
+	/**
+	 * Loopback and private addresses: what PHP sees behind a local proxy that does not pass the visitor address.
+	 */
+	const INTERNAL = array( '127.0.0.0/8', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '::1/128', 'fc00::/7' );
+
+	/**
+	 * Whether an address is loopback or private.
+	 *
+	 * @param string $ip Address.
+	 * @return bool
+	 */
+	private static function is_internal( $ip ) {
+		foreach ( self::INTERNAL as $range ) {
+			if ( self::in_range( $ip, $range ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Whether the site itself is a local copy (localhost, .test, .local, .localhost, DDEV, Lando, an IP address):
+	 * there the admin's own address is local too, and the warning would only scare.
+	 *
+	 * @return bool
+	 */
+	private static function is_local_site() {
+		$host = strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) );
+		return '' === $host || 'localhost' === $host || false !== filter_var( $host, FILTER_VALIDATE_IP )
+			|| (bool) preg_match( '/\.(test|local|localhost|ddev\.site|lndo\.site|example|invalid)$/', $host );
 	}
 
 	/**

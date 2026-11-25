@@ -435,7 +435,7 @@ msgid "Hello, admin or developer!"
 msgstr "Привет, админ или разработчик!"
 
 #. translators: %s: plugin name in bold.
-#: includes/class-welcome.php:152
+#: includes/class-welcome.php:151
 #, php-format
 msgid ""
 "Out of the box, WordPress leaves a few gaps open: anyone can find your user "
@@ -1073,7 +1073,7 @@ msgid "How long the address stays locked, 5 to 1440 minutes (one day)."
 msgstr "На сколько минут блокируется адрес, от 5 до 1440 (сутки)."
 
 #. translators: %d: minutes until the next login attempt is allowed.
-#: includes/features/class-limit-login.php:389
+#: includes/features/class-limit-login.php:430
 #, php-format
 msgid "Too many failed login attempts. Try again in %d minute."
 msgid_plural "Too many failed login attempts. Try again in %d minutes."
@@ -1167,7 +1167,7 @@ msgstr ""
 msgid "A page or post already uses this address. Choose another one."
 msgstr "Этот адрес уже занят страницей или записью. Выберите другой."
 
-#: includes/features/class-login-url.php:369
+#: includes/features/class-login-url.php:371
 msgid "The requested URL was not found on this server."
 msgstr "Запрошенный адрес на этом сервере не найден."
 
@@ -1335,8 +1335,8 @@ msgstr "Извините, вам не разрешено просматрива�
 msgid "If hacked"
 msgstr "Если взломали"
 
-#: includes/class-emergency.php:59 includes/class-user-names.php:78
-#: includes/class-user-names.php:284
+#: includes/class-emergency.php:59 includes/class-user-names.php:83
+#: includes/class-user-names.php:324
 msgid "Sorry, you are not allowed to do this."
 msgstr "Извините, вам нельзя это делать."
 
@@ -1464,7 +1464,7 @@ msgstr ""
 "пустым, чтобы отправлять только на адрес сайта."
 
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:433
+#: includes/class-feature.php:435
 #, php-format
 msgid ""
 "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd "
@@ -1546,7 +1546,7 @@ msgstr ""
 msgid "The administrator \"%s\" was added in the last 7 days."
 msgstr "Администратор «%s» добавлен за последние 7 дней."
 
-#: includes/features/class-admin-alert.php:823
+#: includes/features/class-admin-alert.php:824
 msgid ""
 "found by the regular check: the role was not set through WordPress while "
 "this alert was on, for example it was written straight into the database"
@@ -1555,34 +1555,34 @@ msgstr ""
 "уведомление было включено, например записана прямо в базу данных"
 
 #: includes/class-feature.php:283 includes/features/class-admin-alert.php:682
-#: includes/features/class-admin-alert.php:827
+#: includes/features/class-admin-alert.php:828
 msgid "no logged-in user (WP-CLI, a scheduled task or code)"
 msgstr "никто не вошёл (WP-CLI, запланированная задача или код)"
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:832
+#: includes/features/class-admin-alert.php:833
 #, php-format
 msgid "New administrator: %s"
 msgstr "Новый администратор: %s"
 
-#: includes/features/class-admin-alert.php:835
+#: includes/features/class-admin-alert.php:836
 msgid "An account on your site now has the Administrator role."
 msgstr "Учётная запись на вашем сайте теперь имеет роль «Администратор»."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:838
+#: includes/features/class-admin-alert.php:839
 #, php-format
 msgid "User name: %s"
 msgstr "Имя пользователя: %s"
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:840
+#: includes/features/class-admin-alert.php:841
 #, php-format
 msgid "E-mail: %s"
 msgstr "Почта: %s"
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:842
+#: includes/features/class-admin-alert.php:843
 #, php-format
 msgid "Account created: %s"
 msgstr "Учётная запись создана: %s"
@@ -1591,7 +1591,7 @@ msgstr "Учётная запись создана: %s"
 #: includes/class-feature.php:290 includes/features/class-admin-alert.php:491
 #: includes/features/class-admin-alert.php:533
 #: includes/features/class-admin-alert.php:651
-#: includes/features/class-admin-alert.php:844
+#: includes/features/class-admin-alert.php:845
 #, php-format
 msgid "Changed by: %s"
 msgstr "Кто изменил: %s"
@@ -1600,17 +1600,17 @@ msgstr "Кто изменил: %s"
 #: includes/class-feature.php:293 includes/features/class-admin-alert.php:495
 #: includes/features/class-admin-alert.php:538
 #: includes/features/class-admin-alert.php:655
-#: includes/features/class-admin-alert.php:847
+#: includes/features/class-admin-alert.php:848
 #, php-format
 msgid "From IP address: %s"
 msgstr "С IP-адреса: %s"
 
-#: includes/features/class-admin-alert.php:853
+#: includes/features/class-admin-alert.php:854
 msgid "If you or your team added this account, nothing to do."
 msgstr ""
 "Если эту учётную запись добавили вы или ваша команда, ничего делать не нужно."
 
-#: includes/features/class-admin-alert.php:854
+#: includes/features/class-admin-alert.php:855
 msgid ""
 "If not: delete the account, change the passwords of all administrators and "
 "of the hosting, and look at wp-content/mu-plugins for files you do not know."
@@ -1853,30 +1853,30 @@ msgstr ""
 "вредоносный код, чтобы запись не показывалась как администратор. Если вы "
 "этого не настраивали, проверьте эту запись."
 
-#: includes/class-user-names.php:60
+#: includes/class-user-names.php:65
 msgid "Fixing…"
 msgstr "Исправляю…"
 
 #. translators: 1: number of fixed users, 2: number of users in the list.
-#: includes/class-user-names.php:62
+#: includes/class-user-names.php:67
 #, php-format
 msgid "Fixed: %1$d of %2$d."
 msgstr "Исправлено: %1$d из %2$d."
 
-#: includes/class-user-names.php:63
+#: includes/class-user-names.php:68
 msgid "Done: logins no longer show for the users in this list."
 msgstr "Готово: логины этих пользователей больше не видны."
 
-#: includes/class-user-names.php:64
+#: includes/class-user-names.php:69
 msgid "Reload the page to see the next users."
 msgstr "Обновите страницу, чтобы увидеть следующих пользователей."
 
-#: includes/class-user-names.php:65
+#: includes/class-user-names.php:70
 msgid "The request failed. Reload the page and try again."
 msgstr "Запрос не удался. Обновите страницу и попробуйте снова."
 
 #. translators: %d: number of users.
-#: includes/class-user-names.php:224
+#: includes/class-user-names.php:264
 #, php-format
 msgid ""
 "%d user shows the login on the site. \"Fix\" sets the public name below, "
@@ -1904,66 +1904,66 @@ msgstr[2] ""
 "отвечает «не найдено») и записывает новое имя в старые комментарии "
 "пользователя. Логин и пароль не меняются."
 
-#: includes/class-user-names.php:231
+#: includes/class-user-names.php:271
 msgid "User"
 msgstr "Пользователь"
 
-#: includes/class-user-names.php:232
+#: includes/class-user-names.php:272
 msgid "Where the login shows"
 msgstr "Где виден логин"
 
-#: includes/class-user-names.php:233
+#: includes/class-user-names.php:273
 msgid "New public name"
 msgstr "Новое публичное имя"
 
-#: includes/class-user-names.php:237
+#: includes/class-user-names.php:277
 msgid "public name"
 msgstr "публичное имя"
 
-#: includes/class-user-names.php:255
+#: includes/class-user-names.php:295
 msgid "(new)"
 msgstr "(новый)"
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:259
+#: includes/class-user-names.php:299
 #, php-format
 msgid "New public name for %s"
 msgstr "Новое публичное имя для %s"
 
-#: includes/class-user-names.php:263
+#: includes/class-user-names.php:303
 msgid "Fix"
 msgstr "Исправить"
 
 #. translators: %d: number of users not shown.
-#: includes/class-user-names.php:270
+#: includes/class-user-names.php:310
 #, php-format
 msgid "And %d more. Fix these first, the list then shows the next ones."
 msgstr "И ещё %d. Сначала исправьте этих, тогда список покажет следующих."
 
-#: includes/class-user-names.php:315
+#: includes/class-user-names.php:355
 msgid "This user does not exist any more."
 msgstr "Этого пользователя больше нет."
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:320
+#: includes/class-user-names.php:360
 #, php-format
 msgid "Nothing was changed for %s: type a new public name first."
 msgstr "Для %s ничего не изменено: сначала введите новое публичное имя."
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:324
+#: includes/class-user-names.php:364
 #, php-format
 msgid "Nothing was changed for %s: the new public name must not be the login."
 msgstr "Для %s ничего не изменено: новое публичное имя не может быть логином."
 
 #. translators: %s: new author page address.
-#: includes/class-user-names.php:362
+#: includes/class-user-names.php:402
 #, php-format
 msgid "Author page: %s"
 msgstr "Страница автора: %s"
 
 #. translators: 1: user login, 2: new public name, 3: number of comments.
-#: includes/class-user-names.php:367
+#: includes/class-user-names.php:407
 #, php-format
 msgid "%1$s now shows as \"%2$s\". Comments updated: %3$d."
 msgid_plural "%1$s now shows as \"%2$s\". Comments updated: %3$d."
@@ -2141,7 +2141,7 @@ msgstr ""
 "найдено регулярной проверкой: настройку изменили не через WordPress, пока "
 "это уведомление было включено, например записали прямо в базу данных"
 
-#: includes/features/class-admin-alert.php:850
+#: includes/features/class-admin-alert.php:851
 msgid ""
 "Its public name or author page address is the login, so the login shows "
 "under its posts and comments. Hide user names in HeAd Guard can change that."
@@ -2185,12 +2185,12 @@ msgstr ""
 "плагины, которыми не пользуетесь: их файлы остаются на сервере и тоже "
 "требуют обновлений."
 
-#: includes/features/class-hide-rest-index.php:119
+#: includes/features/class-hide-rest-index.php:120
 msgid "unknown file"
 msgstr "неизвестный файл"
 
 #. translators: 1: REST namespace, 2: file path.
-#: includes/features/class-hide-rest-index.php:122
+#: includes/features/class-hide-rest-index.php:123
 #, php-format
 msgid ""
 "The REST namespace %1$s runs code from %2$s, which is not a plugin or theme "
@@ -2201,7 +2201,7 @@ msgstr ""
 "этот файл."
 
 #. translators: 1: REST namespace, 2: file path.
-#: includes/features/class-hide-rest-index.php:124
+#: includes/features/class-hide-rest-index.php:125
 #, php-format
 msgid ""
 "The REST namespace %1$s has a random-looking name, like the fake plugins of "
@@ -2259,7 +2259,7 @@ msgstr ""
 "блокируются на то же время."
 
 #. translators: %s: IP address.
-#: includes/features/class-limit-login.php:280
+#: includes/features/class-limit-login.php:289
 #, php-format
 msgid ""
 "The site sees your address as %s, which belongs to Cloudflare, and the CF-"
@@ -2274,7 +2274,7 @@ msgstr ""
 "заблокировать всех. Спросите хостинг, почему заголовок убирается, или пока "
 "не включайте эту настройку."
 
-#: includes/features/class-limit-login.php:379
+#: includes/features/class-limit-login.php:420
 msgid ""
 "Logins from new devices are paused for a while because of many failed "
 "attempts. If this is your site, use \"Lost your password?\": the reset link "
@@ -2285,7 +2285,7 @@ msgstr ""
 "сброса пустит этот браузер."
 
 #. translators: 1: number of failed logins, 2: minutes.
-#: includes/features/class-limit-login.php:488
+#: includes/features/class-limit-login.php:529
 #, php-format
 msgid ""
 "%1$d failed logins from different addresses in %2$d minutes: a bot network "
@@ -2295,7 +2295,7 @@ msgstr ""
 "на этом сайте."
 
 #. translators: %d: minutes.
-#: includes/features/class-limit-login.php:490
+#: includes/features/class-limit-login.php:531
 #, php-format
 msgid ""
 "For the next %d minutes, and longer while the attempts go on, logins from "
@@ -2306,7 +2306,7 @@ msgstr ""
 "устройств отклоняются. Браузеры, с которых уже входили на этот сайт, входят "
 "дальше."
 
-#: includes/features/class-limit-login.php:491
+#: includes/features/class-limit-login.php:532
 msgid ""
 "If you need to log in from a new device, use \"Lost your password?\" on the "
 "login page: the reset link lets that browser in."
@@ -2314,7 +2314,7 @@ msgstr ""
 "Если нужно войти с нового устройства, воспользуйтесь «Забыли пароль?» на "
 "странице входа: ссылка для сброса пустит этот браузер."
 
-#: includes/features/class-limit-login.php:493
+#: includes/features/class-limit-login.php:534
 msgid ""
 "Worth doing now: check that every administrator has a strong unique "
 "password, and turn on two-factor login if you have not yet."
@@ -2322,7 +2322,7 @@ msgstr ""
 "Стоит сделать сейчас: проверьте, что у каждого администратора надёжный "
 "уникальный пароль, и включите двухфакторный вход, если ещё не включили."
 
-#: includes/features/class-limit-login.php:495
+#: includes/features/class-limit-login.php:536
 msgid "Login attack from many addresses"
 msgstr "Атака на вход с многих адресов"
 
@@ -2485,3 +2485,22 @@ msgstr ""
 "В подпапках mu-plugins больше %d PHP-файлов, поэтому плагин следит только за "
 "первыми из них. Файлы после них не проверяются. Вынесите библиотеки из mu-"
 "plugins или следите за этой папкой средствами хостинга."
+
+#. translators: %s: IP address.
+#: includes/features/class-limit-login.php:281
+#, php-format
+msgid ""
+"The site sees your address as %s, an address inside the server or its "
+"network. A proxy in front of the site (for example Nginx in front of Apache) "
+"does not pass the real visitor address, so all visitors share it and one bot "
+"can lock everyone out. Ask the host to pass the real visitor IP "
+"(mod_remoteip or the real IP module), or leave this setting off until then. "
+"Developers can also set the address with the helloadmin_guard_client_ip "
+"filter."
+msgstr ""
+"Сайт видит ваш адрес как %s, а это адрес внутри сервера или его сети. Прокси "
+"перед сайтом (например, Nginx перед Apache) не передаёт настоящий адрес "
+"посетителя, поэтому все посетители делят его, и один бот может заблокировать "
+"всех. Попросите хостинг передавать настоящий IP-адрес посетителя "
+"(mod_remoteip или модуль real IP) или пока не включайте эту настройку. "
+"Разработчики также могут задать адрес фильтром helloadmin_guard_client_ip."

@@ -107,6 +107,10 @@ The normal limit counts failed logins per IP address. Botnets guess from thousan
 * Application passwords (Jetpack, the mobile app, REST API clients): the strict mode leaves them alone, they are long and random and guessing them is pointless. The limit per IP address still applies to them.
 * Not for sites where customers or members log in: during an attack they could not log in from a new device without a password reset.
 
+= Limit login says all visitors share one address. What now? =
+
+PHP sees the address of whatever connected to it. Behind a proxy that does not pass the visitor address (Nginx in front of Apache on the same server, a load balancer, a CDN other than Cloudflare) every visitor looks the same, and one bot could lock everyone out, so the card warns about it. The best fix is on the server: ask the host to turn on mod_remoteip or the Nginx real IP module. Behind Cloudflare the plugin reads CF-Connecting-IP itself, but only from Cloudflare's own addresses. Developers who know where their server puts the real address can return it from the helloadmin_guard_client_ip filter.
+
 = Which routes does "Core REST API only for logged-in users" close? =
 
 The core namespaces wp/v2 (posts, pages, media, categories, search, users), wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1, for visitors who are not logged in, also inside batch calls. oEmbed and the routes of plugins (forms, shops, statistics) stay open. If a theme or a headless front end reads posts through the API without logging in, add its route to the "Keep open for visitors" field, for example /wp/v2/posts.

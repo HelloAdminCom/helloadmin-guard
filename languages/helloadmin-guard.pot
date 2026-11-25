@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T13:00:05+02:00\n"
+"POT-Creation-Date: 2026-11-25T13:33:59+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -294,8 +294,8 @@ msgid "Show the welcome message again"
 msgstr ""
 
 #: includes/class-emergency.php:59
-#: includes/class-user-names.php:78
-#: includes/class-user-names.php:284
+#: includes/class-user-names.php:83
+#: includes/class-user-names.php:324
 msgid "Sorry, you are not allowed to do this."
 msgstr ""
 
@@ -377,7 +377,7 @@ msgstr ""
 
 #: includes/class-feature.php:283
 #: includes/features/class-admin-alert.php:682
-#: includes/features/class-admin-alert.php:827
+#: includes/features/class-admin-alert.php:828
 msgid "no logged-in user (WP-CLI, a scheduled task or code)"
 msgstr ""
 
@@ -390,7 +390,7 @@ msgstr ""
 #: includes/features/class-admin-alert.php:491
 #: includes/features/class-admin-alert.php:533
 #: includes/features/class-admin-alert.php:651
-#: includes/features/class-admin-alert.php:844
+#: includes/features/class-admin-alert.php:845
 #, php-format
 msgid "Changed by: %s"
 msgstr ""
@@ -400,7 +400,7 @@ msgstr ""
 #: includes/features/class-admin-alert.php:495
 #: includes/features/class-admin-alert.php:538
 #: includes/features/class-admin-alert.php:655
-#: includes/features/class-admin-alert.php:847
+#: includes/features/class-admin-alert.php:848
 #, php-format
 msgid "From IP address: %s"
 msgstr ""
@@ -418,7 +418,7 @@ msgid "HelloAdmin Guard was deactivated"
 msgstr ""
 
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:433
+#: includes/class-feature.php:435
 #, php-format
 msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr ""
@@ -467,96 +467,96 @@ msgstr ""
 msgid "Checking…"
 msgstr ""
 
-#: includes/class-user-names.php:60
+#: includes/class-user-names.php:65
 msgid "Fixing…"
 msgstr ""
 
 #. translators: 1: number of fixed users, 2: number of users in the list.
-#: includes/class-user-names.php:62
+#: includes/class-user-names.php:67
 #, php-format
 msgid "Fixed: %1$d of %2$d."
 msgstr ""
 
-#: includes/class-user-names.php:63
+#: includes/class-user-names.php:68
 msgid "Done: logins no longer show for the users in this list."
 msgstr ""
 
-#: includes/class-user-names.php:64
+#: includes/class-user-names.php:69
 msgid "Reload the page to see the next users."
 msgstr ""
 
-#: includes/class-user-names.php:65
+#: includes/class-user-names.php:70
 msgid "The request failed. Reload the page and try again."
 msgstr ""
 
 #. translators: %d: number of users.
-#: includes/class-user-names.php:224
+#: includes/class-user-names.php:264
 #, php-format
 msgid "%d user shows the login on the site. \"Fix\" sets the public name below, moves the author page to an address made from it (the old address answers \"not found\") and puts the new name on the user's old comments. The login and the password stay the same."
 msgid_plural "%d users show the login on the site. \"Fix\" sets the public name below, moves the author page to an address made from it (the old address answers \"not found\") and puts the new name on the user's old comments. The login and the password stay the same."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-user-names.php:231
+#: includes/class-user-names.php:271
 msgid "User"
 msgstr ""
 
-#: includes/class-user-names.php:232
+#: includes/class-user-names.php:272
 msgid "Where the login shows"
 msgstr ""
 
-#: includes/class-user-names.php:233
+#: includes/class-user-names.php:273
 msgid "New public name"
 msgstr ""
 
-#: includes/class-user-names.php:237
+#: includes/class-user-names.php:277
 msgid "public name"
 msgstr ""
 
-#: includes/class-user-names.php:255
+#: includes/class-user-names.php:295
 msgid "(new)"
 msgstr ""
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:259
+#: includes/class-user-names.php:299
 #, php-format
 msgid "New public name for %s"
 msgstr ""
 
-#: includes/class-user-names.php:263
+#: includes/class-user-names.php:303
 msgid "Fix"
 msgstr ""
 
 #. translators: %d: number of users not shown.
-#: includes/class-user-names.php:270
+#: includes/class-user-names.php:310
 #, php-format
 msgid "And %d more. Fix these first, the list then shows the next ones."
 msgstr ""
 
-#: includes/class-user-names.php:315
+#: includes/class-user-names.php:355
 msgid "This user does not exist any more."
 msgstr ""
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:320
+#: includes/class-user-names.php:360
 #, php-format
 msgid "Nothing was changed for %s: type a new public name first."
 msgstr ""
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:324
+#: includes/class-user-names.php:364
 #, php-format
 msgid "Nothing was changed for %s: the new public name must not be the login."
 msgstr ""
 
 #. translators: %s: new author page address.
-#: includes/class-user-names.php:362
+#: includes/class-user-names.php:402
 #, php-format
 msgid "Author page: %s"
 msgstr ""
 
 #. translators: 1: user login, 2: new public name, 3: number of comments.
-#: includes/class-user-names.php:367
+#: includes/class-user-names.php:407
 #, php-format
 msgid "%1$s now shows as \"%2$s\". Comments updated: %3$d."
 msgid_plural "%1$s now shows as \"%2$s\". Comments updated: %3$d."
@@ -568,7 +568,7 @@ msgid "Hello, admin or developer!"
 msgstr ""
 
 #. translators: %s: plugin name in bold.
-#: includes/class-welcome.php:152
+#: includes/class-welcome.php:151
 #, php-format
 msgid "Out of the box, WordPress leaves a few gaps open: anyone can find your user names, your WordPress version and the address of your login page. No, the WordPress team is not being careless 🙂 some sites need them to work. On most sites, though, they can and should be closed. That is what %s does. Every gap has its own switch, so you decide what to close and what to leave open."
 msgstr ""
@@ -777,47 +777,47 @@ msgstr ""
 msgid "The list of administrators was changed outside the plugin"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:823
+#: includes/features/class-admin-alert.php:824
 msgid "found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:832
+#: includes/features/class-admin-alert.php:833
 #, php-format
 msgid "New administrator: %s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:835
+#: includes/features/class-admin-alert.php:836
 msgid "An account on your site now has the Administrator role."
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:838
+#: includes/features/class-admin-alert.php:839
 #, php-format
 msgid "User name: %s"
 msgstr ""
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:840
+#: includes/features/class-admin-alert.php:841
 #, php-format
 msgid "E-mail: %s"
 msgstr ""
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:842
+#: includes/features/class-admin-alert.php:843
 #, php-format
 msgid "Account created: %s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:850
+#: includes/features/class-admin-alert.php:851
 msgid "Its public name or author page address is the login, so the login shows under its posts and comments. Hide user names in HeAd Guard can change that."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:853
+#: includes/features/class-admin-alert.php:854
 msgid "If you or your team added this account, nothing to do."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:854
+#: includes/features/class-admin-alert.php:855
 msgid "If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
 msgstr ""
 
@@ -1006,18 +1006,18 @@ msgstr ""
 msgid "Turn this off and save. The index and the links come back at once."
 msgstr ""
 
-#: includes/features/class-hide-rest-index.php:119
+#: includes/features/class-hide-rest-index.php:120
 msgid "unknown file"
 msgstr ""
 
 #. translators: 1: REST namespace, 2: file path.
-#: includes/features/class-hide-rest-index.php:122
+#: includes/features/class-hide-rest-index.php:123
 #, php-format
 msgid "The REST namespace %1$s runs code from %2$s, which is not a plugin or theme folder. Malware adds its own API routes this way. Check this file."
 msgstr ""
 
 #. translators: 1: REST namespace, 2: file path.
-#: includes/features/class-hide-rest-index.php:124
+#: includes/features/class-hide-rest-index.php:125
 #, php-format
 msgid "The REST namespace %1$s has a random-looking name, like the fake plugins of the SocGholish malware. It is registered in %2$s. If you do not know this plugin, check it."
 msgstr ""
@@ -1139,17 +1139,23 @@ msgid "Within the lockout time above, 20 to 1000. When reached, new devices are 
 msgstr ""
 
 #. translators: %s: IP address.
-#: includes/features/class-limit-login.php:280
+#: includes/features/class-limit-login.php:281
+#, php-format
+msgid "The site sees your address as %s, an address inside the server or its network. A proxy in front of the site (for example Nginx in front of Apache) does not pass the real visitor address, so all visitors share it and one bot can lock everyone out. Ask the host to pass the real visitor IP (mod_remoteip or the real IP module), or leave this setting off until then. Developers can also set the address with the helloadmin_guard_client_ip filter."
+msgstr ""
+
+#. translators: %s: IP address.
+#: includes/features/class-limit-login.php:289
 #, php-format
 msgid "The site sees your address as %s, which belongs to Cloudflare, and the CF-Connecting-IP header with the real visitor address does not reach WordPress. Then all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host why the header is removed, or leave this setting off until then."
 msgstr ""
 
-#: includes/features/class-limit-login.php:379
+#: includes/features/class-limit-login.php:420
 msgid "Logins from new devices are paused for a while because of many failed attempts. If this is your site, use \"Lost your password?\": the reset link lets this browser in."
 msgstr ""
 
 #. translators: %d: minutes until the next login attempt is allowed.
-#: includes/features/class-limit-login.php:389
+#: includes/features/class-limit-login.php:430
 #, php-format
 msgid "Too many failed login attempts. Try again in %d minute."
 msgid_plural "Too many failed login attempts. Try again in %d minutes."
@@ -1157,26 +1163,26 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: number of failed logins, 2: minutes.
-#: includes/features/class-limit-login.php:488
+#: includes/features/class-limit-login.php:529
 #, php-format
 msgid "%1$d failed logins from different addresses in %2$d minutes: a bot network is guessing passwords on this site."
 msgstr ""
 
 #. translators: %d: minutes.
-#: includes/features/class-limit-login.php:490
+#: includes/features/class-limit-login.php:531
 #, php-format
 msgid "For the next %d minutes, and longer while the attempts go on, logins from new devices are refused. Browsers that logged in to this site before still get in."
 msgstr ""
 
-#: includes/features/class-limit-login.php:491
+#: includes/features/class-limit-login.php:532
 msgid "If you need to log in from a new device, use \"Lost your password?\" on the login page: the reset link lets that browser in."
 msgstr ""
 
-#: includes/features/class-limit-login.php:493
+#: includes/features/class-limit-login.php:534
 msgid "Worth doing now: check that every administrator has a strong unique password, and turn on two-factor login if you have not yet."
 msgstr ""
 
-#: includes/features/class-limit-login.php:495
+#: includes/features/class-limit-login.php:536
 msgid "Login attack from many addresses"
 msgstr ""
 
@@ -1218,7 +1224,7 @@ msgstr ""
 msgid "A page or post already uses this address. Choose another one."
 msgstr ""
 
-#: includes/features/class-login-url.php:369
+#: includes/features/class-login-url.php:371
 msgid "The requested URL was not found on this server."
 msgstr ""
 

@@ -13,11 +13,13 @@ All notable changes to this project are documented here. Versions follow [Semant
 - E-mail me about changed must-use plugins and site files: also wp-config.php, index.php, .user.ini, php.ini and PHP files in subfolders of mu-plugins (folders managed by hosts are skipped).
 
 ### Fixed
+- Alert lists without a signature now count as changed outside the plugin (before, dropping the signature in the database made a planted list trusted).
+- Admin alert finds administrator rights stored as 1 or "1", not only true.
 - Hide user names: a REST batch call to /wp/v2/users by a visitor caused a PHP fatal error in WordPress 7 (the refusal was a WP_Error, now a response).
 - Limit login: views of the login page during a lockout no longer count as failed logins.
 - Menu number: settings that are not checked yet do not count while the first check after an update runs.
 - .htaccess: more than one plugin block in the file counts as a mismatch, the next sync leaves one.
-- Visitor IP: CF-Connecting-IP is used only when the request comes from a Cloudflare address.
+- Visitor IP: CF-Connecting-IP is used only when the request comes from a Cloudflare address. Limit login warns when the site sees a loopback or private address on a public site (a local proxy that does not pass the visitor IP); FAQ entry on the helloadmin_guard_client_ip filter.
 - Smaller: header flag found after a double internal redirect, WP-CLI handles a damaged option and notes the Nginx case, XML-RPC limit mode filter runs last.
 
 ## [0.5.2] - 2026-11-24
