@@ -30,12 +30,36 @@ class User_Names {
 	const LIMIT = 20;
 
 	/**
+	 * Query argument with the user ID of the pressed button.
+	 */
+	const USER_ARG = 'hag_fix_user';
+
+	/**
+	 * Query argument with the nonce of the pressed button.
+	 */
+	const NONCE_ARG = 'hag_fix_nonce';
+
+	/**
 	 * Hooks the form handler.
 	 *
 	 * @return void
 	 */
 	public function register() {
-		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
+		add_action( 'admin_init', array( $this, 'maybe_handle' ) );
+	}
+
+	/**
+	 * The button sends the whole settings form, which carries its own "action" and "_wpnonce" fields for
+	 * options.php. Those would override the same names in the button address (POST wins in $_REQUEST), so the
+	 * button posts to the plugin page with its own argument names and is handled here.
+	 *
+	 * @return void
+	 */
+	public function maybe_handle() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only routes the request, handle() checks the nonce.
+		if ( isset( $_GET[ self::USER_ARG ], $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+			$this->handle();
+		}
 	}
 
 	/**
@@ -137,7 +161,7 @@ class User_Names {
 
 	/**
 	 * The list with a name field and a button per user, shown inside the card. The buttons send the page form
-	 * to admin-post.php (formaction), so no form is nested in the settings form.
+	 * to the plugin page (formaction, see maybe_handle()), so no form is nested in the settings form.
 	 *
 	 * @return void
 	 */
@@ -173,15 +197,13 @@ class User_Names {
 				$where[] = '/author/' . sanitize_title( $user['login'] ) . '/';
 			}
 			$field = 'hag-fix-name-' . $user['id'];
-			$url   = wp_nonce_url(
-				add_query_arg(
-					array(
-						'action' => self::ACTION,
-						'user'   => $user['id'],
-					),
-					admin_url( 'admin-post.php' )
+			$url   = add_query_arg(
+				array(
+					'page'          => Admin_Page::SLUG,
+					self::USER_ARG  => $user['id'],
+					self::NONCE_ARG => wp_create_nonce( self::ACTION . '_' . $user['id'] ),
 				),
-				self::ACTION . '_' . $user['id']
+				admin_url( 'admin.php' )
 			);
 			printf(
 				'<tr><td><a href="%1$s">%2$s</a>%3$s</td><td>%4$s</td><td><label class="screen-reader-text" for="%5$s">%6$s</label><input type="text" class="regular-text" id="%5$s" name="hag_fix_name[%7$d]" value="%8$s" maxlength="250"></td><td><button type="submit" class="button" formaction="%9$s" formmethod="post" formnovalidate>%10$s</button></td></tr>',
@@ -212,8 +234,8 @@ class User_Names {
 	 * @return void
 	 */
 	public function handle() {
-		$id = isset( $_GET['user'] ) ? absint( $_GET['user'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- checked right below.
-		check_admin_referer( self::ACTION . '_' . $id );
+		$id = isset( $_GET[ self::USER_ARG ] ) ? absint( $_GET[ self::USER_ARG ] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- checked right below.
+		check_admin_referer( self::ACTION . '_' . $id, self::NONCE_ARG );
 		if ( ! $id || ! current_user_can( 'edit_user', $id ) ) {
 			wp_die( esc_html__( 'Sorry, you are not allowed to do this.', 'helloadmin-guard' ), '', array( 'response' => 403 ) );
 		}
@@ -230,7 +252,7 @@ class User_Names {
 
 		$back = wp_get_referer();
 		$back = $back ? $back : admin_url( 'admin.php?page=' . Admin_Page::SLUG );
-		wp_safe_redirect( add_query_arg( 'settings-updated', 'true', remove_query_arg( 'settings-updated', $back ) ) );
+		wp_safe_redirect( add_query_arg( 'settings-updated', 'true', remove_query_arg( array( 'settings-updated', self::USER_ARG, self::NONCE_ARG ), $back ) ) );
 		exit;
 	}
 
