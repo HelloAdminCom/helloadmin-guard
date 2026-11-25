@@ -284,7 +284,7 @@ class Admin_Page {
 		}
 		wp_enqueue_style( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/css/admin.css', array(), HELLOADMIN_GUARD_VERSION );
 		wp_enqueue_script( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/js/admin.js', array(), HELLOADMIN_GUARD_VERSION, array( 'in_footer' => true ) );
-		wp_localize_script( 'helloadmin-guard-admin', 'helloadminGuard', array_merge( Welcome::script_data(), Status::script_data() ) );
+		wp_localize_script( 'helloadmin-guard-admin', 'helloadminGuard', array_merge( Welcome::script_data(), Status::script_data(), User_Names::script_data() ) );
 	}
 
 	/**

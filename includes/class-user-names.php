@@ -46,6 +46,43 @@ class User_Names {
 	 */
 	public function register() {
 		add_action( 'admin_init', array( $this, 'maybe_handle' ) );
+		add_action( 'wp_ajax_' . self::ACTION, array( $this, 'ajax' ) );
+	}
+
+	/**
+	 * Texts and the action for the settings page script, which fixes a user without reloading the page.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function script_data() {
+		return array(
+			'fixAction'  => self::ACTION,
+			'fixWorking' => __( 'Fixing…', 'helloadmin-guard' ),
+			/* translators: 1: number of fixed users, 2: number of users in the list. */
+			'fixCount'   => __( 'Fixed: %1$d of %2$d.', 'helloadmin-guard' ),
+			'fixAllDone' => __( 'Done: logins no longer show for the users in this list.', 'helloadmin-guard' ),
+			'fixMore'    => __( 'Reload the page to see the next users.', 'helloadmin-guard' ),
+			'fixFailed'  => __( 'The request failed. Reload the page and try again.', 'helloadmin-guard' ),
+		);
+	}
+
+	/**
+	 * The fix button without a page reload: same checks as handle(), answers with JSON.
+	 *
+	 * @return void
+	 */
+	public function ajax() {
+		$id = isset( $_POST['user'] ) ? absint( $_POST['user'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- checked right below.
+		check_ajax_referer( self::ACTION . '_' . $id, 'nonce' );
+		if ( ! $id || ! current_user_can( 'edit_user', $id ) ) {
+			wp_send_json_error( array( 'message' => __( 'Sorry, you are not allowed to do this.', 'helloadmin-guard' ) ), 403 );
+		}
+		$name   = isset( $_POST['name'] ) && is_string( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+		$result = self::fix( $id, $name );
+		if ( is_wp_error( $result ) ) {
+			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+		}
+		wp_send_json_success( array( 'message' => $result ) );
 	}
 
 	/**
@@ -184,6 +221,7 @@ class User_Names {
 				)
 			)
 		);
+		printf( '<p class="hag-fix-summary" aria-live="polite" data-more="%d"></p>', (int) ( $leaks['total'] - count( $leaks['users'] ) ) );
 		echo '<table class="widefat striped hag-fix-table"><thead><tr>';
 		printf( '<th scope="col">%s</th>', esc_html__( 'User', 'helloadmin-guard' ) );
 		printf( '<th scope="col">%s</th>', esc_html__( 'Where the login shows', 'helloadmin-guard' ) );
@@ -206,7 +244,7 @@ class User_Names {
 				admin_url( 'admin.php' )
 			);
 			printf(
-				'<tr><td><a href="%1$s">%2$s</a>%3$s</td><td>%4$s</td><td><label class="screen-reader-text" for="%5$s">%6$s</label><input type="text" class="regular-text" id="%5$s" name="hag_fix_name[%7$d]" value="%8$s" maxlength="250"></td><td><button type="submit" class="button" formaction="%9$s" formmethod="post" formnovalidate>%10$s</button></td></tr>',
+				'<tr><td><a href="%1$s">%2$s</a>%3$s</td><td>%4$s</td><td><label class="screen-reader-text" for="%5$s">%6$s</label><input type="text" class="regular-text" id="%5$s" name="hag_fix_name[%7$d]" value="%8$s" maxlength="250"></td><td><button type="submit" class="button" formaction="%9$s" formmethod="post" formnovalidate data-user="%7$d" data-nonce="%11$s">%10$s</button></td></tr>',
 				esc_url( get_edit_user_link( $user['id'] ) ),
 				esc_html( $user['login'] ),
 				$user['fresh'] ? ' <span class="hag-fix-new">' . esc_html__( '(new)', 'helloadmin-guard' ) . '</span>' : '',
@@ -217,7 +255,8 @@ class User_Names {
 				(int) $user['id'],
 				esc_attr( $user['proposal'] ),
 				esc_url( $url ),
-				esc_html__( 'Fix', 'helloadmin-guard' )
+				esc_html__( 'Fix', 'helloadmin-guard' ),
+				esc_attr( wp_create_nonce( self::ACTION . '_' . $user['id'] ) )
 			);
 		}
 		echo '</tbody></table>';

@@ -251,3 +251,10 @@
 .hag-fix-table td, .hag-fix-table th { vertical-align: middle; }
 .hag-fix-table input.regular-text { width: 100%; max-width: 20em; }
 .hag-fix-new { color: #b32d2e; }
+.hag-fix-ok { color: #007017; }
+.hag-fix-done td:first-child, .hag-fix-done td:nth-child(2) { color: #646970; }
+.hag-fix-msg { margin: 4px 0 0; }
+.hag-fix-error { color: #b32d2e; }
+.hag-fix-summary:empty { display: none; }
+.hag-fix-summary { font-weight: 600; }
+.hag-fix-all { color: #007017; }
