@@ -48,6 +48,36 @@ class Limit_Login extends Feature {
 	private $minutes = 15;
 
 	/**
+	 * Strict mode: lock logins from new devices when many addresses fail together.
+	 *
+	 * @var bool
+	 */
+	private $strict = false;
+
+	/**
+	 * Failed logins from all addresses together that start the strict lock.
+	 *
+	 * @var int
+	 */
+	private $strict_attempts = 50;
+
+	/**
+	 * Option with the strict mode counter: array( count, window start ). Not a transient: its expiry would
+	 * move with every write.
+	 */
+	const ALL_OPTION = 'helloadmin_guard_login_all';
+
+	/**
+	 * Option with the time until which new devices are locked out.
+	 */
+	const ALL_LOCK_OPTION = 'helloadmin_guard_login_all_lock';
+
+	/**
+	 * Transient set after the attack e-mail, so it goes out once a day at most.
+	 */
+	const ALL_MAILED = 'helloadmin_guard_login_all_mailed';
+
+	/**
 	 * Whether an application password failure was just counted; wp_login_failed follows it on XML-RPC.
 	 *
 	 * @var bool
@@ -78,7 +108,8 @@ class Limit_Login extends Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'After too many failed logins from one IP address, every login from that address is refused for a while, even with the right password, so a bot cannot keep guessing. Works for the login page, XML-RPC and REST API logins. A successful login resets the count.', 'helloadmin-guard' );
+		return __( 'After too many failed logins from one IP address, every login from that address is refused for a while, even with the right password, so a bot cannot keep guessing. Works for the login page, XML-RPC and REST API logins. A successful login resets the count.', 'helloadmin-guard' )
+			. ' ' . __( 'Botnets guess from thousands of addresses, a few tries each, which a limit per address does not stop. The strict mode below counts failed logins from all addresses together; when there are too many, logins from new devices are refused for a while. Browsers that logged in to this site before carry a signed cookie and still get in, and "Lost your password?" keeps working: a password reset makes that browser known. The site address gets an e-mail about the attack.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -124,17 +155,30 @@ class Limit_Login extends Feature {
 	 */
 	public function fields() {
 		return array(
-			'attempts' => array(
+			'attempts'        => array(
 				'label'       => __( 'Attempts', 'helloadmin-guard' ),
 				'type'        => 'text',
 				'default'     => '5',
 				'description' => __( 'Failed logins allowed from one address, 3 to 20.', 'helloadmin-guard' ),
 			),
-			'minutes'  => array(
+			'minutes'         => array(
 				'label'       => __( 'Lockout, minutes', 'helloadmin-guard' ),
 				'type'        => 'text',
 				'default'     => '15',
 				'description' => __( 'How long the address stays locked, 5 to 1440 minutes (one day).', 'helloadmin-guard' ),
+			),
+			'strict'          => array(
+				'group'       => __( 'Attacks from many addresses', 'helloadmin-guard' ),
+				'label'       => __( 'Strict mode: lock new devices out during such an attack', 'helloadmin-guard' ),
+				'type'        => 'checkbox',
+				'default'     => '0',
+				'description' => __( 'Not for sites where customers or members log in: during an attack they could not log in from a new device without a password reset.', 'helloadmin-guard' ),
+			),
+			'strict_attempts' => array(
+				'label'       => __( 'Strict mode: failed logins from all addresses', 'helloadmin-guard' ),
+				'type'        => 'text',
+				'default'     => '50',
+				'description' => __( 'Within the lockout time above, 20 to 1000. When reached, new devices are locked out for the same time.', 'helloadmin-guard' ),
 			),
 		);
 	}
@@ -147,7 +191,13 @@ class Limit_Login extends Feature {
 	 * @return string
 	 */
 	public function sanitize_field( $field, $value ) {
+		if ( 'strict' === $field ) {
+			return '1' === (string) $value ? '1' : '0';
+		}
 		$number = is_numeric( $value ) ? (int) $value : 0;
+		if ( 'strict_attempts' === $field ) {
+			return (string) ( $number ? min( 1000, max( 20, $number ) ) : 50 );
+		}
 		if ( 'attempts' === $field ) {
 			return (string) ( $number ? min( 20, max( 3, $number ) ) : 5 );
 		}
@@ -269,9 +319,15 @@ class Limit_Login extends Feature {
 	public function enable( Settings $settings ) {
 		$this->attempts = (int) $settings->field( $this->id(), 'attempts', '5' );
 		$this->minutes  = (int) $settings->field( $this->id(), 'minutes', '15' );
+		$this->strict   = '1' === (string) $settings->field( $this->id(), 'strict', '0' );
+		// A value saved before 0.6 or by hand may be out of range: the same limits as on the settings page.
+		$this->strict_attempts = (int) $this->sanitize_field( 'strict_attempts', $settings->field( $this->id(), 'strict_attempts', '50' ) );
 		add_filter( 'authenticate', array( $this, 'refuse_locked' ), 99 );
 		add_action( 'wp_login_failed', array( $this, 'count_login_failure' ) );
 		add_action( 'wp_login', array( $this, 'reset' ) );
+		// Known browsers: set on every login and after a password reset, used only by the strict mode.
+		add_action( 'wp_login', array( $this, 'remember_browser' ), 10, 2 );
+		add_action( 'after_password_reset', array( $this, 'remember_browser_after_reset' ) );
 		// REST API and XML-RPC logins with an application password skip the filter and the action above.
 		add_action( 'wp_authenticate_application_password_errors', array( $this, 'refuse_locked_app' ) );
 		add_action( 'application_password_failed_authentication', array( $this, 'count_app_failure' ) );
@@ -284,8 +340,10 @@ class Limit_Login extends Feature {
 	 * @return void
 	 */
 	public function refuse_locked_app( $errors ) {
-		$locked = $this->refuse_locked( null );
-		if ( $errors instanceof \WP_Error && is_wp_error( $locked ) ) {
+		// No strict mode here: application passwords are long and random, guessing them is pointless, and apps
+		// and Jetpack must keep working during an attack. The lock of the address still applies.
+		$locked = $this->lock_error( null, false );
+		if ( $errors instanceof \WP_Error && $locked ) {
 			$errors->add( $locked->get_error_code(), $locked->get_error_message() );
 		}
 	}
@@ -297,6 +355,30 @@ class Limit_Login extends Feature {
 	 * @return mixed
 	 */
 	public function refuse_locked( $user ) {
+		// wp-login.php runs the login check on every view of the page, with nothing entered. That is no attempt:
+		// a lock error here would be counted as a failed login (and shown before anything was typed).
+		if ( null === $user || ( is_wp_error( $user ) && ! array_diff( $user->get_error_codes(), array( 'empty_username', 'empty_password' ) ) ) ) {
+			return $user;
+		}
+		$locked = $this->lock_error( $user, $this->strict );
+		return $locked ? $locked : $user;
+	}
+
+	/**
+	 * The lock that applies to this login, if any. In the strict lock every attempt from a new device gets the same
+	 * answer, right password or not, so the answer never confirms a guessed password.
+	 *
+	 * @param mixed $user   Result of the earlier authentication filters.
+	 * @param bool  $strict Whether the strict lock applies to this kind of login.
+	 * @return \WP_Error|null
+	 */
+	private function lock_error( $user, $strict ) {
+		if ( $strict && (int) get_option( self::ALL_LOCK_OPTION, 0 ) > time() && ! $this->known_browser( $user ) ) {
+			return new \WP_Error(
+				'helloadmin_guard_locked',
+				__( 'Logins from new devices are paused for a while because of many failed attempts. If this is your site, use "Lost your password?": the reset link lets this browser in.', 'helloadmin-guard' )
+			);
+		}
 		$until = (int) get_transient( $this->key( 'lock' ) );
 		if ( $until > time() ) {
 			$minutes = (int) ceil( ( $until - time() ) / MINUTE_IN_SECONDS );
@@ -309,7 +391,7 @@ class Limit_Login extends Feature {
 				)
 			);
 		}
-		return $user;
+		return null;
 	}
 
 	/**
@@ -346,6 +428,9 @@ class Limit_Login extends Feature {
 	 * @return void
 	 */
 	public function count_failure() {
+		if ( $this->strict ) {
+			$this->count_global_failure();
+		}
 		if ( get_transient( $this->key( 'lock' ) ) ) {
 			return;
 		}
@@ -357,6 +442,146 @@ class Limit_Login extends Feature {
 			return;
 		}
 		set_transient( $this->key( 'count' ), $count, $window );
+	}
+
+	/**
+	 * Strict mode: counts a failure from any address; at the limit, locks new devices out and e-mails the site
+	 * address (once a day at most). Failures during the lock extend it, so a lasting attack keeps it on.
+	 *
+	 * @return void
+	 */
+	private function count_global_failure() {
+		$window = $this->minutes * MINUTE_IN_SECONDS;
+		$now    = time();
+		if ( (int) get_option( self::ALL_LOCK_OPTION, 0 ) > $now ) {
+			update_option( self::ALL_LOCK_OPTION, $now + $window, false );
+			return;
+		}
+		$state = get_option( self::ALL_OPTION, array() );
+		$count = is_array( $state ) && isset( $state[0], $state[1] ) && (int) $state[1] > $now - $window ? (int) $state[0] : 0;
+		$start = $count ? (int) $state[1] : $now;
+		++$count;
+		if ( $count < $this->strict_attempts ) {
+			update_option( self::ALL_OPTION, array( $count, $start ), false );
+			return;
+		}
+		delete_option( self::ALL_OPTION );
+		update_option( self::ALL_LOCK_OPTION, $now + $window, false );
+		if ( ! get_transient( self::ALL_MAILED ) ) {
+			set_transient( self::ALL_MAILED, 1, DAY_IN_SECONDS );
+			$this->send_attack_mail( $count, (int) ceil( ( $now - $start ) / MINUTE_IN_SECONDS ) );
+		}
+	}
+
+	/**
+	 * E-mail about a login attack from many addresses.
+	 *
+	 * @param int $count   Failed logins counted.
+	 * @param int $minutes Minutes they took.
+	 * @return void
+	 */
+	private function send_attack_mail( $count, $minutes ) {
+		$lines = array(
+			/* translators: 1: number of failed logins, 2: minutes. */
+			sprintf( __( '%1$d failed logins from different addresses in %2$d minutes: a bot network is guessing passwords on this site.', 'helloadmin-guard' ), $count, max( 1, $minutes ) ),
+			/* translators: %d: minutes. */
+			sprintf( __( 'For the next %d minutes, and longer while the attempts go on, logins from new devices are refused. Browsers that logged in to this site before still get in.', 'helloadmin-guard' ), $this->minutes ),
+			__( 'If you need to log in from a new device, use "Lost your password?" on the login page: the reset link lets that browser in.', 'helloadmin-guard' ),
+			'',
+			__( 'Worth doing now: check that every administrator has a strong unique password, and turn on two-factor login if you have not yet.', 'helloadmin-guard' ),
+		);
+		$this->send_alert_mail( __( 'Login attack from many addresses', 'helloadmin-guard' ), $lines );
+	}
+
+	/**
+	 * Name of the known-browser cookie.
+	 *
+	 * @return string
+	 */
+	private static function cookie_name() {
+		return 'hag_known_' . ( defined( 'COOKIEHASH' ) ? COOKIEHASH : md5( (string) get_option( 'siteurl' ) ) );
+	}
+
+	/**
+	 * Signature of a known-browser cookie: user ID and expiry, signed with the site's salts, so it cannot be made
+	 * up or moved to another user.
+	 *
+	 * @param int $user_id User ID.
+	 * @param int $expires Expiry time.
+	 * @return string
+	 */
+	private static function cookie_sig( $user_id, $expires ) {
+		return hash_hmac( 'sha256', 'hag-known|' . $user_id . '|' . $expires, wp_salt( 'auth' ) );
+	}
+
+	/**
+	 * Marks this browser as known for the user who just logged in.
+	 *
+	 * @param string        $login User name.
+	 * @param \WP_User|null $user  User.
+	 * @return void
+	 */
+	public function remember_browser( $login, $user = null ) {
+		unset( $login );
+		if ( $user instanceof \WP_User ) {
+			self::set_known_cookie( (int) $user->ID );
+		}
+	}
+
+	/**
+	 * After a password reset by the link from the e-mail: this browser proved access to the mailbox.
+	 *
+	 * @param \WP_User $user User.
+	 * @return void
+	 */
+	public function remember_browser_after_reset( $user ) {
+		if ( $user instanceof \WP_User ) {
+			self::set_known_cookie( (int) $user->ID );
+		}
+	}
+
+	/**
+	 * Sets the known-browser cookie for one year.
+	 *
+	 * @param int $user_id User ID.
+	 * @return void
+	 */
+	private static function set_known_cookie( $user_id ) {
+		if ( headers_sent() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+			return;
+		}
+		$expires = time() + YEAR_IN_SECONDS;
+		setcookie(
+			self::cookie_name(),
+			$user_id . '|' . $expires . '|' . self::cookie_sig( $user_id, $expires ),
+			array(
+				'expires'  => $expires,
+				'path'     => defined( 'COOKIEPATH' ) && COOKIEPATH ? (string) COOKIEPATH : '/',
+				'domain'   => defined( 'COOKIE_DOMAIN' ) && COOKIE_DOMAIN ? (string) COOKIE_DOMAIN : '',
+				'secure'   => is_ssl(),
+				'httponly' => true,
+				'samesite' => 'Lax',
+			)
+		);
+	}
+
+	/**
+	 * Whether this browser is known for the user that just gave the right password.
+	 *
+	 * @param mixed $user Result of the earlier authentication filters.
+	 * @return bool
+	 */
+	private function known_browser( $user ) {
+		if ( ! $user instanceof \WP_User ) {
+			return false; // Wrong password or no user: nothing to let in.
+		}
+		$name  = self::cookie_name();
+		$value = isset( $_COOKIE[ $name ] ) ? sanitize_text_field( wp_unslash( $_COOKIE[ $name ] ) ) : '';
+		$parts = explode( '|', $value );
+		if ( 3 !== count( $parts ) || (int) $parts[0] !== (int) $user->ID || (int) $parts[1] < time() ) {
+			return false;
+		}
+		return hash_equals( self::cookie_sig( (int) $parts[0], (int) $parts[1] ), $parts[2] );
 	}
 
 	/**
