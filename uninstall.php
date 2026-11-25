@@ -25,6 +25,7 @@ delete_option( 'helloadmin_guard_admin_creds' );
 delete_option( 'helloadmin_guard_site_email' );
 wp_clear_scheduled_hook( 'helloadmin_guard_check_admins' );
 delete_option( 'helloadmin_guard_mu_files' );
+delete_option( 'helloadmin_guard_mu_scope' );
 delete_option( 'helloadmin_guard_mu_checked' );
 wp_clear_scheduled_hook( 'helloadmin_guard_check_mu_plugins' );
 delete_metadata( 'user', 0, 'helloadmin_guard_welcome_hidden', '', true );

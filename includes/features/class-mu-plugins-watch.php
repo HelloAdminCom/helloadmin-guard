@@ -40,6 +40,34 @@ class Mu_Plugins_Watch extends Feature {
 	const CRON_HOOK = 'helloadmin_guard_check_mu_plugins';
 
 	/**
+	 * Option with the version of the watched file set. Files of a set added in an update are only remembered the
+	 * first time, so an update does not send an e-mail about files that were there all along.
+	 */
+	const SCOPE_OPTION = 'helloadmin_guard_mu_scope';
+
+	/**
+	 * Version of the watched file set: 1 = mu-plugins and drop-ins, 2 = also subfolders of mu-plugins and the
+	 * site files below.
+	 */
+	const SCOPE = 2;
+
+	/**
+	 * Files in the site folder that run on every request or control how PHP runs: key in the list => file name.
+	 * .user.ini and php.ini can add a file to every request (auto_prepend_file), a common way for malware to stay.
+	 */
+	const SITE_FILES = array( 'index.php', 'wp-config.php', '.user.ini', 'php.ini' );
+
+	/**
+	 * Subfolders of mu-plugins that hosts install and update themselves; their files are not watched.
+	 */
+	const HOST_FOLDERS = array( 'kinsta-mu-plugins', 'wpengine-common', 'gd-system-plugin', 'pantheon-mu-plugin', 'wpcomsh' );
+
+	/**
+	 * Most files read from mu-plugins subfolders, so a huge folder cannot slow the check down.
+	 */
+	const MAX_SUBFOLDER_FILES = 500;
+
+	/**
 	 * Drop-in file names WordPress loads from wp-content (see _get_dropins()).
 	 */
 	const DROPINS = array(
@@ -68,21 +96,21 @@ class Mu_Plugins_Watch extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function title() {
-		return __( 'E-mail me about new must-use plugins', 'helloadmin-guard' );
+		return __( 'E-mail me about changed must-use plugins and site files', 'helloadmin-guard' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. After every login, on admin pages and at least once an hour while the site gets visits (without WP-Cron), the plugin compares these files with the list it saw last time and e-mails the site address about new and changed ones, including files whose names start with a dot.', 'helloadmin-guard' );
+		return __( 'Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. The same goes for wp-config.php and index.php, and for .user.ini or php.ini in the site folder, which can add a file to every request. After every login, on admin pages and at least once an hour while the site gets visits (without WP-Cron), the plugin compares these files with the list it saw last time and e-mails the site address about new and changed ones, including files whose names start with a dot and PHP files in subfolders of mu-plugins (except the folders hosts manage themselves).', 'helloadmin-guard' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function may_break() {
-		return __( 'Nothing stops working. You also get the e-mail when you or your host add or update a must-use plugin or a caching drop-in. If e-mail from this site does not arrive, the alert does not arrive either.', 'helloadmin-guard' );
+		return __( 'Nothing stops working. You also get the e-mail when you or your host add or update a must-use plugin or a caching drop-in, and when a plugin writes to wp-config.php (caching and SSL plugins do). If e-mail from this site does not arrive, the alert does not arrive either.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -195,6 +223,7 @@ class Mu_Plugins_Watch extends Feature {
 	 */
 	public function switched_on() {
 		self::save_list( self::SNAPSHOT_OPTION, self::files() );
+		update_option( self::SCOPE_OPTION, self::SCOPE, true );
 	}
 
 	/**
@@ -205,9 +234,18 @@ class Mu_Plugins_Watch extends Feature {
 	public function check() {
 		$now                 = self::files();
 		list( $known, $bad ) = self::load_list( self::SNAPSHOT_OPTION );
+		$stored              = $known;
 		if ( $bad ) {
 			// The stored list cannot be trusted: report every file.
 			$known = array();
+		} elseif ( (int) get_option( self::SCOPE_OPTION, 1 ) < self::SCOPE ) {
+			// First check after an update that watches more files: they were there before, only remember them.
+			foreach ( $now as $path => $hash ) {
+				if ( ! isset( $known[ $path ] ) && self::new_in_scope( $path ) ) {
+					$known[ $path ] = $hash;
+				}
+			}
+			update_option( self::SCOPE_OPTION, self::SCOPE, true );
 		}
 		$added   = array_diff_key( $now, $known );
 		$changed = array();
@@ -217,7 +255,8 @@ class Mu_Plugins_Watch extends Feature {
 			}
 		}
 
-		if ( $bad || $now !== $known || ! self::list_is_signed( self::SNAPSHOT_OPTION ) ) {
+		// Compared with what is stored, not with $known: files remembered after an update must be saved too.
+		if ( $bad || $now !== $stored || ! self::list_is_signed( self::SNAPSHOT_OPTION ) ) {
 			self::save_list( self::SNAPSHOT_OPTION, $now );
 		}
 		if ( $added || $changed || $bad ) {
@@ -226,9 +265,20 @@ class Mu_Plugins_Watch extends Feature {
 	}
 
 	/**
-	 * Files WordPress loads by itself: PHP files directly in mu-plugins (dot files too) and the drop-ins.
+	 * Whether a list key belongs to the files added in scope 2 (subfolders of mu-plugins, site files).
 	 *
-	 * @return array<string, string> "mu-plugins/name.php" or the drop-in name => MD5 of the content, sorted by path.
+	 * @param string $path Path as stored in the list.
+	 * @return bool
+	 */
+	private static function new_in_scope( $path ) {
+		return 0 === strpos( $path, 'site:' ) || substr_count( $path, '/' ) > 1;
+	}
+
+	/**
+	 * Watched files: PHP files in mu-plugins (dot files too) and its subfolders, the drop-ins, and the site files.
+	 *
+	 * @return array<string, string> "mu-plugins/name.php", "mu-plugins/folder/name.php", the drop-in name or
+	 *                               "site:wp-config.php" => MD5 of the content, sorted by path.
 	 */
 	public static function files() {
 		$files = array();
@@ -237,10 +287,21 @@ class Mu_Plugins_Watch extends Feature {
 
 		// scandir(), not glob(): glob() skips names that start with a dot, wp_get_mu_plugins() does not.
 		$names = is_dir( $dir ) ? scandir( $dir ) : false;
+		$left  = self::MAX_SUBFOLDER_FILES;
 		foreach ( (array) $names as $name ) {
+			$name = (string) $name;
 			$path = $dir . '/' . $name;
-			if ( '.php' === substr( (string) $name, -4 ) && is_file( $path ) ) {
+			if ( '.php' === substr( $name, -4 ) && is_file( $path ) ) {
 				$files[ $base . '/' . $name ] = (string) md5_file( $path );
+			} elseif ( '.' !== $name && '..' !== $name && is_dir( $path ) && ! is_link( $path ) && ! in_array( $name, self::host_folders(), true ) ) {
+				// Not loaded by WordPress itself, but a loader file in mu-plugins can include anything from here.
+				self::scan_folder( $path, $base . '/' . $name, 1, $left, $files );
+			}
+		}
+		foreach ( self::SITE_FILES as $name ) {
+			$path = self::site_file( $name );
+			if ( '' !== $path && is_file( $path ) ) {
+				$files[ 'site:' . $name ] = (string) md5_file( $path );
 			}
 		}
 		foreach ( self::DROPINS as $name ) {
@@ -251,6 +312,66 @@ class Mu_Plugins_Watch extends Feature {
 		}
 		ksort( $files );
 		return $files;
+	}
+
+	/**
+	 * Subfolders of mu-plugins left out of the check.
+	 *
+	 * @return string[]
+	 */
+	private static function host_folders() {
+		/**
+		 * Subfolders of wp-content/mu-plugins that HelloAdmin Guard does not watch, because the host updates them.
+		 *
+		 * @param string[] $folders Folder names.
+		 */
+		return (array) apply_filters( 'helloadmin_guard_mu_ignore', self::HOST_FOLDERS );
+	}
+
+	/**
+	 * Adds the PHP files of a mu-plugins subfolder to the list, three levels deep at most.
+	 *
+	 * @param string                $dir   Full path of the folder.
+	 * @param string                $key   Its path in the list.
+	 * @param int                   $depth Level of this folder.
+	 * @param int                   $left  Files that may still be read (shared by all folders).
+	 * @param array<string, string> $files List to add to.
+	 * @return void
+	 */
+	private static function scan_folder( $dir, $key, $depth, &$left, array &$files ) {
+		$names = scandir( $dir );
+		foreach ( (array) $names as $name ) {
+			$name = (string) $name;
+			if ( $left <= 0 || '.' === $name || '..' === $name ) {
+				continue;
+			}
+			$path = $dir . '/' . $name;
+			if ( is_link( $path ) ) {
+				continue;
+			}
+			if ( '.php' === substr( $name, -4 ) && is_file( $path ) ) {
+				$files[ $key . '/' . $name ] = (string) md5_file( $path );
+				--$left;
+			} elseif ( $depth < 3 && is_dir( $path ) ) {
+				self::scan_folder( $path, $key . '/' . $name, $depth + 1, $left, $files );
+			}
+		}
+	}
+
+	/**
+	 * Full path of a watched site file. wp-config.php may sit one folder above the site, as WordPress allows.
+	 *
+	 * @param string $name File name from SITE_FILES.
+	 * @return string Empty when not found.
+	 */
+	private static function site_file( $name ) {
+		if ( is_file( ABSPATH . $name ) ) {
+			return ABSPATH . $name;
+		}
+		if ( 'wp-config.php' === $name && is_file( dirname( ABSPATH ) . '/wp-config.php' ) && ! is_file( dirname( ABSPATH ) . '/wp-settings.php' ) ) {
+			return dirname( ABSPATH ) . '/wp-config.php';
+		}
+		return '';
 	}
 
 	/**
@@ -315,9 +436,9 @@ class Mu_Plugins_Watch extends Feature {
 		$count   = count( $added ) + count( $changed );
 		$subject = 1 === $count
 			/* translators: %s: file name. */
-			? sprintf( __( 'New or changed must-use file: %s', 'helloadmin-guard' ), basename( $first ) )
+			? sprintf( __( 'New or changed file: %s', 'helloadmin-guard' ), basename( str_replace( 'site:', '', $first ) ) )
 			/* translators: %d: number of files. */
-			: sprintf( __( '%d new or changed must-use files', 'helloadmin-guard' ), $count );
+			: sprintf( __( '%d new or changed files that run on every page', 'helloadmin-guard' ), $count );
 
 		$this->send_alert_mail( $subject, $lines );
 	}
@@ -345,6 +466,9 @@ class Mu_Plugins_Watch extends Feature {
 	 * @return string
 	 */
 	private static function full_path( $path ) {
+		if ( 0 === strpos( $path, 'site:' ) ) {
+			return self::site_file( substr( $path, 5 ) );
+		}
 		$mu = basename( WPMU_PLUGIN_DIR ) . '/';
 		return 0 === strpos( $path, $mu ) ? WPMU_PLUGIN_DIR . '/' . substr( $path, strlen( $mu ) ) : WP_CONTENT_DIR . '/' . $path;
 	}
