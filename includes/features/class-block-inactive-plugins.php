@@ -203,6 +203,9 @@ class Block_Inactive_Plugins extends Htaccess_Feature {
 		if ( ! $folders ) {
 			return true; // Nothing to close.
 		}
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php'; // A check may run outside the admin area.
+		}
 		// Up to three plugins: one may close its own folder (Akismet ships a .htaccess), which says nothing about the rest.
 		$checked = 0;
 		foreach ( array_slice( $folders, 0, 3 ) as $folder ) {

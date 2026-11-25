@@ -1773,10 +1773,6 @@ msgstr ""
 msgid "There are no such files now."
 msgstr "Зараз таких файлів немає."
 
-#: includes/features/class-mu-plugins-watch.php:445
-msgid "Files that WordPress loads on every page:"
-msgstr "Файли, які WordPress завантажує на кожній сторінці:"
-
 #: includes/features/class-mu-plugins-watch.php:464
 msgid "The list of must-use files was changed outside the plugin"
 msgstr "Список must-use файлів змінили в обхід плагіна"
@@ -2503,3 +2499,7 @@ msgstr ""
 "старий файл .htaccess не вдалося записати назад. Відкрийте .htaccess у "
 "корені сайту через FTP або файловий менеджер хостингу й видаліть усе між \"# "
 "BEGIN HelloAdmin Guard\" та \"# END HelloAdmin Guard\"."
+
+#: includes/features/class-mu-plugins-watch.php:445
+msgid "All files this alert watches:"
+msgstr "Усі файли, за якими стежить це сповіщення:"

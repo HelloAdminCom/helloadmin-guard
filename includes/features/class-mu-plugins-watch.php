@@ -442,7 +442,7 @@ class Mu_Plugins_Watch extends Feature {
 			}
 		}
 		if ( $added ) {
-			$lines[] = $bad ? __( 'Files that WordPress loads on every page:', 'helloadmin-guard' ) : __( 'New files that WordPress now loads on every page:', 'helloadmin-guard' );
+			$lines[] = $bad ? __( 'All files this alert watches:', 'helloadmin-guard' ) : __( 'New files that WordPress now loads on every page:', 'helloadmin-guard' );
 			foreach ( $added as $path ) {
 				$lines[] = '  ' . self::shown_path( $path ) . self::file_info( $path );
 			}
