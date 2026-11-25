@@ -209,7 +209,9 @@ class User_Enumeration extends Feature {
 		}
 		// Case-insensitive like the REST server itself: /wp/v2/USERS reaches the same endpoint.
 		if ( preg_match( '#^/wp/v2/users(/|$)#i', $request->get_route() ) ) {
-			return new \WP_Error( 'rest_user_cannot_view', __( 'Sorry, you are not allowed to list users.', 'helloadmin-guard' ), array( 'status' => rest_authorization_required_code() ) );
+			// A response, not a WP_Error: in a batch call (/batch/v1) core passes this value on to rest_post_dispatch
+			// filters, and one of them in WordPress 7 accepts only WP_REST_Response (a WP_Error there is a fatal error).
+			return rest_convert_error_to_response( new \WP_Error( 'rest_user_cannot_view', __( 'Sorry, you are not allowed to list users.', 'helloadmin-guard' ), array( 'status' => rest_authorization_required_code() ) ) );
 		}
 		return $result;
 	}
