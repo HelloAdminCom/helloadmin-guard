@@ -221,19 +221,21 @@
 		card.classList.toggle( 'hag-open', open );
 		card.scrollTop = 0;
 		if ( open ) {
-			// Cover only as many cards below as the text needs (at most --hag-n), ending on a card edge.
+			// Cover as many cards below as the text needs, ending on a card edge: the whole text is in sight, no scrolling.
 			card.style.height = 'auto';
 			card.style.marginBottom = '0';
 			var natural = card.offsetHeight;
 			card.style.height = '';
 			card.style.marginBottom = '';
-			var most = parseInt( window.getComputedStyle( cards ).getPropertyValue( '--hag-n' ), 10 ) || 0;
 			var need = Math.ceil( ( natural - closed ) / ( closed + 16 ) );
-			card.style.setProperty( '--hag-k', String( Math.max( 0, Math.min( most, need ) ) ) );
+			card.style.setProperty( '--hag-k', String( Math.max( 0, need ) ) );
 		}
-		// Not enough room below inside the list: open upwards instead.
+		// Not enough room below inside the list: open upwards, if there is room above.
 		if ( open && card.getBoundingClientRect().bottom > cards.getBoundingClientRect().bottom + 1 ) {
 			card.classList.add( 'hag-open-up' );
+			if ( card.getBoundingClientRect().top < cards.getBoundingClientRect().top - 1 ) {
+				card.classList.remove( 'hag-open-up' );
+			}
 		}
 		if ( link ) {
 			link.setAttribute( 'aria-expanded', open ? 'true' : 'false' );

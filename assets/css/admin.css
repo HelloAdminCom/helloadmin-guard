@@ -300,8 +300,8 @@
 .hag-view-compact .hag-card:not(.hag-open) .hag-toggle { min-width: 0; }
 .hag-view-brief .hag-card:not(.hag-open) .hag-title,
 .hag-view-compact .hag-card:not(.hag-open) .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* An opened card stays in its place and opens downwards over the cards below it (at most 1 in the short view, 2 in the
-   compact one; a shorter text covers fewer, see admin.js), so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
+/* An opened card stays in its place and opens downwards over the cards below it (as many as its text needs, ending on a card
+   edge, see admin.js), so nothing moves and nothing scrolls, so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
 .hag-view-brief { --hag-h: 10rem; --hag-n: 1; }
 .hag-view-compact { --hag-h: 5.75rem; --hag-n: 2; }
 .hag-view-brief .hag-card.hag-open,
