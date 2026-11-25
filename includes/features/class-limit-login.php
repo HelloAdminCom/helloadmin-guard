@@ -109,7 +109,7 @@ class Limit_Login extends Feature {
 	 */
 	public function what() {
 		return __( 'After too many failed logins from one IP address, every login from that address is refused for a while, even with the right password, so a bot cannot keep guessing. Works for the login page, XML-RPC and REST API logins. A successful login resets the count.', 'helloadmin-guard' )
-			. ' ' . __( 'Botnets guess from thousands of addresses, a few tries each, which a limit per address does not stop. The strict mode below counts failed logins from all addresses together; when there are too many, logins from new devices are refused for a while. Browsers that logged in to this site before carry a signed cookie and still get in, and "Lost your password?" keeps working: a password reset makes that browser known. The site address gets an e-mail about the attack.', 'helloadmin-guard' );
+			. ' ' . __( 'Botnets guess from thousands of addresses, a few tries each, which a limit per address does not stop. The strict mode below counts failed logins from all addresses together; when there are too many, logins from new devices are refused for a while. Browsers that logged in to this site before carry a signed cookie and still get in, and "Lost your password?" keeps working: a password reset makes that browser known. The administration e-mail (Settings, General) gets a message about the attack.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Limit_Login extends Feature {
 			),
 			'strict'          => array(
 				'group'       => __( 'Attacks from many addresses', 'helloadmin-guard' ),
-				'label'       => __( 'Strict mode: lock new devices out during such an attack', 'helloadmin-guard' ),
+				'label'       => __( 'Strict mode: lock new devices out during such an attack.', 'helloadmin-guard' ),
 				'type'        => 'checkbox',
 				'default'     => '0',
 				'description' => __( 'Not for sites where customers or members log in: during an attack they could not log in from a new device without a password reset.', 'helloadmin-guard' ),
@@ -178,7 +178,7 @@ class Limit_Login extends Feature {
 				'label'       => __( 'Strict mode: failed logins from all addresses', 'helloadmin-guard' ),
 				'type'        => 'text',
 				'default'     => '50',
-				'description' => __( 'Within the lockout time above, 20 to 1000. When reached, new devices are locked out for the same time.', 'helloadmin-guard' ),
+				'description' => __( 'How many failed logins from all addresses together start the strict mode: 20 to 1000. They are counted over the lockout time set above, and new devices are then kept out for that same time.', 'helloadmin-guard' ),
 			),
 		);
 	}

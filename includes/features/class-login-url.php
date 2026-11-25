@@ -166,7 +166,7 @@ class Login_Url extends Feature {
 				'default'     => $slug,
 				'description' => sprintf(
 					/* translators: %s: login page URL. */
-					__( 'Letters, numbers and dashes, at least 4 characters. Your login page: %s. Bookmark it after saving.', 'helloadmin-guard' ),
+					__( 'Lowercase letters, numbers and dashes, at least 4 characters. Letter case matters: type the address exactly as here. Your login page: %s. Bookmark it after saving.', 'helloadmin-guard' ),
 					home_url( '/' . $slug . '/' )
 				),
 			),

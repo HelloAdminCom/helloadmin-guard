@@ -1137,16 +1137,6 @@ msgstr ""
 msgid "Login address"
 msgstr "Адреса входу"
 
-#. translators: %s: login page URL.
-#: includes/features/class-login-url.php:169
-#, php-format
-msgid ""
-"Letters, numbers and dashes, at least 4 characters. Your login page: %s. "
-"Bookmark it after saving."
-msgstr ""
-"Літери, цифри й дефіси, щонайменше 4 символи. Ваша сторінка входу: %s. Після "
-"збереження додайте її в закладки."
-
 #: includes/features/class-login-url.php:190
 msgid "The login address must be at least 4 characters long."
 msgstr "Адреса входу має містити щонайменше 4 символи."
@@ -1331,7 +1321,7 @@ msgid "If hacked"
 msgstr "Якщо зламали"
 
 #: includes/class-emergency.php:59 includes/class-user-names.php:83
-#: includes/class-user-names.php:331
+#: includes/class-user-names.php:330
 msgid "Sorry, you are not allowed to do this."
 msgstr "Вибачте, вам не можна це робити."
 
@@ -1449,14 +1439,6 @@ msgstr ""
 #: includes/class-feature.php:227
 msgid "Also send to"
 msgstr "Також надсилати на"
-
-#: includes/class-feature.php:230
-msgid ""
-"One more e-mail address besides the site address in Settings, General. Leave "
-"empty to use only the site address."
-msgstr ""
-"Ще одна адреса пошти, крім адреси сайту в «Налаштування», «Загальні». "
-"Залиште порожнім, щоб надсилати лише на адресу сайту."
 
 #. translators: %s: title of the setting.
 #: includes/class-feature.php:441
@@ -1869,95 +1851,66 @@ msgstr "Оновіть сторінку, щоб побачити наступн�
 msgid "The request failed. Reload the page and try again."
 msgstr "Запит не вдався. Оновіть сторінку й спробуйте ще раз."
 
-#. translators: %d: number of users.
-#: includes/class-user-names.php:267
-#, php-format
-msgid ""
-"%d user shows the login on the site. \"Fix\" sets the public name below, "
-"moves the author page to an address made from it (the old address answers "
-"\"not found\") and puts the new name on the user's old comments. The login "
-"and the password stay the same."
-msgid_plural ""
-"%d users show the login on the site. \"Fix\" sets the public name below, "
-"moves the author page to an address made from it (the old address answers "
-"\"not found\") and puts the new name on the user's old comments. The login "
-"and the password stay the same."
-msgstr[0] ""
-"%d користувач показує логін на сайті. «Виправити» ставить публічне ім'я "
-"нижче, переносить сторінку автора на адресу з цього імені (стара адреса "
-"відповідає «не знайдено») і записує нове ім'я у старі коментарі користувача. "
-"Логін і пароль не змінюються."
-msgstr[1] ""
-"%d користувачі показують логін на сайті. «Виправити» ставить публічне ім'я "
-"нижче, переносить сторінку автора на адресу з цього імені (стара адреса "
-"відповідає «не знайдено») і записує нове ім'я у старі коментарі користувача. "
-"Логін і пароль не змінюються."
-msgstr[2] ""
-"%d користувачів показують логін на сайті. «Виправити» ставить публічне ім'я "
-"нижче, переносить сторінку автора на адресу з цього імені (стара адреса "
-"відповідає «не знайдено») і записує нове ім'я у старі коментарі користувача. "
-"Логін і пароль не змінюються."
-
-#: includes/class-user-names.php:274
+#: includes/class-user-names.php:273
 msgid "User"
 msgstr "Користувач"
 
-#: includes/class-user-names.php:275
+#: includes/class-user-names.php:274
 msgid "Where the login shows"
 msgstr "Де видно логін"
 
-#: includes/class-user-names.php:276
+#: includes/class-user-names.php:275
 msgid "New public name"
 msgstr "Нове публічне ім'я"
 
-#: includes/class-user-names.php:280
+#: includes/class-user-names.php:279
 msgid "public name"
 msgstr "публічне ім'я"
 
-#: includes/class-user-names.php:298
+#: includes/class-user-names.php:297
 msgid "(new)"
 msgstr "(новий)"
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:302
+#: includes/class-user-names.php:301
 #, php-format
 msgid "New public name for %s"
 msgstr "Нове публічне ім'я для %s"
 
-#: includes/class-user-names.php:306
+#: includes/class-user-names.php:305
 msgid "Fix"
 msgstr "Виправити"
 
 #. translators: %d: number of users not shown.
-#: includes/class-user-names.php:317
+#: includes/class-user-names.php:316
 #, php-format
 msgid "And %d more. Fix these first, the list then shows the next ones."
 msgstr "І ще %d. Спершу виправте цих, тоді список покаже наступних."
 
-#: includes/class-user-names.php:362
+#: includes/class-user-names.php:361
 msgid "This user does not exist any more."
 msgstr "Цього користувача вже немає."
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:367
+#: includes/class-user-names.php:366
 #, php-format
 msgid "Nothing was changed for %s: type a new public name first."
 msgstr "Для %s нічого не змінено: спершу введіть нове публічне ім'я."
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:371
+#: includes/class-user-names.php:370
 #, php-format
 msgid "Nothing was changed for %s: the new public name must not be the login."
 msgstr "Для %s нічого не змінено: нове публічне ім'я не може бути логіном."
 
 #. translators: %s: new author page address.
-#: includes/class-user-names.php:409
+#: includes/class-user-names.php:408
 #, php-format
 msgid "Author page: %s"
 msgstr "Сторінка автора: %s"
 
 #. translators: 1: user login, 2: new public name, 3: number of comments.
-#: includes/class-user-names.php:414
+#: includes/class-user-names.php:413
 #, php-format
 msgid "%1$s now shows as \"%2$s\". Comments updated: %3$d."
 msgid_plural "%1$s now shows as \"%2$s\". Comments updated: %3$d."
@@ -2176,12 +2129,12 @@ msgstr ""
 "доки хтось не відкриє сторінку адмінки. А краще видаліть плагіни, якими не "
 "користуєтеся: їхні файли лишаються на сервері й теж потребують оновлень."
 
-#: includes/features/class-hide-rest-index.php:120
+#: includes/features/class-hide-rest-index.php:138
 msgid "unknown file"
 msgstr "невідомий файл"
 
 #. translators: 1: REST namespace, 2: file path.
-#: includes/features/class-hide-rest-index.php:123
+#: includes/features/class-hide-rest-index.php:141
 #, php-format
 msgid ""
 "The REST namespace %1$s runs code from %2$s, which is not a plugin or theme "
@@ -2191,7 +2144,7 @@ msgstr ""
 "Шкідливий код додає свої маршрути API саме так. Перевірте цей файл."
 
 #. translators: 1: REST namespace, 2: file path.
-#: includes/features/class-hide-rest-index.php:125
+#: includes/features/class-hide-rest-index.php:143
 #, php-format
 msgid ""
 "The REST namespace %1$s has a random-looking name, like the fake plugins of "
@@ -2202,30 +2155,9 @@ msgstr ""
 "плагінів шкідливого коду SocGholish. Його зареєстровано в %2$s. Якщо ви не "
 "знаєте цього плагіна, перевірте його."
 
-#: includes/features/class-limit-login.php:112
-msgid ""
-"Botnets guess from thousands of addresses, a few tries each, which a limit "
-"per address does not stop. The strict mode below counts failed logins from "
-"all addresses together; when there are too many, logins from new devices are "
-"refused for a while. Browsers that logged in to this site before carry a "
-"signed cookie and still get in, and \"Lost your password?\" keeps working: a "
-"password reset makes that browser known. The site address gets an e-mail "
-"about the attack."
-msgstr ""
-"Ботнети підбирають паролі з тисяч адрес, по кілька спроб з кожної, і ліміт "
-"на одну адресу їх не зупиняє. Суворий режим нижче рахує невдалі входи з усіх "
-"адрес разом; коли їх забагато, входи з нових пристроїв на якийсь час "
-"відхиляються. Браузери, з яких уже входили на цей сайт, мають підписану "
-"cookie і входять далі, а «Забули пароль?» працює: скидання пароля робить цей "
-"браузер знайомим. На адресу сайту приходить лист про атаку."
-
 #: includes/features/class-limit-login.php:171
 msgid "Attacks from many addresses"
 msgstr "Атаки з багатьох адрес"
-
-#: includes/features/class-limit-login.php:172
-msgid "Strict mode: lock new devices out during such an attack"
-msgstr "Суворий режим: не пускати нові пристрої під час такої атаки"
 
 #: includes/features/class-limit-login.php:175
 msgid ""
@@ -2238,14 +2170,6 @@ msgstr ""
 #: includes/features/class-limit-login.php:178
 msgid "Strict mode: failed logins from all addresses"
 msgstr "Суворий режим: невдалі входи з усіх адрес"
-
-#: includes/features/class-limit-login.php:181
-msgid ""
-"Within the lockout time above, 20 to 1000. When reached, new devices are "
-"locked out for the same time."
-msgstr ""
-"За час блокування вище, від 20 до 1000. Коли їх стільки, нові пристрої "
-"блокуються на той самий час."
 
 #. translators: %s: IP address.
 #: includes/features/class-limit-login.php:288
@@ -2317,30 +2241,6 @@ msgstr "Атака на вхід з багатьох адрес"
 #: includes/features/class-mu-plugins-watch.php:106
 msgid "E-mail me about changed must-use plugins and site files"
 msgstr "Повідомляти поштою про змінені must-use плагіни та файли сайту"
-
-#: includes/features/class-mu-plugins-watch.php:113
-msgid ""
-"Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-"
-"cache.php run on every page, cannot be turned off in the admin area and are "
-"not in the normal plugin list, so malware likes to hide there. The same goes "
-"for wp-config.php and index.php, and for .user.ini or php.ini in the site "
-"folder, which can add a file to every request. After every login, on admin "
-"pages and at least once an hour while the site gets visits (without WP-"
-"Cron), the plugin compares these files with the list it saw last time and e-"
-"mails the site address about new and changed ones, including files whose "
-"names start with a dot and PHP files in subfolders of mu-plugins (except the "
-"folders hosts manage themselves)."
-msgstr ""
-"Must-use плагіни в wp-content/mu-plugins і drop-in файли на зразок db.php чи "
-"object-cache.php виконуються на кожній сторінці, їх не можна вимкнути в "
-"адмінці, і їх немає в звичайному списку плагінів, тому шкідливий код любить "
-"там ховатися. Те саме з wp-config.php та index.php, а також .user.ini чи "
-"php.ini в папці сайту, які можуть додати файл до кожного запиту. Після "
-"кожного входу, на сторінках адмінки й щонайменше раз на годину, поки сайт "
-"відвідують (без WP-Cron), плагін порівнює ці файли зі списком, який бачив "
-"минулого разу, і надсилає на адресу сайту лист про нові та змінені, зокрема "
-"файли з назвами, що починаються з крапки, і PHP-файли в підпапках mu-plugins "
-"(крім папок, якими керує сам хостинг)."
 
 #: includes/features/class-mu-plugins-watch.php:120
 msgid ""
@@ -2491,7 +2391,7 @@ msgstr ""
 "helloadmin_guard_client_ip."
 
 #. translators: %d: number of users.
-#: includes/class-user-names.php:313
+#: includes/class-user-names.php:312
 #, php-format
 msgid ""
 "Only the %d newest users with posts or comments were checked. Fix these, "
@@ -2499,3 +2399,95 @@ msgid ""
 msgstr ""
 "Перевірено лише %d найновіших користувачів із записами чи коментарями. "
 "Виправте цих і оновіть сторінку: з'являться наступні."
+
+#: includes/class-feature.php:230
+msgid ""
+"One more e-mail address besides the administration e-mail in Settings, "
+"General. Leave empty to use only that one."
+msgstr ""
+"Ще одна адреса пошти, крім пошти адміністратора в «Налаштування», "
+"«Загальні». Залиште порожнім, щоб надсилати лише туди."
+
+#. translators: %d: number of users.
+#: includes/class-user-names.php:268
+#, php-format
+msgid "Users whose login shows on the site: %d."
+msgstr "Користувачів, у яких на сайті видно логін: %d."
+
+#: includes/class-user-names.php:269
+msgid ""
+"\"Fix\" sets the public name below, moves the author page to an address made "
+"from it (the old address answers \"not found\") and puts the new name on the "
+"user's old comments. The login and the password stay the same."
+msgstr ""
+"«Виправити» ставить публічне ім'я нижче, переносить сторінку автора на "
+"адресу з цього імені (стара адреса відповідає «не знайдено») і записує нове "
+"ім'я у старі коментарі користувача. Логін і пароль не змінюються."
+
+#: includes/features/class-limit-login.php:112
+msgid ""
+"Botnets guess from thousands of addresses, a few tries each, which a limit "
+"per address does not stop. The strict mode below counts failed logins from "
+"all addresses together; when there are too many, logins from new devices are "
+"refused for a while. Browsers that logged in to this site before carry a "
+"signed cookie and still get in, and \"Lost your password?\" keeps working: a "
+"password reset makes that browser known. The administration e-mail "
+"(Settings, General) gets a message about the attack."
+msgstr ""
+"Ботнети підбирають паролі з тисяч адрес, по кілька спроб з кожної, і ліміт "
+"на одну адресу їх не зупиняє. Суворий режим нижче рахує невдалі входи з усіх "
+"адрес разом; коли їх забагато, входи з нових пристроїв на якийсь час "
+"відхиляються. Браузери, з яких уже входили на цей сайт, мають підписану "
+"cookie і входять далі, а «Забули пароль?» працює: скидання пароля робить цей "
+"браузер знайомим. На пошту адміністратора (Налаштування, Загальні) приходить "
+"лист про атаку."
+
+#: includes/features/class-limit-login.php:172
+msgid "Strict mode: lock new devices out during such an attack."
+msgstr "Суворий режим: не пускати нові пристрої під час такої атаки."
+
+#: includes/features/class-limit-login.php:181
+msgid ""
+"How many failed logins from all addresses together start the strict mode: 20 "
+"to 1000. They are counted over the lockout time set above, and new devices "
+"are then kept out for that same time."
+msgstr ""
+"Скільки невдалих входів з усіх адрес разом вмикає суворий режим: від 20 до "
+"1000. Вони рахуються за час блокування, заданий вище, і на цей самий час "
+"нові пристрої не пускаються."
+
+#. translators: %s: login page URL.
+#: includes/features/class-login-url.php:169
+#, php-format
+msgid ""
+"Lowercase letters, numbers and dashes, at least 4 characters. Letter case "
+"matters: type the address exactly as here. Your login page: %s. Bookmark it "
+"after saving."
+msgstr ""
+"Малі літери, цифри й дефіси, щонайменше 4 символи. Регістр має значення: "
+"вводьте адресу саме так, як тут. Ваша сторінка входу: %s. Після збереження "
+"додайте її в закладки."
+
+#: includes/features/class-mu-plugins-watch.php:113
+msgid ""
+"Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-"
+"cache.php run on every page, cannot be turned off in the admin area and are "
+"not in the normal plugin list, so malware likes to hide there. The same goes "
+"for wp-config.php and index.php, and for .user.ini or php.ini in the site "
+"folder, which can add a file to every request. After every login, on admin "
+"pages and at least once an hour while the site gets visits (without WP-"
+"Cron), the plugin compares these files with the list it saw last time and e-"
+"mails the administration address (Settings, General) about new and changed "
+"ones, including files whose names start with a dot and PHP files in "
+"subfolders of mu-plugins (except the folders hosts manage themselves)."
+msgstr ""
+"Must-use плагіни в wp-content/mu-plugins і drop-in файли на зразок db.php чи "
+"object-cache.php виконуються на кожній сторінці, їх не можна вимкнути в "
+"адмінці, і їх немає в звичайному списку плагінів, тому шкідливий код любить "
+"там ховатися. Те саме з wp-config.php та index.php, а також .user.ini чи "
+"php.ini в папці сайту, які можуть додати файл до кожного запиту. Після "
+"кожного входу, на сторінках адмінки й щонайменше раз на годину, поки сайт "
+"відвідують (без WP-Cron), плагін порівнює ці файли зі списком, який бачив "
+"минулого разу, і надсилає на пошту адміністратора (Налаштування, Загальні) "
+"лист про нові та змінені, зокрема файли з назвами, що починаються з крапки, "
+"і PHP-файли в підпапках mu-plugins (крім папок, якими керує сам хостинг)."

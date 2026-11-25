@@ -103,7 +103,7 @@ The normal limit counts failed logins per IP address. Botnets guess from thousan
 * Same answer: during the lock a new device gets the same message with a right or a wrong password, so the answer never confirms a guessed password.
 * Known browsers: after a successful login the browser gets a cookie for one year, signed with the salts of your wp-config.php and tied to the user. With it the owner still logs in during an attack.
 * Lost your password: keeps working. The link from the reset e-mail makes that browser known, so you can log in from a new device.
-* E-mail: the site address gets "Login attack from many addresses", once a day at most.
+* E-mail: the administration e-mail (Settings, General) gets "Login attack from many addresses", once a day at most.
 * Application passwords (Jetpack, the mobile app, REST API clients): the strict mode leaves them alone, they are long and random and guessing them is pointless. The limit per IP address still applies to them.
 * Not for sites where customers or members log in: during an attack they could not log in from a new device without a password reset.
 

@@ -263,14 +263,10 @@ class User_Names {
 		}
 		echo '<div class="hag-fix">';
 		printf(
-			'<p>%s</p>',
-			esc_html(
-				sprintf(
-					/* translators: %d: number of users. */
-					_n( '%d user shows the login on the site. "Fix" sets the public name below, moves the author page to an address made from it (the old address answers "not found") and puts the new name on the user\'s old comments. The login and the password stay the same.', '%d users show the login on the site. "Fix" sets the public name below, moves the author page to an address made from it (the old address answers "not found") and puts the new name on the user\'s old comments. The login and the password stay the same.', $leaks['total'], 'helloadmin-guard' ),
-					$leaks['total']
-				)
-			)
+			'<p>%s %s</p>',
+			/* translators: %d: number of users. */
+			esc_html( sprintf( __( 'Users whose login shows on the site: %d.', 'helloadmin-guard' ), $leaks['total'] ) ),
+			esc_html__( '"Fix" sets the public name below, moves the author page to an address made from it (the old address answers "not found") and puts the new name on the user\'s old comments. The login and the password stay the same.', 'helloadmin-guard' )
 		);
 		printf( '<p class="hag-fix-summary" aria-live="polite" data-more="%d"></p>', (int) ( $leaks['total'] - count( $leaks['users'] ) ) );
 		echo '<table class="widefat striped hag-fix-table"><thead><tr>';
