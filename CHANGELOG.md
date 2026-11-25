@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.6.1] - 2026-11-25
+
+### Changed
+- Self-heal of .htaccess skips reading the file while its time, size and the expected rules are unchanged since it last matched (option helloadmin_guard_heal_seen).
+- Check results, the visitor IP, the must-use file list, the active plugin list (security headers), the version hash and the REST keep_open list are read once per request.
+- The site check after writing .htaccess shares a 20 second limit; running out of time counts as not checked.
+- HSTS from PHP also when X-Forwarded-Proto is https.
+
+### Fixed
+- A failed rollback of .htaccess after a broken write is reported as restore_failed (admin notice and WP-CLI) instead of looking like a restored file.
+- Settings fields that are not arrays are dropped; empty extra addresses no longer go into the deactivation e-mail.
+- One helper for the paths of server rules.
+
 ## [0.6.0] - 2026-11-25
 
 ### Added

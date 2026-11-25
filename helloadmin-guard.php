@@ -3,7 +3,7 @@
  * Plugin Name:       HelloAdmin Guard
  * Plugin URI:        https://github.com/HelloAdminCom/helloadmin-guard
  * Description:       WordPress security hardening without upsells. Every setting explains what it does, what may break and how to undo it.
- * Version:           0.6.0
+ * Version:           0.6.1
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            HelloAdmin
@@ -19,7 +19,7 @@ namespace HelloAdmin\Guard;
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HELLOADMIN_GUARD_VERSION', '0.6.0' );
+define( 'HELLOADMIN_GUARD_VERSION', '0.6.1' );
 define( 'HELLOADMIN_GUARD_FILE', __FILE__ );
 define( 'HELLOADMIN_GUARD_DIR', plugin_dir_path( __FILE__ ) );
 define( 'HELLOADMIN_GUARD_URL', plugin_dir_url( __FILE__ ) );

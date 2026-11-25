@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.6.0
+Stable tag: 0.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,13 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.6.1 =
+* Faster admin pages: the plugin no longer reads .htaccess on every admin and login page view while nothing changed, and reads its check results, the visitor IP and the must-use file list once per request.
+* If writing the server rules breaks the site and the old .htaccess cannot be written back, the plugin now says so and explains what to delete by hand.
+* The site check after writing .htaccess stops after 20 seconds in total, so a slow site cannot run into the PHP time limit.
+* HSTS is also sent from PHP behind a proxy that ends HTTPS.
+* Smaller fixes from an outside code audit.
 
 = 0.6.0 =
 * New: "Core REST API only for logged-in users" closes wp/v2 and the other core routes to visitors who are not logged in; forms, shops and other plugin routes stay open.
