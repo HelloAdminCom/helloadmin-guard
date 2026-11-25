@@ -233,6 +233,45 @@ abstract class Feature {
 	}
 
 	/**
+	 * The visitor's IP address. REMOTE_ADDR, except when it is a Cloudflare server: then the address Cloudflare
+	 * passes in CF-Connecting-IP. That header is trusted only from Cloudflare's own addresses, so a visitor who
+	 * connects directly cannot pick an address with it. X-Forwarded-For is never used: anyone can set it.
+	 *
+	 * @return string Empty when unknown.
+	 */
+	public static function visitor_ip() {
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		if ( self::is_cloudflare( $ip ) && isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
+			$real = trim( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) );
+			if ( filter_var( $real, FILTER_VALIDATE_IP ) ) {
+				$ip = $real;
+			}
+		}
+		/**
+		 * Visitor IP address used for login limits and shown in alert e-mails. Change it only if your server puts
+		 * the real address elsewhere and you trust that source.
+		 *
+		 * @param string $ip REMOTE_ADDR, or CF-Connecting-IP when the request came from Cloudflare.
+		 */
+		return (string) apply_filters( 'helloadmin_guard_client_ip', $ip );
+	}
+
+	/**
+	 * Whether an address belongs to Cloudflare.
+	 *
+	 * @param string $ip Address.
+	 * @return bool
+	 */
+	public static function is_cloudflare( $ip ) {
+		foreach ( Features\Limit_Login::CLOUDFLARE as $range ) {
+			if ( Features\Limit_Login::in_range( $ip, $range ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * E-mail that the plugin was deactivated: with it every setting and alert stops, so an intruder with an
 	 * administrator account would turn it off first. Sent once, by the first alert setting that is on.
 	 *
@@ -242,7 +281,7 @@ abstract class Feature {
 	public function send_deactivation_mail( array $extra = array() ) {
 		$actor = function_exists( 'wp_get_current_user' ) ? wp_get_current_user() : null;
 		$by    = $actor && $actor->exists() ? $actor->user_login : __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
-		$ip    = isset( $_SERVER['REMOTE_ADDR'] ) && ! ( defined( 'WP_CLI' ) && WP_CLI ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$ip    = defined( 'WP_CLI' ) && WP_CLI ? '' : self::visitor_ip();
 
 		$lines   = array();
 		$lines[] = __( 'HelloAdmin Guard was deactivated on your site. Its settings and e-mail alerts no longer work.', 'helloadmin-guard' );

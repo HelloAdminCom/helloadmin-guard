@@ -653,7 +653,7 @@ class Admin_Alert extends Feature {
 	 * @return string
 	 */
 	private function request_ip() {
-		return isset( $_SERVER['REMOTE_ADDR'] ) && 'role' === $this->reason && ! ( defined( 'WP_CLI' ) && WP_CLI ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		return 'role' === $this->reason && ! ( defined( 'WP_CLI' ) && WP_CLI ) ? self::visitor_ip() : '';
 	}
 
 	/**

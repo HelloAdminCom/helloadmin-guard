@@ -216,16 +216,18 @@ class Limit_Login extends Feature {
 
 	/**
 	 * Warns when the visitor address the site sees is a Cloudflare server: the host does not pass the real
-	 * visitor IP, so all visitors share a few addresses and one bot can lock everyone out.
+	 * visitor IP (CF-Connecting-IP is missing), so all visitors share a few addresses and one bot can lock
+	 * everyone out.
 	 *
 	 * @return string[]
 	 */
 	public function warnings() {
-		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		// Behind Cloudflare the plugin reads CF-Connecting-IP itself; the warning is for the case it does not arrive.
+		$ip = self::visitor_ip();
 		foreach ( self::CLOUDFLARE as $range ) {
 			if ( self::in_range( $ip, $range ) ) {
 				/* translators: %s: IP address. */
-				return array( sprintf( __( 'The site sees your address as %s, which belongs to Cloudflare. The real visitor address does not reach WordPress, so all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host to turn on the real visitor IP for Cloudflare (mod_remoteip or the Cloudflare module), or leave this setting off until then.', 'helloadmin-guard' ), $ip ) );
+				return array( sprintf( __( 'The site sees your address as %s, which belongs to Cloudflare, and the CF-Connecting-IP header with the real visitor address does not reach WordPress. Then all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host why the header is removed, or leave this setting off until then.', 'helloadmin-guard' ), $ip ) );
 			}
 		}
 		return array();
@@ -367,20 +369,12 @@ class Limit_Login extends Feature {
 	}
 
 	/**
-	 * Transient key for the visitor address. Only REMOTE_ADDR: X-Forwarded-For can be set by anyone.
+	 * Transient key for the visitor address (see Feature::visitor_ip()).
 	 *
 	 * @param string $what count or lock.
 	 * @return string
 	 */
 	private function key( $what ) {
-		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-		/**
-		 * Visitor IP address used for login limits. Change it only if your server puts the real address elsewhere
-		 * and you trust that source.
-		 *
-		 * @param string $ip REMOTE_ADDR.
-		 */
-		$ip = (string) apply_filters( 'helloadmin_guard_client_ip', $ip );
-		return 'hag_login_' . $what . '_' . md5( $ip );
+		return 'hag_login_' . $what . '_' . md5( self::visitor_ip() );
 	}
 }
