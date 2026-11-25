@@ -438,7 +438,7 @@ class Mu_Plugins_Watch extends Feature {
 			/* translators: %s: file name. */
 			? sprintf( __( 'New or changed file: %s', 'helloadmin-guard' ), basename( str_replace( 'site:', '', $first ) ) )
 			/* translators: %d: number of files. */
-			: sprintf( __( '%d new or changed files that run on every page', 'helloadmin-guard' ), $count );
+			: sprintf( _n( '%d new or changed file that runs on every page', '%d new or changed files that run on every page', $count, 'helloadmin-guard' ), $count );
 
 		$this->send_alert_mail( $subject, $lines );
 	}
