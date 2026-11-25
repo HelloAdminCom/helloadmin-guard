@@ -11,6 +11,7 @@ use HelloAdmin\Guard\Feature;
 use HelloAdmin\Guard\Settings;
 
 use HelloAdmin\Guard\Probe;
+use HelloAdmin\Guard\User_Names;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -63,38 +64,12 @@ class User_Enumeration extends Feature {
 	}
 
 	/**
-	 * Users whose public name or author address shows their login.
+	 * Users whose public name or author address shows their login, with a fix button each.
 	 *
-	 * @return string[]
+	 * @return void
 	 */
-	public function warnings() {
-		$users = get_users(
-			array(
-				'role__in' => array( 'administrator', 'editor', 'author' ),
-				'number'   => 50,
-				'fields'   => array( 'user_login', 'user_nicename', 'display_name' ),
-			)
-		);
-		$name  = array();
-		$slug  = array();
-		foreach ( $users as $user ) {
-			if ( strtolower( $user->display_name ) === strtolower( $user->user_login ) ) {
-				$name[] = $user->user_login;
-			}
-			if ( sanitize_title( $user->user_login ) === $user->user_nicename ) {
-				$slug[] = $user->user_login;
-			}
-		}
-		$out = array();
-		if ( $name ) {
-			/* translators: %s: comma-separated user logins. */
-			$out[] = sprintf( __( 'The public name is the login for: %s. Anyone can read it under posts and comments. Change "Display name publicly as" in Users > Profile.', 'helloadmin-guard' ), implode( ', ', array_slice( $name, 0, 5 ) ) );
-		}
-		if ( $slug ) {
-			/* translators: %s: comma-separated user logins. */
-			$out[] = sprintf( __( 'The author page address contains the login for: %s (/author/login/). This setting hides it from the sitemap and ?author=N, but the page itself stays. WordPress has no screen to change this address.', 'helloadmin-guard' ), implode( ', ', array_slice( $slug, 0, 5 ) ) );
-		}
-		return $out;
+	public function render_extra() {
+		User_Names::render();
 	}
 
 	/**

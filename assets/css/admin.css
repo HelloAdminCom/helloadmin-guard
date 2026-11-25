@@ -244,3 +244,10 @@
 	margin: 0 0 0 6px;
 	vertical-align: middle;
 }
+
+/* Hide user names: users whose login shows, with a fix button each. */
+.hag-fix { margin: 8px 0 12px; }
+.hag-fix-table { max-width: 900px; }
+.hag-fix-table td, .hag-fix-table th { vertical-align: middle; }
+.hag-fix-table input.regular-text { width: 100%; max-width: 20em; }
+.hag-fix-new { color: #b32d2e; }

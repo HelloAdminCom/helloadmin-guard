@@ -188,6 +188,14 @@ abstract class Feature {
 	}
 
 	/**
+	 * Extra controls inside the card, after the warnings (prints escaped HTML). Nothing by default.
+	 *
+	 * @return void
+	 */
+	public function render_extra() {
+	}
+
+	/**
 	 * The logged-in admin, or the first administrator when there is none (WP-CLI, cron).
 	 *
 	 * @return int User ID, 0 if the site has no administrator.

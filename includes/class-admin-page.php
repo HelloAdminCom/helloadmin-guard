@@ -456,6 +456,7 @@ class Admin_Page {
 		foreach ( $feature->warnings() as $warning ) {
 			printf( '<p class="hag-warning">%s</p>', esc_html( $warning ) );
 		}
+		$feature->render_extra();
 
 		// "Learn more" closes the last text of the card: the last field hint, or "How to undo".
 		$more = '';

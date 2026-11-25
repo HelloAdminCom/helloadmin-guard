@@ -638,6 +638,9 @@ class Admin_Alert extends Feature {
 			/* translators: %s: IP address. */
 			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
 		}
+		if ( \HelloAdmin\Guard\User_Names::name_leaks( $user ) || \HelloAdmin\Guard\User_Names::slug_leaks( $user ) ) {
+			$lines[] = __( 'Its public name or author page address is the login, so the login shows under its posts and comments. Hide user names in HeAd Guard can change that.', 'helloadmin-guard' );
+		}
 		$lines[] = '';
 		$lines[] = __( 'If you or your team added this account, nothing to do.', 'helloadmin-guard' );
 		$lines[] = __( 'If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know.', 'helloadmin-guard' );

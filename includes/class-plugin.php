@@ -95,6 +95,7 @@ final class Plugin {
 			( new Admin_Page( $this->settings, $this->features, $status ) )->register();
 			( new Welcome() )->register();
 			( new Emergency() )->register();
+			( new User_Names() )->register();
 		}
 	}
 
