@@ -65,7 +65,14 @@ class Mu_Plugins_Watch extends Feature {
 	/**
 	 * Most files read from mu-plugins subfolders, so a huge folder cannot slow the check down.
 	 */
-	const MAX_SUBFOLDER_FILES = 500;
+	const MAX_SUBFOLDER_FILES = 2000;
+
+	/**
+	 * Set when the last scan stopped at MAX_SUBFOLDER_FILES (shown on the card).
+	 *
+	 * @var bool
+	 */
+	private static $cut = false;
 
 	/**
 	 * Drop-in file names WordPress loads from wp-content (see _get_dropins()).
@@ -188,7 +195,12 @@ class Mu_Plugins_Watch extends Feature {
 			$warnings[] = __( 'Something on this site hides the Must-Use list on the Plugins screen. Malware does this to keep its files out of sight.', 'helloadmin-guard' );
 		}
 
-		foreach ( array_keys( self::files() ) as $path ) {
+		$files = self::files();
+		if ( self::$cut ) {
+			/* translators: %d: number of files. */
+			$warnings[] = sprintf( __( 'The subfolders of mu-plugins hold more than %d PHP files, so the plugin watches only the first ones. Files after them are not checked. Move libraries out of mu-plugins, or watch that folder with your host\'s tools.', 'helloadmin-guard' ), self::MAX_SUBFOLDER_FILES );
+		}
+		foreach ( array_keys( $files ) as $path ) {
 			$name = basename( $path );
 			if ( 0 === strpos( $name, '.' ) ) {
 				/* translators: %s: file path inside wp-content. */
@@ -286,8 +298,9 @@ class Mu_Plugins_Watch extends Feature {
 		$base  = basename( $dir );
 
 		// scandir(), not glob(): glob() skips names that start with a dot, wp_get_mu_plugins() does not.
-		$names = is_dir( $dir ) ? scandir( $dir ) : false;
-		$left  = self::MAX_SUBFOLDER_FILES;
+		$names     = is_dir( $dir ) ? scandir( $dir ) : false;
+		$left      = self::MAX_SUBFOLDER_FILES;
+		self::$cut = false;
 		foreach ( (array) $names as $name ) {
 			$name = (string) $name;
 			$path = $dir . '/' . $name;
@@ -342,8 +355,12 @@ class Mu_Plugins_Watch extends Feature {
 		$names = scandir( $dir );
 		foreach ( (array) $names as $name ) {
 			$name = (string) $name;
-			if ( $left <= 0 || '.' === $name || '..' === $name ) {
+			if ( '.' === $name || '..' === $name ) {
 				continue;
+			}
+			if ( $left <= 0 ) {
+				self::$cut = true;
+				return;
 			}
 			$path = $dir . '/' . $name;
 			if ( is_link( $path ) ) {

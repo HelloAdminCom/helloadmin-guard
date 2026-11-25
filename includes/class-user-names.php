@@ -330,8 +330,13 @@ class User_Names {
 			'display_name' => $name,
 		);
 		if ( self::slug_leaks( $user ) ) {
-			// wp_insert_user() adds "-2" and so on when another user already has this address.
-			$data['user_nicename'] = mb_substr( sanitize_title( $name ), 0, 50 );
+			// wp_insert_user() keeps only Latin letters, numbers and dashes and adds "-2" when the address is taken.
+			// A name in another script (Cyrillic, Greek, CJK) leaves nothing, so then the address gets random letters.
+			$slug = sanitize_title( sanitize_user( remove_accents( $name ), true ) );
+			if ( '' === $slug || self::same( $slug, $user->user_login ) ) {
+				$slug = 'author-' . strtolower( wp_generate_password( 8, false ) );
+			}
+			$data['user_nicename'] = substr( $slug, 0, 50 );
 		}
 		$saved = wp_update_user( $data );
 		if ( is_wp_error( $saved ) ) {

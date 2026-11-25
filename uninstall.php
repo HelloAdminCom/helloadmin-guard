@@ -26,6 +26,7 @@ delete_option( 'helloadmin_guard_site_email' );
 wp_clear_scheduled_hook( 'helloadmin_guard_check_admins' );
 delete_option( 'helloadmin_guard_mu_files' );
 delete_option( 'helloadmin_guard_mu_scope' );
+delete_option( 'helloadmin_guard_inactive_plugins' );
 delete_option( 'helloadmin_guard_login_all' );
 delete_option( 'helloadmin_guard_login_all_lock' );
 delete_transient( 'helloadmin_guard_login_all_mailed' );

@@ -216,6 +216,10 @@ class Rest_For_Users extends Feature {
 		if ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) {
 			return false;
 		}
+		// ?_embed: WordPress dispatches the linked routes itself, with context "embed". They answer the visitor too.
+		if ( 'embed' === $request->get_param( 'context' ) ) {
+			return true;
+		}
 		global $wp;
 		$outer = isset( $wp->query_vars['rest_route'] ) ? strtolower( '/' . ltrim( (string) $wp->query_vars['rest_route'], '/' ) ) : '';
 		$outer = untrailingslashit( $outer );

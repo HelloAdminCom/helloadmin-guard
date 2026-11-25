@@ -405,7 +405,7 @@ class Limit_Login extends Feature {
 		if ( is_wp_error( $error ) && 0 === strpos( (string) $error->get_error_code(), 'application_passwords_disabled' ) ) {
 			return;
 		}
-		$this->count_failure();
+		$this->count_failure( false );
 		$this->app_counted = true;
 	}
 
@@ -425,14 +425,16 @@ class Limit_Login extends Feature {
 	/**
 	 * Counts a failed login and locks the address when the limit is reached.
 	 *
+	 * @param bool $site_wide Whether it counts toward the strict mode (false for application passwords).
 	 * @return void
 	 */
-	public function count_failure() {
-		if ( $this->strict ) {
-			$this->count_global_failure();
-		}
+	public function count_failure( $site_wide = true ) {
 		if ( get_transient( $this->key( 'lock' ) ) ) {
-			return;
+			return; // A locked address adds nothing: one bot alone must not start the strict lock.
+		}
+		// Application passwords are left out of the strict mode, so their failures do not start it either.
+		if ( $this->strict && $site_wide ) {
+			$this->count_global_failure();
 		}
 		$window = $this->minutes * MINUTE_IN_SECONDS;
 		$count  = (int) get_transient( $this->key( 'count' ) ) + 1;

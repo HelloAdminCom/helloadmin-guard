@@ -122,9 +122,14 @@ class Block_Inactive_Plugins extends Htaccess_Feature {
 	}
 
 	/**
-	 * Folders of installed plugins that are not active (here or network-wide). Single-file plugins are left out:
-	 * they have no folder. Names with characters other than letters, numbers, dots, dashes and underscores are
-	 * left out too, so the rule never carries a name that changes its meaning.
+	 * Option with the inactive plugin folders found last time in the admin area. The login page reads this instead
+	 * of scanning every plugin file on each view (bots open it thousands of times).
+	 */
+	const OPTION = 'helloadmin_guard_inactive_plugins';
+
+	/**
+	 * Folders of installed plugins that are not active. Scanned in the admin area and in WP-CLI, where plugins are
+	 * activated and installed; elsewhere the list saved then is used.
 	 *
 	 * @return string[]
 	 */
@@ -132,8 +137,42 @@ class Block_Inactive_Plugins extends Htaccess_Feature {
 		if ( null !== self::$cache && ! did_action( 'activated_plugin' ) && ! did_action( 'deactivated_plugin' ) ) {
 			return self::$cache;
 		}
+		$saved = get_option( self::OPTION, null );
+		if ( is_array( $saved ) && ! is_admin() && ! ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+			self::$cache = array_values( array_filter( $saved, 'is_string' ) );
+			return self::$cache;
+		}
+		$folders = self::scan();
+		if ( $folders !== $saved ) {
+			update_option( self::OPTION, $folders, true );
+		}
+		self::$cache = $folders;
+		return $folders;
+	}
+
+	/**
+	 * Folders of installed plugins that are not active anywhere: on multisite a plugin active on any site of the
+	 * network stays open, because all sites share one .htaccess. Single-file plugins have no folder and are left
+	 * out, and so are names with characters other than letters, numbers, dots, dashes and underscores, so the
+	 * rule never carries a name that changes its meaning.
+	 *
+	 * @return string[]
+	 */
+	private static function scan() {
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$active_files = (array) get_option( 'active_plugins', array() );
+		if ( is_multisite() ) {
+			$active_files = array_merge( $active_files, array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) ) );
+			foreach ( get_sites(
+				array(
+					'fields' => 'ids',
+					'number' => 0,
+				)
+			) as $site_id ) {
+				$active_files = array_merge( $active_files, (array) get_blog_option( (int) $site_id, 'active_plugins', array() ) );
+			}
 		}
 		$folders = array();
 		$active  = array();
@@ -142,7 +181,7 @@ class Block_Inactive_Plugins extends Htaccess_Feature {
 			if ( '.' === $folder || ! preg_match( '/^[A-Za-z0-9._-]+$/', $folder ) ) {
 				continue;
 			}
-			if ( is_plugin_active( $file ) ) {
+			if ( in_array( $file, $active_files, true ) ) {
 				$active[ $folder ] = true;
 			} else {
 				$folders[ $folder ] = true;
@@ -151,7 +190,6 @@ class Block_Inactive_Plugins extends Htaccess_Feature {
 		// A folder with one active plugin file stays open, even if it holds another, inactive one.
 		$folders = array_keys( array_diff_key( $folders, $active ) );
 		sort( $folders );
-		self::$cache = $folders;
 		return $folders;
 	}
 

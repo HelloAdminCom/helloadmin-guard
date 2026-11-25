@@ -255,7 +255,7 @@ class Admin_Alert extends Feature {
 		add_action( 'granted_super_admin', array( $this, 'queue_check' ) );
 		add_action( 'profile_update', array( $this, 'queue_creds_check' ) );
 		add_action( 'after_password_reset', array( $this, 'queue_creds_check' ) );
-		add_action( 'wp_set_password', array( $this, 'queue_creds_check' ) );
+		add_action( 'wp_set_password', array( $this, 'on_set_password' ), 10, 2 );
 		add_action( 'update_option_admin_email', array( $this, 'queue_creds_check' ) );
 		foreach ( array( 'users_can_register', 'default_role' ) as $name ) {
 			add_action( 'add_option_' . $name, array( $this, 'queue_registration_check' ) );
@@ -278,7 +278,7 @@ class Admin_Alert extends Feature {
 		self::save_list( self::SNAPSHOT_OPTION, self::admin_ids() );
 		update_option( self::REGISTRATION_OPTION, self::registration_key(), false );
 		self::save_list( self::CREDS_OPTION, self::creds() );
-		update_option( self::SITE_EMAIL_OPTION, (string) get_option( 'admin_email' ), false );
+		update_option( self::SITE_EMAIL_OPTION, strtolower( (string) get_option( 'admin_email' ) ), false );
 	}
 
 	/**
@@ -375,6 +375,40 @@ class Admin_Alert extends Feature {
 	}
 
 	/**
+	 * A password was set. During a login this is WordPress upgrading the stored hash of the same password
+	 * (wp_password_needs_rehash(): bcrypt since 6.8, a new cost on a newer PHP): only the right password gets there,
+	 * so the record is updated quietly. Any other time it is a real change and goes to the check.
+	 *
+	 * @param string $password New password (not used).
+	 * @param int    $user_id  User ID.
+	 * @return void
+	 */
+	public function on_set_password( $password, $user_id = 0 ) {
+		unset( $password );
+		if ( ! doing_filter( 'authenticate' ) ) {
+			$this->queue_creds_check();
+			return;
+		}
+		list( $known, $bad ) = self::load_list( self::CREDS_OPTION );
+		$user                = get_userdata( (int) $user_id );
+		if ( $bad || ! $user || ! isset( $known[ (int) $user_id ] ) || ! is_array( $known[ (int) $user_id ] ) ) {
+			return;
+		}
+		$known[ (int) $user_id ]['p'] = self::fingerprint( $user->user_pass );
+		self::save_list( self::CREDS_OPTION, $known );
+	}
+
+	/**
+	 * Fingerprint of a stored password hash.
+	 *
+	 * @param string $hash Value of user_pass.
+	 * @return string
+	 */
+	private static function fingerprint( $hash ) {
+		return substr( hash_hmac( 'sha256', $hash, wp_salt( 'auth' ) ), 0, 20 );
+	}
+
+	/**
 	 * E-mail and a password fingerprint of every administrator. The fingerprint is an HMAC of the stored password
 	 * hash, so the option holds nothing that helps to guess the password.
 	 *
@@ -387,7 +421,7 @@ class Admin_Alert extends Feature {
 			if ( $user ) {
 				$found[ $id ] = array(
 					'e' => strtolower( $user->user_email ),
-					'p' => substr( hash_hmac( 'sha256', $user->user_pass, wp_salt( 'auth' ) ), 0, 20 ),
+					'p' => self::fingerprint( $user->user_pass ),
 				);
 			}
 		}
@@ -484,6 +518,7 @@ class Admin_Alert extends Feature {
 	private function check_site_email() {
 		$now  = strtolower( (string) get_option( 'admin_email' ) );
 		$seen = get_option( self::SITE_EMAIL_OPTION, null );
+		$seen = is_string( $seen ) ? strtolower( $seen ) : $seen; // Stored as it was by early 0.6 builds.
 		if ( $now === $seen ) {
 			return;
 		}

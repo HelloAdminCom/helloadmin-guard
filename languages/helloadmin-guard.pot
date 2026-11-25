@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T12:45:00+02:00\n"
+"POT-Creation-Date: 2026-11-25T13:00:05+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -376,8 +376,8 @@ msgid "One more e-mail address besides the site address in Settings, General. Le
 msgstr ""
 
 #: includes/class-feature.php:283
-#: includes/features/class-admin-alert.php:647
-#: includes/features/class-admin-alert.php:792
+#: includes/features/class-admin-alert.php:682
+#: includes/features/class-admin-alert.php:827
 msgid "no logged-in user (WP-CLI, a scheduled task or code)"
 msgstr ""
 
@@ -387,20 +387,20 @@ msgstr ""
 
 #. translators: %s: user name or a short explanation.
 #: includes/class-feature.php:290
-#: includes/features/class-admin-alert.php:457
-#: includes/features/class-admin-alert.php:498
-#: includes/features/class-admin-alert.php:616
-#: includes/features/class-admin-alert.php:809
+#: includes/features/class-admin-alert.php:491
+#: includes/features/class-admin-alert.php:533
+#: includes/features/class-admin-alert.php:651
+#: includes/features/class-admin-alert.php:844
 #, php-format
 msgid "Changed by: %s"
 msgstr ""
 
 #. translators: %s: IP address.
 #: includes/class-feature.php:293
-#: includes/features/class-admin-alert.php:461
-#: includes/features/class-admin-alert.php:503
-#: includes/features/class-admin-alert.php:620
-#: includes/features/class-admin-alert.php:812
+#: includes/features/class-admin-alert.php:495
+#: includes/features/class-admin-alert.php:538
+#: includes/features/class-admin-alert.php:655
+#: includes/features/class-admin-alert.php:847
 #, php-format
 msgid "From IP address: %s"
 msgstr ""
@@ -550,13 +550,13 @@ msgid "Nothing was changed for %s: the new public name must not be the login."
 msgstr ""
 
 #. translators: %s: new author page address.
-#: includes/class-user-names.php:357
+#: includes/class-user-names.php:362
 #, php-format
 msgid "Author page: %s"
 msgstr ""
 
 #. translators: 1: user login, 2: new public name, 3: number of comments.
-#: includes/class-user-names.php:362
+#: includes/class-user-names.php:367
 #, php-format
 msgid "%1$s now shows as \"%2$s\". Comments updated: %3$d."
 msgid_plural "%1$s now shows as \"%2$s\". Comments updated: %3$d."
@@ -673,151 +673,151 @@ msgstr ""
 msgid "The administrator \"%s\" was added in the last 7 days."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:416
+#: includes/features/class-admin-alert.php:450
 msgid "The record of administrator accounts was changed outside the plugin"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:418
+#: includes/features/class-admin-alert.php:452
 msgid "HelloAdmin Guard keeps the e-mail addresses of the administrators and a fingerprint of their passwords, to notice when an existing administrator account is taken over. That record was changed or removed outside the plugin, for example straight in the database. The plugin cannot tell now whether an e-mail address or a password changed before that."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:419
-#: includes/features/class-admin-alert.php:668
-#: includes/features/class-mu-plugins-watch.php:405
+#: includes/features/class-admin-alert.php:453
+#: includes/features/class-admin-alert.php:703
+#: includes/features/class-mu-plugins-watch.php:422
 msgid "If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected."
 msgstr ""
 
 #. translators: 1: old e-mail address, 2: new e-mail address.
-#: includes/features/class-admin-alert.php:451
+#: includes/features/class-admin-alert.php:485
 #, php-format
 msgid "E-mail address: %1$s -> %2$s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:454
+#: includes/features/class-admin-alert.php:488
 msgid "The password was changed."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:464
+#: includes/features/class-admin-alert.php:498
 msgid "If you or this administrator made the change, nothing to do."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:465
+#: includes/features/class-admin-alert.php:499
 msgid "If not: someone may have taken over this account. Set a new password for it (Users > Profile, or \"Lost your password?\" with an address you control), use \"If hacked\" in HeAd Guard to log everyone out, and check the other administrators."
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:471
+#: includes/features/class-admin-alert.php:505
 #, php-format
 msgid "Administrator e-mail changed: %s"
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:473
+#: includes/features/class-admin-alert.php:507
 #, php-format
 msgid "Administrator password changed: %s"
 msgstr ""
 
 #. translators: 1: old e-mail address, 2: new e-mail address.
-#: includes/features/class-admin-alert.php:496
+#: includes/features/class-admin-alert.php:531
 #, php-format
 msgid "The site e-mail address in Settings > General changed: %1$s -> %2$s. Security alerts and password reset links for the site go to this address."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:506
+#: includes/features/class-admin-alert.php:541
 msgid "If you did not make this change, set your address back in Settings > General and check the administrators."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:509
+#: includes/features/class-admin-alert.php:544
 msgid "The site e-mail address changed"
 msgstr ""
 
 #. translators: %s: role name.
-#: includes/features/class-admin-alert.php:611
+#: includes/features/class-admin-alert.php:646
 #, php-format
 msgid "Anyone can now register on your site. New users get the role: %s."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:613
+#: includes/features/class-admin-alert.php:648
 msgid "This role can change other people's content, users or the site itself. With it, a stranger who registers can take over the site."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:623
+#: includes/features/class-admin-alert.php:658
 msgid "If you opened registration on purpose (a shop, a membership site), keep the new user role at Subscriber or the role your shop or membership plugin uses for customers."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:624
+#: includes/features/class-admin-alert.php:659
 msgid "If not: turn off \"Anyone can register\" and set the new user role to Subscriber in Settings > General, then look at the users registered since this e-mail and update or remove the plugin that let the settings change."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:629
+#: includes/features/class-admin-alert.php:664
 msgid "Anyone can register, with dangerous rights"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:629
+#: includes/features/class-admin-alert.php:664
 msgid "Anyone can now register"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:642
+#: includes/features/class-admin-alert.php:677
 msgid "found by the regular check: the setting was not changed through WordPress while this alert was on, for example it was written straight into the database"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:667
+#: includes/features/class-admin-alert.php:702
 msgid "The list of administrators that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:670
+#: includes/features/class-admin-alert.php:705
 msgid "Administrators now:"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:678
+#: includes/features/class-admin-alert.php:713
 msgid "If one of them is not yours: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:682
+#: includes/features/class-admin-alert.php:717
 msgid "The list of administrators was changed outside the plugin"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:788
+#: includes/features/class-admin-alert.php:823
 msgid "found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:797
+#: includes/features/class-admin-alert.php:832
 #, php-format
 msgid "New administrator: %s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:800
+#: includes/features/class-admin-alert.php:835
 msgid "An account on your site now has the Administrator role."
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:803
+#: includes/features/class-admin-alert.php:838
 #, php-format
 msgid "User name: %s"
 msgstr ""
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:805
+#: includes/features/class-admin-alert.php:840
 #, php-format
 msgid "E-mail: %s"
 msgstr ""
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:807
+#: includes/features/class-admin-alert.php:842
 #, php-format
 msgid "Account created: %s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:815
+#: includes/features/class-admin-alert.php:850
 msgid "Its public name or author page address is the login, so the login shows under its posts and comments. Hide user names in HeAd Guard can change that."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:818
+#: includes/features/class-admin-alert.php:853
 msgid "If you or your team added this account, nothing to do."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:819
+#: includes/features/class-admin-alert.php:854
 msgid "If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
 msgstr ""
 
@@ -1157,26 +1157,26 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: number of failed logins, 2: minutes.
-#: includes/features/class-limit-login.php:486
+#: includes/features/class-limit-login.php:488
 #, php-format
 msgid "%1$d failed logins from different addresses in %2$d minutes: a bot network is guessing passwords on this site."
 msgstr ""
 
 #. translators: %d: minutes.
-#: includes/features/class-limit-login.php:488
+#: includes/features/class-limit-login.php:490
 #, php-format
 msgid "For the next %d minutes, and longer while the attempts go on, logins from new devices are refused. Browsers that logged in to this site before still get in."
 msgstr ""
 
-#: includes/features/class-limit-login.php:489
+#: includes/features/class-limit-login.php:491
 msgid "If you need to log in from a new device, use \"Lost your password?\" on the login page: the reset link lets that browser in."
 msgstr ""
 
-#: includes/features/class-limit-login.php:491
+#: includes/features/class-limit-login.php:493
 msgid "Worth doing now: check that every administrator has a strong unique password, and turn on two-factor login if you have not yet."
 msgstr ""
 
-#: includes/features/class-limit-login.php:493
+#: includes/features/class-limit-login.php:495
 msgid "Login attack from many addresses"
 msgstr ""
 
@@ -1222,78 +1222,84 @@ msgstr ""
 msgid "The requested URL was not found on this server."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:99
+#: includes/features/class-mu-plugins-watch.php:106
 msgid "E-mail me about changed must-use plugins and site files"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:106
+#: includes/features/class-mu-plugins-watch.php:113
 msgid "Must-use plugins in wp-content/mu-plugins and drop-ins like db.php or object-cache.php run on every page, cannot be turned off in the admin area and are not in the normal plugin list, so malware likes to hide there. The same goes for wp-config.php and index.php, and for .user.ini or php.ini in the site folder, which can add a file to every request. After every login, on admin pages and at least once an hour while the site gets visits (without WP-Cron), the plugin compares these files with the list it saw last time and e-mails the site address about new and changed ones, including files whose names start with a dot and PHP files in subfolders of mu-plugins (except the folders hosts manage themselves)."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:113
+#: includes/features/class-mu-plugins-watch.php:120
 msgid "Nothing stops working. You also get the e-mail when you or your host add or update a must-use plugin or a caching drop-in, and when a plugin writes to wp-config.php (caching and SSL plugins do). If e-mail from this site does not arrive, the alert does not arrive either."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:120
+#: includes/features/class-mu-plugins-watch.php:127
 msgid "Turn this off and save. No files are changed or deleted."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:188
+#: includes/features/class-mu-plugins-watch.php:195
 msgid "Something on this site hides the Must-Use list on the Plugins screen. Malware does this to keep its files out of sight."
 msgstr ""
 
+#. translators: %d: number of files.
+#: includes/features/class-mu-plugins-watch.php:201
+#, php-format
+msgid "The subfolders of mu-plugins hold more than %d PHP files, so the plugin watches only the first ones. Files after them are not checked. Move libraries out of mu-plugins, or watch that folder with your host's tools."
+msgstr ""
+
 #. translators: %s: file path inside wp-content.
-#: includes/features/class-mu-plugins-watch.php:195
+#: includes/features/class-mu-plugins-watch.php:207
 #, php-format
 msgid "%s has a name that starts with a dot, so many FTP programs and file managers do not show it, but WordPress loads it on every page."
 msgstr ""
 
 #. translators: %s: file path inside wp-content.
-#: includes/features/class-mu-plugins-watch.php:199
+#: includes/features/class-mu-plugins-watch.php:211
 #, php-format
 msgid "%s runs code it decodes first (eval with base64, gzinflate or similar). That is how malware hides what it does. Check this file."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:404
+#: includes/features/class-mu-plugins-watch.php:421
 msgid "The list of must-use files that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:408
+#: includes/features/class-mu-plugins-watch.php:425
 msgid "There are no such files now."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:413
+#: includes/features/class-mu-plugins-watch.php:430
 msgid "Files that WordPress loads on every page:"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:413
+#: includes/features/class-mu-plugins-watch.php:430
 msgid "New files that WordPress now loads on every page:"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:420
+#: includes/features/class-mu-plugins-watch.php:437
 msgid "Changed files:"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:426
+#: includes/features/class-mu-plugins-watch.php:443
 msgid "If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins add files like these too."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:427
+#: includes/features/class-mu-plugins-watch.php:444
 msgid "If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:432
+#: includes/features/class-mu-plugins-watch.php:449
 msgid "The list of must-use files was changed outside the plugin"
 msgstr ""
 
 #. translators: %s: file name.
-#: includes/features/class-mu-plugins-watch.php:439
+#: includes/features/class-mu-plugins-watch.php:456
 #, php-format
 msgid "New or changed file: %s"
 msgstr ""
 
 #. translators: %d: number of files.
-#: includes/features/class-mu-plugins-watch.php:441
+#: includes/features/class-mu-plugins-watch.php:458
 #, php-format
 msgid "%d new or changed file that runs on every page"
 msgid_plural "%d new or changed files that run on every page"
@@ -1301,7 +1307,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: file size, 2: date and time.
-#: includes/features/class-mu-plugins-watch.php:459
+#: includes/features/class-mu-plugins-watch.php:476
 #, php-format
 msgid "%1$s, modified %2$s"
 msgstr ""
@@ -1422,10 +1428,10 @@ msgstr ""
 msgid "With one author, /author/name/ only repeats the blog and shows the author address. With the last two options every /author/.../ address answers the same, whether such an author exists or not, and author links in the theme lead to the blog page. Logged-in users still see author pages."
 msgstr ""
 
-#: includes/features/class-user-enumeration.php:243
+#: includes/features/class-user-enumeration.php:249
 msgid "<strong>Error:</strong> Wrong username or password."
 msgstr ""
 
-#: includes/features/class-user-enumeration.php:303
+#: includes/features/class-user-enumeration.php:309
 msgid "Sorry, you are not allowed to list users."
 msgstr ""

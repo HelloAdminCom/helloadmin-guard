@@ -216,11 +216,17 @@ class User_Enumeration extends Feature {
 	}
 
 	/**
-	 * The blog page: the posts page when the front page is a static page, else the home page.
+	 * The blog page: the posts page when the front page is a static page, else the home page. As the author_link
+	 * filter it replaces author links for visitors only.
 	 *
+	 * @param string $link Author link when used as a filter.
 	 * @return string
 	 */
-	public function blog_url() {
+	public function blog_url( $link = '' ) {
+		// In the admin area and for logged-in users author links stay real: they still see author pages.
+		if ( '' !== $link && ( is_admin() || is_user_logged_in() ) ) {
+			return $link;
+		}
 		$posts = (int) get_option( 'page_for_posts' );
 		if ( 'page' === get_option( 'show_on_front' ) && $posts ) {
 			$url = get_permalink( $posts );
