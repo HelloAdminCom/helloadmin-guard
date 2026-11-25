@@ -2,6 +2,24 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased] - 0.6.0
+
+### Added
+- Core REST API only for logged-in users (new card): wp/v2, wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1 answer 401 to visitors who are not logged in, also inside batch calls; oEmbed and plugin routes stay open; "Keep open for visitors" field for exceptions.
+- Limit login strict mode: failed logins from all addresses together lock new devices out; known browsers (signed cookie) and password resets still get in; one e-mail a day about the attack; application passwords not affected.
+- Hide user names: list of users whose login shows (public name or author page address) with a Fix button per user (public name, author address, old comments), without a page reload; new users who can write posts are marked.
+- Hide user names: author pages for visitors can redirect to the blog page or answer 404, the same answer for every /author/ address.
+- E-mail me about new administrators: also when anyone can register with a role that has dangerous rights (card warning too), when the e-mail address or password of an administrator changes, and when the site e-mail address changes (the old address gets it too).
+- E-mail me about changed must-use plugins and site files: also wp-config.php, index.php, .user.ini, php.ini and PHP files in subfolders of mu-plugins (folders managed by hosts are skipped).
+
+### Fixed
+- Hide user names: a REST batch call to /wp/v2/users by a visitor caused a PHP fatal error in WordPress 7 (the refusal was a WP_Error, now a response).
+- Limit login: views of the login page during a lockout no longer count as failed logins.
+- Menu number: settings that are not checked yet do not count while the first check after an update runs.
+- .htaccess: more than one plugin block in the file counts as a mismatch, the next sync leaves one.
+- Visitor IP: CF-Connecting-IP is used only when the request comes from a Cloudflare address.
+- Smaller: header flag found after a double internal redirect, WP-CLI handles a damaged option and notes the Nginx case, XML-RPC limit mode filter runs last.
+
 ## [0.5.2] - 2026-11-24
 
 ### Security

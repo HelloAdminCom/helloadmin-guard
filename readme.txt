@@ -95,6 +95,26 @@ Deactivating turns every setting off at once and removes the plugin's block from
 
 The .htaccess file carries the plugin's server rules, the settings live in the database. When the copied file has rules for settings that are off on the new copy, the plugin rewrites its block on the next visit to the login page or the admin area. Without that, a login URL rule from the old server could close the login form. You can also run wp helloadmin-guard sync.
 
+= How does the strict mode of Limit login work? =
+
+The normal limit counts failed logins per IP address. Botnets guess from thousands of addresses, a few tries each, so the strict mode also counts failed logins from all addresses together.
+
+* Threshold: when the failed logins from all addresses reach the number you set (50 by default) within the lockout time, logins from new devices are refused for that time. While the attempts go on, the lock is extended.
+* Same answer: during the lock a new device gets the same message with a right or a wrong password, so the answer never confirms a guessed password.
+* Known browsers: after a successful login the browser gets a cookie for one year, signed with the salts of your wp-config.php and tied to the user. With it the owner still logs in during an attack.
+* Lost your password: keeps working. The link from the reset e-mail makes that browser known, so you can log in from a new device.
+* E-mail: the site address gets "Login attack from many addresses", once a day at most.
+* Application passwords (Jetpack, the mobile app, REST API clients): the strict mode leaves them alone, they are long and random and guessing them is pointless. The limit per IP address still applies to them.
+* Not for sites where customers or members log in: during an attack they could not log in from a new device without a password reset.
+
+= Which routes does "Core REST API only for logged-in users" close? =
+
+The core namespaces wp/v2 (posts, pages, media, categories, search, users), wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1, for visitors who are not logged in, also inside batch calls. oEmbed and the routes of plugins (forms, shops, statistics) stay open. If a theme or a headless front end reads posts through the API without logging in, add its route to the "Keep open for visitors" field, for example /wp/v2/posts.
+
+= What does the Fix button in "Hide user names" change? =
+
+For one user: the public name ("Display name publicly as") becomes the name you type, the author page address is made from that name when it was the login (the old address answers "not found"), and the user's old comments get the new name. The login and the password stay the same.
+
 = Does it work on Nginx? =
 
 The General tab works on any server. Nginx does not read .htaccess, so on the Advanced tab every card shows its rules to copy into the server block of your site.
