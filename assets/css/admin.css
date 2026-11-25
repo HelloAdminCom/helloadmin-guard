@@ -276,49 +276,45 @@
 .hag-view-full .hag-lead,
 .hag-view-full .hag-toggle-body { display: none; }
 
-/* Short and compact views: every closed card has the same height; "Details" opens one card in its place. */
-.hag-view-brief .hag-card:not(.hag-open) .hag-body,
-.hag-view-compact .hag-card:not(.hag-open) .hag-body,
-.hag-view-compact .hag-card:not(.hag-open) .hag-lead,
-.hag-view-compact .hag-card:not(.hag-open) .hag-note,
-.hag-view-compact .hag-card:not(.hag-open) .hag-warning,
-.hag-cards .hag-open .hag-lead { display: none; }
-.hag-view-brief .hag-card:not(.hag-open) { height: var(--hag-h); overflow: hidden; }
-.hag-view-compact .hag-card:not(.hag-open) { height: var(--hag-h); overflow: hidden; }
-.hag-view-brief .hag-card:not(.hag-open) .hag-note,
-.hag-view-brief .hag-card:not(.hag-open) .hag-warning,
+/* Short and compact views: every card has the same height; the full texts open in a panel under the row. */
+.hag-view-brief .hag-card .hag-body,
+.hag-view-compact .hag-card .hag-body,
+.hag-view-compact .hag-card .hag-lead,
+.hag-view-compact .hag-card .hag-note,
+.hag-view-compact .hag-card .hag-warning { display: none; }
+.hag-view-brief .hag-card { height: var(--hag-h); overflow: hidden; }
+.hag-view-compact .hag-card { height: var(--hag-h); overflow: hidden; }
+.hag-view-brief .hag-card .hag-note,
+.hag-view-brief .hag-card .hag-warning,
 .hag-card .hag-lead { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
 .hag-card .hag-lead { -webkit-line-clamp: 3; line-clamp: 3; margin: 8px 0 4px; }
-.hag-view-brief .hag-card:not(.hag-open) .hag-note,
-.hag-view-brief .hag-card:not(.hag-open) .hag-warning { -webkit-line-clamp: 1; line-clamp: 1; margin: 6px 0 0; padding-top: 1px; padding-bottom: 1px; }
+.hag-view-brief .hag-card .hag-note,
+.hag-view-brief .hag-card .hag-warning { -webkit-line-clamp: 1; line-clamp: 1; margin: 6px 0 0; padding-top: 1px; padding-bottom: 1px; }
 /* A card with a note or a warning shows one line of the description, so every card fits the same height. */
-.hag-view-brief .hag-card:not(.hag-open):has(.hag-note, .hag-warning) .hag-lead { -webkit-line-clamp: 2; line-clamp: 2; }
-.hag-view-brief .hag-card:not(.hag-open) .hag-head,
-.hag-view-compact .hag-card:not(.hag-open) .hag-head { flex-wrap: nowrap; }
-.hag-view-brief .hag-card:not(.hag-open) .hag-toggle,
-.hag-view-compact .hag-card:not(.hag-open) .hag-toggle { min-width: 0; }
-.hag-view-brief .hag-card:not(.hag-open) .hag-title,
-.hag-view-compact .hag-card:not(.hag-open) .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hag-view-brief .hag-card:has(.hag-note, .hag-warning) .hag-lead { -webkit-line-clamp: 2; line-clamp: 2; }
+.hag-view-brief .hag-card .hag-head,
+.hag-view-compact .hag-card .hag-head { flex-wrap: nowrap; }
+.hag-view-brief .hag-card .hag-toggle,
+.hag-view-compact .hag-card .hag-toggle { min-width: 0; }
+.hag-view-brief .hag-card .hag-title,
+.hag-view-compact .hag-card .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hag-view-brief { --hag-h: 10rem; }
 .hag-view-compact { --hag-h: 5.75rem; }
-/* Columns: by default they dissolve, and the cards stand in the grid in list order (one column on laptops, rows of two
-   in the full view). In the short views on a wide screen each column is its own stack: an opened card grows in its
-   place and pushes down only the cards under it; the other column does not move. */
+/* The column wrappers dissolve: the cards stand in one grid in list order (CSS order 0, 2, 4…). */
 .hag-col { display: contents; }
-@container (min-width: 1296px) {
-	.hag-view-brief, .hag-view-compact { align-items: start; }
-	.hag-view-brief .hag-col, .hag-view-compact .hag-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-}
-.hag-cards .hag-card.hag-open { border-color: #2271b1; box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
-/* "Hide details" sits at the bottom edge of the opened card, which ends on a row line of the other column. */
-.hag .hag-card.hag-open > .hag-toggle-body { margin-top: auto; padding-top: 12px; }
+/* Short views: "Details" leaves the card as it is and opens its texts, fields and rules in a panel across the whole
+   width under the card's row. Whole rows move down, so the rows stay aligned, nothing overlaps and nothing scrolls. */
+.hag-panel { grid-column: 1 / -1; box-sizing: border-box; min-width: 0; padding: 4px 20px 16px; background: #fff; border: 1px solid #2271b1; border-radius: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
+.hag-panel-title { margin: 12px 0 0; font-size: 14px; font-weight: 600; }
+.hag-panel pre { max-width: 100%; overflow-x: auto; }
+.hag-cards .hag-card.hag-active { border-color: #2271b1; box-shadow: inset 0 0 0 1px #2271b1; }
 .hag-cards .hag-card { min-width: 0; }
 .hag-cards .hag-card pre { max-width: 100%; overflow-x: auto; }
 .hag .hag-card .hag-toggle-body { margin-top: auto; align-self: flex-start !important; padding: 10px 0 0; color: #2271b1; text-decoration: underline; cursor: pointer; }
 .hag-toggle-body:hover, .hag-toggle-body:focus { color: #135e96; }
 /* In a card of fixed height the texts give way, never the "Details" link. */
-.hag-view-brief .hag-card:not(.hag-open) > *,
-.hag-view-compact .hag-card:not(.hag-open) > * { min-height: 0; flex-shrink: 1; }
+.hag-view-brief .hag-card > *,
+.hag-view-compact .hag-card > * { min-height: 0; flex-shrink: 1; }
 .hag-card > .hag-head,
 .hag-card > .hag-toggle-body { flex-shrink: 0 !important; }
 /* No frame around "Details" after a mouse click; keyboard users still see where they are. */

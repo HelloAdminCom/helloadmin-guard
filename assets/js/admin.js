@@ -181,7 +181,8 @@
 	} );
 }() );
 
-/* Card views: the icon buttons switch the view at once and save it for this user; "Details" opens one card. */
+/* Card views: the icon buttons switch the view at once and save it for this user. In the short views "Details" opens
+   the card's texts, fields and rules in a panel across the whole width under the card's row. */
 ( function () {
 	var data = window.helloadminGuard;
 	var cards = document.querySelector( '.hag-cards' );
@@ -189,15 +190,64 @@
 	if ( ! data || ! cards ) {
 		return;
 	}
+	var panel = document.createElement( 'div' );
+	panel.className = 'hag-panel';
+	panel.setAttribute( 'role', 'region' );
+	var active = null;
+
+	function columns() {
+		return window.getComputedStyle( cards ).gridTemplateColumns.split( ' ' ).filter( Boolean ).length || 1;
+	}
+	function close() {
+		if ( ! active ) {
+			return;
+		}
+		var body = panel.querySelector( '.hag-body' );
+		var link = active.querySelector( '.hag-toggle-body' );
+		// The body goes back into its card (before the link), so the form and the full view stay as they were.
+		if ( body ) {
+			active.insertBefore( body, link );
+		}
+		panel.remove();
+		panel.textContent = '';
+		active.classList.remove( 'hag-active' );
+		link.setAttribute( 'aria-expanded', 'false' );
+		link.textContent = data.showText;
+		active = null;
+	}
+	function open( card ) {
+		close();
+		var link = card.querySelector( '.hag-toggle-body' );
+		var body = card.querySelector( '.hag-body' );
+		if ( ! body ) {
+			return;
+		}
+		var title = document.createElement( 'p' );
+		title.className = 'hag-panel-title';
+		title.textContent = card.querySelector( '.hag-title' ).textContent;
+		panel.appendChild( title );
+		panel.appendChild( body );
+		panel.setAttribute( 'aria-label', title.textContent );
+		// Under the last card of this card's row: cards have the even CSS order numbers 0, 2, 4…
+		var index = parseInt( card.style.order, 10 ) / 2;
+		var cols = columns();
+		var last = Math.min( Math.floor( index / cols ) * cols + cols - 1, cards.querySelectorAll( '.hag-card' ).length - 1 );
+		panel.style.order = String( last * 2 + 1 );
+		card.parentNode.appendChild( panel );
+		card.classList.add( 'hag-active' );
+		link.setAttribute( 'aria-expanded', 'true' );
+		link.textContent = data.hideText;
+		active = card;
+		panel.scrollIntoView( { block: 'nearest', behavior: 'smooth' } );
+	}
+
 	Array.prototype.forEach.call( buttons, function ( button ) {
 		button.addEventListener( 'click', function () {
 			var view = button.getAttribute( 'data-view' );
+			close();
 			cards.className = cards.className.replace( /\bhag-view-\w+/, 'hag-view-' + view );
 			Array.prototype.forEach.call( buttons, function ( other ) {
 				other.setAttribute( 'aria-pressed', other === button ? 'true' : 'false' );
-			} );
-			Array.prototype.forEach.call( cards.querySelectorAll( '.hag-open' ), function ( card ) {
-				toggle( card, false );
 			} );
 			if ( window.fetch ) {
 				var body = new URLSearchParams( { action: data.viewAction, _ajax_nonce: data.viewNonce, view: view } );
@@ -205,68 +255,43 @@
 			}
 		} );
 	} );
-	// Two columns side by side: the opened card takes whole rows of the other column (closed cards are all the same
-	// height), so the cards under it line up with their neighbours again.
-	function snap( card, closed ) {
-		var column = card.parentNode;
-		if ( 'flex' !== window.getComputedStyle( column ).display ) {
-			return;
-		}
-		var gap = parseFloat( window.getComputedStyle( column ).rowGap ) || 0;
-		var rows = Math.ceil( ( card.offsetHeight + gap ) / ( closed + gap ) );
-		card.style.minHeight = ( rows * ( closed + gap ) - gap ) + 'px';
-	}
-	function toggle( card, open ) {
-		var link = card.querySelector( '.hag-toggle-body' );
-		if ( open ) {
-			// One card open at a time.
-			Array.prototype.forEach.call( cards.querySelectorAll( '.hag-open' ), function ( other ) {
-				if ( other !== card ) {
-					toggle( other, false );
-				}
-			} );
-		}
-		var closed = card.offsetHeight;
-		card.style.minHeight = '';
-		card.classList.toggle( 'hag-open', open );
-		if ( open ) {
-			snap( card, closed );
-		}
-		if ( link ) {
-			link.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
-			link.textContent = open ? data.hideText : data.showText;
-		}
-	}
 	cards.addEventListener( 'click', function ( event ) {
 		var link = event.target.closest( '.hag-toggle-body' );
 		if ( ! link ) {
 			return;
 		}
 		var card = link.closest( '.hag-card' );
-		var open = ! card.classList.contains( 'hag-open' );
-		toggle( card, open );
-		card.scrollIntoView( { block: 'nearest' } );
+		if ( card === active ) {
+			close();
+		} else {
+			open( card );
+		}
 	} );
-	// A click anywhere outside the opened card closes it.
+	// A click outside the card and its panel closes the panel.
 	document.addEventListener( 'click', function ( event ) {
-		var card = cards.querySelector( '.hag-open' );
-		if ( card && ! card.contains( event.target ) && ! event.target.closest( '.hag-views' ) ) {
-			toggle( card, false );
+		if ( active && ! active.contains( event.target ) && ! panel.contains( event.target ) && ! event.target.closest( '.hag-views' ) ) {
+			close();
 		}
 	} );
 	document.addEventListener( 'keydown', function ( event ) {
-		var card = cards.querySelector( '.hag-open' );
-		if ( 'Escape' === event.key && card ) {
-			toggle( card, false );
-			card.querySelector( '.hag-toggle-body' ).focus();
+		if ( 'Escape' === event.key && active ) {
+			var link = active.querySelector( '.hag-toggle-body' );
+			close();
+			link.focus();
 		}
 	} );
-	// A link to a card (#hag-…-card, for example from the gap list) opens it in the short views.
-	if ( window.location.hash ) {
+	// The panel follows its row when the window changes from two columns to one or back.
+	window.addEventListener( 'resize', function () {
+		if ( active ) {
+			open( active );
+		}
+	} );
+	// A link to a card (#hag-…-card, for example from the gap list) opens its details in the short views.
+	if ( window.location.hash && ! /hag-view-full/.test( cards.className ) ) {
 		var target = document.getElementById( window.location.hash.slice( 1 ) );
 		var card = target && target.closest( '.hag-card' );
 		if ( card && cards.contains( card ) ) {
-			toggle( card, true );
+			open( card );
 		}
 	}
 }() );

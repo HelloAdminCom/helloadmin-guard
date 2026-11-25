@@ -407,8 +407,8 @@ class Admin_Page {
 				return $a->priority() <=> $b->priority();
 			}
 		);
-		// Two columns in the markup: in the short views each column is its own stack, so an opened card pushes down only
-		// the cards under it. Elsewhere the columns dissolve into one grid and "order" keeps the list order.
+		// Two column wrappers in the markup, dissolved by CSS into one grid; "order" keeps the list order and leaves odd
+		// numbers free for the details panel of the short views, which opens under the row of its card.
 		printf( '<div class="hag-cards hag-view-%s">', esc_attr( Card_View::current() ) );
 		foreach ( array( 0, 1 ) as $column ) {
 			echo '<div class="hag-col">';
@@ -447,7 +447,7 @@ class Admin_Page {
 		// Server rules can be switched on only where the plugin can write them; elsewhere the card shows them to copy.
 		$manual = $feature instanceof Htaccess_Feature && ( 'apache' !== Htaccess::server() || ! Htaccess::writable() );
 
-		printf( '<div class="hag-card" id="%s" style="order: %d"><div class="hag-head">', esc_attr( $html . '-card' ), (int) $this->card_order );
+		printf( '<div class="hag-card" id="%s" style="order: %d"><div class="hag-head">', esc_attr( $html . '-card' ), absint( 2 * $this->card_order ) );
 		printf(
 			'<label class="hag-toggle" for="%1$s"><input type="checkbox" role="switch" id="%1$s" name="%2$s" value="1" %3$s%5$s><span class="hag-switch" aria-hidden="true"></span><span class="hag-title">%4$s</span></label>',
 			esc_attr( $html ),
