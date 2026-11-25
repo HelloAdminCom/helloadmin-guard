@@ -300,21 +300,20 @@
 .hag-view-compact .hag-card:not(.hag-open) .hag-toggle { min-width: 0; }
 .hag-view-brief .hag-card:not(.hag-open) .hag-title,
 .hag-view-compact .hag-card:not(.hag-open) .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* An opened card stays in its place and opens downwards over the cards below it (as many as its text needs, ending on a card
-   edge, see admin.js), so nothing moves and nothing scrolls, so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
-.hag-view-brief { --hag-h: 10rem; --hag-n: 1; }
-.hag-view-compact { --hag-h: 5.75rem; --hag-n: 2; }
+/* An opened card stays in its place and opens downwards over the cards below it (exactly as tall as its text, see admin.js), so
+   nothing moves, nothing scrolls and no empty space stays under "Hide details", so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
+.hag-view-brief { --hag-h: 10rem; }
+.hag-view-compact { --hag-h: 5.75rem; }
 .hag-view-brief .hag-card.hag-open,
 .hag-view-compact .hag-card.hag-open {
 	position: relative; z-index: 5; overflow-x: hidden; overflow-y: auto;
-	/* Ends exactly on the bottom edge of a card below, so no strip of a covered card shows. */
-	height: calc((var(--hag-h) + 16px) * (var(--hag-k, var(--hag-n)) + 1) - 16px);
-	margin-bottom: calc(-1 * (var(--hag-h) + 16px) * var(--hag-k, var(--hag-n)));
+	height: var(--hag-open-h, auto);
+	margin-bottom: calc(var(--hag-h) - var(--hag-open-h, var(--hag-h)));
 	box-shadow: 0 8px 24px rgba(0, 0, 0, .18); border-color: #2271b1;
 }
 .hag-view-brief .hag-card.hag-open.hag-open-up,
 .hag-view-compact .hag-card.hag-open.hag-open-up {
-	margin-bottom: 0; margin-top: calc(-1 * (var(--hag-h) + 16px) * var(--hag-k, var(--hag-n)));
+	margin-bottom: 0; margin-top: calc(var(--hag-h) - var(--hag-open-h, var(--hag-h)));
 }
 .hag .hag-card.hag-open > .hag-toggle-body { position: sticky; bottom: 0; z-index: 1; width: auto; margin-top: 8px; padding: 4px 2px; background: #fff; }
 /* A white strip under "Hide details" across the card, so the scrolled text does not show through next to it. */

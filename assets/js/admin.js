@@ -216,19 +216,17 @@
 			} );
 		}
 		card.classList.remove( 'hag-open-up' );
-		card.style.removeProperty( '--hag-k' );
-		var closed = card.offsetHeight;
+		card.style.removeProperty( '--hag-open-h' );
 		card.classList.toggle( 'hag-open', open );
 		card.scrollTop = 0;
 		if ( open ) {
-			// Cover as many cards below as the text needs, ending on a card edge: the whole text is in sight, no scrolling.
+			// Exactly as tall as its text: it lies over the cards below, no empty space and no scrolling.
 			card.style.height = 'auto';
 			card.style.marginBottom = '0';
 			var natural = card.offsetHeight;
 			card.style.height = '';
 			card.style.marginBottom = '';
-			var need = Math.ceil( ( natural - closed ) / ( closed + 16 ) );
-			card.style.setProperty( '--hag-k', String( Math.max( 0, need ) ) );
+			card.style.setProperty( '--hag-open-h', natural + 'px' );
 		}
 		// Not enough room below inside the list: open upwards, if there is room above.
 		if ( open && card.getBoundingClientRect().bottom > cards.getBoundingClientRect().bottom + 1 ) {
