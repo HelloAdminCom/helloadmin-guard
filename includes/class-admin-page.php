@@ -410,7 +410,6 @@ class Admin_Page {
 		// Two columns in the markup: in the short views each column is its own stack, so an opened card pushes down only
 		// the cards under it. Elsewhere the columns dissolve into one grid and "order" keeps the list order.
 		printf( '<div class="hag-cards hag-view-%s">', esc_attr( Card_View::current() ) );
-		$features = array_values( $features );
 		foreach ( array( 0, 1 ) as $column ) {
 			echo '<div class="hag-col">';
 			foreach ( $features as $i => $feature ) {
