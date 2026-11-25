@@ -42,6 +42,25 @@ class Admin_Alert extends Feature {
 	const CRON_HOOK = 'helloadmin_guard_check_admins';
 
 	/**
+	 * Option with the registration state seen last time: "closed" or "open:<role>".
+	 */
+	const REGISTRATION_OPTION = 'helloadmin_guard_registration';
+
+	/**
+	 * Rights that a role given to anyone who registers must not have. Besides ADMIN_CAPS: unfiltered_html lets
+	 * a script into posts that runs when an administrator opens them, the rest edit other people's content,
+	 * users or the theme.
+	 */
+	const RISKY_CAPS = array( 'unfiltered_html', 'edit_others_posts', 'edit_others_pages', 'edit_users', 'create_users', 'delete_users', 'list_users', 'edit_theme_options', 'switch_themes' );
+
+	/**
+	 * True once the registration check is queued for the end of this request.
+	 *
+	 * @var bool
+	 */
+	private $registration_queued = false;
+
+	/**
 	 * True once the check is queued for the end of this request.
 	 *
 	 * @var bool
@@ -73,7 +92,8 @@ class Admin_Alert extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'When an account becomes an administrator, the site e-mail address gets a message with the user name, the e-mail of the account and who made the change. The plugin also compares the administrators in the database with the list it saw last time: after every login, on admin pages and at least once an hour while the site gets visits, without WP-Cron. So an account added straight into the database, or hidden from the Users screen, is reported too, at the latest when someone logs in with it. Hacked sites often get an extra admin with a random name like "a3f9c2".', 'helloadmin-guard' );
+		return __( 'When an account becomes an administrator, the site e-mail address gets a message with the user name, the e-mail of the account and who made the change. The plugin also compares the administrators in the database with the list it saw last time: after every login, on admin pages and at least once an hour while the site gets visits, without WP-Cron. So an account added straight into the database, or hidden from the Users screen, is reported too, at the latest when someone logs in with it. Hacked sites often get an extra admin with a random name like "a3f9c2".', 'helloadmin-guard' )
+			. ' ' . __( 'You also get an e-mail when anyone becomes able to register on the site, or when the role for new users changes while registration is open. A known attack through a plugin hole turns on "Anyone can register" with Administrator as the new user role, then simply registers.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -152,6 +172,14 @@ class Admin_Alert extends Feature {
 	 */
 	public function warnings() {
 		$warnings = array();
+		$state    = self::registration_state();
+		if ( null !== $state && $state['open'] && self::risky_role( $state['role'] ) ) {
+			$warnings[] = sprintf(
+				/* translators: %s: role name. */
+				__( 'Anyone can register on this site and gets the role "%s", which can change other people\'s content, users or the site itself. If you did not set this up on purpose, set the new user role to Subscriber or turn off "Anyone can register" in Settings > General.', 'helloadmin-guard' ),
+				self::role_name( $state['role'] )
+			);
+		}
 		$all      = self::admin_ids();
 		$visible  = $all ? array_map(
 			'intval',
@@ -207,6 +235,10 @@ class Admin_Alert extends Feature {
 		add_action( 'added_user_meta', array( $this, 'on_caps_meta' ), 10, 3 );
 		add_action( 'updated_user_meta', array( $this, 'on_caps_meta' ), 10, 3 );
 		add_action( 'granted_super_admin', array( $this, 'queue_check' ) );
+		foreach ( array( 'users_can_register', 'default_role' ) as $name ) {
+			add_action( 'add_option_' . $name, array( $this, 'queue_registration_check' ) );
+			add_action( 'update_option_' . $name, array( $this, 'queue_registration_check' ) );
+		}
 		$this->watch( array( $this, 'check' ), self::CHECKED_OPTION );
 
 		if ( wp_next_scheduled( self::CRON_HOOK ) ) {
@@ -222,6 +254,7 @@ class Admin_Alert extends Feature {
 	 */
 	public function switched_on() {
 		self::save_list( self::SNAPSHOT_OPTION, self::admin_ids() );
+		update_option( self::REGISTRATION_OPTION, self::registration_key(), false );
 	}
 
 	/**
@@ -285,6 +318,7 @@ class Admin_Alert extends Feature {
 	 * @return void
 	 */
 	public function check() {
+		$this->check_registration();
 		$now                 = self::admin_ids();
 		list( $known, $bad ) = self::load_list( self::SNAPSHOT_OPTION );
 		$known               = array_map( 'intval', $known );
@@ -300,6 +334,153 @@ class Admin_Alert extends Feature {
 		foreach ( array_diff( $now, $known ) as $id ) {
 			$this->send_alert( (int) $id );
 		}
+	}
+
+	/**
+	 * Checks the registration settings at the end of the request, when the options are saved.
+	 *
+	 * @return void
+	 */
+	public function queue_registration_check() {
+		if ( ! $this->registration_queued ) {
+			$this->registration_queued = true;
+			$this->reason              = 'role';
+			add_action( 'shutdown', array( $this, 'check_registration' ) );
+		}
+	}
+
+	/**
+	 * Sends an e-mail when registration became open, or the role for new users changed while it is open.
+	 * Closing registration is not reported. The regular check calls this too, so a change written straight
+	 * into the database is found as well.
+	 *
+	 * @return void
+	 */
+	public function check_registration() {
+		$key  = self::registration_key();
+		$seen = get_option( self::REGISTRATION_OPTION, null );
+		if ( $key === $seen ) {
+			return;
+		}
+		update_option( self::REGISTRATION_OPTION, $key, false );
+		$state = self::registration_state();
+		// The first run after an update only remembers the state, unless it is already dangerous.
+		if ( null === $state || ! $state['open'] || ( null === $seen && ! self::risky_role( $state['role'] ) ) ) {
+			return;
+		}
+		$this->send_registration_alert( $state['role'] );
+	}
+
+	/**
+	 * Registration settings of this site, or null on multisite (there the network settings decide).
+	 *
+	 * @return array{open: bool, role: string}|null
+	 */
+	private static function registration_state() {
+		if ( is_multisite() ) {
+			return null;
+		}
+		return array(
+			'open' => (bool) get_option( 'users_can_register' ),
+			'role' => (string) get_option( 'default_role', 'subscriber' ),
+		);
+	}
+
+	/**
+	 * Registration state as a short string to compare: "closed" or "open:<role>". Empty on multisite.
+	 *
+	 * @return string
+	 */
+	private static function registration_key() {
+		$state = self::registration_state();
+		if ( null === $state ) {
+			return '';
+		}
+		return $state['open'] ? 'open:' . $state['role'] : 'closed';
+	}
+
+	/**
+	 * Whether a role has any right that a stranger must not get (ADMIN_CAPS or RISKY_CAPS). Read from the database
+	 * like admin_roles(). A role that does not exist counts as risky: WordPress would still save the name.
+	 *
+	 * @param string $role Role name.
+	 * @return bool
+	 */
+	private static function risky_role( $role ) {
+		$roles = self::role_caps();
+		if ( ! isset( $roles[ $role ] ) ) {
+			return true;
+		}
+		return (bool) array_intersect( array_merge( self::ADMIN_CAPS, self::RISKY_CAPS ), $roles[ $role ] );
+	}
+
+	/**
+	 * Display name of a role, or the role id when it has none.
+	 *
+	 * @param string $role Role name.
+	 * @return string
+	 */
+	private static function role_name( $role ) {
+		$names = wp_roles()->get_names();
+		return isset( $names[ $role ] ) ? translate_user_role( $names[ $role ] ) : $role;
+	}
+
+	/**
+	 * E-mail about open registration.
+	 *
+	 * @param string $role Role for new users.
+	 * @return void
+	 */
+	private function send_registration_alert( $role ) {
+		$risky = self::risky_role( $role );
+		$lines = array();
+		/* translators: %s: role name. */
+		$lines[] = sprintf( __( 'Anyone can now register on your site. New users get the role: %s.', 'helloadmin-guard' ), self::role_name( $role ) );
+		if ( $risky ) {
+			$lines[] = __( 'This role can change other people\'s content, users or the site itself. With it, a stranger who registers can take over the site.', 'helloadmin-guard' );
+		}
+		/* translators: %s: user name or a short explanation. */
+		$lines[] = sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $this->changed_by() );
+		$ip      = $this->request_ip();
+		if ( $ip ) {
+			/* translators: %s: IP address. */
+			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+		}
+		$lines[] = '';
+		$lines[] = __( 'If you opened registration on purpose (a shop, a membership site), keep the new user role at Subscriber or the role your shop or membership plugin uses for customers.', 'helloadmin-guard' );
+		$lines[] = __( 'If not: turn off "Anyone can register" and set the new user role to Subscriber in Settings > General, then look at the users registered since this e-mail and update or remove the plugin that let the settings change.', 'helloadmin-guard' );
+		$lines[] = '';
+		$lines[] = admin_url( 'options-general.php' );
+
+		$this->send_alert_mail(
+			$risky ? __( 'Anyone can register, with dangerous rights', 'helloadmin-guard' ) : __( 'Anyone can now register', 'helloadmin-guard' ),
+			$lines
+		);
+	}
+
+	/**
+	 * Who made the change, for the e-mails.
+	 *
+	 * @return string
+	 */
+	private function changed_by() {
+		$actor = wp_get_current_user();
+		if ( 'watch' === $this->reason ) {
+			return __( 'found by the regular check: the setting was not changed through WordPress while this alert was on, for example it was written straight into the database', 'helloadmin-guard' );
+		}
+		if ( $actor->exists() ) {
+			return $actor->user_login;
+		}
+		return __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
+	}
+
+	/**
+	 * Visitor IP when the change came with a web request.
+	 *
+	 * @return string
+	 */
+	private function request_ip() {
+		return isset( $_SERVER['REMOTE_ADDR'] ) && 'role' === $this->reason && ! ( defined( 'WP_CLI' ) && WP_CLI ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 	}
 
 	/**
@@ -340,19 +521,34 @@ class Admin_Alert extends Feature {
 	 * @return string[]
 	 */
 	private static function admin_roles() {
+		$found = array( 'administrator' );
+		foreach ( self::role_caps() as $name => $caps ) {
+			if ( array_intersect( self::ADMIN_CAPS, $caps ) ) {
+				$found[] = $name;
+			}
+		}
+		return array_values( array_unique( $found ) );
+	}
+
+	/**
+	 * Roles of this site with their granted rights, read straight from the database (the roles option can be
+	 * filtered too).
+	 *
+	 * @return array<string, string[]>
+	 */
+	private static function role_caps() {
 		global $wpdb;
 		$raw   = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- on purpose, past option filters; changes with every role edit.
 			$wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", $wpdb->get_blog_prefix() . 'user_roles' )
 		);
 		$roles = is_string( $raw ) ? maybe_unserialize( $raw ) : array();
-		$found = array( 'administrator' );
+		$found = array();
 		foreach ( is_array( $roles ) ? $roles : array() as $name => $role ) {
-			$caps = isset( $role['capabilities'] ) && is_array( $role['capabilities'] ) ? array_keys( array_filter( $role['capabilities'] ) ) : array();
-			if ( is_string( $name ) && array_intersect( self::ADMIN_CAPS, $caps ) ) {
-				$found[] = $name;
+			if ( is_string( $name ) ) {
+				$found[ $name ] = isset( $role['capabilities'] ) && is_array( $role['capabilities'] ) ? array_map( 'strval', array_keys( array_filter( $role['capabilities'] ) ) ) : array();
 			}
 		}
-		return array_values( array_unique( $found ) );
+		return $found;
 	}
 
 	/**
@@ -422,7 +618,7 @@ class Admin_Alert extends Feature {
 		} else {
 			$by = __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 		}
-		$ip = isset( $_SERVER['REMOTE_ADDR'] ) && 'role' === $this->reason && ! ( defined( 'WP_CLI' ) && WP_CLI ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$ip = $this->request_ip();
 
 		/* translators: %s: user name. */
 		$subject = sprintf( __( 'New administrator: %s', 'helloadmin-guard' ), $user->user_login );
