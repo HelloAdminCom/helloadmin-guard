@@ -180,3 +180,57 @@
 		}
 	} );
 }() );
+
+/* Card views: the icon buttons switch the view at once and save it for this user; "Details" opens one card. */
+( function () {
+	var data = window.helloadminGuard;
+	var cards = document.querySelector( '.hag-cards' );
+	var buttons = document.querySelectorAll( '.hag-view' );
+	if ( ! data || ! cards ) {
+		return;
+	}
+	Array.prototype.forEach.call( buttons, function ( button ) {
+		button.addEventListener( 'click', function () {
+			var view = button.getAttribute( 'data-view' );
+			cards.className = cards.className.replace( /\bhag-view-\w+/, 'hag-view-' + view );
+			Array.prototype.forEach.call( buttons, function ( other ) {
+				other.setAttribute( 'aria-pressed', other === button ? 'true' : 'false' );
+			} );
+			Array.prototype.forEach.call( cards.querySelectorAll( '.hag-open' ), function ( card ) {
+				toggle( card, false );
+			} );
+			if ( window.fetch ) {
+				var body = new URLSearchParams( { action: data.viewAction, _ajax_nonce: data.viewNonce, view: view } );
+				window.fetch( data.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } );
+			}
+		} );
+	} );
+	function toggle( card, open ) {
+		var link = card.querySelector( '.hag-toggle-body' );
+		card.classList.toggle( 'hag-open', open );
+		if ( link ) {
+			link.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+			link.textContent = open ? data.hideText : data.showText;
+		}
+	}
+	cards.addEventListener( 'click', function ( event ) {
+		var link = event.target.closest( '.hag-toggle-body' );
+		if ( ! link ) {
+			return;
+		}
+		var card = link.closest( '.hag-card' );
+		var open = ! card.classList.contains( 'hag-open' );
+		toggle( card, open );
+		if ( ! open ) {
+			card.scrollIntoView( { block: 'nearest' } );
+		}
+	} );
+	// A link to a card (#hag-…-card, for example from the gap list) opens it in the short views.
+	if ( window.location.hash ) {
+		var target = document.getElementById( window.location.hash.slice( 1 ) );
+		var card = target && target.closest( '.hag-card' );
+		if ( card && cards.contains( card ) ) {
+			toggle( card, true );
+		}
+	}
+}() );

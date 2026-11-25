@@ -63,3 +63,4 @@ if ( is_multisite() ) {
 
 delete_metadata( 'user', 0, 'helloadmin_guard_welcome_hidden', '', true );
 delete_metadata( 'user', 0, 'helloadmin_guard_welcome_folded', '', true );
+delete_metadata( 'user', 0, 'helloadmin_guard_card_view', '', true );

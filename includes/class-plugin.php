@@ -94,6 +94,7 @@ final class Plugin {
 			( new Site_Health( $status ) )->register();
 			( new Admin_Page( $this->settings, $this->features, $status ) )->register();
 			( new Welcome() )->register();
+			( new Card_View() )->register();
 			( new Emergency() )->register();
 			( new User_Names() )->register();
 		}

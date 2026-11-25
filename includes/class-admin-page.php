@@ -273,7 +273,7 @@ class Admin_Page {
 		$js  = HELLOADMIN_GUARD_VERSION . '.' . (int) filemtime( HELLOADMIN_GUARD_DIR . 'assets/js/admin.js' );
 		wp_enqueue_style( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/css/admin.css', array(), $css );
 		wp_enqueue_script( 'helloadmin-guard-admin', HELLOADMIN_GUARD_URL . 'assets/js/admin.js', array(), $js, array( 'in_footer' => true ) );
-		wp_localize_script( 'helloadmin-guard-admin', 'helloadminGuard', array_merge( Welcome::script_data(), Status::script_data(), User_Names::script_data() ) );
+		wp_localize_script( 'helloadmin-guard-admin', 'helloadminGuard', array_merge( Welcome::script_data(), Status::script_data(), User_Names::script_data(), Card_View::script_data() ) );
 	}
 
 	/**
@@ -350,6 +350,9 @@ class Admin_Page {
 			$class = 'nav-tab' . ( $slug === $tab ? ' nav-tab-active' : '' );
 			printf( '<a href="%s" class="%s">%s</a>', esc_url( $url ), esc_attr( $class ), esc_html( $label ) );
 		}
+		if ( ! in_array( $tab, array( 'about', 'emergency' ), true ) ) {
+			Card_View::render_switch();
+		}
 		echo '</nav>';
 
 		if ( 'about' === $tab ) {
@@ -397,7 +400,7 @@ class Admin_Page {
 				return $a->priority() <=> $b->priority();
 			}
 		);
-		echo '<div class="hag-cards">';
+		printf( '<div class="hag-cards hag-view-%s">', esc_attr( Card_View::current() ) );
 		foreach ( $features as $feature ) {
 			$this->render_card( $feature );
 		}
@@ -428,7 +431,7 @@ class Admin_Page {
 		// Server rules can be switched on only where the plugin can write them; elsewhere the card shows them to copy.
 		$manual = $feature instanceof Htaccess_Feature && ( 'apache' !== Htaccess::server() || ! Htaccess::writable() );
 
-		echo '<div class="hag-card"><div class="hag-head">';
+		echo '<div class="hag-card" id="' . esc_attr( $html . '-card' ) . '"><div class="hag-head">';
 		printf(
 			'<label class="hag-toggle" for="%1$s"><input type="checkbox" role="switch" id="%1$s" name="%2$s" value="1" %3$s%5$s><span class="hag-switch" aria-hidden="true"></span><span class="hag-title">%4$s</span></label>',
 			esc_attr( $html ),
@@ -445,6 +448,10 @@ class Admin_Page {
 		foreach ( $feature->warnings() as $warning ) {
 			printf( '<p class="hag-warning">%s</p>', esc_html( $warning ) );
 		}
+		// The short view shows the first sentence of the description; the full one stays in the texts below.
+		printf( '<p class="hag-lead">%s</p>', esc_html( self::lead( $feature->what() ) ) );
+		// Everything else is the body: always in the page (fields are saved in every view), hidden by the view.
+		printf( '<div class="hag-body" id="%s">', esc_attr( $html . '-body' ) );
 		$feature->render_extra();
 
 		// "Learn more" closes the last text of the card: the last field hint, or "How to undo".
@@ -545,6 +552,22 @@ class Admin_Page {
 			$this->render_rules( $feature, $manual );
 		}
 		echo '</div></div>';
+		printf(
+			'<button type="button" class="button-link hag-toggle-body hide-if-no-js" aria-expanded="false" aria-controls="%s">%s</button>',
+			esc_attr( $html . '-body' ),
+			esc_html__( 'Details', 'helloadmin-guard' )
+		);
+		echo '</div>';
+	}
+
+	/**
+	 * First sentence of a text, for the short view.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	private static function lead( $text ) {
+		return preg_match( '/^(.+?[.!?])(\s|$)/us', $text, $m ) ? $m[1] : $text;
 	}
 
 	/**

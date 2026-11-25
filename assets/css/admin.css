@@ -259,3 +259,44 @@
 .hag-fix .hag-fix-summary:empty { display: none; }
 .hag-fix .hag-fix-summary { font-weight: 600; }
 .hag-fix .hag-fix-summary.hag-fix-all { color: #00a32a; }
+
+/* Card views (Card_View): the switch sits at the right end of the tab line. */
+.hag .nav-tab-wrapper { position: relative; }
+.hag-views { position: absolute; right: 0; bottom: 4px; display: flex; gap: 4px; }
+.hag-views .hag-view { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; padding: 0 6px; }
+.hag-views .hag-view .dashicons { width: 18px; height: 18px; font-size: 18px; }
+.hag-views .hag-view[aria-pressed="true"] { background: #f0f0f1; border-color: #2271b1; color: #2271b1; box-shadow: inset 0 0 0 1px #2271b1; }
+@container (max-width: 600px) { .hag-views { position: static; margin: 8px 0; } }
+
+/* Full view: everything in sight, as in 0.6. */
+.hag-view-full .hag-lead,
+.hag-view-full .hag-toggle-body { display: none; }
+
+/* Short and compact views: every card has the same height; "Details" opens one card across the whole row, so the
+   others keep their size. */
+.hag-view-brief .hag-card:not(.hag-open) .hag-body,
+.hag-view-compact .hag-card:not(.hag-open) .hag-body,
+.hag-view-compact .hag-card:not(.hag-open) .hag-lead,
+.hag-view-compact .hag-card:not(.hag-open) .hag-note,
+.hag-view-compact .hag-card:not(.hag-open) .hag-warning,
+.hag-cards .hag-open .hag-lead { display: none; }
+.hag-view-brief .hag-card:not(.hag-open) { height: 11.5rem; overflow: hidden; }
+.hag-view-compact .hag-card:not(.hag-open) { height: 4.75rem; overflow: hidden; }
+.hag-view-brief .hag-card:not(.hag-open) .hag-note,
+.hag-view-brief .hag-card:not(.hag-open) .hag-warning,
+.hag-card .hag-lead { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+.hag-card .hag-lead { -webkit-line-clamp: 3; line-clamp: 3; margin: 8px 0 4px; }
+.hag-view-brief .hag-card:not(.hag-open) .hag-head,
+.hag-view-compact .hag-card:not(.hag-open) .hag-head { flex-wrap: nowrap; }
+.hag-view-brief .hag-card:not(.hag-open) .hag-toggle,
+.hag-view-compact .hag-card:not(.hag-open) .hag-toggle { min-width: 0; }
+.hag-view-brief .hag-card:not(.hag-open) .hag-title,
+.hag-view-compact .hag-card:not(.hag-open) .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hag-cards .hag-open { grid-column: 1 / -1; }
+.hag-toggle-body { margin-top: auto; align-self: flex-start !important; padding: 8px 0 0; color: #2271b1; text-decoration: underline; cursor: pointer; }
+.hag-toggle-body:hover, .hag-toggle-body:focus { color: #135e96; }
+/* In a card of fixed height the texts give way, never the "Details" link. */
+.hag-view-brief .hag-card:not(.hag-open) > *,
+.hag-view-compact .hag-card:not(.hag-open) > * { min-height: 0; flex-shrink: 1; }
+.hag-card > .hag-head,
+.hag-card > .hag-toggle-body { flex-shrink: 0 !important; }
