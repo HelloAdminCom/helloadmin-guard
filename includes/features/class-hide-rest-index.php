@@ -100,6 +100,24 @@ class Hide_Rest_Index extends Feature {
 		if ( ! function_exists( 'rest_get_server' ) ) {
 			return array();
 		}
+		// Loading every route and reading each handler is not free on sites with many plugins: the result is kept
+		// for an hour and rebuilt when the set of active plugins, the theme or the must-use plugins change.
+		$key    = 'helloadmin_guard_rest_ns_' . md5( (string) wp_json_encode( array( get_option( 'active_plugins' ), get_site_option( 'active_sitewide_plugins' ), get_stylesheet(), array_keys( (array) get_mu_plugins() ), HELLOADMIN_GUARD_VERSION, get_locale() ) ) );
+		$cached = get_transient( $key );
+		if ( is_array( $cached ) ) {
+			return $cached;
+		}
+		$warnings = $this->find_odd_namespaces();
+		set_transient( $key, $warnings, HOUR_IN_SECONDS );
+		return $warnings;
+	}
+
+	/**
+	 * Looks through all REST routes for the namespaces described in warnings().
+	 *
+	 * @return string[]
+	 */
+	private function find_odd_namespaces() {
 		$uploads  = wp_normalize_path( (string) wp_get_upload_dir()['basedir'] );
 		$found    = array();
 		$warnings = array();

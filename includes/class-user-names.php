@@ -158,7 +158,8 @@ class User_Names {
 				)
 			)
 		);
-		// New users who can write posts but have not posted yet: at most 100, loaded one by one.
+		// New users who can write posts but have not posted yet: at most 100, loaded with one query.
+		cache_users( array_values( array_diff( $fresh, $public ) ) );
 		foreach ( array_diff( $fresh, $public ) as $id ) {
 			$user = get_userdata( $id );
 			if ( $user && ( self::name_leaks( $user ) || self::slug_leaks( $user ) ) ) {
@@ -176,6 +177,7 @@ class User_Names {
 			$found[ $id ] = array( $where[0], $where[1], ! $is_public );
 		}
 		$users = array();
+		cache_users( array_keys( array_slice( $found, 0, self::LIMIT, true ) ) );
 		foreach ( array_slice( $found, 0, self::LIMIT, true ) as $id => $info ) {
 			$user = get_userdata( $id );
 			if ( $user ) {

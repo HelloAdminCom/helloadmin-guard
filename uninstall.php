@@ -39,6 +39,8 @@ function helloadmin_guard_uninstall_site() {
 	delete_transient( 'helloadmin_guard_login_all_mailed' );
 	delete_option( 'helloadmin_guard_mu_checked' );
 	wp_clear_scheduled_hook( 'helloadmin_guard_check_mu_plugins' );
+	// Cached REST namespace warnings, one per set of active plugins.
+	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_helloadmin\\_guard\\_rest\\_ns\\_%' OR option_name LIKE '\\_transient\\_timeout\\_helloadmin\\_guard\\_rest\\_ns\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- uninstall, no cache to keep.
 	// Login limit counters and locks are transients named after a hash of each visitor address.
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_hag\\_login\\_%' OR option_name LIKE '\\_transient\\_timeout\\_hag\\_login\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- uninstall, no cache to keep.
 }
