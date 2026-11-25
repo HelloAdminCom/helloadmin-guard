@@ -71,6 +71,9 @@ class Disable_File_Editor extends Feature {
 	 * @return string
 	 */
 	public function covered_by() {
+		if ( ! wp_is_file_mod_allowed( 'helloadmin_guard_file_editor' ) ) {
+			return 'wp-config.php (DISALLOW_FILE_MODS)';
+		}
 		return defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ? 'wp-config.php (DISALLOW_FILE_EDIT)' : '';
 	}
 
@@ -80,11 +83,11 @@ class Disable_File_Editor extends Feature {
 	 * @return bool|null
 	 */
 	public function probe() {
-		if ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) {
+		if ( ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) || ! wp_is_file_mod_allowed( 'helloadmin_guard_file_editor' ) ) {
 			return true;
 		}
 		$admin = self::admin_id();
-		return ! user_can( $admin, 'edit_plugins' ) && ! user_can( $admin, 'edit_themes' );
+		return ! user_can( $admin, 'edit_plugins' ) && ! user_can( $admin, 'edit_themes' ) && ! user_can( $admin, 'edit_files' );
 	}
 
 	/**

@@ -283,11 +283,9 @@ class Limit_Login extends Feature {
 				),
 			);
 		}
-		foreach ( self::CLOUDFLARE as $range ) {
-			if ( self::in_range( $ip, $range ) ) {
-				/* translators: %s: IP address. */
-				return array( sprintf( __( 'The site sees your address as %s, which belongs to Cloudflare, and the CF-Connecting-IP header with the real visitor address does not reach WordPress. Then all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host why the header is removed, or leave this setting off until then.', 'helloadmin-guard' ), $ip ) );
-			}
+		if ( self::is_cloudflare( $ip ) ) {
+			/* translators: %s: IP address. */
+			return array( sprintf( __( 'The site sees your address as %s, which belongs to Cloudflare, and the CF-Connecting-IP header with the real visitor address does not reach WordPress. Then all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host why the header is removed, or leave this setting off until then.', 'helloadmin-guard' ), $ip ) );
 		}
 		return array();
 	}
@@ -489,28 +487,27 @@ class Limit_Login extends Feature {
 
 	/**
 	 * Strict mode: counts a failure from any address; at the limit, locks new devices out and e-mails the site
-	 * address (once a day at most). Failures during the lock extend it, so a lasting attack keeps it on.
+	 * address (once a day at most). Reaching the limit again during the lock extends it.
 	 *
 	 * @return void
 	 */
 	private function count_global_failure() {
 		$window = $this->minutes * MINUTE_IN_SECONDS;
 		$now    = time();
-		if ( (int) get_option( self::ALL_LOCK_OPTION, 0 ) > $now ) {
-			update_option( self::ALL_LOCK_OPTION, $now + $window, false );
-			return;
-		}
-		$state = get_option( self::ALL_OPTION, array() );
-		$count = is_array( $state ) && isset( $state[0], $state[1] ) && (int) $state[1] > $now - $window ? (int) $state[0] : 0;
-		$start = $count ? (int) $state[1] : $now;
+		$state  = get_option( self::ALL_OPTION, array() );
+		$count  = is_array( $state ) && isset( $state[0], $state[1] ) && (int) $state[1] > $now - $window ? (int) $state[0] : 0;
+		$start  = $count ? (int) $state[1] : $now;
 		++$count;
 		if ( $count < $this->strict_attempts ) {
 			update_option( self::ALL_OPTION, array( $count, $start ), false );
 			return;
 		}
+		// The lock starts, or is extended, only while failures keep coming at the attack rate: a few bot tries an
+		// hour during a lock do not keep new devices out for good.
+		$locked = (int) get_option( self::ALL_LOCK_OPTION, 0 ) > $now;
 		delete_option( self::ALL_OPTION );
 		update_option( self::ALL_LOCK_OPTION, $now + $window, false );
-		if ( ! get_transient( self::ALL_MAILED ) ) {
+		if ( ! $locked && ! get_transient( self::ALL_MAILED ) ) {
 			set_transient( self::ALL_MAILED, 1, DAY_IN_SECONDS );
 			$this->send_attack_mail( $count, (int) ceil( ( $now - $start ) / MINUTE_IN_SECONDS ) );
 		}
@@ -546,15 +543,18 @@ class Limit_Login extends Feature {
 	}
 
 	/**
-	 * Signature of a known-browser cookie: user ID and expiry, signed with the site's salts, so it cannot be made
-	 * up or moved to another user.
+	 * Signature of a known-browser cookie: user ID, expiry and the stored password hash, signed with the site's
+	 * salts, so it cannot be made up, moved to another user, or kept after a password change.
 	 *
 	 * @param int $user_id User ID.
 	 * @param int $expires Expiry time.
 	 * @return string
 	 */
 	private static function cookie_sig( $user_id, $expires ) {
-		return hash_hmac( 'sha256', 'hag-known|' . $user_id . '|' . $expires, wp_salt( 'auth' ) );
+		$user = get_userdata( $user_id );
+		// The stored password hash is part of the signature: a password change ends every known browser.
+		$pass = $user ? $user->user_pass : '';
+		return hash_hmac( 'sha256', 'hag-known|' . $user_id . '|' . $expires . '|' . $pass, wp_salt( 'auth' ) );
 	}
 
 	/**

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T13:33:59+02:00\n"
+"POT-Creation-Date: 2026-11-25T14:03:56+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -295,7 +295,7 @@ msgstr ""
 
 #: includes/class-emergency.php:59
 #: includes/class-user-names.php:83
-#: includes/class-user-names.php:324
+#: includes/class-user-names.php:331
 msgid "Sorry, you are not allowed to do this."
 msgstr ""
 
@@ -309,61 +309,68 @@ msgstr ""
 msgid "Done. Sessions ended: %1$d (users: %2$d). Application passwords deleted: %3$d. Your session in this browser is kept."
 msgstr ""
 
+#: includes/class-emergency.php:151
+#: includes/class-feature.php:289
+#: includes/features/class-admin-alert.php:682
+#: includes/features/class-admin-alert.php:828
+msgid "no logged-in user (WP-CLI, a scheduled task or code)"
+msgstr ""
+
 #. translators: %s: user name.
-#: includes/class-emergency.php:152
+#: includes/class-emergency.php:153
 #, php-format
 msgid "%s pressed \"Log out everyone\" in HelloAdmin Guard."
 msgstr ""
 
-#: includes/class-emergency.php:154
+#: includes/class-emergency.php:155
 msgid "If this was not you or your team, someone else has administrator access: log in, change your password and check the list of administrators."
 msgstr ""
 
-#: includes/class-emergency.php:156
+#: includes/class-emergency.php:157
 msgid "Everyone was logged out"
 msgstr ""
 
-#: includes/class-emergency.php:179
+#: includes/class-emergency.php:180
 msgid "Log out everyone"
 msgstr ""
 
-#: includes/class-emergency.php:180
+#: includes/class-emergency.php:181
 msgid "This button ends every session of every user except yours in this browser, and deletes all application passwords. Everyone else has to log in again, and apps and services connected with an application password stop working until you create new passwords for them. A new password alone is not enough: it does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in."
 msgstr ""
 
-#: includes/class-emergency.php:185
+#: includes/class-emergency.php:186
 msgid "I understand that everyone else is logged out and all application passwords are deleted."
 msgstr ""
 
-#: includes/class-emergency.php:186
+#: includes/class-emergency.php:187
 msgid "Log out everyone and delete application passwords"
 msgstr ""
 
-#: includes/class-emergency.php:189
+#: includes/class-emergency.php:190
 msgid "On a multisite network this button logs out the users of every site, so only a network administrator (super admin) can use it."
 msgstr ""
 
-#: includes/class-emergency.php:194
+#: includes/class-emergency.php:195
 msgid "If you think the site was hacked"
 msgstr ""
 
-#: includes/class-emergency.php:197
+#: includes/class-emergency.php:198
 msgid "Before you clean anything, save a copy of the files, the database and the server logs. You will need them to find out how they got in."
 msgstr ""
 
-#: includes/class-emergency.php:198
+#: includes/class-emergency.php:199
 msgid "From a computer you trust, change the passwords of the hosting panel, SSH or SFTP, the database, every administrator and the API keys of services like a CDN."
 msgstr ""
 
-#: includes/class-emergency.php:199
+#: includes/class-emergency.php:200
 msgid "Press the button above, so the old sessions and application passwords stop working."
 msgstr ""
 
-#: includes/class-emergency.php:200
+#: includes/class-emergency.php:201
 msgid "Check the administrators and the must-use plugins: the General tab has e-mail alerts and warnings for both."
 msgstr ""
 
-#: includes/class-emergency.php:201
+#: includes/class-emergency.php:202
 msgid "Find how they got in before you restore a backup, or the same hole lets them in again."
 msgstr ""
 
@@ -375,18 +382,12 @@ msgstr ""
 msgid "One more e-mail address besides the site address in Settings, General. Leave empty to use only the site address."
 msgstr ""
 
-#: includes/class-feature.php:283
-#: includes/features/class-admin-alert.php:682
-#: includes/features/class-admin-alert.php:828
-msgid "no logged-in user (WP-CLI, a scheduled task or code)"
-msgstr ""
-
-#: includes/class-feature.php:287
+#: includes/class-feature.php:293
 msgid "HelloAdmin Guard was deactivated on your site. Its settings and e-mail alerts no longer work."
 msgstr ""
 
 #. translators: %s: user name or a short explanation.
-#: includes/class-feature.php:290
+#: includes/class-feature.php:296
 #: includes/features/class-admin-alert.php:491
 #: includes/features/class-admin-alert.php:533
 #: includes/features/class-admin-alert.php:651
@@ -396,7 +397,7 @@ msgid "Changed by: %s"
 msgstr ""
 
 #. translators: %s: IP address.
-#: includes/class-feature.php:293
+#: includes/class-feature.php:299
 #: includes/features/class-admin-alert.php:495
 #: includes/features/class-admin-alert.php:538
 #: includes/features/class-admin-alert.php:655
@@ -405,20 +406,20 @@ msgstr ""
 msgid "From IP address: %s"
 msgstr ""
 
-#: includes/class-feature.php:296
+#: includes/class-feature.php:302
 msgid "If you or your team did it, nothing to do."
 msgstr ""
 
-#: includes/class-feature.php:297
+#: includes/class-feature.php:303
 msgid "If not: someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on."
 msgstr ""
 
-#: includes/class-feature.php:301
+#: includes/class-feature.php:307
 msgid "HelloAdmin Guard was deactivated"
 msgstr ""
 
 #. translators: %s: title of the setting.
-#: includes/class-feature.php:435
+#: includes/class-feature.php:441
 #, php-format
 msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr ""
@@ -490,73 +491,79 @@ msgid "The request failed. Reload the page and try again."
 msgstr ""
 
 #. translators: %d: number of users.
-#: includes/class-user-names.php:264
+#: includes/class-user-names.php:267
 #, php-format
 msgid "%d user shows the login on the site. \"Fix\" sets the public name below, moves the author page to an address made from it (the old address answers \"not found\") and puts the new name on the user's old comments. The login and the password stay the same."
 msgid_plural "%d users show the login on the site. \"Fix\" sets the public name below, moves the author page to an address made from it (the old address answers \"not found\") and puts the new name on the user's old comments. The login and the password stay the same."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-user-names.php:271
+#: includes/class-user-names.php:274
 msgid "User"
 msgstr ""
 
-#: includes/class-user-names.php:272
+#: includes/class-user-names.php:275
 msgid "Where the login shows"
 msgstr ""
 
-#: includes/class-user-names.php:273
+#: includes/class-user-names.php:276
 msgid "New public name"
 msgstr ""
 
-#: includes/class-user-names.php:277
+#: includes/class-user-names.php:280
 msgid "public name"
 msgstr ""
 
-#: includes/class-user-names.php:295
+#: includes/class-user-names.php:298
 msgid "(new)"
 msgstr ""
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:299
+#: includes/class-user-names.php:302
 #, php-format
 msgid "New public name for %s"
 msgstr ""
 
-#: includes/class-user-names.php:303
+#: includes/class-user-names.php:306
 msgid "Fix"
 msgstr ""
 
+#. translators: %d: number of users.
+#: includes/class-user-names.php:313
+#, php-format
+msgid "Only the %d newest users with posts or comments were checked. Fix these, then reload: the next ones come up."
+msgstr ""
+
 #. translators: %d: number of users not shown.
-#: includes/class-user-names.php:310
+#: includes/class-user-names.php:317
 #, php-format
 msgid "And %d more. Fix these first, the list then shows the next ones."
 msgstr ""
 
-#: includes/class-user-names.php:355
+#: includes/class-user-names.php:362
 msgid "This user does not exist any more."
 msgstr ""
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:360
+#: includes/class-user-names.php:367
 #, php-format
 msgid "Nothing was changed for %s: type a new public name first."
 msgstr ""
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:364
+#: includes/class-user-names.php:371
 #, php-format
 msgid "Nothing was changed for %s: the new public name must not be the login."
 msgstr ""
 
 #. translators: %s: new author page address.
-#: includes/class-user-names.php:402
+#: includes/class-user-names.php:409
 #, php-format
 msgid "Author page: %s"
 msgstr ""
 
 #. translators: 1: user login, 2: new public name, 3: number of comments.
-#: includes/class-user-names.php:407
+#: includes/class-user-names.php:414
 #, php-format
 msgid "%1$s now shows as \"%2$s\". Comments updated: %3$d."
 msgid_plural "%1$s now shows as \"%2$s\". Comments updated: %3$d."
@@ -683,7 +690,7 @@ msgstr ""
 
 #: includes/features/class-admin-alert.php:453
 #: includes/features/class-admin-alert.php:703
-#: includes/features/class-mu-plugins-watch.php:422
+#: includes/features/class-mu-plugins-watch.php:431
 msgid "If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected."
 msgstr ""
 
@@ -1145,17 +1152,17 @@ msgid "The site sees your address as %s, an address inside the server or its net
 msgstr ""
 
 #. translators: %s: IP address.
-#: includes/features/class-limit-login.php:289
+#: includes/features/class-limit-login.php:288
 #, php-format
 msgid "The site sees your address as %s, which belongs to Cloudflare, and the CF-Connecting-IP header with the real visitor address does not reach WordPress. Then all visitors share a few Cloudflare addresses and one bot can lock everyone out. Ask the host why the header is removed, or leave this setting off until then."
 msgstr ""
 
-#: includes/features/class-limit-login.php:420
+#: includes/features/class-limit-login.php:418
 msgid "Logins from new devices are paused for a while because of many failed attempts. If this is your site, use \"Lost your password?\": the reset link lets this browser in."
 msgstr ""
 
 #. translators: %d: minutes until the next login attempt is allowed.
-#: includes/features/class-limit-login.php:430
+#: includes/features/class-limit-login.php:428
 #, php-format
 msgid "Too many failed login attempts. Try again in %d minute."
 msgid_plural "Too many failed login attempts. Try again in %d minutes."
@@ -1163,26 +1170,26 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: number of failed logins, 2: minutes.
-#: includes/features/class-limit-login.php:529
+#: includes/features/class-limit-login.php:526
 #, php-format
 msgid "%1$d failed logins from different addresses in %2$d minutes: a bot network is guessing passwords on this site."
 msgstr ""
 
 #. translators: %d: minutes.
-#: includes/features/class-limit-login.php:531
+#: includes/features/class-limit-login.php:528
 #, php-format
 msgid "For the next %d minutes, and longer while the attempts go on, logins from new devices are refused. Browsers that logged in to this site before still get in."
 msgstr ""
 
-#: includes/features/class-limit-login.php:532
+#: includes/features/class-limit-login.php:529
 msgid "If you need to log in from a new device, use \"Lost your password?\" on the login page: the reset link lets that browser in."
 msgstr ""
 
-#: includes/features/class-limit-login.php:534
+#: includes/features/class-limit-login.php:531
 msgid "Worth doing now: check that every administrator has a strong unique password, and turn on two-factor login if you have not yet."
 msgstr ""
 
-#: includes/features/class-limit-login.php:536
+#: includes/features/class-limit-login.php:533
 msgid "Login attack from many addresses"
 msgstr ""
 
@@ -1266,46 +1273,46 @@ msgstr ""
 msgid "%s runs code it decodes first (eval with base64, gzinflate or similar). That is how malware hides what it does. Check this file."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:421
+#: includes/features/class-mu-plugins-watch.php:430
 msgid "The list of must-use files that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:425
+#: includes/features/class-mu-plugins-watch.php:434
 msgid "There are no such files now."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:430
+#: includes/features/class-mu-plugins-watch.php:439
 msgid "Files that WordPress loads on every page:"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:430
+#: includes/features/class-mu-plugins-watch.php:439
 msgid "New files that WordPress now loads on every page:"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:437
+#: includes/features/class-mu-plugins-watch.php:446
 msgid "Changed files:"
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:443
+#: includes/features/class-mu-plugins-watch.php:452
 msgid "If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins add files like these too."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:444
+#: includes/features/class-mu-plugins-watch.php:453
 msgid "If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
 msgstr ""
 
-#: includes/features/class-mu-plugins-watch.php:449
+#: includes/features/class-mu-plugins-watch.php:458
 msgid "The list of must-use files was changed outside the plugin"
 msgstr ""
 
 #. translators: %s: file name.
-#: includes/features/class-mu-plugins-watch.php:456
+#: includes/features/class-mu-plugins-watch.php:465
 #, php-format
 msgid "New or changed file: %s"
 msgstr ""
 
 #. translators: %d: number of files.
-#: includes/features/class-mu-plugins-watch.php:458
+#: includes/features/class-mu-plugins-watch.php:467
 #, php-format
 msgid "%d new or changed file that runs on every page"
 msgid_plural "%d new or changed files that run on every page"
@@ -1313,7 +1320,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: file size, 2: date and time.
-#: includes/features/class-mu-plugins-watch.php:476
+#: includes/features/class-mu-plugins-watch.php:485
 #, php-format
 msgid "%1$s, modified %2$s"
 msgstr ""

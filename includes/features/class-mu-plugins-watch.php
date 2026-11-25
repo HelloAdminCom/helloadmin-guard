@@ -250,7 +250,16 @@ class Mu_Plugins_Watch extends Feature {
 		if ( $bad ) {
 			// The stored list cannot be trusted: report every file.
 			$known = array();
-		} elseif ( (int) get_option( self::SCOPE_OPTION, 1 ) < self::SCOPE ) {
+		} else {
+			// Lists from before 0.6 hold MD5 sums: a file whose MD5 still matches is unchanged, keep it quietly.
+			foreach ( $known as $path => $hash ) {
+				$file = self::full_path( (string) $path );
+				if ( is_string( $hash ) && 32 === strlen( $hash ) && isset( $now[ $path ] ) && '' !== $file && is_file( $file ) && md5_file( $file ) === $hash ) {
+					$known[ $path ] = $now[ $path ];
+				}
+			}
+		}
+		if ( ! $bad && (int) get_option( self::SCOPE_OPTION, 1 ) < self::SCOPE ) {
 			// First check after an update that watches more files: they were there before, only remember them.
 			foreach ( $now as $path => $hash ) {
 				if ( ! isset( $known[ $path ] ) && self::new_in_scope( $path ) ) {
@@ -305,7 +314,7 @@ class Mu_Plugins_Watch extends Feature {
 			$name = (string) $name;
 			$path = $dir . '/' . $name;
 			if ( '.php' === substr( $name, -4 ) && is_file( $path ) ) {
-				$files[ $base . '/' . $name ] = (string) md5_file( $path );
+				$files[ $base . '/' . $name ] = (string) hash_file( 'sha256', $path );
 			} elseif ( '.' !== $name && '..' !== $name && is_dir( $path ) && ! is_link( $path ) && ! in_array( $name, self::host_folders(), true ) ) {
 				// Not loaded by WordPress itself, but a loader file in mu-plugins can include anything from here.
 				self::scan_folder( $path, $base . '/' . $name, 1, $left, $files );
@@ -314,13 +323,13 @@ class Mu_Plugins_Watch extends Feature {
 		foreach ( self::SITE_FILES as $name ) {
 			$path = self::site_file( $name );
 			if ( '' !== $path && is_file( $path ) ) {
-				$files[ 'site:' . $name ] = (string) md5_file( $path );
+				$files[ 'site:' . $name ] = (string) hash_file( 'sha256', $path );
 			}
 		}
 		foreach ( self::DROPINS as $name ) {
 			$path = WP_CONTENT_DIR . '/' . $name;
 			if ( is_file( $path ) ) {
-				$files[ $name ] = (string) md5_file( $path );
+				$files[ $name ] = (string) hash_file( 'sha256', $path );
 			}
 		}
 		ksort( $files );
@@ -367,7 +376,7 @@ class Mu_Plugins_Watch extends Feature {
 				continue;
 			}
 			if ( '.php' === substr( $name, -4 ) && is_file( $path ) ) {
-				$files[ $key . '/' . $name ] = (string) md5_file( $path );
+				$files[ $key . '/' . $name ] = (string) hash_file( 'sha256', $path );
 				--$left;
 			} elseif ( $depth < 3 && is_dir( $path ) ) {
 				self::scan_folder( $path, $key . '/' . $name, $depth + 1, $left, $files );

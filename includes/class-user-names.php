@@ -118,7 +118,7 @@ class User_Names {
 	 * and who have a published post or an approved comment (EXISTS on the post_author and user_id indexes),
 	 * newest first, at most MAX_CANDIDATES; then the exact rules are checked in PHP.
 	 *
-	 * @return array{users: array<int, array{id: int, login: string, name: bool, slug: bool, fresh: bool, proposal: string}>, total: int}
+	 * @return array{users: array<int, array{id: int, login: string, name: bool, slug: bool, fresh: bool, proposal: string}>, total: int, capped: bool}
 	 */
 	public static function leaks() {
 		global $wpdb;
@@ -190,8 +190,9 @@ class User_Names {
 			}
 		}
 		return array(
-			'users' => $users,
-			'total' => count( $found ),
+			'users'  => $users,
+			'total'  => count( $found ),
+			'capped' => count( (array) $rows ) >= self::MAX_CANDIDATES,
 		);
 	}
 
@@ -307,6 +308,10 @@ class User_Names {
 			);
 		}
 		echo '</tbody></table>';
+		if ( ! empty( $leaks['capped'] ) ) {
+			/* translators: %d: number of users. */
+			printf( '<p>%s</p>', esc_html( sprintf( __( 'Only the %d newest users with posts or comments were checked. Fix these, then reload: the next ones come up.', 'helloadmin-guard' ), self::MAX_CANDIDATES ) ) );
+		}
 		if ( $leaks['total'] > count( $leaks['users'] ) ) {
 			/* translators: %d: number of users not shown. */
 			printf( '<p>%s</p>', esc_html( sprintf( __( 'And %d more. Fix these first, the list then shows the next ones.', 'helloadmin-guard' ), $leaks['total'] - count( $leaks['users'] ) ) ) );

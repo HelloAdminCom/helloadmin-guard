@@ -263,8 +263,14 @@ abstract class Feature {
 	 * @return bool
 	 */
 	public static function is_cloudflare( $ip ) {
-		foreach ( Features\Limit_Login::CLOUDFLARE as $range ) {
-			if ( Features\Limit_Login::in_range( $ip, $range ) ) {
+		/**
+		 * Cloudflare address ranges (https://www.cloudflare.com/ips/). The plugin ships the list of its release;
+		 * a site can pass a newer one here.
+		 *
+		 * @param string[] $ranges CIDR ranges.
+		 */
+		foreach ( (array) apply_filters( 'helloadmin_guard_cloudflare_ranges', Features\Limit_Login::CLOUDFLARE ) as $range ) {
+			if ( is_string( $range ) && Features\Limit_Login::in_range( $ip, $range ) ) {
 				return true;
 			}
 		}

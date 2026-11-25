@@ -17,6 +17,10 @@ All notable changes to this project are documented here. Versions follow [Semant
 - Admin alert finds administrator rights stored as 1 or "1", not only true.
 - Hide user names: a REST batch call to /wp/v2/users by a visitor caused a PHP fatal error in WordPress 7 (the refusal was a WP_Error, now a response).
 - Limit login: views of the login page during a lockout no longer count as failed logins.
+- Limit login strict mode: the lock is extended only when failures reach the limit again (a few bot tries no longer keep it on), known-browser cookies end with a password change, Cloudflare ranges can be updated with the helloadmin_guard_cloudflare_ranges filter.
+- File alert: SHA-256 instead of MD5 (old MD5 lists move over quietly).
+- Uninstall removes login limit counters too, and cleans every site of a network.
+- Disable the file editor counts DISALLOW_FILE_MODS and the edit_files right.
 - Menu number: settings that are not checked yet do not count while the first check after an update runs.
 - .htaccess: more than one plugin block in the file counts as a mismatch, the next sync leaves one.
 - Visitor IP: CF-Connecting-IP is used only when the request comes from a Cloudflare address. Limit login warns when the site sees a loopback or private address on a public site (a local proxy that does not pass the visitor IP); FAQ entry on the helloadmin_guard_client_ip filter.

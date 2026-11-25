@@ -245,6 +245,7 @@ class Hide_Rest_Index extends Feature {
 			$headers = $response->get_headers();
 			unset( $headers['Allow'] );
 			$response->set_headers( $headers );
+			$this->hidden = false; // One answer per hidden root; a batch call may send more after it.
 		}
 		return $response;
 	}
