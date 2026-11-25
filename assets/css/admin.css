@@ -296,9 +296,9 @@
 .hag-view-compact .hag-card:not(.hag-open) .hag-toggle { min-width: 0; }
 .hag-view-brief .hag-card:not(.hag-open) .hag-title,
 .hag-view-compact .hag-card:not(.hag-open) .hag-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* An opened card stays in its place and opens downwards over the cards below it (2 in the short view, 3 in the
+/* An opened card stays in its place and opens downwards over the cards below it (1 in the short view, 3 in the
    compact one), so nothing moves; a longer text scrolls inside. Near the bottom of the list it opens upwards. */
-.hag-view-brief { --hag-h: 11.5rem; --hag-n: 2; }
+.hag-view-brief { --hag-h: 11.5rem; --hag-n: 1; }
 .hag-view-compact { --hag-h: 4.75rem; --hag-n: 3; }
 .hag-view-brief .hag-card.hag-open,
 .hag-view-compact .hag-card.hag-open {
