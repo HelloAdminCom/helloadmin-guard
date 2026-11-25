@@ -321,17 +321,24 @@ class Htaccess {
 	 *                   it cannot be reached (some hosts block requests from a site to itself).
 	 */
 	public static function site_responds() {
-		$home   = add_query_arg( 'helloadmin-guard-check', (string) time(), home_url( '/' ) );
-		$result = self::follow( $home );
-		if ( true !== $result ) {
-			return $result;
+		// All requests of one check share 20 seconds, so a slow site cannot stretch a save past max_execution_time.
+		self::$deadline = microtime( true ) + 20;
+		$home           = add_query_arg( 'helloadmin-guard-check', (string) time(), home_url( '/' ) );
+		$result         = self::follow( $home );
+		if ( true === $result && 0 === strpos( $home, 'https://' ) && false === self::follow( set_url_scheme( $home, 'http' ) ) ) {
+			// A redirect rule may loop only for plain http visitors (a proxy that talks to the server over http).
+			$result = false;
 		}
-		// A redirect rule may loop only for plain http visitors (a proxy that talks to the server over http).
-		if ( 0 === strpos( $home, 'https://' ) && false === self::follow( set_url_scheme( $home, 'http' ) ) ) {
-			return false;
-		}
-		return true;
+		self::$deadline = 0.0;
+		return $result;
 	}
+
+	/**
+	 * Time limit of the running check (0: none).
+	 *
+	 * @var float
+	 */
+	private static $deadline = 0.0;
 
 	/**
 	 * Requests a URL and follows up to 5 redirects.
@@ -342,10 +349,14 @@ class Htaccess {
 	 */
 	private static function follow( $url ) {
 		for ( $hop = 0; $hop <= 5; $hop++ ) {
+			$left = self::$deadline > 0 ? self::$deadline - microtime( true ) : 10.0;
+			if ( $left < 1 ) {
+				return null; // Out of time: the answer is unknown, not bad.
+			}
 			$response = wp_remote_get(
 				$url,
 				array(
-					'timeout'     => 10,
+					'timeout'     => min( 10.0, $left ),
 					'redirection' => 0,
 					/** This filter is documented in wp-includes/class-wp-http-streams.php */
 					'sslverify'   => apply_filters( 'https_local_ssl_verify', false ), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core filter.
