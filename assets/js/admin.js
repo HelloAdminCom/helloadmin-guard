@@ -205,6 +205,17 @@
 			}
 		} );
 	} );
+	// Two columns side by side: the opened card takes whole rows of the other column (closed cards are all the same
+	// height), so the cards under it line up with their neighbours again.
+	function snap( card, closed ) {
+		var column = card.parentNode;
+		if ( 'flex' !== window.getComputedStyle( column ).display ) {
+			return;
+		}
+		var gap = parseFloat( window.getComputedStyle( column ).rowGap ) || 0;
+		var rows = Math.ceil( ( card.offsetHeight + gap ) / ( closed + gap ) );
+		card.style.minHeight = ( rows * ( closed + gap ) - gap ) + 'px';
+	}
 	function toggle( card, open ) {
 		var link = card.querySelector( '.hag-toggle-body' );
 		if ( open ) {
@@ -215,7 +226,12 @@
 				}
 			} );
 		}
+		var closed = card.offsetHeight;
+		card.style.minHeight = '';
 		card.classList.toggle( 'hag-open', open );
+		if ( open ) {
+			snap( card, closed );
+		}
 		if ( link ) {
 			link.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
 			link.textContent = open ? data.hideText : data.showText;

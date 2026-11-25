@@ -310,7 +310,8 @@
 	.hag-view-brief .hag-col, .hag-view-compact .hag-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 }
 .hag-cards .hag-card.hag-open { border-color: #2271b1; box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
-.hag .hag-card.hag-open > .hag-toggle-body { margin-top: 8px; }
+/* "Hide details" sits at the bottom edge of the opened card, which ends on a row line of the other column. */
+.hag .hag-card.hag-open > .hag-toggle-body { margin-top: auto; padding-top: 12px; }
 .hag-cards .hag-card { min-width: 0; }
 .hag-cards .hag-card pre { max-width: 100%; overflow-x: auto; }
 .hag .hag-card .hag-toggle-body { margin-top: auto; align-self: flex-start !important; padding: 10px 0 0; color: #2271b1; text-decoration: underline; cursor: pointer; }
