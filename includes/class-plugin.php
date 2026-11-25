@@ -128,6 +128,7 @@ final class Plugin {
 			new Features\Block_Core_Internals(),
 			new Features\Hide_Version_Files(),
 			new Features\Block_Dev_Files(),
+			new Features\Block_Inactive_Plugins(),
 			new Features\Hsts(),
 			new Features\Block_Trace(),
 		);
