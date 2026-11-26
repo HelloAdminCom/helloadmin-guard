@@ -11,6 +11,8 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 // was restored from a backup after that. Only the plugin's own block between its markers is removed.
 require_once __DIR__ . '/includes/class-htaccess.php';
 \HelloAdmin\Guard\Htaccess::sync( array() );
+require_once __DIR__ . '/includes/class-upgrade-helper.php';
+\HelloAdmin\Guard\Upgrade_Helper::remove();
 
 /**
  * Removes the plugin's options and transients of the current site.

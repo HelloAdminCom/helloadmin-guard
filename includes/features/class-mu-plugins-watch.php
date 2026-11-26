@@ -318,6 +318,10 @@ class Mu_Plugins_Watch extends Feature {
 		foreach ( (array) $names as $name ) {
 			$name = (string) $name;
 			$path = $dir . '/' . $name;
+			if ( \HelloAdmin\Guard\Upgrade_Helper::FILE === $name && \HelloAdmin\Guard\Upgrade_Helper::is_ours( $path ) ) {
+				// This plugin's own file, byte for byte; anything else with that name is still reported.
+				continue;
+			}
 			if ( '.php' === substr( $name, -4 ) && is_file( $path ) ) {
 				$files[ $base . '/' . $name ] = (string) hash_file( 'sha256', $path );
 			} elseif ( '.' !== $name && '..' !== $name && is_dir( $path ) && ! is_link( $path ) && ! in_array( $name, self::host_folders(), true ) ) {

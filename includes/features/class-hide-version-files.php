@@ -10,6 +10,8 @@ namespace HelloAdmin\Guard\Features;
 use HelloAdmin\Guard\Htaccess_Feature;
 
 use HelloAdmin\Guard\Probe;
+use HelloAdmin\Guard\Settings;
+use HelloAdmin\Guard\Upgrade_Helper;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -43,7 +45,7 @@ class Hide_Version_Files extends Htaccess_Feature {
 	 * @return string
 	 */
 	public function what() {
-		return __( 'The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php (upgrade.php stays open for logged-in users). WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. Bots read all these files to find sites with known holes. Online scanners that guess plugin versions from readme.txt see less.', 'helloadmin-guard' );
+		return __( 'The server answers 404 for readme.html, license.txt, wp-config-sample.php and wp-links-opml.php in the site root, for readme, changelog and license files inside plugin and theme folders, and for wp-admin/install.php, setup-config.php and upgrade.php. WordPress does not load plugins on the install and upgrade pages, so they show the version even when it is hidden elsewhere. upgrade.php stays open for logged-in users and whenever a database update is due; for this the plugin keeps a small file in wp-content/mu-plugins while the setting is on. Bots read all these files to find sites with known holes. Online scanners that guess plugin versions from readme.txt see less.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -53,6 +55,19 @@ class Hide_Version_Files extends Htaccess_Feature {
 	 */
 	public function may_break() {
 		return __( 'Nothing breaks on the site itself: WordPress and browsers do not need these files. To install WordPress again over this site, turn the setting off first.', 'helloadmin-guard' );
+	}
+
+	/**
+	 * A note when the must-use file for upgrade.php could not be written.
+	 *
+	 * @return string[]
+	 */
+	public function warnings() {
+		if ( ! ( new Settings() )->is_enabled( $this->id() ) || Upgrade_Helper::in_place() ) {
+			return array();
+		}
+		/* translators: %s: folder path. */
+		return array( sprintf( __( 'The plugin could not write its small file into %s, so a visitor who sends a fake login cookie still sees upgrade.php. Make the folder writable, or leave it: that page shows only the WordPress version.', 'helloadmin-guard' ), 'wp-content/mu-plugins' ) );
 	}
 
 	/**

@@ -63,6 +63,7 @@ register_deactivation_hook(
 	__FILE__,
 	static function () {
 		Plugin::instance()->sync_htaccess( true );
+		Upgrade_Helper::remove();
 		Plugin::instance()->deactivated();
 		Features\Admin_Alert::unschedule();
 		Features\Mu_Plugins_Watch::unschedule();

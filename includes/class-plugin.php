@@ -83,6 +83,13 @@ final class Plugin {
 		add_action( 'login_init', array( $this, 'heal_htaccess' ) );
 		add_action( 'admin_init', array( $this, 'heal_htaccess' ) );
 		add_action( 'admin_init', array( Htaccess::class, 'remember_server' ) );
+		// upgrade.php loads no normal plugins: a must-use file closes it for visitors (Hide files that show versions).
+		add_action(
+			'admin_init',
+			function () {
+				Upgrade_Helper::sync( $this->settings->is_enabled( Upgrade_Helper::SETTING ) );
+			}
+		);
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			\WP_CLI::add_command( 'helloadmin-guard', new Cli( $this->features ) );
