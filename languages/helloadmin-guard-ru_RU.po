@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/helloadmin-guard\n"
-"POT-Creation-Date: 2026-11-26T09:54:06+02:00\n"
+"POT-Creation-Date: 2026-11-26T11:37:30+02:00\n"
 "PO-Revision-Date: 2026-11-19 10:00+0200\n"
 "Last-Translator: HelloAdmin\n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: helloadmin-guard.php includes/class-admin-page.php:105
-#: includes/class-admin-page.php:345 includes/class-site-health.php:51
+#: includes/class-admin-page.php:351 includes/class-site-health.php:51
 msgid "HelloAdmin Guard"
 msgstr "HelloAdmin Guard"
 
@@ -54,12 +54,12 @@ msgid "Advanced"
 msgstr "Дополнительно"
 
 #: includes/class-admin-page.php:75
-msgid "If hacked"
-msgstr "Если взломали"
-
-#: includes/class-admin-page.php:76
 msgid "Tips"
 msgstr "Советы"
+
+#: includes/class-admin-page.php:76
+msgid "If hacked"
+msgstr "Если взломали"
 
 #: includes/class-admin-page.php:77
 msgid "About"
@@ -79,15 +79,15 @@ msgstr[0] "%d открытая лазейка"
 msgstr[1] "%d открытые лазейки"
 msgstr[2] "%d открытых лазеек"
 
-#: includes/class-admin-page.php:295
+#: includes/class-admin-page.php:301
 msgid "Settings"
 msgstr "Настройки"
 
-#: includes/class-admin-page.php:314
+#: includes/class-admin-page.php:320
 msgid "Settings saved."
 msgstr "Настройки сохранены."
 
-#: includes/class-admin-page.php:350
+#: includes/class-admin-page.php:356
 msgid ""
 "Each setting is off until you turn it on. Read what it does and what may "
 "break before you save."
@@ -95,59 +95,59 @@ msgstr ""
 "Каждая настройка выключена, пока вы её не включите. Перед сохранением "
 "прочитайте, что она делает и что может сломаться."
 
-#: includes/class-admin-page.php:393
+#: includes/class-admin-page.php:401
 msgid "No settings on this tab yet."
 msgstr "На этой вкладке пока нет настроек."
 
-#: includes/class-admin-page.php:432
+#: includes/class-admin-page.php:440
 msgid "Show the number of open gaps next to HeAd Guard in the admin menu"
 msgstr "Показывать число открытых лазеек рядом с HeAd Guard в меню админки"
 
-#: includes/class-admin-page.php:482
+#: includes/class-admin-page.php:496
 msgid "Learn more"
 msgstr "Подробнее"
 
-#: includes/class-admin-page.php:495
+#: includes/class-admin-page.php:509
 msgid "Description"
 msgstr "Описание"
 
-#: includes/class-admin-page.php:496
+#: includes/class-admin-page.php:510
 msgid "Downsides"
 msgstr "Риски"
 
-#: includes/class-admin-page.php:499
+#: includes/class-admin-page.php:513
 msgid "How to undo"
 msgstr "Как вернуть"
 
-#: includes/class-admin-page.php:567
+#: includes/class-admin-page.php:581
 msgid "I do not need this on this site (it stops counting as an open gap)"
 msgstr "Мне это не нужно на этом сайте (лазейка перестанет считаться открытой)"
 
-#: includes/class-admin-page.php:577 includes/class-card-view.php:101
+#: includes/class-admin-page.php:591 includes/class-card-view.php:101
 msgid "Details"
 msgstr "Подробнее"
 
-#: includes/class-admin-page.php:651
+#: includes/class-admin-page.php:665
 msgid "high risk"
 msgstr "высокий риск"
 
-#: includes/class-admin-page.php:652
+#: includes/class-admin-page.php:666
 msgid "medium risk"
 msgstr "средний риск"
 
-#: includes/class-admin-page.php:653
+#: includes/class-admin-page.php:667
 msgid "low risk"
 msgstr "низкий риск"
 
-#: includes/class-admin-page.php:657
+#: includes/class-admin-page.php:671
 msgid "Closed by this plugin"
 msgstr "Закрыто этим плагином"
 
-#: includes/class-admin-page.php:659
+#: includes/class-admin-page.php:673
 msgid "Not working"
 msgstr "Не работает"
 
-#: includes/class-admin-page.php:659
+#: includes/class-admin-page.php:673
 msgid ""
 "The setting is on, but the last check still found this gap open. Server "
 "rules may not work on this server, or another plugin undoes the setting."
@@ -157,13 +157,13 @@ msgstr ""
 "плагин отменяет настройку."
 
 #. translators: %s: what closes the gap, for example "wp-config.php (DISALLOW_FILE_EDIT)".
-#: includes/class-admin-page.php:665
+#: includes/class-admin-page.php:679
 #, php-format
 msgid "Closed by %s. You can leave this off."
 msgstr "Закрыто: %s. Эту настройку можно не включать."
 
 #. translators: %s: names of active security plugins.
-#: includes/class-admin-page.php:668
+#: includes/class-admin-page.php:682
 #, php-format
 msgid ""
 "Probably by %s, the theme or the server settings. You can leave this off."
@@ -171,88 +171,88 @@ msgstr ""
 "Вероятно, это делает %s, тема или настройки сервера. Эту настройку можно не "
 "включать."
 
-#: includes/class-admin-page.php:670
+#: includes/class-admin-page.php:684
 msgid ""
 "By the theme, the server settings or another plugin. You can leave this off."
 msgstr ""
 "Это делают тема, настройки сервера или другой плагин. Эту настройку можно не "
 "включать."
 
-#: includes/class-admin-page.php:672
+#: includes/class-admin-page.php:686
 msgid "Already closed"
 msgstr "Уже закрыто"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:675
+#: includes/class-admin-page.php:689
 #, php-format
 msgid "Open, %s"
 msgstr "Открыто, %s"
 
-#: includes/class-admin-page.php:677
+#: includes/class-admin-page.php:691
 msgid "Not needed"
 msgstr "Не нужно"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:680
+#: includes/class-admin-page.php:694
 #, php-format
 msgid "Off, %s"
 msgstr "Выключено, %s"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:683
+#: includes/class-admin-page.php:697
 #, php-format
 msgid "Not checked yet, %s"
 msgstr "Ещё не проверено, %s"
 
 #. translators: %s: "high risk", "medium risk" or "low risk".
-#: includes/class-admin-page.php:683
+#: includes/class-admin-page.php:697
 #, php-format
 msgid "Cannot be checked, %s"
 msgstr "Не удаётся проверить, %s"
 
-#: includes/class-admin-page.php:696
+#: includes/class-admin-page.php:710
 msgid "Checking what your site answers to visitors..."
 msgstr "Проверяю, что ваш сайт отвечает посетителям..."
 
 #. translators: %s: time since the last check, for example "5 minutes".
-#: includes/class-admin-page.php:699
+#: includes/class-admin-page.php:713
 #, php-format
 msgid "Last check: %s ago."
 msgstr "Последняя проверка: %s назад."
 
-#: includes/class-admin-page.php:704
+#: includes/class-admin-page.php:718
 msgid "Check again"
 msgstr "Проверить снова"
 
-#: includes/class-admin-page.php:720
+#: includes/class-admin-page.php:734
 msgid "Optional: the same for Nginx, to add to the server block"
 msgstr "Необязательно: то же для Nginx, добавить в блок server"
 
-#: includes/class-admin-page.php:720
+#: includes/class-admin-page.php:734
 msgid "Rules to add to the server block, above the PHP location"
 msgstr "Правила для блока server, над location для PHP"
 
-#: includes/class-admin-page.php:724
+#: includes/class-admin-page.php:738
 msgid "Also added to .htaccess, so the server answers before PHP starts"
 msgstr "Также добавляется в .htaccess, чтобы сервер отвечал ещё до запуска PHP"
 
-#: includes/class-admin-page.php:724
+#: includes/class-admin-page.php:738
 msgid "Optional: the same in .htaccess, to add by hand"
 msgstr "Необязательно: то же в .htaccess, добавить вручную"
 
-#: includes/class-admin-page.php:726
+#: includes/class-admin-page.php:740
 msgid "Rules to add to .htaccess by hand"
 msgstr "Правила, которые нужно добавить в .htaccess вручную"
 
-#: includes/class-admin-page.php:726
+#: includes/class-admin-page.php:740
 msgid "Rules the plugin adds to .htaccess"
 msgstr "Правила, которые плагин добавляет в .htaccess"
 
-#: includes/class-admin-page.php:731
+#: includes/class-admin-page.php:745
 msgid "This setting needs Apache, LiteSpeed or Nginx."
 msgstr "Для этой настройки нужен Apache, LiteSpeed или Nginx."
 
-#: includes/class-admin-page.php:754
+#: includes/class-admin-page.php:768
 msgid ""
 "Some settings on this tab write rules into the .htaccess file in the site "
 "root. Before every change the plugin keeps a copy of the file and then opens "
@@ -264,7 +264,7 @@ msgstr ""
 "открывает главную страницу; если она отвечает ошибкой сервера, старый файл "
 "возвращается."
 
-#: includes/class-admin-page.php:756
+#: includes/class-admin-page.php:770
 msgid ""
 "WordPress cannot write the .htaccess file on this site, so the rules below "
 "cannot be switched on here. Copy them into .htaccess by hand, or ask your "
@@ -274,7 +274,7 @@ msgstr ""
 "ниже здесь не включить. Скопируйте их в .htaccess вручную или попросите "
 "хостинг разрешить запись в файл."
 
-#: includes/class-admin-page.php:758
+#: includes/class-admin-page.php:772
 msgid ""
 "This site runs on Nginx, which does not read .htaccess files. Copy the rules "
 "from each card into the server block of your site, or send them to your host."
@@ -283,22 +283,22 @@ msgstr ""
 "правила из каждой карточки в блок server вашего сайта или отправьте их "
 "хостингу."
 
-#: includes/class-admin-page.php:760
+#: includes/class-admin-page.php:774
 msgid "The server rules below need Apache, LiteSpeed or Nginx."
 msgstr "Для серверных правил ниже нужен Apache, LiteSpeed или Nginx."
 
-#: includes/class-admin-page.php:797
+#: includes/class-admin-page.php:811
 msgid "HelloAdmin Guard is free and will stay free."
 msgstr "HelloAdmin Guard бесплатный и останется бесплатным."
 
-#: includes/class-admin-page.php:798
+#: includes/class-admin-page.php:812
 msgid ""
 "No paid version, no locked settings, no ads, no calls to outside servers."
 msgstr ""
 "Без платной версии, без закрытых настроек, без рекламы, без запросов к "
 "сторонним серверам."
 
-#: includes/class-admin-page.php:799
+#: includes/class-admin-page.php:813
 msgid ""
 "Every setting tells you what it changes, what may break and how to turn it "
 "back, because a security setting you do not understand is a risk too."
@@ -306,11 +306,11 @@ msgstr ""
 "Каждая настройка объясняет, что она меняет, что может сломаться и как всё "
 "вернуть. Настройка безопасности, которую вы не понимаете, тоже риск."
 
-#: includes/class-admin-page.php:800
+#: includes/class-admin-page.php:814
 msgid "Need help with your site?"
 msgstr "Нужна помощь с сайтом?"
 
-#: includes/class-admin-page.php:801
+#: includes/class-admin-page.php:815
 msgid ""
 "This plugin was built and is maintained by a developer with more than 10 "
 "years of experience with WordPress and WooCommerce. Is your site slow, "
@@ -322,15 +322,15 @@ msgstr ""
 "после обновления или его взломали? Нужен человек, который будет за ним "
 "следить? Напишите мне."
 
-#: includes/class-admin-page.php:805
+#: includes/class-admin-page.php:819
 msgid "Contact HelloAdmin"
 msgstr "Написать HelloAdmin"
 
-#: includes/class-admin-page.php:807
+#: includes/class-admin-page.php:821
 msgid "Report a problem"
 msgstr "Сообщить о проблеме"
 
-#: includes/class-admin-page.php:809
+#: includes/class-admin-page.php:823
 msgid "Show the welcome message again"
 msgstr "Показать приветствие ещё раз"
 
@@ -343,8 +343,8 @@ msgid "Short description"
 msgstr "Краткое описание"
 
 #: includes/class-card-view.php:56
-msgid "Switch only"
-msgstr "Только переключатель"
+msgid "No description"
+msgstr "Без описания"
 
 #: includes/class-card-view.php:102
 msgid "Hide details"
@@ -354,8 +354,8 @@ msgstr "Свернуть"
 msgid "Card view"
 msgstr "Вид карточек"
 
-#: includes/class-emergency.php:59 includes/class-user-names.php:83
-#: includes/class-user-names.php:330
+#: includes/class-emergency.php:59 includes/class-user-names.php:93
+#: includes/class-user-names.php:366
 msgid "Sorry, you are not allowed to do this."
 msgstr "Извините, вам нельзя это делать."
 
@@ -393,15 +393,15 @@ msgstr ""
 "Если это не вы и не ваша команда, у кого-то ещё есть доступ администратора – "
 "войдите, смените свой пароль и проверьте список администраторов."
 
-#: includes/class-emergency.php:157
+#: includes/class-emergency.php:159
 msgid "Everyone was logged out"
 msgstr "Все сессии завершены"
 
-#: includes/class-emergency.php:180
+#: includes/class-emergency.php:182
 msgid "Log out everyone"
 msgstr "Завершить все сессии"
 
-#: includes/class-emergency.php:181
+#: includes/class-emergency.php:183
 msgid ""
 "This button ends every session of every user except yours in this browser, "
 "and deletes all application passwords. Everyone else has to log in again, "
@@ -419,7 +419,7 @@ msgstr ""
 "продолжают работать. Если кто-то украл пароль или cookie входа, он так и "
 "останется внутри."
 
-#: includes/class-emergency.php:186
+#: includes/class-emergency.php:188
 msgid ""
 "I understand that everyone else is logged out and all application passwords "
 "are deleted."
@@ -427,11 +427,11 @@ msgstr ""
 "Я понимаю, что все остальные сессии будут завершены, а все пароли приложений "
 "удалены."
 
-#: includes/class-emergency.php:187
+#: includes/class-emergency.php:189
 msgid "Log out everyone and delete application passwords"
 msgstr "Завершить все сессии и удалить пароли приложений"
 
-#: includes/class-emergency.php:190
+#: includes/class-emergency.php:192
 msgid ""
 "On a multisite network this button logs out the users of every site, so only "
 "a network administrator (super admin) can use it."
@@ -439,11 +439,11 @@ msgstr ""
 "В сети multisite эта кнопка завершает сеансы пользователей всех сайтов, "
 "поэтому пользоваться ею может только администратор сети (super admin)."
 
-#: includes/class-emergency.php:195
+#: includes/class-emergency.php:197
 msgid "If you think the site was hacked"
 msgstr "Если вы думаете, что сайт взломали"
 
-#: includes/class-emergency.php:198
+#: includes/class-emergency.php:200
 msgid ""
 "Before you clean anything, save a copy of the files, the database and the "
 "server logs. You will need them to find out how they got in."
@@ -451,7 +451,7 @@ msgstr ""
 "Прежде чем что-то чистить, сохраните копию файлов, базы данных и логов "
 "сервера. Они понадобятся, чтобы выяснить, как именно взломали сайт."
 
-#: includes/class-emergency.php:199
+#: includes/class-emergency.php:201
 msgid ""
 "From a computer you trust, change the passwords of the hosting panel, SSH or "
 "SFTP, the database, every administrator and the API keys of services like a "
@@ -460,7 +460,7 @@ msgstr ""
 "С компьютера, которому вы доверяете, смените пароли панели хостинга, SSH или "
 "SFTP, базы данных, каждого администратора и ключи API сервисов вроде CDN."
 
-#: includes/class-emergency.php:200
+#: includes/class-emergency.php:202
 msgid ""
 "Press the button above, so the old sessions and application passwords stop "
 "working."
@@ -468,7 +468,7 @@ msgstr ""
 "Нажмите кнопку выше, чтобы старые сессии и пароли приложений перестали "
 "работать."
 
-#: includes/class-emergency.php:201
+#: includes/class-emergency.php:203
 msgid ""
 "Check the administrators and the must-use plugins: the General tab has e-"
 "mail alerts and warnings for both."
@@ -476,7 +476,7 @@ msgstr ""
 "Проверьте администраторов и must-use плагины: на вкладке «Общие» есть "
 "уведомления на почту и предупреждения для обоих."
 
-#: includes/class-emergency.php:202
+#: includes/class-emergency.php:204
 msgid ""
 "Find how they got in before you restore a backup, or the same hole lets them "
 "in again."
@@ -672,7 +672,7 @@ msgstr ""
 "переключатель на странице настроек объясняет, что он закрывает, что может "
 "сломаться и как всё вернуть."
 
-#: includes/class-status.php:316
+#: includes/class-status.php:320
 msgid "Checking…"
 msgstr "Проверяю…"
 
@@ -696,24 +696,24 @@ msgstr[0] "%d совет"
 msgstr[1] "%d совета"
 msgstr[2] "%d советов"
 
-#: includes/class-tips.php:75
+#: includes/class-tips.php:76
 msgid "Does not help against:"
 msgstr "Не помогает от:"
 
-#: includes/class-tips.php:95
+#: includes/class-tips.php:96
 msgid "Ten minutes in the admin area"
 msgstr "Десять минут в админке"
 
-#: includes/class-tips.php:96
+#: includes/class-tips.php:97
 msgid "Things any admin can do today, without hosting access."
 msgstr ""
 "То, что любой администратор может сделать сегодня, без доступа к хостингу."
 
-#: includes/class-tips.php:99
+#: includes/class-tips.php:100
 msgid "Turn on two-factor login for every admin"
 msgstr "Включите двухфакторный вход для каждого администратора"
 
-#: includes/class-tips.php:101
+#: includes/class-tips.php:102
 msgid ""
 "A second step at login, a code from an app on your phone, stops someone who "
 "guessed, bought or phished an admin password. Stolen and reused passwords "
@@ -723,7 +723,7 @@ msgstr ""
 "угадал, купил или выманил пароль администратора. Украденные и повторно "
 "используемые пароли – один из самых частых путей в сайт на WordPress."
 
-#: includes/class-tips.php:102
+#: includes/class-tips.php:103
 msgid ""
 "Free options: the Two Factor plugin, made by WordPress core contributors, or "
 "the login security part of a security plugin you already use."
@@ -731,7 +731,7 @@ msgstr ""
 "Бесплатные варианты: плагин Two Factor от разработчиков ядра WordPress или "
 "защита входа в плагине безопасности, который у вас уже стоит."
 
-#: includes/class-tips.php:104
+#: includes/class-tips.php:105
 msgid ""
 "holes in plugins and themes: they let an attacker in without logging in at "
 "all."
@@ -739,11 +739,11 @@ msgstr ""
 "дыр в плагинах и темах: через них злоумышленник попадает на сайт вообще без "
 "входа."
 
-#: includes/class-tips.php:107
+#: includes/class-tips.php:108
 msgid "Keep plugins and themes updated, delete the ones you do not use"
 msgstr "Обновляйте плагины и темы, удаляйте те, которыми не пользуетесь"
 
-#: includes/class-tips.php:109
+#: includes/class-tips.php:110
 msgid ""
 "Most break-ins go through a known hole in an old plugin or theme. Turn on "
 "auto-updates for plugins you trust (the Auto-updates column on the Plugins "
@@ -754,7 +754,7 @@ msgstr ""
 "«Автообновления» на странице «Плагины»); мелкие релизы WordPress и так "
 "обновляются сами."
 
-#: includes/class-tips.php:110
+#: includes/class-tips.php:111
 msgid ""
 "Delete plugins and themes you have switched off: their files stay on the "
 "server and can still be opened directly. Until you delete them, the "
@@ -766,7 +766,7 @@ msgstr ""
 "<strong>Закрыть PHP-файлы неактивных плагинов</strong> на вкладке "
 "«Дополнительно» держит их закрытыми."
 
-#: includes/class-tips.php:111
+#: includes/class-tips.php:112
 msgid ""
 "Never install \"nulled\" copies of paid plugins from unofficial sites. Many "
 "of them come with a backdoor already inside."
@@ -774,7 +774,7 @@ msgstr ""
 "Никогда не ставьте «nulled» копии платных плагинов с неофициальных сайтов. "
 "Многие из них уже содержат бэкдор."
 
-#: includes/class-tips.php:113
+#: includes/class-tips.php:114
 msgid ""
 "a site that is already hacked: an update replaces the plugin files, but not "
 "the backdoors an attacker left elsewhere."
@@ -782,11 +782,11 @@ msgstr ""
 "уже взломанного сайта: обновление заменяет файлы плагина, но не бэкдоры, "
 "которые злоумышленник оставил в других местах."
 
-#: includes/class-tips.php:116
+#: includes/class-tips.php:117
 msgid "Keep the number of admins small"
 msgstr "Держите мало администраторов"
 
-#: includes/class-tips.php:118
+#: includes/class-tips.php:119
 msgid ""
 "Every admin account is a full key to the site. Give people the lowest role "
 "that does the job: Editor for content, Shop manager for orders. Remove the "
@@ -797,15 +797,15 @@ msgstr ""
 "Менеджер магазина для заказов. Удаляйте учётные записи людей и агентств, "
 "которые уже не работают с сайтом."
 
-#: includes/class-tips.php:120
+#: includes/class-tips.php:121
 msgid "plugin holes that run code without a login."
 msgstr "дыр в плагинах, которые выполняют код без входа."
 
-#: includes/class-tips.php:123
+#: includes/class-tips.php:124
 msgid "A different password for each admin, kept in a password manager"
 msgstr "Отдельный пароль для каждого администратора, в менеджере паролей"
 
-#: includes/class-tips.php:125
+#: includes/class-tips.php:126
 msgid ""
 "Passwords leaked from other sites are tried on WordPress logins every day. A "
 "password manager makes a long unique password as easy to use as a short one."
@@ -814,7 +814,7 @@ msgstr ""
 "WordPress. Менеджер паролей делает длинный уникальный пароль таким же "
 "удобным, как короткий."
 
-#: includes/class-tips.php:127
+#: includes/class-tips.php:128
 msgid ""
 "phishing pages and malware on your own computer. Two-factor login covers "
 "part of that."
@@ -822,11 +822,11 @@ msgstr ""
 "фишинговых страниц и вредоносных программ на вашем компьютере. Двухфакторный "
 "вход закрывает часть этого."
 
-#: includes/class-tips.php:130
+#: includes/class-tips.php:131
 msgid "Keep registration closed unless you need it"
 msgstr "Держите регистрацию закрытой, если она не нужна"
 
-#: includes/class-tips.php:132
+#: includes/class-tips.php:133
 msgid ""
 "In Settings → General, leave \"Anyone can register\" off unless the site "
 "needs accounts, and keep \"New User Default Role\" at Subscriber or "
@@ -837,7 +837,7 @@ msgstr ""
 "оставляйте «Подписчик» или «Клиент». Роль с большими правами там получит "
 "каждый, кто зарегистрируется."
 
-#: includes/class-tips.php:133
+#: includes/class-tips.php:134
 msgid ""
 "The <strong>E-mail me about new administrators</strong> setting on the "
 "General tab also e-mails you when registration opens with a risky role."
@@ -846,19 +846,19 @@ msgstr ""
 "вкладке «Общие» также присылает письмо, когда регистрацию открывают с "
 "рискованной ролью."
 
-#: includes/class-tips.php:139
+#: includes/class-tips.php:140
 msgid "Hosting and DNS"
 msgstr "Хостинг и DNS"
 
-#: includes/class-tips.php:140
+#: includes/class-tips.php:141
 msgid "Done once, in the hosting panel or at the domain registrar."
 msgstr "Делается один раз, в панели хостинга или у регистратора домена."
 
-#: includes/class-tips.php:143
+#: includes/class-tips.php:144
 msgid "Backups kept away from the server, and one test restore"
 msgstr "Бэкапы вне сервера и одно пробное восстановление"
 
-#: includes/class-tips.php:145
+#: includes/class-tips.php:146
 msgid ""
 "A backup that lives on the same server can be deleted or encrypted together "
 "with the site. Keep copies somewhere else, for example in your host's backup "
@@ -870,7 +870,7 @@ msgstr ""
 "или в облачном хранилище, хотя бы несколько недель: заражение часто замечают "
 "через недели после его начала."
 
-#: includes/class-tips.php:146
+#: includes/class-tips.php:147
 msgid ""
 "Restore a backup to a test copy once, so you know it works before you need "
 "it."
@@ -878,7 +878,7 @@ msgstr ""
 "Один раз восстановите бэкап на тестовую копию, чтобы знать, что он работает, "
 "ещё до того, как он понадобится."
 
-#: includes/class-tips.php:148
+#: includes/class-tips.php:149
 msgid ""
 "the hole that let the attacker in. After a restore, close it, or the site "
 "gets hacked again."
@@ -886,11 +886,11 @@ msgstr ""
 "дыры, через которую злоумышленник попал на сайт. После восстановления "
 "закройте её, иначе сайт взломают снова."
 
-#: includes/class-tips.php:151
+#: includes/class-tips.php:152
 msgid "Two-factor login for the hosting panel, SFTP or SSH instead of FTP"
 msgstr "Двухфакторный вход в панель хостинга, SFTP или SSH вместо FTP"
 
-#: includes/class-tips.php:153
+#: includes/class-tips.php:154
 msgid ""
 "Whoever gets into the hosting panel or FTP gets every file and the database, "
 "and no WordPress setting can stop them. Turn on two-factor login in the "
@@ -900,7 +900,7 @@ msgstr ""
 "никакая настройка WordPress его не остановит. Включите двухфакторный вход в "
 "панели хостинга и у регистратора домена."
 
-#: includes/class-tips.php:154
+#: includes/class-tips.php:155
 msgid ""
 "Plain FTP sends the password unencrypted. Use SFTP or SSH, with a key "
 "instead of a password if your host allows it."
@@ -908,11 +908,11 @@ msgstr ""
 "Обычный FTP передаёт пароль без шифрования. Пользуйтесь SFTP или SSH, с "
 "ключом вместо пароля, если хостинг позволяет."
 
-#: includes/class-tips.php:158
+#: includes/class-tips.php:159
 msgid "One site, one hosting user"
 msgstr "Один сайт – один пользователь хостинга"
 
-#: includes/class-tips.php:160
+#: includes/class-tips.php:161
 msgid ""
 "When several sites run under one hosting user, a hole in one of them lets "
 "the attacker change the files of all the others. Cleaning one site and "
@@ -924,7 +924,7 @@ msgstr ""
 "сайт и оставить остальные заражёнными – частая причина, почему сайт "
 "взламывают снова через неделю."
 
-#: includes/class-tips.php:161
+#: includes/class-tips.php:162
 msgid ""
 "Ask your host for a separate user, or at least a separate PHP pool, for each "
 "site."
@@ -932,11 +932,11 @@ msgstr ""
 "Попросите хостинг об отдельном пользователе или хотя бы отдельном PHP-пуле "
 "для каждого сайта."
 
-#: includes/class-tips.php:165
+#: includes/class-tips.php:166
 msgid "A firewall in front of the site"
 msgstr "Файрвол перед сайтом"
 
-#: includes/class-tips.php:167
+#: includes/class-tips.php:168
 msgid ""
 "A web application firewall at your host or a service like Cloudflare stops "
 "much of the bot traffic and known attacks before they reach WordPress, and "
@@ -946,7 +946,7 @@ msgstr ""
 "значительную часть бот-трафика и известных атак ещё до WordPress и снимает "
 "нагрузку с сервера."
 
-#: includes/class-tips.php:169
+#: includes/class-tips.php:170
 msgid ""
 "an outdated plugin. New or unusual attacks still get through, so updates "
 "still matter."
@@ -954,12 +954,12 @@ msgstr ""
 "устаревшего плагина. Новые или необычные атаки всё равно проходят, так что "
 "обновления по-прежнему важны."
 
-#: includes/class-tips.php:172
+#: includes/class-tips.php:173
 msgid "A PHP version that still gets security fixes"
 msgstr "Версия PHP, которая ещё получает исправления безопасности"
 
 #. translators: %s: PHP version of this site.
-#: includes/class-tips.php:175
+#: includes/class-tips.php:176
 #, php-format
 msgid ""
 "This site runs PHP %s. Versions past their end of life get no security "
@@ -972,11 +972,11 @@ msgstr ""
 "предупреждает о них. Хостинг позволяет сменить версию в панели. Сначала "
 "попробуйте новую на копии: очень старые плагины могут сломаться."
 
-#: includes/class-tips.php:179
+#: includes/class-tips.php:180
 msgid "SPF, DKIM and DMARC records for your domain"
 msgstr "Записи SPF, DKIM и DMARC для вашего домена"
 
-#: includes/class-tips.php:181
+#: includes/class-tips.php:182
 msgid ""
 "These DNS records tell mail servers which servers may send mail for your "
 "domain. Without them, password reset e-mails and this plugin's alerts often "
@@ -988,7 +988,7 @@ msgstr ""
 "этого плагина часто попадают в спам, а любой может отправить письмо, которое "
 "выглядит так, будто оно с вашего домена."
 
-#: includes/class-tips.php:182
+#: includes/class-tips.php:183
 msgid ""
 "Your host or mail provider gives you the exact values; you add them at your "
 "DNS provider."
@@ -996,26 +996,26 @@ msgstr ""
 "Точные значения даёт хостинг или почтовый сервис; добавляете их у своего DNS-"
 "провайдера."
 
-#: includes/class-tips.php:184
+#: includes/class-tips.php:185
 msgid "look-alike domains. DMARC stops fake mail from your exact domain only."
 msgstr ""
 "похожих доменов. DMARC останавливает поддельные письма только с вашего "
 "точного домена."
 
-#: includes/class-tips.php:189
+#: includes/class-tips.php:190
 msgid "For developers"
 msgstr "Для разработчиков"
 
-#: includes/class-tips.php:190
+#: includes/class-tips.php:191
 msgid "Server and code settings for sites you deploy and look after."
 msgstr ""
 "Настройки сервера и кода для сайтов, которые вы деплоите и поддерживаете."
 
-#: includes/class-tips.php:193
+#: includes/class-tips.php:194
 msgid "Lock file changes on sites deployed with Git"
 msgstr "Запрет изменений файлов на сайтах с деплоем через Git"
 
-#: includes/class-tips.php:195
+#: includes/class-tips.php:196
 msgid ""
 "When code reaches the site only through your deploy, turn off installing, "
 "updating and editing from the admin area. Then a stolen admin password alone "
@@ -1027,15 +1027,15 @@ msgstr ""
 "администратора не позволит загрузить плагин с бэкдором. Обновления тоже идут "
 "только через деплой. Добавьте эту строку в wp-config.php:"
 
-#: includes/class-tips.php:198
+#: includes/class-tips.php:199
 msgid "holes in the plugins that are already installed."
 msgstr "дыр в уже установленных плагинах."
 
-#: includes/class-tips.php:201
+#: includes/class-tips.php:202
 msgid "Compare files with the originals on WordPress.org"
 msgstr "Сравнивайте файлы с оригиналами на WordPress.org"
 
-#: includes/class-tips.php:203
+#: includes/class-tips.php:204
 msgid ""
 "WP-CLI checks WordPress and plugin files against the copies on WordPress.org "
 "and lists every changed or extra file. On sites deployed with Git, git "
@@ -1047,18 +1047,18 @@ msgstr ""
 "то же самое для вашего кода делает git status. Запускайте это из cron и "
 "присылайте себе результат."
 
-#: includes/class-tips.php:206
+#: includes/class-tips.php:207
 msgid ""
 "premium plugins and themes: they are not on WordPress.org, so there is "
 "nothing to compare them with."
 msgstr ""
 "премиум-плагинов и тем: их нет на WordPress.org, так что сравнивать не с чем."
 
-#: includes/class-tips.php:209
+#: includes/class-tips.php:210
 msgid "Protect wp-config.php"
 msgstr "Защитите wp-config.php"
 
-#: includes/class-tips.php:211
+#: includes/class-tips.php:212
 msgid ""
 "It holds the database password and the secret keys. Set its permissions to "
 "400 or 440, so only the owner can read it, or move it one folder above the "
@@ -1068,11 +1068,11 @@ msgstr ""
 "чтобы его мог читать только владелец, или перенесите его на одну папку выше "
 "корня сайта: WordPress сам найдёт его там."
 
-#: includes/class-tips.php:216
+#: includes/class-tips.php:217
 msgid "New secret keys after a break-in"
 msgstr "Новые секретные ключи после взлома"
 
-#: includes/class-tips.php:218
+#: includes/class-tips.php:219
 msgid ""
 "New keys and salts in wp-config.php log everyone out, and login cookies made "
 "with the old keys stop working, even if the attacker read wp-config.php. The "
@@ -1087,11 +1087,11 @@ msgstr ""
 "ключи не меняет. Сделайте и то, и другое, а каждому администратору дайте "
 "новый пароль."
 
-#: includes/class-tips.php:223
+#: includes/class-tips.php:224
 msgid "Limit the login page by IP address or a second password"
 msgstr "Ограничьте страницу входа по IP-адресу или вторым паролем"
 
-#: includes/class-tips.php:225
+#: includes/class-tips.php:226
 msgid ""
 "An IP allow list or HTTP Basic Auth on wp-login.php and wp-admin stops "
 "password guessing before WordPress even starts. Leave wp-admin/admin-"
@@ -1102,7 +1102,7 @@ msgstr ""
 "admin-ajax.php открытым: им пользуются формы и плагины на публичных "
 "страницах."
 
-#: includes/class-tips.php:227
+#: includes/class-tips.php:228
 msgid ""
 "plugin holes reached through admin-ajax.php or the REST API, which stay open "
 "to everyone."
@@ -1110,11 +1110,11 @@ msgstr ""
 "дыр в плагинах, до которых добираются через admin-ajax.php или REST API, – "
 "они остаются открытыми для всех."
 
-#: includes/class-tips.php:230
+#: includes/class-tips.php:231
 msgid "A database user with only the rights WordPress needs"
 msgstr "Пользователь базы данных только с нужными WordPress правами"
 
-#: includes/class-tips.php:232
+#: includes/class-tips.php:233
 msgid ""
 "A separate database user for each site keeps one hacked site out of the "
 "others' databases. Taking away more rights helps less than it seems: updates "
@@ -1126,11 +1126,11 @@ msgstr ""
 "обновлениям и активации плагинов нужны CREATE и ALTER, а без них обновления "
 "тихо ломаются."
 
-#: includes/class-tips.php:236
+#: includes/class-tips.php:237
 msgid "A table prefix other than wp_"
 msgstr "Префикс таблиц, отличный от wp_"
 
-#: includes/class-tips.php:238
+#: includes/class-tips.php:239
 msgid ""
 "Last on the list for a reason. An SQL injection that can read your data can "
 "read the table names too, so a different prefix stops only the most basic "
@@ -1144,24 +1144,24 @@ msgstr ""
 "проверенным скриптом."
 
 #. translators: %s: domain name.
-#: includes/class-tips.php:314
+#: includes/class-tips.php:315
 #, php-format
 msgid "Check the records of %s"
 msgstr "Проверить записи %s"
 
 #. translators: %s: domain name.
-#: includes/class-tips.php:320
+#: includes/class-tips.php:321
 #, php-format
 msgid "DNS records of %s:"
 msgstr "DNS-записи %s:"
 
 #. translators: %s: record type, SPF or DMARC.
-#: includes/class-tips.php:329
+#: includes/class-tips.php:330
 #, php-format
 msgid "%s: not found."
 msgstr "%s: не найдено."
 
-#: includes/class-tips.php:332
+#: includes/class-tips.php:333
 msgid ""
 "DKIM: not checked here, because its address depends on your mail provider. "
 "Ask them, or send a test e-mail to a checker such as mail-tester.com."
@@ -1170,7 +1170,7 @@ msgstr ""
 "сервиса. Спросите у них или отправьте тестовое письмо на сервис проверки, "
 "например mail-tester.com."
 
-#: includes/class-tips.php:335
+#: includes/class-tips.php:336
 msgid ""
 "The server could not ask DNS for some of the records, so \"not found\" may "
 "be wrong. Check them with your DNS provider."
@@ -1178,7 +1178,7 @@ msgstr ""
 "Сервер не смог запросить в DNS часть записей, так что «не найдено» может "
 "быть ошибкой. Проверьте их у DNS-провайдера."
 
-#: includes/class-tips.php:338
+#: includes/class-tips.php:339
 msgid ""
 "DMARC is in watch mode (p=none): it reports fake mail but does not stop it. "
 "Once the reports look clean, move to p=quarantine."
@@ -1187,35 +1187,35 @@ msgstr ""
 "останавливает их. Когда отчёты будут выглядеть чистыми, переходите на "
 "p=quarantine."
 
-#: includes/class-user-names.php:65
+#: includes/class-user-names.php:75
 msgid "Fixing…"
 msgstr "Исправляю…"
 
 #. translators: 1: number of fixed users, 2: number of users in the list.
-#: includes/class-user-names.php:67
+#: includes/class-user-names.php:77
 #, php-format
 msgid "Fixed: %1$d of %2$d."
 msgstr "Исправлено: %1$d из %2$d."
 
-#: includes/class-user-names.php:68
+#: includes/class-user-names.php:78
 msgid "Done: logins no longer show for the users in this list."
 msgstr "Готово: логины этих пользователей больше не видны."
 
-#: includes/class-user-names.php:69
+#: includes/class-user-names.php:79
 msgid "Reload the page to see the next users."
 msgstr "Обновите страницу, чтобы увидеть следующих пользователей."
 
-#: includes/class-user-names.php:70
+#: includes/class-user-names.php:80
 msgid "The request failed. Reload the page and try again."
 msgstr "Запрос не удался. Обновите страницу и попробуйте снова."
 
 #. translators: %d: number of users.
-#: includes/class-user-names.php:268
+#: includes/class-user-names.php:304
 #, php-format
 msgid "Users whose login shows on the site: %d."
 msgstr "Пользователей, у которых на сайте виден логин: %d."
 
-#: includes/class-user-names.php:269
+#: includes/class-user-names.php:305
 msgid ""
 "\"Fix\" sets the public name below, moves the author page to an address made "
 "from it (the old address answers \"not found\") and puts the new name on the "
@@ -1225,38 +1225,38 @@ msgstr ""
 "этого имени (старый адрес отвечает «не найдено») и записывает новое имя в "
 "старые комментарии пользователя. Логин и пароль не меняются."
 
-#: includes/class-user-names.php:273
+#: includes/class-user-names.php:309
 msgid "User"
 msgstr "Пользователь"
 
-#: includes/class-user-names.php:274
+#: includes/class-user-names.php:310
 msgid "Where the login shows"
 msgstr "Где виден логин"
 
-#: includes/class-user-names.php:275
+#: includes/class-user-names.php:311
 msgid "New public name"
 msgstr "Новое публичное имя"
 
-#: includes/class-user-names.php:279
+#: includes/class-user-names.php:315
 msgid "public name"
 msgstr "публичное имя"
 
-#: includes/class-user-names.php:297
+#: includes/class-user-names.php:333
 msgid "(new)"
 msgstr "(новый)"
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:301
+#: includes/class-user-names.php:337
 #, php-format
 msgid "New public name for %s"
 msgstr "Новое публичное имя для %s"
 
-#: includes/class-user-names.php:305
+#: includes/class-user-names.php:341
 msgid "Fix"
 msgstr "Исправить"
 
 #. translators: %d: number of users.
-#: includes/class-user-names.php:312
+#: includes/class-user-names.php:348
 #, php-format
 msgid ""
 "Only the %d newest users with posts or comments were checked. Fix these, "
@@ -1266,35 +1266,35 @@ msgstr ""
 "Исправьте этих и обновите страницу – появятся следующие."
 
 #. translators: %d: number of users not shown.
-#: includes/class-user-names.php:316
+#: includes/class-user-names.php:352
 #, php-format
 msgid "And %d more. Fix these first, the list then shows the next ones."
 msgstr "И ещё %d. Сначала исправьте этих, тогда список покажет следующих."
 
-#: includes/class-user-names.php:361
+#: includes/class-user-names.php:397
 msgid "This user does not exist any more."
 msgstr "Этого пользователя больше нет."
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:366
+#: includes/class-user-names.php:402
 #, php-format
 msgid "Nothing was changed for %s: type a new public name first."
 msgstr "Для %s ничего не изменено: сначала введите новое публичное имя."
 
 #. translators: %s: user login.
-#: includes/class-user-names.php:370
+#: includes/class-user-names.php:406
 #, php-format
 msgid "Nothing was changed for %s: the new public name must not be the login."
 msgstr "Для %s ничего не изменено: новое публичное имя не может быть логином."
 
 #. translators: %s: new author page address.
-#: includes/class-user-names.php:408
+#: includes/class-user-names.php:444
 #, php-format
 msgid "Author page: %s"
 msgstr "Страница автора: %s"
 
 #. translators: 1: user login, 2: new public name, 3: number of comments.
-#: includes/class-user-names.php:413
+#: includes/class-user-names.php:449
 #, php-format
 msgid "%1$s now shows as \"%2$s\". Comments updated: %3$d."
 msgid_plural "%1$s now shows as \"%2$s\". Comments updated: %3$d."
@@ -1529,7 +1529,7 @@ msgstr ""
 
 #: includes/features/class-admin-alert.php:453
 #: includes/features/class-admin-alert.php:703
-#: includes/features/class-mu-plugins-watch.php:441
+#: includes/features/class-mu-plugins-watch.php:446
 msgid ""
 "If you changed the WordPress salts in wp-config.php or moved the database to "
 "another site, this is expected."
@@ -2753,7 +2753,7 @@ msgstr ""
 "gzinflate и подобным). Так вредоносный код скрывает, что делает. Проверьте "
 "этот файл."
 
-#: includes/features/class-mu-plugins-watch.php:440
+#: includes/features/class-mu-plugins-watch.php:445
 msgid ""
 "The list of must-use files that HelloAdmin Guard keeps was changed or "
 "removed outside the plugin, for example straight in the database. Someone "
@@ -2765,23 +2765,23 @@ msgstr ""
 "от этого уведомления, поэтому ниже все файлы, которые WordPress загружает "
 "сам."
 
-#: includes/features/class-mu-plugins-watch.php:444
+#: includes/features/class-mu-plugins-watch.php:449
 msgid "There are no such files now."
 msgstr "Сейчас таких файлов нет."
 
-#: includes/features/class-mu-plugins-watch.php:449
+#: includes/features/class-mu-plugins-watch.php:454
 msgid "All files this alert watches:"
 msgstr "Все файлы, за которыми следит это уведомление:"
 
-#: includes/features/class-mu-plugins-watch.php:449
+#: includes/features/class-mu-plugins-watch.php:454
 msgid "New files that WordPress now loads on every page:"
 msgstr "Новые файлы, которые WordPress теперь загружает на каждой странице:"
 
-#: includes/features/class-mu-plugins-watch.php:456
+#: includes/features/class-mu-plugins-watch.php:461
 msgid "Changed files:"
 msgstr "Изменённые файлы:"
 
-#: includes/features/class-mu-plugins-watch.php:462
+#: includes/features/class-mu-plugins-watch.php:467
 msgid ""
 "If you, your developer or your host added or updated them, nothing to do. "
 "Hosts and caching plugins add files like these too."
@@ -2789,7 +2789,7 @@ msgstr ""
 "Если их добавили или обновили вы, ваш разработчик или хостинг, ничего делать "
 "не нужно. Хостинги и плагины кеширования тоже добавляют такие файлы."
 
-#: includes/features/class-mu-plugins-watch.php:463
+#: includes/features/class-mu-plugins-watch.php:468
 msgid ""
 "If not: copy the file somewhere safe first (it is evidence), then remove it "
 "from the site, change the passwords of all administrators and of the "
@@ -2799,18 +2799,18 @@ msgstr ""
 "удалите его с сайта, смените пароли всех администраторов и хостинга и "
 "проверьте список администраторов."
 
-#: includes/features/class-mu-plugins-watch.php:468
+#: includes/features/class-mu-plugins-watch.php:473
 msgid "The list of must-use files was changed outside the plugin"
 msgstr "Список must-use файлов изменили в обход плагина"
 
 #. translators: %s: file name.
-#: includes/features/class-mu-plugins-watch.php:475
+#: includes/features/class-mu-plugins-watch.php:480
 #, php-format
 msgid "New or changed file: %s"
 msgstr "Новый или изменённый файл: %s"
 
 #. translators: %d: number of files.
-#: includes/features/class-mu-plugins-watch.php:477
+#: includes/features/class-mu-plugins-watch.php:482
 #, php-format
 msgid "%d new or changed file that runs on every page"
 msgid_plural "%d new or changed files that run on every page"
@@ -2822,7 +2822,7 @@ msgstr[2] ""
 "%d новых или изменённых файлов, которые выполняются на каждой странице"
 
 #. translators: 1: file size, 2: date and time.
-#: includes/features/class-mu-plugins-watch.php:495
+#: includes/features/class-mu-plugins-watch.php:500
 #, php-format
 msgid "%1$s, modified %2$s"
 msgstr "%1$s, изменён %2$s"
@@ -2853,11 +2853,11 @@ msgstr ""
 "открывает их из браузера, он перестанет работать. Сейчас такие плагины "
 "редкость. Изображения, PDF и другие загрузки продолжат работать."
 
-#: includes/features/class-old-plugins.php:48
+#: includes/features/class-old-plugins.php:60
 msgid "E-mail me about abandoned and closed plugins"
 msgstr "Сообщать на почту о заброшенных и закрытых плагинах"
 
-#: includes/features/class-old-plugins.php:55
+#: includes/features/class-old-plugins.php:67
 msgid ""
 "A plugin nobody maintains gets no fixes when a hole is found in it. Twice a "
 "day WordPress asks WordPress.org about updates for your plugins. From that "
@@ -2877,7 +2877,7 @@ msgstr ""
 "на этой карточке, а на адрес администратора (Настройки → Общие) приходит "
 "письмо, когда появляется новый. Своих запросов для этого плагин не делает."
 
-#: includes/features/class-old-plugins.php:62
+#: includes/features/class-old-plugins.php:74
 msgid ""
 "Nothing stops working; the plugins are only listed. Premium and custom "
 "plugins that do not say where their updates come from (the Update URI "
@@ -2889,11 +2889,11 @@ msgstr ""
 "(заголовок Update URI), тоже попадают во второй список: проверьте, откуда вы "
 "их взяли и получают ли они ещё обновления."
 
-#: includes/features/class-old-plugins.php:69
+#: includes/features/class-old-plugins.php:81
 msgid "Turn this off and save. No plugins are changed."
 msgstr "Выключите эту настройку и сохраните. Никакие плагины не меняются."
 
-#: includes/features/class-old-plugins.php:135
+#: includes/features/class-old-plugins.php:147
 msgid ""
 "WordPress has not checked for plugin updates yet, so there is nothing to "
 "compare. Open Dashboard → Updates once."
@@ -2901,12 +2901,12 @@ msgstr ""
 "WordPress ещё не проверял обновления плагинов, так что сравнивать не с чем. "
 "Один раз откройте «Консоль → Обновления»."
 
-#: includes/features/class-old-plugins.php:291
+#: includes/features/class-old-plugins.php:322
 msgid "(inactive)"
 msgstr "(неактивен)"
 
 #. translators: 1: plugin name, 2: WordPress version.
-#: includes/features/class-old-plugins.php:294
+#: includes/features/class-old-plugins.php:325
 #, php-format
 msgid ""
 "%1$s was last tested with WordPress %2$s. It may be abandoned: look for a "
@@ -2916,7 +2916,7 @@ msgstr ""
 "поищите замену, которую поддерживают."
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:297
+#: includes/features/class-old-plugins.php:328
 #, php-format
 msgid ""
 "%s is not on WordPress.org (closed there, or installed from somewhere else). "
@@ -2925,7 +2925,7 @@ msgstr ""
 "%s нет на WordPress.org (его там закрыли или установили из другого места). "
 "Проверьте, откуда он и получает ли ещё обновления."
 
-#: includes/features/class-old-plugins.php:307
+#: includes/features/class-old-plugins.php:338
 msgid ""
 "WordPress checked for plugin updates, and these plugins look abandoned or "
 "are no longer on WordPress.org:"
@@ -2933,7 +2933,7 @@ msgstr ""
 "WordPress проверил обновления плагинов, и эти плагины похожи на заброшенные "
 "или их больше нет на WordPress.org:"
 
-#: includes/features/class-old-plugins.php:312
+#: includes/features/class-old-plugins.php:343
 msgid ""
 "A plugin that gets no updates keeps every hole found in it. If you still "
 "need it, look for a maintained plugin that does the same; if not, delete it "
@@ -2944,13 +2944,13 @@ msgstr ""
 "удалите его (файлы неактивного плагина по-прежнему можно открыть напрямую)."
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:320
+#: includes/features/class-old-plugins.php:351
 #, php-format
 msgid "Plugin to check: %s"
 msgstr "Плагин для проверки: %s"
 
 #. translators: %d: number of plugins.
-#: includes/features/class-old-plugins.php:322
+#: includes/features/class-old-plugins.php:353
 #, php-format
 msgid "%d plugin to check"
 msgid_plural "%d plugins to check"

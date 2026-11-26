@@ -33,7 +33,7 @@ class Card_View {
 	/**
 	 * The view of a new user: everything in sight, as before the views existed.
 	 */
-	const DEFAULT_VIEW = 'full';
+	const DEFAULT_VIEW = 'brief';
 
 	/**
 	 * Adds the hooks.
@@ -53,7 +53,7 @@ class Card_View {
 		return array(
 			'full'    => array( __( 'Full description', 'helloadmin-guard' ), 'dashicons-text-page' ),
 			'brief'   => array( __( 'Short description', 'helloadmin-guard' ), 'dashicons-excerpt-view' ),
-			'compact' => array( __( 'Switch only', 'helloadmin-guard' ), 'dashicons-list-view' ),
+			'compact' => array( __( 'No description', 'helloadmin-guard' ), 'dashicons-list-view' ),
 		);
 	}
 

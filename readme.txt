@@ -149,7 +149,7 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 = 0.7.0 =
 * New: Tips tab with steps a plugin cannot take for you, strongest first, each with what it does not protect against; checks the SPF and DMARC records of your domain on request.
 * New: "E-mail me about abandoned and closed plugins", from the update data WordPress already gets.
-* New: three card views (full description, short description, switch only), saved for each admin; cut titles show in full on hover; better layout on phones.
+* New: three card views (full description, short description, no description), saved for each admin; cut titles show in full on hover; better layout on phones.
 * upgrade.php is closed for visitors who are not logged in also when they send a fake login cookie (a small must-use file while "Hide files that show versions" is on).
 * WP-CLI: enable login_url refuses to run without a valid login address (new --slug option), so it can no longer lock everyone out. The web server type comes from admin visits or --server, not from the presence of a .htaccess file, and server rules that could not be written are not reported as enabled.
 * The login rule in .htaccess is written only when a login address is saved and never on multisite.

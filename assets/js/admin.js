@@ -1,3 +1,12 @@
+/* Smooth scroll of an element to the top of the screen, under the admin bar; instant when the system asks for less
+   motion. Used by the card views and the Tips tab. */
+function hagScrollToTop( element ) {
+	var bar = document.getElementById( 'wpadminbar' );
+	var top = element.getBoundingClientRect().top + window.pageYOffset - ( bar ? bar.offsetHeight : 0 ) - 12;
+	var still = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+	window.scrollTo( { top: Math.max( 0, top ), behavior: still ? 'auto' : 'smooth' } );
+}
+
 /* HelloAdmin Guard settings page: remembers whether the welcome message is folded. */
 ( function () {
 	var box = document.querySelector( '.hag-welcome' );
@@ -205,6 +214,10 @@
 			}
 		} );
 	} );
+	// Cards stand in one column when a card is about as wide as the whole list.
+	function oneColumn( card ) {
+		return card.offsetWidth > cards.offsetWidth * 0.75;
+	}
 	// Two columns side by side: the opened card takes whole rows of the other column (closed cards are all the same
 	// height), so the cards under it line up with their neighbours again.
 	function snap( card, closed ) {
@@ -248,7 +261,12 @@
 		// A mouse click has a click count; Enter or Space on the focused link has none.
 		byMouse = event.detail > 0;
 		toggle( card, open );
-		card.scrollIntoView( { block: 'nearest' } );
+		if ( open && oneColumn( card ) ) {
+			// One column (phones, tablets, narrow windows): the opened card starts at the top of the screen.
+			hagScrollToTop( card );
+		} else {
+			card.scrollIntoView( { block: 'nearest' } );
+		}
 	} );
 	// A click anywhere outside the opened card closes it.
 	document.addEventListener( 'click', function ( event ) {
@@ -302,8 +320,8 @@
 	}
 }() );
 
-/* Tips: one group and one tip open at a time (the name attribute of <details> does that in the browser). When the
-   block that closes was above, the page would jump: bring the title of the opened one back into view. */
+/* Tips: one group and one tip open at a time (the name attribute of <details> does that in the browser). The title
+   of the opened one slides to the top of the screen. */
 ( function () {
 	var tips = document.querySelector( '.hag-tips' );
 	if ( ! tips ) {
@@ -314,10 +332,8 @@
 		function ( event ) {
 			var box = event.target;
 			if ( box.open && box.matches( 'details' ) ) {
-				var title = box.querySelector( 'summary' );
-				if ( title.getBoundingClientRect().top < 0 ) {
-					title.scrollIntoView( { block: 'start' } );
-				}
+				// After the other block closed, the opened one may sit anywhere: bring its title to the top.
+				hagScrollToTop( box.querySelector( 'summary' ) );
 			}
 		},
 		true
