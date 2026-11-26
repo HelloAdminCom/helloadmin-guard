@@ -441,3 +441,7 @@
 @keyframes hag-pulse { 50% { opacity: 0.45; } }
 .hag-fix-table .button.hag-busy { animation: hag-pulse 1s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .hag-fix-table .button.hag-busy { animation: none; opacity: 0.6; } }
+/* About: the two buttons share one width (the wider label), side by side, stacked on phones, with room between. */
+.hag-about-actions { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 12px; }
+.hag-about-actions .button { margin: 0; text-align: center; }
+@media (max-width: 600px) { .hag-about-actions { grid-auto-flow: row; } }
