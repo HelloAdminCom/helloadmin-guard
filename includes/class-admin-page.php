@@ -73,6 +73,7 @@ class Admin_Page {
 			'general'   => __( 'General', 'helloadmin-guard' ),
 			'advanced'  => __( 'Advanced', 'helloadmin-guard' ),
 			'emergency' => __( 'If hacked', 'helloadmin-guard' ),
+			'tips'      => __( 'Tips', 'helloadmin-guard' ),
 			'about'     => __( 'About', 'helloadmin-guard' ),
 		);
 	}
@@ -357,7 +358,7 @@ class Admin_Page {
 			$class = 'nav-tab' . ( $slug === $tab ? ' nav-tab-active' : '' );
 			printf( '<a href="%s" class="%s">%s</a>', esc_url( $url ), esc_attr( $class ), esc_html( $label ) );
 		}
-		if ( ! in_array( $tab, array( 'about', 'emergency' ), true ) ) {
+		if ( ! in_array( $tab, array( 'about', 'emergency', 'tips' ), true ) ) {
 			Card_View::render_switch();
 		}
 		echo '</nav>';
@@ -366,6 +367,8 @@ class Admin_Page {
 			$this->render_about();
 		} elseif ( 'emergency' === $tab ) {
 			Emergency::render();
+		} elseif ( 'tips' === $tab ) {
+			Tips::render();
 		} else {
 			$this->render_features( $tab );
 		}

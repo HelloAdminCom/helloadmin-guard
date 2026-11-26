@@ -9,7 +9,9 @@
 	.hag-intro,
 	.hag-welcome-wrap,
 	.hag-tab-about .hag-card,
-	.hag-tab-about .nav-tab-wrapper { max-width: calc((100% - 16px) / 2); }
+	.hag-tab-about .nav-tab-wrapper,
+	.hag-tab-tips .nav-tab-wrapper,
+	.hag-tips { max-width: calc((100% - 16px) / 2); }
 }
 /* Cards in one row share the height; the rules link sits at the bottom of each card. */
 .hag-cards .hag-card { max-width: none; margin: 0; display: flex; flex-direction: column; }
@@ -352,3 +354,50 @@
 	.hag-fix-table input.regular-text { max-width: none; }
 	.hag-fix-table td .screen-reader-text { position: static; width: auto; height: auto; margin: 4px 0 2px; clip: auto; clip-path: none; overflow: visible; word-wrap: normal; display: block; font-size: 12px; color: #50575e; }
 }
+
+/* Tips tab: three fold-out groups in the look of the welcome message, each tip folds out inside its group. */
+.hag-tips-intro { margin: 0 0 16px; }
+.hag-tip-group {
+	position: relative;
+	margin: 0 0 16px;
+	padding: 0 20px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-left: 4px solid #2271b1;
+	border-radius: 4px;
+}
+.hag-tip-group > summary {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 14px 40px 14px 0;
+	cursor: pointer;
+	list-style: none;
+}
+.hag-tip-group > summary::-webkit-details-marker { display: none; }
+.hag-tip-group > summary:focus-visible { outline: 2px solid #2271b1; outline-offset: 2px; }
+.hag-tip-group-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.hag-tip-group-title { font-size: 16px; font-weight: 600; color: #1d2327; }
+.hag-tip-count { font-size: 12px; color: #50575e; }
+.hag-tip-group-text { color: #50575e; }
+.hag-tip-group .hag-welcome-arrow { top: 12px; right: 8px; }
+.hag-tip-group:not([open]) > summary .hag-welcome-arrow::before { content: "\f140"; }
+.hag-tip-group > summary:hover .hag-welcome-arrow { color: #2271b1; }
+.hag-tip-list { padding: 0 0 12px; border-top: 1px solid #f0f0f1; }
+.hag-tip { border-bottom: 1px solid #f0f0f1; }
+.hag-tip:last-child { border-bottom: 0; }
+.hag-tip > summary { padding: 10px 0; font-weight: 600; cursor: pointer; }
+.hag-tip > summary:hover { color: #2271b1; }
+.hag-tip > summary:focus-visible { outline: 2px solid #2271b1; outline-offset: 2px; }
+.hag-tip-body { padding: 0 0 8px 18px; }
+.hag-tip-body p { margin: 0 0 8px; }
+.hag-tip-body pre { margin: 0 0 8px; padding: 8px 12px; overflow-x: auto; background: #f6f7f7; border: 1px solid #dcdcde; border-radius: 4px; }
+.hag-tip-body pre code { padding: 0; background: none; }
+.hag-tip-limit { color: #50575e; }
+.hag-tip-check { margin: 0 0 8px; }
+.hag-tip-check li { position: relative; padding-left: 22px; }
+.hag-tip-check li::before { position: absolute; left: 0; top: -1px; font: normal 18px/1 dashicons; }
+.hag-tip-found::before { content: "\f147"; color: #00a32a; }
+.hag-tip-missing::before { content: "\f534"; color: #d63638; }
+.hag-tip-unknown::before { content: "\f460"; color: #787c82; }
+.hag-tip-check code { overflow-wrap: anywhere; }

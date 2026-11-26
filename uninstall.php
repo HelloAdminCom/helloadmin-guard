@@ -45,6 +45,7 @@ function helloadmin_guard_uninstall_site() {
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_helloadmin\\_guard\\_rest\\_ns\\_%' OR option_name LIKE '\\_transient\\_timeout\\_helloadmin\\_guard\\_rest\\_ns\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- uninstall, no cache to keep.
 	// Login limit counters and locks are transients named after a hash of each visitor address.
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_hag\\_login\\_%' OR option_name LIKE '\\_transient\\_timeout\\_hag\\_login\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- uninstall, no cache to keep.
+	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_helloadmin\\_guard\\_mail\\_dns\\_%' OR option_name LIKE '\\_transient\\_timeout\\_helloadmin\\_guard\\_mail\\_dns\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- uninstall, no cache to keep.
 }
 
 if ( is_multisite() ) {
