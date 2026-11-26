@@ -425,9 +425,9 @@ abstract class Feature {
 	/**
 	 * Sends a plain text alert to the site e-mail address, and to the "email" field address if it is set.
 	 *
-	 * @param string   $subject Subject without the site name (it is added in brackets).
-	 * @param string[] $lines   Lines of the message.
-	 * @param string[] $extra   More addresses besides the site address and this setting's own extra address.
+	 * @param string                                   $subject Subject without the site name (it is added in brackets).
+	 * @param array<int, string|array<string, string>> $lines Lines of the message; array( "bold" => …, "text" => … ) makes a bold lead.
+	 * @param string[]                                 $extra   More addresses besides the site address and this setting's own extra address.
 	 * @return bool Whether wp_mail() accepted the message.
 	 */
 	protected function send_alert_mail( $subject, array $lines, array $extra = array() ) {
@@ -438,13 +438,64 @@ abstract class Feature {
 			}
 		}
 
-		$lines[] = '';
-		$tab     = 'advanced' === $this->tab() ? __( 'Advanced', 'helloadmin-guard' ) : __( 'General', 'helloadmin-guard' );
-		/* translators: 1: title of the setting, 2: tab name. */
-		$lines[] = sprintf( __( 'Sent by HelloAdmin Guard. To stop these e-mails, turn off "%1$s" on the %2$s tab of HeAd Guard.', 'helloadmin-guard' ), $this->title(), $tab );
+		$tab = 'advanced' === $this->tab() ? __( 'Advanced', 'helloadmin-guard' ) : __( 'General', 'helloadmin-guard' );
+		/* translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators". */
+		$footer = sprintf( __( 'This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off "%s" in HeAd Guard.', 'helloadmin-guard' ), $tab . ' → ' . $this->title() );
 
+		// HTML with links you can click and a bold "Important!"; the same text goes along as plain text for mail
+		// programs that do not show HTML.
+		$text = implode( "\n", array_map( array( __CLASS__, 'mail_plain' ), $lines ) ) . "\n\n\n" . $footer;
+		$html = self::mail_html( $lines, $footer );
+		$alt  = static function ( $mailer ) use ( $text ) {
+			$mailer->AltBody = $text; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
+		};
+		add_action( 'phpmailer_init', $alt );
 		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
-		return wp_mail( $to, '[' . $site . '] ' . $subject, implode( "\n", $lines ) );
+		$sent = wp_mail( $to, '[' . $site . '] ' . $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+		remove_action( 'phpmailer_init', $alt );
+		return $sent;
+	}
+
+	/**
+	 * A mail line as plain text. A line is a string, or array( 'bold' => lead words, 'text' => the rest ).
+	 *
+	 * @param string|array<string, string> $line Line.
+	 * @return string
+	 */
+	private static function mail_plain( $line ) {
+		return is_array( $line ) ? trim( ( isset( $line['bold'] ) ? $line['bold'] . ' ' : '' ) . ( isset( $line['text'] ) ? $line['text'] : '' ) ) : (string) $line;
+	}
+
+	/**
+	 * The mail as simple HTML: lines between empty lines make a paragraph, addresses become links, a bold lead stays
+	 * bold, the footer stands apart in smaller grey text.
+	 *
+	 * @param array<int, string|array<string, string>> $lines  Lines.
+	 * @param string                                   $footer Footer.
+	 * @return string
+	 */
+	private static function mail_html( array $lines, $footer ) {
+		$blocks = array();
+		$block  = array();
+		foreach ( $lines as $line ) {
+			if ( '' === self::mail_plain( $line ) ) {
+				if ( $block ) {
+					$blocks[] = '<p style="margin:0 0 14px">' . implode( '<br>', $block ) . '</p>';
+					$block    = array();
+				}
+				continue;
+			}
+			$html    = is_array( $line ) && isset( $line['bold'] )
+				? '<strong>' . esc_html( $line['bold'] ) . '</strong> ' . make_clickable( esc_html( isset( $line['text'] ) ? $line['text'] : '' ) )
+				: make_clickable( esc_html( trim( self::mail_plain( $line ) ) ) );
+			$block[] = $html;
+		}
+		if ( $block ) {
+			$blocks[] = '<p style="margin:0 0 14px">' . implode( '<br>', $block ) . '</p>';
+		}
+		return '<!DOCTYPE html><html><body style="font-family:-apple-system,Segoe UI,Arial,sans-serif;font-size:14px;line-height:1.5;color:#1d2327">'
+			. implode( '', $blocks )
+			. '<p style="margin:32px 0 0;font-size:12px;color:#646970">' . esc_html( $footer ) . '</p></body></html>';
 	}
 
 	/**

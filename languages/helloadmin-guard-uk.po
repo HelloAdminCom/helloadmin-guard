@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/helloadmin-guard\n"
-"POT-Creation-Date: 2026-11-26T13:22:16+02:00\n"
+"POT-Creation-Date: 2026-11-26T13:30:37+02:00\n"
 "PO-Revision-Date: 2026-11-19 10:00+0200\n"
 "Last-Translator: HelloAdmin\n"
 "Language-Team: \n"
@@ -46,12 +46,12 @@ msgid "https://helloadmin.com/"
 msgstr "https://helloadmin.com/"
 
 #. translators: 1: site name and address, 2: tab and setting name, 3: date and time.
-#: includes/class-admin-page.php:73 includes/class-feature.php:442
+#: includes/class-admin-page.php:73 includes/class-feature.php:441
 #: includes/features/class-old-plugins.php:378
 msgid "General"
 msgstr "Загальні"
 
-#: includes/class-admin-page.php:74 includes/class-feature.php:442
+#: includes/class-admin-page.php:74 includes/class-feature.php:441
 msgid "Advanced"
 msgstr "Додатково"
 
@@ -543,15 +543,15 @@ msgstr ""
 msgid "HelloAdmin Guard was deactivated"
 msgstr "HelloAdmin Guard деактивовано"
 
-#. translators: 1: title of the setting, 2: tab name.
-#: includes/class-feature.php:444
+#. translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators".
+#: includes/class-feature.php:443
 #, php-format
 msgid ""
-"Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%1$s\" on the "
-"%2$s tab of HeAd Guard."
+"This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, "
+"turn off \"%s\" in HeAd Guard."
 msgstr ""
-"Надіслано плагіном HelloAdmin Guard. Щоб більше не отримувати ці листи, "
-"вимкніть «%1$s» на вкладці «%2$s» у HeAd Guard."
+"Цей лист надіслано плагіном HelloAdmin Guard. Щоб більше не отримувати ці "
+"листи, вимкніть «%s» у HeAd Guard."
 
 #: includes/class-htaccess-feature.php:63
 msgid ""
@@ -2887,7 +2887,7 @@ msgstr ""
 "Один раз відкрийте «Консоль → Оновлення»."
 
 #: includes/features/class-old-plugins.php:336
-#: includes/features/class-old-plugins.php:359
+#: includes/features/class-old-plugins.php:360
 msgid "(inactive)"
 msgstr "(неактивний)"
 
@@ -2955,36 +2955,42 @@ msgstr ""
 "Усі наступні листи називатимуть лише плагіни, що з’являться на сайті після "
 "цього листа."
 
-#: includes/features/class-old-plugins.php:397
+#: includes/features/class-old-plugins.php:398
+msgid "Important!"
+msgstr "Важливо!"
+
+#: includes/features/class-old-plugins.php:399
 msgid ""
-"Important! A plugin that gets no updates keeps every hole found in it. If "
-"you still need it, look for a maintained plugin that does the same; if not, "
-"delete it (an inactive plugin's files can still be opened directly)."
+"A plugin that gets no updates keeps every hole found in it. If you still "
+"need it, look for a maintained plugin that does the same; if not, delete it "
+"(an inactive plugin's files can still be opened directly)."
 msgstr ""
-"Важливо! Плагін без оновлень зберігає кожну знайдену в ньому діру. Якщо він "
-"вам ще потрібен, пошукайте підтримуваний плагін, що робить те саме; якщо ні "
-"– видаліть його (файли неактивного плагіна досі можна відкрити напряму)."
+"Плагін без оновлень зберігає кожну знайдену в ньому діру. Якщо він вам ще "
+"потрібен, пошукайте підтримуваний плагін, що робить те саме; якщо ні – "
+"видаліть його (файли неактивного плагіна досі можна відкрити напряму)."
 
 #. translators: %s: address of the Plugins screen.
-#: includes/features/class-old-plugins.php:400
+#: includes/features/class-old-plugins.php:403
 #, php-format
-msgid "To check your plugins, open %s or Plugins in the WordPress admin menu."
+msgid ""
+"To check your plugins, open %s or the Plugins menu in the WordPress admin "
+"panel."
 msgstr ""
-"Перевірити плагіни можна за адресою %s або в меню «Плагіни» в адмінці "
+"Перевірити плагіни можна за адресою %s або в меню «Плагіни» в адмін-панелі "
 "WordPress."
 
-#: includes/features/class-old-plugins.php:404
+#: includes/features/class-old-plugins.php:407
 msgid "Abandoned plugins check is on: nothing found"
 msgstr "Перевірку покинутих плагінів увімкнено: нічого не знайдено"
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:408
+#: includes/features/class-old-plugins.php:411
 #, php-format
 msgid "Plugin to check: %s"
 msgstr "Плагін для перевірки: %s"
 
 #. translators: %d: number of plugins.
-#: includes/features/class-old-plugins.php:411
+#: includes/features/class-old-plugins.php:414
 #, php-format
 msgid "%d plugin to check"
 msgid_plural "%d plugins to check"

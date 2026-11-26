@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-26T13:22:16+02:00\n"
+"POT-Creation-Date: 2026-11-26T13:30:37+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -44,13 +44,13 @@ msgstr ""
 
 #. translators: 1: site name and address, 2: tab and setting name, 3: date and time.
 #: includes/class-admin-page.php:73
-#: includes/class-feature.php:442
+#: includes/class-feature.php:441
 #: includes/features/class-old-plugins.php:378
 msgid "General"
 msgstr ""
 
 #: includes/class-admin-page.php:74
-#: includes/class-feature.php:442
+#: includes/class-feature.php:441
 msgid "Advanced"
 msgstr ""
 
@@ -431,10 +431,10 @@ msgstr ""
 msgid "HelloAdmin Guard was deactivated"
 msgstr ""
 
-#. translators: 1: title of the setting, 2: tab name.
-#: includes/class-feature.php:444
+#. translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators".
+#: includes/class-feature.php:443
 #, php-format
-msgid "Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%1$s\" on the %2$s tab of HeAd Guard."
+msgid "This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off \"%s\" in HeAd Guard."
 msgstr ""
 
 #: includes/class-htaccess-feature.php:63
@@ -1691,7 +1691,7 @@ msgid "WordPress has not checked for plugin updates yet, so there is nothing to 
 msgstr ""
 
 #: includes/features/class-old-plugins.php:336
-#: includes/features/class-old-plugins.php:359
+#: includes/features/class-old-plugins.php:360
 msgid "(inactive)"
 msgstr ""
 
@@ -1741,28 +1741,32 @@ msgstr ""
 msgid "Later e-mails will name only plugins that show up on the site after this one."
 msgstr ""
 
-#: includes/features/class-old-plugins.php:397
-msgid "Important! A plugin that gets no updates keeps every hole found in it. If you still need it, look for a maintained plugin that does the same; if not, delete it (an inactive plugin's files can still be opened directly)."
+#: includes/features/class-old-plugins.php:398
+msgid "Important!"
+msgstr ""
+
+#: includes/features/class-old-plugins.php:399
+msgid "A plugin that gets no updates keeps every hole found in it. If you still need it, look for a maintained plugin that does the same; if not, delete it (an inactive plugin's files can still be opened directly)."
 msgstr ""
 
 #. translators: %s: address of the Plugins screen.
-#: includes/features/class-old-plugins.php:400
+#: includes/features/class-old-plugins.php:403
 #, php-format
-msgid "To check your plugins, open %s or Plugins in the WordPress admin menu."
+msgid "To check your plugins, open %s or the Plugins menu in the WordPress admin panel."
 msgstr ""
 
-#: includes/features/class-old-plugins.php:404
+#: includes/features/class-old-plugins.php:407
 msgid "Abandoned plugins check is on: nothing found"
 msgstr ""
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:408
+#: includes/features/class-old-plugins.php:411
 #, php-format
 msgid "Plugin to check: %s"
 msgstr ""
 
 #. translators: %d: number of plugins.
-#: includes/features/class-old-plugins.php:411
+#: includes/features/class-old-plugins.php:414
 #, php-format
 msgid "%d plugin to check"
 msgid_plural "%d plugins to check"

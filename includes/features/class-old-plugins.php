@@ -394,10 +394,13 @@ class Old_Plugins extends Feature {
 			$lines[] = __( 'Later e-mails will name only plugins that show up on the site after this one.', 'helloadmin-guard' );
 			$lines[] = '';
 		}
-		$lines[] = __( 'Important! A plugin that gets no updates keeps every hole found in it. If you still need it, look for a maintained plugin that does the same; if not, delete it (an inactive plugin\'s files can still be opened directly).', 'helloadmin-guard' );
+		$lines[] = array(
+			'bold' => __( 'Important!', 'helloadmin-guard' ),
+			'text' => __( 'A plugin that gets no updates keeps every hole found in it. If you still need it, look for a maintained plugin that does the same; if not, delete it (an inactive plugin\'s files can still be opened directly).', 'helloadmin-guard' ),
+		);
 		$lines[] = '';
 		/* translators: %s: address of the Plugins screen. */
-		$lines[] = sprintf( __( 'To check your plugins, open %s or Plugins in the WordPress admin menu.', 'helloadmin-guard' ), admin_url( 'plugins.php' ) );
+		$lines[] = sprintf( __( 'To check your plugins, open %s or the Plugins menu in the WordPress admin panel.', 'helloadmin-guard' ), admin_url( 'plugins.php' ) );
 
 		$count = count( $items );
 		if ( 0 === $count ) {
