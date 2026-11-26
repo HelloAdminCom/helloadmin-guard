@@ -371,7 +371,7 @@ class Old_Plugins extends Feature {
 	 * @return void
 	 */
 	private function send_alert( array $items, $first = false ) {
-		$site = \HelloAdmin\Guard\Mail::b( wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ) ) . ' (' . home_url( '/' ) . ')';
+		$site = \HelloAdmin\Guard\Mail::site();
 		$when = \HelloAdmin\Guard\Mail::time();
 		if ( $first ) {
 			/* translators: 1: site name and address, 2: tab and setting name, 3: date and time. */

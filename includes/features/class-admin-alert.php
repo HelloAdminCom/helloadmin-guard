@@ -644,8 +644,8 @@ class Admin_Alert extends Feature {
 	private function send_registration_alert( $role ) {
 		$risky = self::risky_role( $role );
 		$lines = array();
-		/* translators: %s: role name. */
-		$lines[] = sprintf( __( 'Anyone can now register on your site. New users get the role: %s.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( self::role_name( $role ) ) );
+		/* translators: 1: site name and address, 2: role name. */
+		$lines[] = sprintf( __( 'Anyone can now register on the site %1$s. New users get the role: %2$s.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site(), \HelloAdmin\Guard\Mail::b( self::role_name( $role ) ) );
 		if ( $risky ) {
 			$lines[] = __( 'This role can change other people\'s content, users or the site itself. With it, a stranger who registers can take over the site.', 'helloadmin-guard' );
 		}
@@ -839,8 +839,9 @@ class Admin_Alert extends Feature {
 		/* translators: %s: user name. */
 		$subject = sprintf( __( 'New administrator: %s', 'helloadmin-guard' ), $user->user_login );
 
-		$lines   = array();
-		$lines[] = __( 'An account on your site now has the "**Administrator**" role.', 'helloadmin-guard' );
+		$lines = array();
+		/* translators: %s: site name and address. */
+		$lines[] = sprintf( __( 'An account on the site %s now has the "**Administrator**" role.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site() );
 		$lines[] = '';
 		/* translators: %s: user name. */
 		$lines[] = sprintf( __( 'User name: %s', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( $user->user_login ) );

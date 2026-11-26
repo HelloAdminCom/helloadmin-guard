@@ -291,8 +291,9 @@ abstract class Feature {
 		$by    = $actor && $actor->exists() ? sprintf( /* translators: %s: user name. */ __( 'user %s', 'helloadmin-guard' ), Mail::b( $actor->user_login ) ) : __( 'nobody logged in to WordPress (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 		$ip    = defined( 'WP_CLI' ) && WP_CLI ? '' : self::visitor_ip();
 
-		$lines   = array();
-		$lines[] = __( 'The HelloAdmin Guard plugin was deactivated on your site. Its settings and e-mail alerts no longer work.', 'helloadmin-guard' );
+		$lines = array();
+		/* translators: %s: site name and address. */
+		$lines[] = sprintf( __( 'On the site %s, the HelloAdmin Guard plugin was deactivated. Its settings and e-mail alerts no longer work.', 'helloadmin-guard' ), Mail::site() );
 		$lines[] = '';
 		/* translators: %s: user name or a short explanation. */
 		$lines[] = sprintf( __( '**Changed by:** %s', 'helloadmin-guard' ), $by );

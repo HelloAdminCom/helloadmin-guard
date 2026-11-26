@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-26T14:29:30+02:00\n"
+"POT-Creation-Date: 2026-11-26T14:36:54+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -44,13 +44,13 @@ msgstr ""
 
 #. translators: 1: site name and address, 2: tab and setting name, 3: date and time.
 #: includes/class-admin-page.php:73
-#: includes/class-feature.php:440
+#: includes/class-feature.php:441
 #: includes/features/class-old-plugins.php:378
 msgid "General"
 msgstr ""
 
 #: includes/class-admin-page.php:74
-#: includes/class-feature.php:440
+#: includes/class-feature.php:441
 msgid "Advanced"
 msgstr ""
 
@@ -411,48 +411,50 @@ msgstr ""
 msgid "nobody logged in to WordPress (WP-CLI, a scheduled task or code)"
 msgstr ""
 
-#: includes/class-feature.php:295
-msgid "The HelloAdmin Guard plugin was deactivated on your site. Its settings and e-mail alerts no longer work."
+#. translators: %s: site name and address.
+#: includes/class-feature.php:296
+#, php-format
+msgid "On the site %s, the HelloAdmin Guard plugin was deactivated. Its settings and e-mail alerts no longer work."
 msgstr ""
 
 #. translators: %s: user name or a short explanation.
-#: includes/class-feature.php:298
+#: includes/class-feature.php:299
 #: includes/features/class-admin-alert.php:493
 #: includes/features/class-admin-alert.php:535
 #: includes/features/class-admin-alert.php:653
-#: includes/features/class-admin-alert.php:852
+#: includes/features/class-admin-alert.php:853
 #, php-format
 msgid "**Changed by:** %s"
 msgstr ""
 
 #. translators: %s: IP address.
-#: includes/class-feature.php:301
+#: includes/class-feature.php:302
 #: includes/features/class-admin-alert.php:497
 #: includes/features/class-admin-alert.php:540
 #: includes/features/class-admin-alert.php:657
-#: includes/features/class-admin-alert.php:855
+#: includes/features/class-admin-alert.php:856
 #, php-format
 msgid "**From IP address:** %s"
 msgstr ""
 
-#: includes/class-feature.php:304
+#: includes/class-feature.php:305
 msgid "If you or your team did it, nothing to do."
 msgstr ""
 
-#: includes/class-feature.php:305
+#: includes/class-feature.php:306
 msgid "**If not:** someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on."
 msgstr ""
 
-#: includes/class-feature.php:307
+#: includes/class-feature.php:308
 msgid "Plugins"
 msgstr ""
 
-#: includes/class-feature.php:309
+#: includes/class-feature.php:310
 msgid "HelloAdmin Guard was deactivated"
 msgstr ""
 
 #. translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators".
-#: includes/class-feature.php:442
+#: includes/class-feature.php:443
 #, php-format
 msgid "This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off \"**%s**\" in the settings of the HelloAdmin Guard plugin."
 msgstr ""
@@ -1043,7 +1045,7 @@ msgstr ""
 
 #: includes/features/class-admin-alert.php:455
 #: includes/features/class-admin-alert.php:721
-#: includes/features/class-admin-alert.php:864
+#: includes/features/class-admin-alert.php:865
 msgid "Users → Administrators"
 msgstr ""
 
@@ -1102,10 +1104,10 @@ msgstr ""
 msgid "The site e-mail address changed"
 msgstr ""
 
-#. translators: %s: role name.
+#. translators: 1: site name and address, 2: role name.
 #: includes/features/class-admin-alert.php:648
 #, php-format
-msgid "Anyone can now register on your site. New users get the role: %s."
+msgid "Anyone can now register on the site %1$s. New users get the role: %2$s."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:650
@@ -1155,37 +1157,39 @@ msgstr ""
 msgid "New administrator: %s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:843
-msgid "An account on your site now has the \"**Administrator**\" role."
+#. translators: %s: site name and address.
+#: includes/features/class-admin-alert.php:844
+#, php-format
+msgid "An account on the site %s now has the \"**Administrator**\" role."
 msgstr ""
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:846
+#: includes/features/class-admin-alert.php:847
 #, php-format
 msgid "User name: %s"
 msgstr ""
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:848
+#: includes/features/class-admin-alert.php:849
 #, php-format
 msgid "E-mail: %s"
 msgstr ""
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:850
+#: includes/features/class-admin-alert.php:851
 #, php-format
 msgid "Account created: %s"
 msgstr ""
 
-#: includes/features/class-admin-alert.php:858
+#: includes/features/class-admin-alert.php:859
 msgid "Its public name or author page address is the login, so the login shows under its posts and comments. \"**General → Hide user names**\" in the settings of the HelloAdmin Guard plugin can change that."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:861
+#: includes/features/class-admin-alert.php:862
 msgid "If you or your team added this account, nothing to do."
 msgstr ""
 
-#: includes/features/class-admin-alert.php:862
+#: includes/features/class-admin-alert.php:863
 msgid "**If not:** delete the account, change the passwords of all administrators and of the hosting, and look at **wp-content/mu-plugins** for files you do not know."
 msgstr ""
 
@@ -1536,10 +1540,10 @@ msgid_plural "Too many failed login attempts. Try again in %d minutes."
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: 1: number of failed logins, 2: minutes.
+#. translators: 1: number of failed logins, 2: minutes, 3: site name and address.
 #: includes/features/class-limit-login.php:526
 #, php-format
-msgid "**%1$d failed logins** from different addresses in %2$d minutes: a bot network is guessing passwords on this site."
+msgid "**%1$d failed logins** from different addresses in %2$d minutes: a bot network is guessing passwords on the site %3$s."
 msgstr ""
 
 #. translators: %d: minutes.

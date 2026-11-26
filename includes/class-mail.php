@@ -54,6 +54,15 @@ class Mail {
 	}
 
 	/**
+	 * The site as e-mails name it: its title in bold and its address, "**My Shop** (https://example.com/)".
+	 *
+	 * @return string
+	 */
+	public static function site() {
+		return self::b( wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ) ) . ' (' . home_url( '/' ) . ')';
+	}
+
+	/**
 	 * A value in bold (any stars inside are dropped, so the value cannot break the markup).
 	 *
 	 * @param string $value Value.

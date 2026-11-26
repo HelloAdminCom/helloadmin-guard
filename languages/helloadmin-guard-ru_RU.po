@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/helloadmin-guard\n"
-"POT-Creation-Date: 2026-11-26T14:29:30+02:00\n"
+"POT-Creation-Date: 2026-11-26T14:36:54+02:00\n"
 "PO-Revision-Date: 2026-11-19 10:00+0200\n"
 "Last-Translator: HelloAdmin\n"
 "Language-Team: \n"
@@ -46,12 +46,12 @@ msgid "https://helloadmin.com/"
 msgstr "https://helloadmin.com/"
 
 #. translators: 1: site name and address, 2: tab and setting name, 3: date and time.
-#: includes/class-admin-page.php:73 includes/class-feature.php:440
+#: includes/class-admin-page.php:73 includes/class-feature.php:441
 #: includes/features/class-old-plugins.php:378
 msgid "General"
 msgstr "Общие"
 
-#: includes/class-admin-page.php:74 includes/class-feature.php:440
+#: includes/class-admin-page.php:74 includes/class-feature.php:441
 msgid "Advanced"
 msgstr "Дополнительно"
 
@@ -519,37 +519,39 @@ msgstr "пользователь %s"
 msgid "nobody logged in to WordPress (WP-CLI, a scheduled task or code)"
 msgstr "без входа в WordPress (WP-CLI, запланированная задача или код)"
 
-#: includes/class-feature.php:295
+#. translators: %s: site name and address.
+#: includes/class-feature.php:296
+#, php-format
 msgid ""
-"The HelloAdmin Guard plugin was deactivated on your site. Its settings and e-"
-"mail alerts no longer work."
+"On the site %s, the HelloAdmin Guard plugin was deactivated. Its settings "
+"and e-mail alerts no longer work."
 msgstr ""
-"На вашем сайте деактивировали плагин HelloAdmin Guard. Его настройки и "
+"На сайте %s был деактивирован плагин HelloAdmin Guard. Его настройки и "
 "уведомления по почте больше не работают."
 
 #. translators: %s: user name or a short explanation.
-#: includes/class-feature.php:298 includes/features/class-admin-alert.php:493
+#: includes/class-feature.php:299 includes/features/class-admin-alert.php:493
 #: includes/features/class-admin-alert.php:535
 #: includes/features/class-admin-alert.php:653
-#: includes/features/class-admin-alert.php:852
+#: includes/features/class-admin-alert.php:853
 #, php-format
 msgid "**Changed by:** %s"
 msgstr "**Кто изменил:** %s"
 
 #. translators: %s: IP address.
-#: includes/class-feature.php:301 includes/features/class-admin-alert.php:497
+#: includes/class-feature.php:302 includes/features/class-admin-alert.php:497
 #: includes/features/class-admin-alert.php:540
 #: includes/features/class-admin-alert.php:657
-#: includes/features/class-admin-alert.php:855
+#: includes/features/class-admin-alert.php:856
 #, php-format
 msgid "**From IP address:** %s"
 msgstr "**С IP-адреса:** %s"
 
-#: includes/class-feature.php:304
+#: includes/class-feature.php:305
 msgid "If you or your team did it, nothing to do."
 msgstr "Если это сделали вы или ваша команда, ничего делать не нужно."
 
-#: includes/class-feature.php:305
+#: includes/class-feature.php:306
 msgid ""
 "**If not:** someone with an administrator account did it. Log in, check the "
 "list of administrators, change the passwords of all administrators and of "
@@ -559,16 +561,16 @@ msgstr ""
 "проверьте список администраторов, смените пароли всех администраторов и "
 "хостинга и снова включите плагин."
 
-#: includes/class-feature.php:307
+#: includes/class-feature.php:308
 msgid "Plugins"
 msgstr "Плагины"
 
-#: includes/class-feature.php:309
+#: includes/class-feature.php:310
 msgid "HelloAdmin Guard was deactivated"
 msgstr "HelloAdmin Guard деактивирован"
 
 #. translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators".
-#: includes/class-feature.php:442
+#: includes/class-feature.php:443
 #, php-format
 msgid ""
 "This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, "
@@ -1566,7 +1568,7 @@ msgstr ""
 
 #: includes/features/class-admin-alert.php:455
 #: includes/features/class-admin-alert.php:721
-#: includes/features/class-admin-alert.php:864
+#: includes/features/class-admin-alert.php:865
 msgid "Users → Administrators"
 msgstr "Пользователи → Администраторы"
 
@@ -1649,13 +1651,13 @@ msgstr "Настройки → Общие"
 msgid "The site e-mail address changed"
 msgstr "Адрес почты сайта изменился"
 
-#. translators: %s: role name.
+#. translators: 1: site name and address, 2: role name.
 #: includes/features/class-admin-alert.php:648
 #, php-format
-msgid "Anyone can now register on your site. New users get the role: %s."
+msgid "Anyone can now register on the site %1$s. New users get the role: %2$s."
 msgstr ""
-"Теперь кто угодно может зарегистрироваться на вашем сайте. Новые "
-"пользователи получают роль: %s."
+"Теперь кто угодно может зарегистрироваться на сайте %1$s. Новые пользователи "
+"получают роль: %2$s."
 
 #: includes/features/class-admin-alert.php:650
 msgid ""
@@ -1738,29 +1740,31 @@ msgstr "Список администраторов изменили в обхо
 msgid "New administrator: %s"
 msgstr "Новый администратор: %s"
 
-#: includes/features/class-admin-alert.php:843
-msgid "An account on your site now has the \"**Administrator**\" role."
-msgstr "Учётная запись на вашем сайте теперь имеет роль «**Администратор**»."
+#. translators: %s: site name and address.
+#: includes/features/class-admin-alert.php:844
+#, php-format
+msgid "An account on the site %s now has the \"**Administrator**\" role."
+msgstr "Учётная запись на сайте %s теперь имеет роль «**Администратор**»."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:846
+#: includes/features/class-admin-alert.php:847
 #, php-format
 msgid "User name: %s"
 msgstr "Имя пользователя: %s"
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:848
+#: includes/features/class-admin-alert.php:849
 #, php-format
 msgid "E-mail: %s"
 msgstr "Почта: %s"
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:850
+#: includes/features/class-admin-alert.php:851
 #, php-format
 msgid "Account created: %s"
 msgstr "Учётная запись создана: %s"
 
-#: includes/features/class-admin-alert.php:858
+#: includes/features/class-admin-alert.php:859
 msgid ""
 "Its public name or author page address is the login, so the login shows "
 "under its posts and comments. \"**General → Hide user names**\" in the "
@@ -1771,12 +1775,12 @@ msgstr ""
 "настройках плагина HelloAdmin Guard, карточка «**Общие → Скрыть имена "
 "пользователей**»."
 
-#: includes/features/class-admin-alert.php:861
+#: includes/features/class-admin-alert.php:862
 msgid "If you or your team added this account, nothing to do."
 msgstr ""
 "Если эту учётную запись добавили вы или ваша команда, ничего делать не нужно."
 
-#: includes/features/class-admin-alert.php:862
+#: includes/features/class-admin-alert.php:863
 msgid ""
 "**If not:** delete the account, change the passwords of all administrators "
 "and of the hosting, and look at **wp-content/mu-plugins** for files you do "
@@ -2580,15 +2584,15 @@ msgstr[1] ""
 msgstr[2] ""
 "Слишком много неудачных попыток входа. Попробуйте снова через %d минут."
 
-#. translators: 1: number of failed logins, 2: minutes.
+#. translators: 1: number of failed logins, 2: minutes, 3: site name and address.
 #: includes/features/class-limit-login.php:526
 #, php-format
 msgid ""
 "**%1$d failed logins** from different addresses in %2$d minutes: a bot "
-"network is guessing passwords on this site."
+"network is guessing passwords on the site %3$s."
 msgstr ""
 "**%1$d неудачных входов** с разных адресов за %2$d мин – ботнет подбирает "
-"пароли на этом сайте."
+"пароли на сайте %3$s."
 
 #. translators: %d: minutes.
 #: includes/features/class-limit-login.php:528

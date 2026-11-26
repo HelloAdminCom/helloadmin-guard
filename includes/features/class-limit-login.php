@@ -522,8 +522,8 @@ class Limit_Login extends Feature {
 	 */
 	private function send_attack_mail( $count, $minutes ) {
 		$lines = array(
-			/* translators: 1: number of failed logins, 2: minutes. */
-			sprintf( __( '**%1$d failed logins** from different addresses in %2$d minutes: a bot network is guessing passwords on this site.', 'helloadmin-guard' ), $count, max( 1, $minutes ) ),
+			/* translators: 1: number of failed logins, 2: minutes, 3: site name and address. */
+			sprintf( __( '**%1$d failed logins** from different addresses in %2$d minutes: a bot network is guessing passwords on the site %3$s.', 'helloadmin-guard' ), $count, max( 1, $minutes ), \HelloAdmin\Guard\Mail::site() ),
 			/* translators: %d: minutes. */
 			sprintf( __( 'For the next %d minutes, and longer while the attempts go on, logins from new devices are refused. Browsers that logged in to this site before still get in.', 'helloadmin-guard' ), $this->minutes ),
 			__( 'If you need to log in from a new device, use "**Lost your password?**" on the login page: the reset link lets that browser in.', 'helloadmin-guard' ),
