@@ -38,7 +38,7 @@ General tab
 * Core REST API only for logged-in users. Posts, pages, media and the other core routes answer only logged-in users; plugin routes stay open.
 * E-mail me about new administrators. A message when an account becomes an administrator, also when it was written straight into the database or hidden from the Users screen; also when an administrator's e-mail or password changes, the site e-mail changes, or anyone can register with a dangerous role.
 * E-mail me about changed must-use plugins and site files. A message about new and changed files in wp-content/mu-plugins and its subfolders, drop-ins like db.php, wp-config.php, index.php, .user.ini and php.ini, where malware likes to hide.
-* E-mail me about abandoned and closed plugins. Lists plugins that were not tested with the last 3 major WordPress releases and plugins WordPress.org no longer answers for (closed there, or installed from somewhere else), and e-mails you when a new one shows up. It reads the answer WordPress already gets when it checks for updates, so it makes no requests of its own.
+* E-mail me about abandoned and closed plugins. Lists plugins that were not tested with the last 3 major WordPress releases and plugins WordPress.org no longer answers for (closed there, or installed from somewhere else), e-mails you the current list when you turn it on, and then each time a new one shows up. It reads the answer WordPress already gets when it checks for updates, so it makes no requests of its own.
 
 The administrator and must-use alerts do not depend on WP-Cron: they check after every login, on admin pages and at least once an hour while the site gets visits. The plugin alert follows WordPress's own update check.
 

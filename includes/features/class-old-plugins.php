@@ -64,7 +64,7 @@ class Old_Plugins extends Feature {
 	 * {@inheritDoc}
 	 */
 	public function what() {
-		return __( 'A plugin nobody maintains gets no fixes when a hole is found in it. Twice a day WordPress asks WordPress.org about updates for your plugins. From that same answer this setting finds plugins that were not tested with the last 3 major WordPress releases, and plugins WordPress.org no longer answers for: they were closed there, often because of a security problem, or they came from somewhere else. They are listed on this card, and the administration address (Settings → General) gets an e-mail when a new one shows up. The plugin makes no requests of its own for this.', 'helloadmin-guard' );
+		return __( 'A plugin nobody maintains gets no fixes when a hole is found in it. Twice a day WordPress asks WordPress.org about updates for your plugins. From that same answer this setting finds plugins that were not tested with the last 3 major WordPress releases, and plugins WordPress.org no longer answers for: they were closed there, often because of a security problem, or they came from somewhere else. They are listed on this card. When you turn this on, the administration address (Settings → General) gets one e-mail with the plugins found right now, and later an e-mail each time a new one shows up. The plugin makes no requests of its own for this.', 'helloadmin-guard' );
 	}
 
 	/**
@@ -164,13 +164,17 @@ class Old_Plugins extends Feature {
 	}
 
 	/**
-	 * Remembers what is found now, so only plugins that show up later are e-mailed.
+	 * Sends one e-mail with what is found right now (also to the extra address, and it shows that the alerts
+	 * arrive), then remembers it, so later e-mails name only plugins that show up after this.
 	 *
 	 * @return void
 	 */
 	public function switched_on() {
 		$found = self::found();
 		self::save_list( self::LIST_OPTION, null === $found ? array() : self::kinds( $found ) );
+		if ( $found ) {
+			$this->send_alert( $found, true );
+		}
 	}
 
 	/**
@@ -237,7 +241,12 @@ class Old_Plugins extends Feature {
 			isset( $data->response ) && is_array( $data->response ) ? $data->response : array()
 		);
 		$found    = array();
+		// This plugin knows where it comes from: before its WordPress.org listing it would name itself as "gone".
+		$self = plugin_basename( HELLOADMIN_GUARD_FILE );
 		foreach ( get_plugins() as $file => $info ) {
+			if ( $self === $file ) {
+				continue;
+			}
 			$name = isset( $info['Name'] ) ? (string) $info['Name'] : $file;
 			if ( isset( $answered[ $file ] ) ) {
 				$item   = (array) $answered[ $file ];
@@ -332,10 +341,16 @@ class Old_Plugins extends Feature {
 	 * Sends the e-mail about plugins that showed up in the lists.
 	 *
 	 * @param array<string, array{kind: string, name: string, tested: string}> $added New findings.
+	 * @param bool                                                             $first The alert was just switched on.
 	 * @return void
 	 */
-	private function send_alert( array $added ) {
-		$lines = array( __( 'WordPress checked for plugin updates, and these plugins look abandoned or are no longer on WordPress.org:', 'helloadmin-guard' ), '' );
+	private function send_alert( array $added, $first = false ) {
+		$lines = array(
+			$first
+				? __( 'This alert was just turned on. These plugins look abandoned or are no longer on WordPress.org right now; later e-mails name only plugins that show up after this one:', 'helloadmin-guard' )
+				: __( 'WordPress checked for plugin updates, and these plugins look abandoned or are no longer on WordPress.org:', 'helloadmin-guard' ),
+			'',
+		);
 		foreach ( $added as $file => $item ) {
 			$lines[] = '  ' . self::describe( $file, $item );
 		}

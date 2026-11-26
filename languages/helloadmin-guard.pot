@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-26T11:37:30+02:00\n"
+"POT-Creation-Date: 2026-11-26T13:11:40+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -437,27 +437,27 @@ msgstr ""
 msgid "Turn this off and save: the plugin removes its lines from .htaccess. If the site does not open at all, delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\" in the .htaccess file over FTP or in the hosting file manager."
 msgstr ""
 
-#: includes/class-settings-apply.php:178
+#: includes/class-settings-apply.php:181
 msgid "Server rules were not saved: this server is not Apache or LiteSpeed, so the plugin cannot write them. Copy the rules from each card into your server configuration instead."
 msgstr ""
 
-#: includes/class-settings-apply.php:179
+#: includes/class-settings-apply.php:182
 msgid "Server rules were not saved: WordPress cannot write the .htaccess file. Copy the rules from each card into .htaccess by hand, or ask your host to make the file writable."
 msgstr ""
 
-#: includes/class-settings-apply.php:180
+#: includes/class-settings-apply.php:183
 msgid "Server rules were not saved: writing the .htaccess file failed. Nothing was changed."
 msgstr ""
 
-#: includes/class-settings-apply.php:181
+#: includes/class-settings-apply.php:184
 msgid "Server rules were not saved: after writing them the home page answered with a server error, so the old .htaccess file was put back. The server may not support one of the rules."
 msgstr ""
 
-#: includes/class-settings-apply.php:182
+#: includes/class-settings-apply.php:185
 msgid "After writing the server rules the home page answered with a server error, and the old .htaccess file could not be written back. Open .htaccess in the site root over FTP or in the hosting file manager and delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\"."
 msgstr ""
 
-#: includes/class-settings-apply.php:183
+#: includes/class-settings-apply.php:186
 msgid "Server rules were saved, but the plugin could not open your home page to check them (some hosts block such requests). Open the site in a new tab to make sure it works."
 msgstr ""
 
@@ -1671,7 +1671,7 @@ msgid "E-mail me about abandoned and closed plugins"
 msgstr ""
 
 #: includes/features/class-old-plugins.php:67
-msgid "A plugin nobody maintains gets no fixes when a hole is found in it. Twice a day WordPress asks WordPress.org about updates for your plugins. From that same answer this setting finds plugins that were not tested with the last 3 major WordPress releases, and plugins WordPress.org no longer answers for: they were closed there, often because of a security problem, or they came from somewhere else. They are listed on this card, and the administration address (Settings → General) gets an e-mail when a new one shows up. The plugin makes no requests of its own for this."
+msgid "A plugin nobody maintains gets no fixes when a hole is found in it. Twice a day WordPress asks WordPress.org about updates for your plugins. From that same answer this setting finds plugins that were not tested with the last 3 major WordPress releases, and plugins WordPress.org no longer answers for: they were closed there, often because of a security problem, or they came from somewhere else. They are listed on this card. When you turn this on, the administration address (Settings → General) gets one e-mail with the plugins found right now, and later an e-mail each time a new one shows up. The plugin makes no requests of its own for this."
 msgstr ""
 
 #: includes/features/class-old-plugins.php:74
@@ -1686,38 +1686,42 @@ msgstr ""
 msgid "WordPress has not checked for plugin updates yet, so there is nothing to compare. Open Dashboard → Updates once."
 msgstr ""
 
-#: includes/features/class-old-plugins.php:322
+#: includes/features/class-old-plugins.php:331
 msgid "(inactive)"
 msgstr ""
 
 #. translators: 1: plugin name, 2: WordPress version.
-#: includes/features/class-old-plugins.php:325
+#: includes/features/class-old-plugins.php:334
 #, php-format
 msgid "%1$s was last tested with WordPress %2$s. It may be abandoned: look for a maintained replacement."
 msgstr ""
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:328
+#: includes/features/class-old-plugins.php:337
 #, php-format
 msgid "%s is not on WordPress.org (closed there, or installed from somewhere else). Check where it came from and whether it still gets updates."
 msgstr ""
 
-#: includes/features/class-old-plugins.php:338
+#: includes/features/class-old-plugins.php:350
+msgid "This alert was just turned on. These plugins look abandoned or are no longer on WordPress.org right now; later e-mails name only plugins that show up after this one:"
+msgstr ""
+
+#: includes/features/class-old-plugins.php:351
 msgid "WordPress checked for plugin updates, and these plugins look abandoned or are no longer on WordPress.org:"
 msgstr ""
 
-#: includes/features/class-old-plugins.php:343
+#: includes/features/class-old-plugins.php:358
 msgid "A plugin that gets no updates keeps every hole found in it. If you still need it, look for a maintained plugin that does the same; if not, delete it (an inactive plugin's files can still be opened directly)."
 msgstr ""
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:351
+#: includes/features/class-old-plugins.php:366
 #, php-format
 msgid "Plugin to check: %s"
 msgstr ""
 
 #. translators: %d: number of plugins.
-#: includes/features/class-old-plugins.php:353
+#: includes/features/class-old-plugins.php:368
 #, php-format
 msgid "%d plugin to check"
 msgid_plural "%d plugins to check"

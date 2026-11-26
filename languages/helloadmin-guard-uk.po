@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/helloadmin-guard\n"
-"POT-Creation-Date: 2026-11-26T11:37:30+02:00\n"
+"POT-Creation-Date: 2026-11-26T13:11:40+02:00\n"
 "PO-Revision-Date: 2026-11-19 10:00+0200\n"
 "Last-Translator: HelloAdmin\n"
 "Language-Team: \n"
@@ -563,7 +563,7 @@ msgstr ""
 "HelloAdmin Guard\" та \"# END HelloAdmin Guard\" у файлі .htaccess через FTP "
 "або файловий менеджер хостингу."
 
-#: includes/class-settings-apply.php:178
+#: includes/class-settings-apply.php:181
 msgid ""
 "Server rules were not saved: this server is not Apache or LiteSpeed, so the "
 "plugin cannot write them. Copy the rules from each card into your server "
@@ -572,7 +572,7 @@ msgstr ""
 "Серверні правила не збережено: це не Apache і не LiteSpeed, тому плагін не "
 "може їх записати. Скопіюйте правила з кожної картки в конфігурацію сервера."
 
-#: includes/class-settings-apply.php:179
+#: includes/class-settings-apply.php:182
 msgid ""
 "Server rules were not saved: WordPress cannot write the .htaccess file. Copy "
 "the rules from each card into .htaccess by hand, or ask your host to make "
@@ -582,7 +582,7 @@ msgstr ""
 "Скопіюйте правила з кожної картки в .htaccess вручну або попросіть хостинг "
 "дозволити запис у файл."
 
-#: includes/class-settings-apply.php:180
+#: includes/class-settings-apply.php:183
 msgid ""
 "Server rules were not saved: writing the .htaccess file failed. Nothing was "
 "changed."
@@ -590,7 +590,7 @@ msgstr ""
 "Серверні правила не збережено: не вдалося записати файл .htaccess. Нічого не "
 "змінено."
 
-#: includes/class-settings-apply.php:181
+#: includes/class-settings-apply.php:184
 msgid ""
 "Server rules were not saved: after writing them the home page answered with "
 "a server error, so the old .htaccess file was put back. The server may not "
@@ -600,7 +600,7 @@ msgstr ""
 "помилкою сервера, тому старий файл .htaccess повернуто. Можливо, сервер не "
 "підтримує одне з правил."
 
-#: includes/class-settings-apply.php:182
+#: includes/class-settings-apply.php:185
 msgid ""
 "After writing the server rules the home page answered with a server error, "
 "and the old .htaccess file could not be written back. Open .htaccess in the "
@@ -612,7 +612,7 @@ msgstr ""
 "корені сайту через FTP або файловий менеджер хостингу й видаліть усе між \"# "
 "BEGIN HelloAdmin Guard\" та \"# END HelloAdmin Guard\"."
 
-#: includes/class-settings-apply.php:183
+#: includes/class-settings-apply.php:186
 msgid ""
 "Server rules were saved, but the plugin could not open your home page to "
 "check them (some hosts block such requests). Open the site in a new tab to "
@@ -2845,18 +2845,20 @@ msgid ""
 "same answer this setting finds plugins that were not tested with the last 3 "
 "major WordPress releases, and plugins WordPress.org no longer answers for: "
 "they were closed there, often because of a security problem, or they came "
-"from somewhere else. They are listed on this card, and the administration "
-"address (Settings → General) gets an e-mail when a new one shows up. The "
-"plugin makes no requests of its own for this."
+"from somewhere else. They are listed on this card. When you turn this on, "
+"the administration address (Settings → General) gets one e-mail with the "
+"plugins found right now, and later an e-mail each time a new one shows up. "
+"The plugin makes no requests of its own for this."
 msgstr ""
 "Плагін, який ніхто не підтримує, не отримує виправлень, коли в ньому "
 "знаходять діру. Двічі на день WordPress питає WordPress.org про оновлення "
 "ваших плагінів. Із цієї самої відповіді налаштування знаходить плагіни, які "
 "не тестували з останніми 3 великими релізами WordPress, і плагіни, про які "
 "WordPress.org більше не відповідає: їх там закрили, часто через проблему з "
-"безпекою, або вони взялися деінде. Вони показані на цій картці, а на адресу "
-"адміністратора (Налаштування → Загальні) приходить лист, коли з’являється "
-"новий. Власних запитів для цього плагін не робить."
+"безпекою, або вони взялися деінде. Вони показані на цій картці. Коли ви "
+"вмикаєте налаштування, на адресу адміністратора (Налаштування → Загальні) "
+"приходить один лист зі списком плагінів, знайдених зараз, а далі лист "
+"щоразу, коли з’являється новий. Власних запитів для цього плагін не робить."
 
 #: includes/features/class-old-plugins.php:74
 msgid ""
@@ -2882,12 +2884,12 @@ msgstr ""
 "WordPress ще не перевіряв оновлення плагінів, тож порівнювати немає з чим. "
 "Один раз відкрийте «Консоль → Оновлення»."
 
-#: includes/features/class-old-plugins.php:322
+#: includes/features/class-old-plugins.php:331
 msgid "(inactive)"
 msgstr "(неактивний)"
 
 #. translators: 1: plugin name, 2: WordPress version.
-#: includes/features/class-old-plugins.php:325
+#: includes/features/class-old-plugins.php:334
 #, php-format
 msgid ""
 "%1$s was last tested with WordPress %2$s. It may be abandoned: look for a "
@@ -2897,7 +2899,7 @@ msgstr ""
 "заміну, яку підтримують."
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:328
+#: includes/features/class-old-plugins.php:337
 #, php-format
 msgid ""
 "%s is not on WordPress.org (closed there, or installed from somewhere else). "
@@ -2906,7 +2908,17 @@ msgstr ""
 "%s немає на WordPress.org (його там закрили або встановили з іншого місця). "
 "Перевірте, звідки він і чи ще отримує оновлення."
 
-#: includes/features/class-old-plugins.php:338
+#: includes/features/class-old-plugins.php:350
+msgid ""
+"This alert was just turned on. These plugins look abandoned or are no longer "
+"on WordPress.org right now; later e-mails name only plugins that show up "
+"after this one:"
+msgstr ""
+"Це сповіщення щойно увімкнули. Ці плагіни зараз схожі на покинуті або їх "
+"більше немає на WordPress.org; наступні листи називатимуть лише плагіни, що "
+"з’являться після цього:"
+
+#: includes/features/class-old-plugins.php:351
 msgid ""
 "WordPress checked for plugin updates, and these plugins look abandoned or "
 "are no longer on WordPress.org:"
@@ -2914,7 +2926,7 @@ msgstr ""
 "WordPress перевірив оновлення плагінів, і ці плагіни схожі на покинуті або "
 "їх більше немає на WordPress.org:"
 
-#: includes/features/class-old-plugins.php:343
+#: includes/features/class-old-plugins.php:358
 msgid ""
 "A plugin that gets no updates keeps every hole found in it. If you still "
 "need it, look for a maintained plugin that does the same; if not, delete it "
@@ -2925,13 +2937,13 @@ msgstr ""
 "видаліть його (файли неактивного плагіна досі можна відкрити напряму)."
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:351
+#: includes/features/class-old-plugins.php:366
 #, php-format
 msgid "Plugin to check: %s"
 msgstr "Плагін для перевірки: %s"
 
 #. translators: %d: number of plugins.
-#: includes/features/class-old-plugins.php:353
+#: includes/features/class-old-plugins.php:368
 #, php-format
 msgid "%d plugin to check"
 msgid_plural "%d plugins to check"
