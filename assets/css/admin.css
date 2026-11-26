@@ -419,8 +419,8 @@
 .hag-tab-emergency .button { white-space: normal; height: auto; max-width: 100%; line-height: 1.4; padding-top: 8px; padding-bottom: 8px; }
 /* Tips: the DNS check button wraps on narrow phones. */
 .hag-tip-body .button { white-space: normal; height: auto; max-width: 100%; line-height: 1.4; padding-top: 6px; padding-bottom: 6px; }
-/* Boxes and radio buttons with their text: a long text wraps next to the box, the box sits in the middle of the
-   first line (1lh = one line of the text), and rows keep a gap even with the big boxes WordPress uses on phones. */
+/* Boxes and radio buttons with their text: the top of the box on the top line of the text, a long text wraps next
+   to the box, rows keep a gap even with the big boxes WordPress uses on phones. */
 .hag .hag-radio,
 .hag .hag-pref label,
 .hag .hag-skip label,
@@ -433,13 +433,7 @@
 .hag .hag-pref input,
 .hag .hag-skip input,
 .hag .hag-check-field input,
-.hag-tab-emergency form label input { flex: none; margin: calc((1lh - 1rem) / 2) 0 0; }
+.hag-tab-emergency form label input { flex: none; margin: 0 !important; } /* WordPress pulls boxes up by 4px on phones. */
 @media (max-width: 782px) {
-	.hag .hag-radio input,
-	.hag .hag-pref input,
-	.hag .hag-skip input,
-	.hag .hag-check-field input,
-	.hag-tab-emergency form label input { margin-top: calc((1lh - 1.5625rem) / 2); }
-	/* The big box rises a little above its line: room for it under a field title. */
-	.hag .hag-radio, .hag .hag-check-field { margin-bottom: 10px; padding-top: 4px; }
+	.hag .hag-radio, .hag .hag-check-field { margin-bottom: 10px; }
 }

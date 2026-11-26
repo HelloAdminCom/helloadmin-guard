@@ -291,8 +291,12 @@ function hagScrollToTop( element ) {
 		var open = ! card.classList.contains( 'hag-open' );
 		// A mouse click has a click count; Enter or Space on the focused link has none.
 		byMouse = event.detail > 0;
+		var before = card.getBoundingClientRect().top;
 		toggle( card, open );
 		if ( open && oneColumn( card ) ) {
+			// The card that was open above has just closed: keep this one where it was, so the page does not jump
+			// before it slides up.
+			window.scrollBy( 0, card.getBoundingClientRect().top - before );
 			// One column (phones, tablets, narrow windows): the opened card starts at the top of the screen.
 			hagScrollToTop( card );
 		} else {
@@ -358,15 +362,22 @@ function hagScrollToTop( element ) {
 	if ( ! tips ) {
 		return;
 	}
-	tips.addEventListener(
-		'toggle',
-		function ( event ) {
-			var box = event.target;
-			if ( box.open && box.matches( 'details' ) ) {
-				// After the other block closed, the opened one may sit anywhere: bring its title to the top.
-				hagScrollToTop( box.querySelector( 'summary' ) );
-			}
-		},
-		true
-	);
+	// The click opens the block itself (instead of the browser), so the jump from the block that closes is taken back
+	// before the page is drawn; then one smooth move of the opened title to the top. Enter and Space on a title
+	// send a click too.
+	tips.addEventListener( 'click', function ( event ) {
+		var title = event.target.closest( 'summary' );
+		var box = title && title.parentNode;
+		if ( ! box || ! tips.contains( box ) || box.tagName !== 'DETAILS' ) {
+			return;
+		}
+		event.preventDefault();
+		var before = title.getBoundingClientRect().top;
+		// With the name attribute the browser closes the other open block right here.
+		box.open = ! box.open;
+		window.scrollBy( 0, title.getBoundingClientRect().top - before );
+		if ( box.open ) {
+			hagScrollToTop( title );
+		}
+	} );
 }() );
