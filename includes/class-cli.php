@@ -98,15 +98,31 @@ class Cli {
 	 * <id>...
 	 * : One or more setting ids, see wp helloadmin-guard status.
 	 *
+	 * [--slug=<slug>]
+	 * : New login address for login_url (at least 4 characters: letters, numbers, dashes). Needed when no
+	 * address was saved on the settings page yet.
+	 *
+	 * [--server=<server>]
+	 * : Web server of this site, when the settings page was never opened in the browser (WP-CLI cannot detect
+	 * it). Remembered for later commands.
+	 * ---
+	 * options:
+	 *   - apache
+	 *   - nginx
+	 *   - other
+	 * ---
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp helloadmin-guard enable disable_xmlrpc block_backups
+	 *     wp helloadmin-guard enable login_url --slug=my-door-7k
 	 *
-	 * @param string[] $args Setting ids.
+	 * @param string[]              $args       Setting ids.
+	 * @param array<string, string> $assoc_args Options.
 	 * @return void
 	 */
-	public function enable( $args ) {
-		$this->change( $args, true );
+	public function enable( $args, $assoc_args = array() ) {
+		$this->change( $args, true, $assoc_args );
 	}
 
 	/**
@@ -117,15 +133,66 @@ class Cli {
 	 * <id>...
 	 * : One or more setting ids.
 	 *
+	 * [--server=<server>]
+	 * : Web server of this site, see enable.
+	 * ---
+	 * options:
+	 *   - apache
+	 *   - nginx
+	 *   - other
+	 * ---
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp helloadmin-guard disable login_url
 	 *
-	 * @param string[] $args Setting ids.
+	 * @param string[]              $args       Setting ids.
+	 * @param array<string, string> $assoc_args Options.
 	 * @return void
 	 */
-	public function disable( $args ) {
-		$this->change( $args, false );
+	public function disable( $args, $assoc_args = array() ) {
+		$this->change( $args, false, $assoc_args );
+	}
+
+	/**
+	 * Stores --server when it was given.
+	 *
+	 * @param array<string, string> $assoc_args Options.
+	 * @return void
+	 */
+	private static function take_server( array $assoc_args ) {
+		if ( isset( $assoc_args['server'] ) && ! Htaccess::set_server( (string) $assoc_args['server'] ) ) {
+			\WP_CLI::error( 'Unknown --server value. Use apache (also LiteSpeed), nginx or other.' );
+		}
+	}
+
+	/**
+	 * Login address for enable login_url: --slug, or the one saved on the settings page. Stops the command when
+	 * there is none or it cannot be used, because the login rule without a working login page locks everyone out.
+	 *
+	 * @param array<string, mixed>  $option     Settings about to be saved.
+	 * @param array<string, string> $assoc_args Options.
+	 * @return string
+	 */
+	private static function login_slug( array $option, array $assoc_args ) {
+		if ( is_multisite() ) {
+			\WP_CLI::error( 'login_url does not work on multisite networks.' );
+		}
+		$saved = isset( $option['fields']['login_url']['slug'] ) && is_string( $option['fields']['login_url']['slug'] ) ? $option['fields']['login_url']['slug'] : '';
+		$slug  = isset( $assoc_args['slug'] ) ? sanitize_title( (string) $assoc_args['slug'] ) : $saved;
+		if ( '' === $slug ) {
+			\WP_CLI::error( 'login_url needs a login address. Run: wp helloadmin-guard enable login_url --slug=<address> (at least 4 characters: letters, numbers, dashes).' );
+		}
+		// The rest of the command output is English; the shared check returns the site's language.
+		$switched = switch_to_locale( 'en_US' );
+		$problem  = Features\Login_Url::slug_problem( $slug );
+		if ( $switched ) {
+			restore_previous_locale();
+		}
+		if ( $problem ) {
+			\WP_CLI::error( $problem . ' Nothing changed.' );
+		}
+		return $slug;
 	}
 
 	/**
@@ -152,15 +219,20 @@ class Cli {
 	/**
 	 * Saves the new state and syncs the server rules.
 	 *
-	 * @param string[] $ids Setting ids.
-	 * @param bool     $on  Turn on or off.
+	 * @param string[]              $ids        Setting ids.
+	 * @param bool                  $on         Turn on or off.
+	 * @param array<string, string> $assoc_args Options.
 	 * @return void
 	 */
-	private function change( array $ids, $on ) {
+	private function change( array $ids, $on, array $assoc_args = array() ) {
 		$unknown = array_diff( $ids, array_keys( $this->features ) );
 		if ( $unknown ) {
 			\WP_CLI::error( 'Unknown setting: ' . implode( ', ', $unknown ) . '. See wp helloadmin-guard status.' );
 		}
+		if ( isset( $assoc_args['slug'] ) && ! ( $on && in_array( 'login_url', $ids, true ) ) ) {
+			\WP_CLI::error( '--slug works only with enable login_url.' );
+		}
+		self::take_server( $assoc_args );
 		$option = get_option( Settings::OPTION, array() );
 		$option = is_array( $option ) ? $option : array();
 		// A damaged option (a string instead of a list) would break unset() and the loops below.
@@ -168,6 +240,9 @@ class Cli {
 			if ( isset( $option[ $key ] ) && ! is_array( $option[ $key ] ) ) {
 				$option[ $key ] = array();
 			}
+		}
+		if ( $on && in_array( 'login_url', $ids, true ) ) {
+			$option['fields']['login_url']['slug'] = self::login_slug( $option, $assoc_args );
 		}
 		foreach ( $ids as $id ) {
 			if ( $on ) {
@@ -191,8 +266,17 @@ class Cli {
 
 		update_option( Settings::OPTION, $option );
 		Status::forget();
+		// When the rules could not be written, a server rule setting that is "on" only because its old rules are
+		// still in the file does not count as enabled by this command.
+		$failed = false;
+		foreach ( (array) $result['messages'] as $message ) {
+			$failed = $failed || 'error' === $message['type'];
+		}
 		$done = array();
 		foreach ( $ids as $id ) {
+			if ( $on && $failed && $this->features[ $id ]->apache_rules() ) {
+				continue;
+			}
 			if ( ! empty( $option['enabled'][ $id ] ) === $on ) {
 				$done[] = $id;
 			}
@@ -201,36 +285,46 @@ class Cli {
 			\WP_CLI::error( 'Nothing changed.' );
 		}
 		\WP_CLI::success( ( $on ? 'Enabled: ' : 'Disabled: ' ) . implode( ', ', $done ) );
+		if ( $on && in_array( 'login_url', $done, true ) ) {
+			\WP_CLI::log( 'Log in at ' . home_url( '/' . $option['fields']['login_url']['slug'] . '/' ) . ' from now on. wp-login.php answers 404 to visitors.' );
+		}
 	}
 
 	/**
 	 * Rewrites the plugin block in .htaccess from the saved settings, for example after the site or its .htaccess
 	 * was copied from another server.
 	 *
+	 * ## OPTIONS
+	 *
+	 * [--server=<server>]
+	 * : Web server of this site, see enable.
+	 * ---
+	 * options:
+	 *   - apache
+	 *   - nginx
+	 *   - other
+	 * ---
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp helloadmin-guard sync
 	 *
+	 * @param string[]              $args       Positional arguments.
+	 * @param array<string, string> $assoc_args Options.
 	 * @return void
 	 */
-	public function sync() {
-		// WP-CLI has no web server to detect: an existing .htaccess file means Apache or LiteSpeed, for this write only.
-		$assumed = 'apache' !== Htaccess::server() && file_exists( Htaccess::path() );
-		if ( $assumed ) {
-			Htaccess::assume_server( 'apache' );
-		}
+	public function sync( $args = array(), $assoc_args = array() ) {
+		unset( $args );
+		self::take_server( $assoc_args );
 		$before = Htaccess::ids_in_file();
-		try {
-			$result = Plugin::instance()->sync_htaccess();
-		} finally {
-			if ( $assumed ) {
-				Htaccess::assume_server( null );
-			}
-		}
+		$result = Plugin::instance()->sync_htaccess();
 		Status::forget();
 		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
 			$code = (string) $result->get_error_code();
-			\WP_CLI::error( 'restore_failed' === $code ? Settings_Apply::text( $code, 'cli' ) : 'Server rules were not written (' . $code . '). .htaccess is unchanged.' );
+			if ( 'restore_failed' === $code || 'not_apache' === $code ) {
+				\WP_CLI::error( Settings_Apply::text( $code, 'cli' ) );
+			}
+			\WP_CLI::error( 'Server rules were not written (' . $code . '). .htaccess is unchanged.' );
 		}
 		if ( is_wp_error( $result ) ) {
 			\WP_CLI::warning( Settings_Apply::text( 'not_checked', 'cli' ) );

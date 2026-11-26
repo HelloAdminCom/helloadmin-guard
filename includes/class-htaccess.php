@@ -30,6 +30,12 @@ class Htaccess {
 	const WRITTEN_OPTION = 'helloadmin_guard_rules_written';
 
 	/**
+	 * Option with the web server type seen on the last admin request: apache, nginx or other. WP-CLI runs without
+	 * a web server, so it reads the type from here instead of guessing.
+	 */
+	const SERVER_OPTION = 'helloadmin_guard_server';
+
+	/**
 	 * Are this setting's rules in .htaccess right now?
 	 *
 	 * @param string $id Setting id.
@@ -135,8 +141,8 @@ class Htaccess {
 	private static $assumed = null;
 
 	/**
-	 * Assumes a server type until called with null. WP-CLI uses it while writing rules: an existing .htaccess file
-	 * there means Apache or LiteSpeed. Unlike setting the global $is_apache, it is undone right after.
+	 * Assumes a server type until called with null (tests, or code that knows the server better than the request).
+	 * Unlike setting the global $is_apache, it is undone right after.
 	 *
 	 * @param string|null $server apache, nginx, other or null to stop assuming.
 	 * @return void
@@ -146,7 +152,9 @@ class Htaccess {
 	}
 
 	/**
-	 * Web server type: apache (also LiteSpeed), nginx or other.
+	 * Web server type: apache (also LiteSpeed), nginx or other. In WP-CLI: the type seen on the last admin request
+	 * (or set with --server), unknown when the admin area was never opened. An existing .htaccess file proves
+	 * nothing: Nginx sites often keep one from an old host.
 	 *
 	 * @return string
 	 */
@@ -155,10 +163,47 @@ class Htaccess {
 		if ( null !== self::$assumed ) {
 			return self::$assumed;
 		}
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$seen = get_option( self::SERVER_OPTION, '' );
+			return in_array( $seen, self::SERVERS, true ) ? (string) $seen : 'unknown';
+		}
 		if ( $is_apache ) {
 			return 'apache';
 		}
 		return $is_nginx ? 'nginx' : 'other';
+	}
+
+	/**
+	 * Server types that can be remembered.
+	 */
+	const SERVERS = array( 'apache', 'nginx', 'other' );
+
+	/**
+	 * Remembers the web server of this request for WP-CLI. Runs on admin requests; writes only when it changed.
+	 *
+	 * @return void
+	 */
+	public static function remember_server() {
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			return;
+		}
+		self::set_server( self::server() );
+	}
+
+	/**
+	 * Stores the server type (from an admin request, or from wp helloadmin-guard --server).
+	 *
+	 * @param string $server apache, nginx or other.
+	 * @return bool False for an unknown type.
+	 */
+	public static function set_server( $server ) {
+		if ( ! in_array( $server, self::SERVERS, true ) ) {
+			return false;
+		}
+		if ( get_option( self::SERVER_OPTION, '' ) !== $server ) {
+			update_option( self::SERVER_OPTION, $server, false );
+		}
+		return true;
 	}
 
 	/**

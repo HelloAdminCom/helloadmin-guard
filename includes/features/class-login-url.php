@@ -99,6 +99,11 @@ class Login_Url extends Feature {
 	 * @return string[]
 	 */
 	public function apache_rules() {
+		// No address saved, or multisite (enable() does nothing there): the custom login page would not exist, and
+		// this rule alone would refuse every login.
+		if ( '' === $this->saved_value( 'slug', '' ) || is_multisite() ) {
+			return array();
+		}
 		// Built from the saved addresses, not site_url(): while this setting is on, site_url( 'wp-login.php' ) already
 		// returns the custom address, and the rule would refuse logins there instead of on wp-login.php.
 		$site = trailingslashit( (string) wp_parse_url( (string) get_option( 'siteurl' ), PHP_URL_PATH ) );
@@ -174,6 +179,25 @@ class Login_Url extends Feature {
 	}
 
 	/**
+	 * Why a login address cannot be used, or an empty string when it can. Shared by the settings page and WP-CLI.
+	 *
+	 * @param string $slug Address after sanitize_title().
+	 * @return string
+	 */
+	public static function slug_problem( $slug ) {
+		if ( strlen( $slug ) < 4 ) {
+			return __( 'The login address must be at least 4 characters long.', 'helloadmin-guard' );
+		}
+		if ( in_array( $slug, self::RESERVED, true ) ) {
+			return __( 'This login address is reserved by WordPress or too easy to guess. Choose another one.', 'helloadmin-guard' );
+		}
+		if ( get_page_by_path( $slug, OBJECT, array( 'page', 'post' ) ) ) {
+			return __( 'A page or post already uses this address. Choose another one.', 'helloadmin-guard' );
+		}
+		return '';
+	}
+
+	/**
 	 * Keeps the slug safe: lowercase letters, numbers and dashes, not reserved, not an existing page.
 	 * An invalid value keeps the previous one and shows an error on the settings page.
 	 *
@@ -184,16 +208,7 @@ class Login_Url extends Feature {
 	public function sanitize_field( $field, $value ) {
 		$previous = $this->stored_slug();
 		$slug     = sanitize_title( is_scalar( $value ) ? (string) $value : '' );
-
-		$error = '';
-		if ( strlen( $slug ) < 4 ) {
-			$error = __( 'The login address must be at least 4 characters long.', 'helloadmin-guard' );
-		} elseif ( in_array( $slug, self::RESERVED, true ) ) {
-			$error = __( 'This login address is reserved by WordPress or too easy to guess. Choose another one.', 'helloadmin-guard' );
-		} elseif ( get_page_by_path( $slug, OBJECT, array( 'page', 'post' ) ) ) {
-			$error = __( 'A page or post already uses this address. Choose another one.', 'helloadmin-guard' );
-		}
-
+		$error    = self::slug_problem( $slug );
 		if ( $error ) {
 			// add_settings_error() exists only in wp-admin; the option can also be saved from code or WP-CLI.
 			if ( function_exists( 'add_settings_error' ) ) {

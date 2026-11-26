@@ -25,6 +25,7 @@ function helloadmin_guard_uninstall_site() {
 	delete_option( 'helloadmin_guard_heal_seen' );
 	delete_option( 'helloadmin_guard_htaccess_backup' );
 	delete_option( 'helloadmin_guard_rules_written' );
+	delete_option( 'helloadmin_guard_server' );
 	delete_option( 'helloadmin_guard_version' );
 	delete_option( 'helloadmin_guard_admins' );
 	delete_option( 'helloadmin_guard_admins_checked' );

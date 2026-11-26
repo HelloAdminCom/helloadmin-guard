@@ -94,23 +94,9 @@ class Settings_Apply {
 			}
 		}
 
-		if ( 'cli' === $context['source'] ) {
-			$messages = array_merge( $messages, $this->cli_notes( $rules, $context ) );
-		}
-
-		$rolled  = array();
-		$kept    = array();
-		$assumed = 'cli' === $context['source'] && 'apache' !== Htaccess::server() && file_exists( Htaccess::path() );
-		if ( $assumed ) {
-			Htaccess::assume_server( 'apache' );
-		}
-		try {
-			$result = Htaccess::sync( $rules );
-		} finally {
-			if ( $assumed ) {
-				Htaccess::assume_server( null );
-			}
-		}
+		$rolled = array();
+		$kept   = array();
+		$result = Htaccess::sync( $rules );
 		if ( is_wp_error( $result ) ) {
 			$code = (string) $result->get_error_code();
 			if ( 'not_checked' !== $code ) {
@@ -155,34 +141,20 @@ class Settings_Apply {
 	}
 
 	/**
-	 * Notes that only make sense on the command line.
+	 * WP-CLI text when server rules could not be written because the server is not known to be Apache.
 	 *
-	 * @param Feature[]            $rules   Features with rules about to be written.
-	 * @param array<string, mixed> $context Call context.
-	 * @return array<int, array{type: string, code: string, text: string, data: array<string, mixed>}>
+	 * @return string
 	 */
-	private function cli_notes( array $rules, array $context ) {
-		$notes = array();
-		if ( ! empty( $context['on'] ) && in_array( 'login_url', (array) $context['changed'], true ) ) {
-			$notes[] = array(
-				'type' => 'warning',
-				'code' => 'login_url_check',
-				'text' => 'login_url uses the login address saved on the settings page; check it there before you log out.',
-				'data' => array(),
-			);
+	private static function cli_not_apache() {
+		$off    = ' New server rule settings stay off.';
+		$server = Htaccess::server();
+		if ( 'unknown' === $server ) {
+			return 'Server rules were not written: WP-CLI cannot tell which web server runs this site, and an existing .htaccess file does not prove it is Apache. Open the plugin settings page in the browser once (it remembers the server), or add --server=apache (Apache or LiteSpeed) or --server=nginx.' . $off;
 		}
-		// WP-CLI has no web server to detect: an existing .htaccess file means Apache or LiteSpeed (assumed in apply()).
-		if ( 'apache' !== Htaccess::server() && file_exists( Htaccess::path() ) ) {
-			if ( $rules ) {
-				$notes[] = array(
-					'type' => 'info',
-					'code' => 'server_unknown',
-					'text' => 'Server rules go to ' . Htaccess::path() . '. If this site runs on Nginx, that file is ignored: copy the Nginx rules from the Advanced tab into the server config.',
-					'data' => array( 'path' => Htaccess::path() ),
-				);
-			}
+		if ( 'nginx' === $server ) {
+			return 'Server rules were not written: this site runs on Nginx, which ignores .htaccess. Copy the Nginx rules from the Advanced tab into the server config.' . $off;
 		}
-		return $notes;
+		return 'Server rules were not written: this web server does not read .htaccess. Add the rules from the Advanced tab to the server config.' . $off;
 	}
 
 	/**
@@ -198,6 +170,7 @@ class Settings_Apply {
 			$cli = array(
 				'restore_failed' => 'The home page answered with a server error after writing the rules, and the old .htaccess could not be written back. Delete everything between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" in ' . Htaccess::path() . ' by hand.',
 				'not_checked'    => 'Server rules were written, but the home page could not be opened to check them. Open the site to make sure it works.',
+				'not_apache'     => self::cli_not_apache(),
 			);
 			return isset( $cli[ $code ] ) ? $cli[ $code ] : 'Server rules were not written (' . $code . '). .htaccess is unchanged: new server rule settings stay off.';
 		}

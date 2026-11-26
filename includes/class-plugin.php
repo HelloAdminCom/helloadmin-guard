@@ -82,6 +82,7 @@ final class Plugin {
 		// A .htaccess copied from another server can hold rules this copy has off (e.g. the login POST block).
 		add_action( 'login_init', array( $this, 'heal_htaccess' ) );
 		add_action( 'admin_init', array( $this, 'heal_htaccess' ) );
+		add_action( 'admin_init', array( Htaccess::class, 'remember_server' ) );
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			\WP_CLI::add_command( 'helloadmin-guard', new Cli( $this->features ) );
