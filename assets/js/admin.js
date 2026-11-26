@@ -1,7 +1,8 @@
 /* Scrolls an element to the top of the screen, under the admin bar, in about 0.7 s with a soft start and end (the
    browser's own smooth scroll is too quick). Stops when the user starts scrolling; instant when the system asks for
    less motion. Used by the card views and the Tips tab. */
-function hagScrollToTop( element ) {
+function hagScrollToTop( element, done ) {
+	done = done || function () {};
 	var bar = document.getElementById( 'wpadminbar' );
 	// On phones WordPress lets the admin bar scroll away with the page: then it does not cover anything.
 	var cover = bar && 'fixed' === window.getComputedStyle( bar ).position ? bar.offsetHeight : 0;
@@ -11,12 +12,16 @@ function hagScrollToTop( element ) {
 	var still = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 	if ( still || Math.abs( to - from ) < 2 ) {
 		window.scrollTo( 0, to );
+		done();
 		return;
 	}
 	var start = null;
 	var stopped = false;
 	var stop = function () {
-		stopped = true;
+		if ( ! stopped ) {
+			stopped = true;
+			done();
+		}
 	};
 	window.addEventListener( 'wheel', stop, { once: true, passive: true } );
 	window.addEventListener( 'touchstart', stop, { once: true, passive: true } );
@@ -33,6 +38,8 @@ function hagScrollToTop( element ) {
 		} else {
 			window.removeEventListener( 'wheel', stop );
 			window.removeEventListener( 'touchstart', stop );
+			stopped = true;
+			done();
 		}
 	};
 	window.requestAnimationFrame( step );
@@ -368,9 +375,13 @@ function hagScrollToTop( element ) {
 	if ( ! tips ) {
 		return;
 	}
-	// The click opens the block itself (instead of the browser), so the jump from the block that closes is taken back
-	// before the page is drawn; then one smooth move of the opened title to the top. Enter and Space on a title
-	// send a click too.
+	// The click opens the block itself. The block that was open stays open while the new title slides to the top,
+	// and closes after that, above the screen, with the page held in place: so there is one smooth move and no
+	// jump, even when the block that closes is taller than the page was scrolled. Enter and Space send a click too.
+	function room( title ) {
+		// Enough height under the title for it to stand at the top of the screen at the end of the page.
+		tips.style.minHeight = Math.max( 0, title.getBoundingClientRect().top - tips.getBoundingClientRect().top + window.innerHeight ) + 'px';
+	}
 	tips.addEventListener( 'click', function ( event ) {
 		var title = event.target.closest( 'summary' );
 		var box = title && title.parentNode;
@@ -378,12 +389,31 @@ function hagScrollToTop( element ) {
 			return;
 		}
 		event.preventDefault();
-		var before = title.getBoundingClientRect().top;
-		// With the name attribute the browser closes the other open block right here.
-		box.open = ! box.open;
-		window.scrollBy( 0, title.getBoundingClientRect().top - before );
 		if ( box.open ) {
-			hagScrollToTop( title );
+			// Closing: the title stays where it is.
+			tips.style.minHeight = tips.offsetHeight + 'px';
+			box.open = false;
+			room( title );
+			return;
 		}
+		var name = box.getAttribute( 'name' );
+		var others = Array.prototype.filter.call( tips.querySelectorAll( 'details[open]' ), function ( other ) {
+			return other !== box && name && other.getAttribute( 'name' ) === name;
+		} );
+		// Without the shared name for a moment, opening this block does not close the others yet.
+		others.forEach( function ( other ) {
+			other.removeAttribute( 'name' );
+		} );
+		box.open = true;
+		room( title );
+		hagScrollToTop( title, function () {
+			others.forEach( function ( other ) {
+				var before = title.getBoundingClientRect().top;
+				other.open = false;
+				other.setAttribute( 'name', name );
+				window.scrollBy( 0, title.getBoundingClientRect().top - before );
+			} );
+			room( title );
+		} );
 	} );
 }() );
