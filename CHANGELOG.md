@@ -21,6 +21,8 @@ All notable changes to this project are documented here. Versions follow [Semant
 - WP-CLI could enable login_url without a login address and write the login POST rule, locking everyone out; the rule is now written only with a saved address and never on multisite (the admin page could do the same on multisite).
 - WP-CLI reported server rules as enabled on Nginx when an old .htaccess file was present.
 - When the old .htaccess could not be written back after a broken write, the new rules stayed in the file but their settings were switched off.
+- On Apache with a read-only .htaccess, saving the Advanced tab unchanged no longer reports that the rules were not saved (settings whose rules are in the file keep their value).
+- The list of users whose login shows is cached for 10 minutes and dropped on user changes and Fix (big sites); the upgrade.php file check skips AJAX requests.
 - Saving the settings from code without display preferences no longer resets them; notices keep their type (info, success) on the settings page.
 - WP-CLI: settings that also work in PHP (XML-RPC, login URL) are reported as enabled when only their server rules could not be written; the upgrade.php file follows the setting at once, also from WP-CLI.
 - The inactive plugins check loads plugin.php itself; the e-mail about a changed must-use list names the files as watched files.

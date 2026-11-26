@@ -459,6 +459,12 @@ class Admin_Page {
 		$manual = $feature instanceof Htaccess_Feature && ( 'apache' !== Htaccess::server() || ! Htaccess::writable() );
 
 		printf( '<div class="hag-card" id="%s" style="order: %d"><div class="hag-head">', esc_attr( $html . '-card' ), (int) $this->card_order );
+		// A disabled box sends nothing. On Apache with a read-only .htaccess, a setting whose rules are in the file
+		// keeps its value, so saving the tab unchanged does not try to remove rules it cannot remove. On other
+		// servers the rules do nothing, so the setting goes off.
+		if ( $manual && 'apache' === Htaccess::server() && $this->settings->is_enabled( $id ) ) {
+			printf( '<input type="hidden" name="%s" value="1">', esc_attr( $name ) );
+		}
 		printf(
 			'<label class="hag-toggle" for="%1$s"><input type="checkbox" role="switch" id="%1$s" name="%2$s" value="1" %3$s%5$s><span class="hag-switch" aria-hidden="true"></span><span class="hag-title">%4$s</span></label>',
 			esc_attr( $html ),

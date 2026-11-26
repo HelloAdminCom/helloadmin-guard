@@ -83,11 +83,18 @@ final class Plugin {
 		add_action( 'login_init', array( $this, 'heal_htaccess' ) );
 		add_action( 'admin_init', array( $this, 'heal_htaccess' ) );
 		add_action( 'admin_init', array( Htaccess::class, 'remember_server' ) );
+		// The cached list of users whose login shows follows user changes made anywhere (registration on the front).
+		foreach ( array( 'user_register', 'profile_update', 'deleted_user' ) as $hook ) {
+			add_action( $hook, array( User_Names::class, 'forget' ) );
+		}
 		// upgrade.php loads no normal plugins: a must-use file closes it for visitors (Hide files that show versions).
 		add_action(
 			'admin_init',
 			function () {
-				Upgrade_Helper::sync( $this->settings->is_enabled( Upgrade_Helper::SETTING ) );
+				// Not on AJAX (heartbeat): saving the setting syncs the file at once, this only catches what was missed.
+				if ( ! wp_doing_ajax() ) {
+					Upgrade_Helper::sync( $this->settings->is_enabled( Upgrade_Helper::SETTING ) );
+				}
 			}
 		);
 

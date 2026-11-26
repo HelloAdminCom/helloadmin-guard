@@ -45,6 +45,16 @@ class User_Names {
 	const NONCE_ARG = 'hag_fix_nonce';
 
 	/**
+	 * Transient with the last list of users whose login shows.
+	 */
+	const CACHE = 'helloadmin_guard_user_leaks';
+
+	/**
+	 * How long the list is kept.
+	 */
+	const CACHE_TTL = 10 * MINUTE_IN_SECONDS;
+
+	/**
 	 * Hooks the form handler.
 	 *
 	 * @return void
@@ -121,6 +131,32 @@ class User_Names {
 	 * @return array{users: array<int, array{id: int, login: string, name: bool, slug: bool, fresh: bool, proposal: string}>, total: int, capped: bool}
 	 */
 	public static function leaks() {
+		// The query may walk the whole users table on big sites: keep the answer for a while. User changes and the
+		// Fix button drop it (forget()), posts and comments show up within CACHE_TTL.
+		$cached = get_transient( self::CACHE );
+		if ( is_array( $cached ) && isset( $cached['users'], $cached['total'], $cached['capped'] ) ) {
+			return $cached;
+		}
+		$leaks = self::find_leaks();
+		set_transient( self::CACHE, $leaks, self::CACHE_TTL );
+		return $leaks;
+	}
+
+	/**
+	 * Drops the cached list (a user was added, changed or deleted).
+	 *
+	 * @return void
+	 */
+	public static function forget() {
+		delete_transient( self::CACHE );
+	}
+
+	/**
+	 * Builds the list for leaks().
+	 *
+	 * @return array{users: array<int, array{id: int, login: string, name: bool, slug: bool, fresh: bool, proposal: string}>, total: int, capped: bool}
+	 */
+	private static function find_leaks() {
 		global $wpdb;
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- read-only, only table names are interpolated; EXISTS uses the post_author and user_id indexes.
 		$rows = $wpdb->get_results(
