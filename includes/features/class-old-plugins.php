@@ -25,7 +25,9 @@ defined( 'ABSPATH' ) || exit;
 class Old_Plugins extends Feature {
 
 	/**
-	 * Option with the plugins found last time: plugin file => old or gone. Signed (Feature::save_list()).
+	 * Option with the plugins found last time: plugin file => old, gone, or gone-once (missing from one update check
+	 * only, not e-mailed yet; see check()). Signed (Feature::save_list()). The card does not read it: it shows
+	 * found(), so a plugin shows there after the first check and is e-mailed after the second.
 	 */
 	const LIST_OPTION = 'helloadmin_guard_old_plugins';
 
