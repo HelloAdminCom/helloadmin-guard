@@ -448,3 +448,7 @@
 /* Full view: the description is in the card body, so the short line above it stays hidden (the line clamp rule
    above would show it again). */
 .hag-cards.hag-view-full .hag-lead { display: none; }
+/* The switch stays at the top next to the first line of the title, whether the title takes one line or two, so it
+   does not move when the view changes. The title sits 2px lower to share the switch's middle on one line. */
+.hag-head .hag-toggle { align-items: flex-start; }
+.hag-head .hag-title { margin-top: 2px; }
