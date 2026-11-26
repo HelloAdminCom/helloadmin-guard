@@ -193,9 +193,10 @@ class Old_Plugins extends Feature {
 		$now                 = self::kinds( $found );
 		list( $known, $bad ) = self::load_list( self::LIST_OPTION );
 		// A plugin missing from one answer may be a hiccup (an update filter, a partial answer): it counts as gone
-		// when the next check still misses it. Until then it is stored as gone-once and not e-mailed.
+		// when the next check still misses it. Until then it is stored as gone-once and not e-mailed. A list that was
+		// changed outside the plugin starts again from what is there, as gone, so nothing is e-mailed for it later.
 		foreach ( $now as $file => $kind ) {
-			if ( 'gone' === $kind && ( $bad || ! isset( $known[ $file ] ) || ! in_array( $known[ $file ], array( 'gone', 'gone-once' ), true ) ) ) {
+			if ( 'gone' === $kind && ! $bad && ( ! isset( $known[ $file ] ) || ! in_array( $known[ $file ], array( 'gone', 'gone-once' ), true ) ) ) {
 				$now[ $file ] = 'gone-once';
 			}
 		}
