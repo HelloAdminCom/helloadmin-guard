@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/helloadmin-guard\n"
-"POT-Creation-Date: 2026-11-26T13:11:40+02:00\n"
+"POT-Creation-Date: 2026-11-26T13:22:16+02:00\n"
 "PO-Revision-Date: 2026-11-19 10:00+0200\n"
 "Last-Translator: HelloAdmin\n"
 "Language-Team: \n"
@@ -45,11 +45,13 @@ msgstr "HelloAdmin"
 msgid "https://helloadmin.com/"
 msgstr "https://helloadmin.com/"
 
-#: includes/class-admin-page.php:73
+#. translators: 1: site name and address, 2: tab and setting name, 3: date and time.
+#: includes/class-admin-page.php:73 includes/class-feature.php:442
+#: includes/features/class-old-plugins.php:378
 msgid "General"
 msgstr "Загальні"
 
-#: includes/class-admin-page.php:74
+#: includes/class-admin-page.php:74 includes/class-feature.php:442
 msgid "Advanced"
 msgstr "Додатково"
 
@@ -541,15 +543,15 @@ msgstr ""
 msgid "HelloAdmin Guard was deactivated"
 msgstr "HelloAdmin Guard деактивовано"
 
-#. translators: %s: title of the setting.
-#: includes/class-feature.php:443
+#. translators: 1: title of the setting, 2: tab name.
+#: includes/class-feature.php:444
 #, php-format
 msgid ""
-"Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%s\" in HeAd "
-"Guard."
+"Sent by HelloAdmin Guard. To stop these e-mails, turn off \"%1$s\" on the "
+"%2$s tab of HeAd Guard."
 msgstr ""
 "Надіслано плагіном HelloAdmin Guard. Щоб більше не отримувати ці листи, "
-"вимкніть «%s» у HeAd Guard."
+"вимкніть «%1$s» на вкладці «%2$s» у HeAd Guard."
 
 #: includes/class-htaccess-feature.php:63
 msgid ""
@@ -2884,12 +2886,13 @@ msgstr ""
 "WordPress ще не перевіряв оновлення плагінів, тож порівнювати немає з чим. "
 "Один раз відкрийте «Консоль → Оновлення»."
 
-#: includes/features/class-old-plugins.php:331
+#: includes/features/class-old-plugins.php:336
+#: includes/features/class-old-plugins.php:359
 msgid "(inactive)"
 msgstr "(неактивний)"
 
 #. translators: 1: plugin name, 2: WordPress version.
-#: includes/features/class-old-plugins.php:334
+#: includes/features/class-old-plugins.php:339
 #, php-format
 msgid ""
 "%1$s was last tested with WordPress %2$s. It may be abandoned: look for a "
@@ -2899,7 +2902,7 @@ msgstr ""
 "заміну, яку підтримують."
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:337
+#: includes/features/class-old-plugins.php:342
 #, php-format
 msgid ""
 "%s is not on WordPress.org (closed there, or installed from somewhere else). "
@@ -2908,42 +2911,80 @@ msgstr ""
 "%s немає на WordPress.org (його там закрили або встановили з іншого місця). "
 "Перевірте, звідки він і чи ще отримує оновлення."
 
-#: includes/features/class-old-plugins.php:350
-msgid ""
-"This alert was just turned on. These plugins look abandoned or are no longer "
-"on WordPress.org right now; later e-mails name only plugins that show up "
-"after this one:"
-msgstr ""
-"Це сповіщення щойно увімкнули. Ці плагіни зараз схожі на покинуті або їх "
-"більше немає на WordPress.org; наступні листи називатимуть лише плагіни, що "
-"з’являться після цього:"
+#. translators: %s: WordPress version.
+#: includes/features/class-old-plugins.php:356
+#, php-format
+msgid "last tested with WordPress %s"
+msgstr "востаннє тестували з WordPress %s"
 
-#: includes/features/class-old-plugins.php:351
-msgid ""
-"WordPress checked for plugin updates, and these plugins look abandoned or "
-"are no longer on WordPress.org:"
-msgstr ""
-"WordPress перевірив оновлення плагінів, і ці плагіни схожі на покинуті або "
-"їх більше немає на WordPress.org:"
+#: includes/features/class-old-plugins.php:357
+msgid "not on WordPress.org (closed there, or installed from somewhere else)"
+msgstr "немає на WordPress.org (там закрили або встановили з іншого місця)"
 
-#: includes/features/class-old-plugins.php:358
+#. translators: 1: site name and address, 2: tab and setting name, 3: date and time.
+#: includes/features/class-old-plugins.php:378
+#, php-format
 msgid ""
-"A plugin that gets no updates keeps every hole found in it. If you still "
-"need it, look for a maintained plugin that does the same; if not, delete it "
-"(an inactive plugin's files can still be opened directly)."
+"On the site %1$s, the setting \"%2$s\" in the HelloAdmin Guard plugin was "
+"turned on (%3$s)."
 msgstr ""
-"Плагін без оновлень зберігає кожну знайдену в ньому діру. Якщо він вам ще "
-"потрібен, пошукайте підтримуваний плагін, що робить те саме; якщо ні – "
-"видаліть його (файли неактивного плагіна досі можна відкрити напряму)."
+"На сайті %1$s у плагіні HelloAdmin Guard було увімкнено налаштування «%2$s» "
+"(%3$s)."
+
+#. translators: 1: site name and address, 2: date and time.
+#: includes/features/class-old-plugins.php:381
+#, php-format
+msgid "On the site %1$s, WordPress checked for plugin updates (%2$s)."
+msgstr "На сайті %1$s WordPress перевірив оновлення плагінів (%2$s)."
+
+#: includes/features/class-old-plugins.php:384
+msgid ""
+"Here are the plugins that look abandoned or are no longer on WordPress.org:"
+msgstr ""
+"Ось список плагінів, які схожі на покинуті або яких більше немає на "
+"WordPress.org:"
+
+#: includes/features/class-old-plugins.php:390
+msgid "No such plugins were found on this site right now."
+msgstr "Наразі таких плагінів на цьому сайті не знайдено."
+
+#: includes/features/class-old-plugins.php:394
+msgid ""
+"Later e-mails will name only plugins that show up on the site after this one."
+msgstr ""
+"Усі наступні листи називатимуть лише плагіни, що з’являться на сайті після "
+"цього листа."
+
+#: includes/features/class-old-plugins.php:397
+msgid ""
+"Important! A plugin that gets no updates keeps every hole found in it. If "
+"you still need it, look for a maintained plugin that does the same; if not, "
+"delete it (an inactive plugin's files can still be opened directly)."
+msgstr ""
+"Важливо! Плагін без оновлень зберігає кожну знайдену в ньому діру. Якщо він "
+"вам ще потрібен, пошукайте підтримуваний плагін, що робить те саме; якщо ні "
+"– видаліть його (файли неактивного плагіна досі можна відкрити напряму)."
+
+#. translators: %s: address of the Plugins screen.
+#: includes/features/class-old-plugins.php:400
+#, php-format
+msgid "To check your plugins, open %s or Plugins in the WordPress admin menu."
+msgstr ""
+"Перевірити плагіни можна за адресою %s або в меню «Плагіни» в адмінці "
+"WordPress."
+
+#: includes/features/class-old-plugins.php:404
+msgid "Abandoned plugins check is on: nothing found"
+msgstr "Перевірку покинутих плагінів увімкнено: нічого не знайдено"
 
 #. translators: %s: plugin name.
-#: includes/features/class-old-plugins.php:366
+#: includes/features/class-old-plugins.php:408
 #, php-format
 msgid "Plugin to check: %s"
 msgstr "Плагін для перевірки: %s"
 
 #. translators: %d: number of plugins.
-#: includes/features/class-old-plugins.php:368
+#: includes/features/class-old-plugins.php:411
 #, php-format
 msgid "%d plugin to check"
 msgid_plural "%d plugins to check"

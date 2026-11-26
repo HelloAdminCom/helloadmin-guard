@@ -439,8 +439,9 @@ abstract class Feature {
 		}
 
 		$lines[] = '';
-		/* translators: %s: title of the setting. */
-		$lines[] = sprintf( __( 'Sent by HelloAdmin Guard. To stop these e-mails, turn off "%s" in HeAd Guard.', 'helloadmin-guard' ), $this->title() );
+		$tab     = 'advanced' === $this->tab() ? __( 'Advanced', 'helloadmin-guard' ) : __( 'General', 'helloadmin-guard' );
+		/* translators: 1: title of the setting, 2: tab name. */
+		$lines[] = sprintf( __( 'Sent by HelloAdmin Guard. To stop these e-mails, turn off "%1$s" on the %2$s tab of HeAd Guard.', 'helloadmin-guard' ), $this->title(), $tab );
 
 		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
 		return wp_mail( $to, '[' . $site . '] ' . $subject, implode( "\n", $lines ) );

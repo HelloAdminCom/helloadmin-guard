@@ -172,7 +172,9 @@ class Old_Plugins extends Feature {
 	public function switched_on() {
 		$found = self::found();
 		self::save_list( self::LIST_OPTION, null === $found ? array() : self::kinds( $found ) );
-		if ( $found ) {
+		// Also when nothing is found: the admin learns that the check works and that the e-mails arrive. Without
+		// update data yet there is nothing to say; the regular check e-mails the findings later.
+		if ( null !== $found ) {
 			$this->send_alert( $found, true );
 		}
 	}
@@ -226,7 +228,7 @@ class Old_Plugins extends Feature {
 	/**
 	 * Plugins that look abandoned or are not on WordPress.org, or null when WordPress has not checked for updates.
 	 *
-	 * @return array<string, array{kind: string, name: string, tested: string}>|null
+	 * @return array<string, array{kind: string, name: string, tested: string, author: string}>|null
 	 */
 	public static function found() {
 		$data = get_site_transient( 'update_plugins' );
@@ -247,7 +249,8 @@ class Old_Plugins extends Feature {
 			if ( $self === $file ) {
 				continue;
 			}
-			$name = isset( $info['Name'] ) ? (string) $info['Name'] : $file;
+			$name   = isset( $info['Name'] ) ? (string) $info['Name'] : $file;
+			$author = isset( $info['Author'] ) ? trim( wp_strip_all_tags( (string) $info['Author'] ) ) : '';
 			if ( isset( $answered[ $file ] ) ) {
 				$item   = (array) $answered[ $file ];
 				$tested = isset( $item['tested'] ) && is_string( $item['tested'] ) ? $item['tested'] : '';
@@ -256,6 +259,7 @@ class Old_Plugins extends Feature {
 						'kind'   => 'old',
 						'name'   => $name,
 						'tested' => $tested,
+						'author' => $author,
 					);
 				}
 				continue;
@@ -268,6 +272,7 @@ class Old_Plugins extends Feature {
 				'kind'   => 'gone',
 				'name'   => $name,
 				'tested' => '',
+				'author' => $author,
 			);
 		}
 		return $found;
@@ -308,7 +313,7 @@ class Old_Plugins extends Feature {
 	/**
 	 * Plugin file => kind, the part of the findings that is stored.
 	 *
-	 * @param array<string, array{kind: string, name: string, tested: string}> $found Findings.
+	 * @param array<string, array{kind: string, name: string, tested: string, author: string}> $found Findings.
 	 * @return array<string, string>
 	 */
 	private static function kinds( array $found ) {
@@ -323,8 +328,8 @@ class Old_Plugins extends Feature {
 	/**
 	 * One line about a plugin, for the card and the e-mail.
 	 *
-	 * @param string                                            $file Plugin file.
-	 * @param array{kind: string, name: string, tested: string} $item Finding.
+	 * @param string                                                            $file Plugin file.
+	 * @param array{kind: string, name: string, tested: string, author: string} $item Finding.
 	 * @return string
 	 */
 	private static function describe( $file, array $item ) {
@@ -338,34 +343,73 @@ class Old_Plugins extends Feature {
 	}
 
 	/**
-	 * Sends the e-mail about plugins that showed up in the lists.
+	 * One numbered line of the e-mail list: name, author and why it is listed.
 	 *
-	 * @param array<string, array{kind: string, name: string, tested: string}> $added New findings.
-	 * @param bool                                                             $first The alert was just switched on.
+	 * @param int                                                               $n    Number in the list.
+	 * @param string                                                            $file Plugin file.
+	 * @param array{kind: string, name: string, tested: string, author: string} $item Finding.
+	 * @return string
+	 */
+	private static function list_line( $n, $file, array $item ) {
+		$why = 'old' === $item['kind']
+			/* translators: %s: WordPress version. */
+			? sprintf( __( 'last tested with WordPress %s', 'helloadmin-guard' ), $item['tested'] )
+			: __( 'not on WordPress.org (closed there, or installed from somewhere else)', 'helloadmin-guard' );
+		$who = '' !== $item['author'] ? $item['name'] . ', ' . $item['author'] : $item['name'];
+		if ( ! is_plugin_active( $file ) ) {
+			$who .= ' ' . __( '(inactive)', 'helloadmin-guard' );
+		}
+		return $n . '. ' . $who . ' – ' . $why;
+	}
+
+	/**
+	 * Sends the e-mail: once with the current list when the alert is switched on (also when nothing is found), and
+	 * later about plugins that showed up in the lists.
+	 *
+	 * @param array<string, array{kind: string, name: string, tested: string, author: string}> $items Findings.
+	 * @param bool                                                                             $first The alert was just switched on.
 	 * @return void
 	 */
-	private function send_alert( array $added, $first = false ) {
-		$lines = array(
-			$first
-				? __( 'This alert was just turned on. These plugins look abandoned or are no longer on WordPress.org right now; later e-mails name only plugins that show up after this one:', 'helloadmin-guard' )
-				: __( 'WordPress checked for plugin updates, and these plugins look abandoned or are no longer on WordPress.org:', 'helloadmin-guard' ),
-			'',
-		);
-		foreach ( $added as $file => $item ) {
-			$lines[] = '  ' . self::describe( $file, $item );
+	private function send_alert( array $items, $first = false ) {
+		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ) . ' (' . home_url( '/' ) . ')';
+		$when = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
+		if ( $first ) {
+			/* translators: 1: site name and address, 2: tab and setting name, 3: date and time. */
+			$lines = array( sprintf( __( 'On the site %1$s, the setting "%2$s" in the HelloAdmin Guard plugin was turned on (%3$s).', 'helloadmin-guard' ), $site, __( 'General', 'helloadmin-guard' ) . ' → ' . $this->title(), $when ), '' );
+		} else {
+			/* translators: 1: site name and address, 2: date and time. */
+			$lines = array( sprintf( __( 'On the site %1$s, WordPress checked for plugin updates (%2$s).', 'helloadmin-guard' ), $site, $when ), '' );
+		}
+		if ( $items ) {
+			$lines[] = __( 'Here are the plugins that look abandoned or are no longer on WordPress.org:', 'helloadmin-guard' );
+			$n       = 0;
+			foreach ( $items as $file => $item ) {
+				$lines[] = self::list_line( ++$n, $file, $item );
+			}
+		} else {
+			$lines[] = __( 'No such plugins were found on this site right now.', 'helloadmin-guard' );
 		}
 		$lines[] = '';
-		$lines[] = __( 'A plugin that gets no updates keeps every hole found in it. If you still need it, look for a maintained plugin that does the same; if not, delete it (an inactive plugin\'s files can still be opened directly).', 'helloadmin-guard' );
+		if ( $first ) {
+			$lines[] = __( 'Later e-mails will name only plugins that show up on the site after this one.', 'helloadmin-guard' );
+			$lines[] = '';
+		}
+		$lines[] = __( 'Important! A plugin that gets no updates keeps every hole found in it. If you still need it, look for a maintained plugin that does the same; if not, delete it (an inactive plugin\'s files can still be opened directly).', 'helloadmin-guard' );
 		$lines[] = '';
-		$lines[] = admin_url( 'plugins.php' );
+		/* translators: %s: address of the Plugins screen. */
+		$lines[] = sprintf( __( 'To check your plugins, open %s or Plugins in the WordPress admin menu.', 'helloadmin-guard' ), admin_url( 'plugins.php' ) );
 
-		$count   = count( $added );
-		$first   = reset( $added );
-		$subject = 1 === $count
+		$count = count( $items );
+		if ( 0 === $count ) {
+			$subject = __( 'Abandoned plugins check is on: nothing found', 'helloadmin-guard' );
+		} elseif ( 1 === $count ) {
+			$one = reset( $items );
 			/* translators: %s: plugin name. */
-			? sprintf( __( 'Plugin to check: %s', 'helloadmin-guard' ), $first['name'] )
+			$subject = sprintf( __( 'Plugin to check: %s', 'helloadmin-guard' ), $one['name'] );
+		} else {
 			/* translators: %d: number of plugins. */
-			: sprintf( _n( '%d plugin to check', '%d plugins to check', $count, 'helloadmin-guard' ), $count );
+			$subject = sprintf( _n( '%d plugin to check', '%d plugins to check', $count, 'helloadmin-guard' ), $count );
+		}
 		$this->send_alert_mail( $subject, $lines );
 	}
 }
