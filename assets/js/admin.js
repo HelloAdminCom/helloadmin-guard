@@ -1,12 +1,41 @@
-/* Smooth scroll of an element to the top of the screen, under the admin bar; instant when the system asks for less
-   motion. Used by the card views and the Tips tab. */
+/* Scrolls an element to the top of the screen, under the admin bar, in about 0.7 s with a soft start and end (the
+   browser's own smooth scroll is too quick). Stops when the user starts scrolling; instant when the system asks for
+   less motion. Used by the card views and the Tips tab. */
 function hagScrollToTop( element ) {
 	var bar = document.getElementById( 'wpadminbar' );
 	// On phones WordPress lets the admin bar scroll away with the page: then it does not cover anything.
 	var cover = bar && 'fixed' === window.getComputedStyle( bar ).position ? bar.offsetHeight : 0;
-	var top = element.getBoundingClientRect().top + window.pageYOffset - cover - 12;
+	var from = window.pageYOffset;
+	var max = document.documentElement.scrollHeight - window.innerHeight;
+	var to = Math.max( 0, Math.min( max, element.getBoundingClientRect().top + from - cover - 12 ) );
 	var still = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
-	window.scrollTo( { top: Math.max( 0, top ), behavior: still ? 'auto' : 'smooth' } );
+	if ( still || Math.abs( to - from ) < 2 ) {
+		window.scrollTo( 0, to );
+		return;
+	}
+	var start = null;
+	var stopped = false;
+	var stop = function () {
+		stopped = true;
+	};
+	window.addEventListener( 'wheel', stop, { once: true, passive: true } );
+	window.addEventListener( 'touchstart', stop, { once: true, passive: true } );
+	var step = function ( now ) {
+		if ( stopped ) {
+			return;
+		}
+		start = null === start ? now : start;
+		var t = Math.min( 1, ( now - start ) / 700 );
+		var ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow( -2 * t + 2, 3 ) / 2;
+		window.scrollTo( 0, from + ( to - from ) * ease );
+		if ( t < 1 ) {
+			window.requestAnimationFrame( step );
+		} else {
+			window.removeEventListener( 'wheel', stop );
+			window.removeEventListener( 'touchstart', stop );
+		}
+	};
+	window.requestAnimationFrame( step );
 }
 
 /* HelloAdmin Guard settings page: remembers whether the welcome message is folded. */
