@@ -353,8 +353,9 @@
 	.hag-fix-table td:first-child { grid-column: 1 / -1; order: 1; }
 	.hag-fix-table td:nth-child(2) { grid-column: 1 / -1; order: 2; }
 	.hag-fix-table td:nth-child(3) .screen-reader-text { grid-column: 1 / -1; order: 3; }
-	.hag-fix-table td:nth-child(3) input { grid-column: 1; order: 4; align-self: center; }
-	.hag-fix-table td:nth-child(4) { grid-column: 2; order: 5; align-self: center; }
+	.hag-fix-table td:nth-child(3) input { grid-column: 1; order: 4; align-self: stretch; height: auto; margin: 0; }
+	.hag-fix-table td:nth-child(4) { grid-column: 2; order: 5; align-self: stretch; display: flex; }
+	.hag-fix-table td:nth-child(4) .button { flex: 1; height: auto; min-height: 0; margin: 0; }
 	.hag-fix-table td:nth-child(3) .hag-fix-msg { grid-column: 1 / -1; order: 6; margin: 4px 0 0; }
 	.hag-fix-table input.regular-text { min-width: 0; }
 	.hag-fix-table td.hag-fix-ok { display: block; grid-column: 1 / -1; order: 3; }
@@ -416,3 +417,16 @@
 .hag-tab-emergency .button { white-space: normal; height: auto; max-width: 100%; line-height: 1.4; padding-top: 8px; padding-bottom: 8px; }
 /* Tips: the DNS check button wraps on narrow phones. */
 .hag-tip-body .button { white-space: normal; height: auto; max-width: 100%; line-height: 1.4; padding-top: 6px; padding-bottom: 6px; }
+/* Boxes and radio buttons with their text: a long text wraps next to the box, not under it. */
+.hag .hag-radio,
+.hag .hag-pref label,
+.hag .hag-skip label,
+.hag .hag-check-field label,
+.hag-tab-emergency form label { display: inline-flex; align-items: flex-start; gap: 6px; max-width: 100%; }
+.hag .hag-radio { display: flex; margin: 0 0 6px; }
+.hag .hag-radio + br { display: none; }
+.hag .hag-radio input,
+.hag .hag-pref input,
+.hag .hag-skip input,
+.hag .hag-check-field input,
+.hag-tab-emergency form label input { flex: none; margin: 0.15em 0 0; }

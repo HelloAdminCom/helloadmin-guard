@@ -2,7 +2,9 @@
    motion. Used by the card views and the Tips tab. */
 function hagScrollToTop( element ) {
 	var bar = document.getElementById( 'wpadminbar' );
-	var top = element.getBoundingClientRect().top + window.pageYOffset - ( bar ? bar.offsetHeight : 0 ) - 12;
+	// On phones WordPress lets the admin bar scroll away with the page: then it does not cover anything.
+	var cover = bar && 'fixed' === window.getComputedStyle( bar ).position ? bar.offsetHeight : 0;
+	var top = element.getBoundingClientRect().top + window.pageYOffset - cover - 12;
 	var still = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 	window.scrollTo( { top: Math.max( 0, top ), behavior: still ? 'auto' : 'smooth' } );
 }
