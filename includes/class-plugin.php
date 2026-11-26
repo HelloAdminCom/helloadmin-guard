@@ -284,6 +284,10 @@ final class Plugin {
 				$feature->switched_on();
 			}
 		}
+		// The upgrade.php file follows the setting right away, also for WP-CLI (admin_init catches anything missed).
+		if ( empty( $after[ Upgrade_Helper::SETTING ] ) !== empty( $before[ Upgrade_Helper::SETTING ] ) ) {
+			Upgrade_Helper::sync( ! empty( $after[ Upgrade_Helper::SETTING ] ) );
+		}
 	}
 
 	/**

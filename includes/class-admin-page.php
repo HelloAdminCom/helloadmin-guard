@@ -198,8 +198,14 @@ class Admin_Page {
 		$input = is_array( $input ) ? $input : array();
 		$tab   = isset( $input['tab'] ) ? sanitize_key( $input['tab'] ) : '';
 		if ( '' === $tab ) {
-			$clean          = Settings::sanitize( $input, $this->features );
-			$clean['prefs'] = isset( $input['prefs'] ) && is_array( $input['prefs'] ) ? array( 'menu_count' => ! empty( $input['prefs']['menu_count'] ) ) : array();
+			$clean = Settings::sanitize( $input, $this->features );
+			if ( isset( $input['prefs'] ) && is_array( $input['prefs'] ) ) {
+				$clean['prefs'] = array( 'menu_count' => ! empty( $input['prefs']['menu_count'] ) );
+			} else {
+				// A save from code without prefs keeps the stored display preferences.
+				$stored         = get_option( Settings::OPTION, array() );
+				$clean['prefs'] = is_array( $stored ) && isset( $stored['prefs'] ) && is_array( $stored['prefs'] ) ? $stored['prefs'] : array();
+			}
 			return $this->apply_htaccess( $clean );
 		}
 
@@ -244,7 +250,7 @@ class Admin_Page {
 		$result = $this->applier->apply( $clean, array( 'source' => 'admin' ) );
 		if ( ! $result['skipped_duplicate'] && function_exists( 'add_settings_error' ) ) {
 			foreach ( $result['messages'] as $message ) {
-				add_settings_error( Settings::OPTION, 'helloadmin_guard_htaccess', $message['text'], 'error' === $message['type'] ? 'error' : 'warning' );
+				add_settings_error( Settings::OPTION, 'helloadmin_guard_htaccess', $message['text'], in_array( $message['type'], array( 'error', 'warning', 'info', 'success' ), true ) ? $message['type'] : 'warning' );
 			}
 		}
 		return $result['settings'];

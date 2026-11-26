@@ -190,6 +190,13 @@ class Old_Plugins extends Feature {
 		}
 		$now                 = self::kinds( $found );
 		list( $known, $bad ) = self::load_list( self::LIST_OPTION );
+		// A plugin missing from one answer may be a hiccup (an update filter, a partial answer): it counts as gone
+		// when the next check still misses it. Until then it is stored as gone-once and not e-mailed.
+		foreach ( $now as $file => $kind ) {
+			if ( 'gone' === $kind && ( $bad || ! isset( $known[ $file ] ) || ! in_array( $known[ $file ], array( 'gone', 'gone-once' ), true ) ) ) {
+				$now[ $file ] = 'gone-once';
+			}
+		}
 		if ( $now !== $known || $bad ) {
 			self::save_list( self::LIST_OPTION, $now );
 		}
@@ -199,7 +206,8 @@ class Old_Plugins extends Feature {
 		}
 		$new = array();
 		foreach ( $now as $file => $kind ) {
-			if ( ! isset( $known[ $file ] ) || $known[ $file ] !== $kind ) {
+			$was = isset( $known[ $file ] ) ? $known[ $file ] : '';
+			if ( ( 'old' === $kind && 'old' !== $was ) || ( 'gone' === $kind && 'gone-once' === $was ) ) {
 				$new[ $file ] = $found[ $file ];
 			}
 		}
@@ -270,6 +278,9 @@ class Old_Plugins extends Feature {
 
 	/**
 	 * How many major releases the version a plugin was tested with is behind this WordPress (6.9 -> 7.1 = 2).
+	 * BEHIND = 3 is the WordPress.org rule "not tested with the latest 3 major releases": on 7.1 these are 7.1, 7.0
+	 * and 6.9, so 6.9 is fine (2) and 6.8 is not (3). Major versions go x.0 to x.9, so major * 10 + minor counts
+	 * releases in a row.
 	 *
 	 * @param string $tested Version from the update data.
 	 * @return int

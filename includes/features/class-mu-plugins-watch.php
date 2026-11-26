@@ -18,14 +18,14 @@ defined( 'ABSPATH' ) || exit;
  * That makes them a favourite place for malware: the FBI notice on Gootloader (CC-111626-MW) names hidden
  * and fake must-use plugins in the StopAndProtect and DollyWay campaigns.
  *
- * The plugin compares these files (name and MD5 of the content) with the list it saw last time (Feature::watch():
+ * The plugin compares these files (name and SHA-256 of the content) with the list it saw last time (Feature::watch():
  * after every login, on admin pages, at least once an hour while the site gets visits; no WP-Cron) and sends one e-mail about the new and changed ones. Only files WordPress loads by itself are watched:
  * the PHP files directly in mu-plugins, also the ones whose names start with a dot, and the known drop-ins.
  */
 class Mu_Plugins_Watch extends Feature {
 
 	/**
-	 * Option with the files seen last time: relative path => MD5. Autoloaded: small, read on every request.
+	 * Option with the files seen last time: relative path => SHA-256 (MD5 in lists from before 0.6). Autoloaded: small, read on every request.
 	 */
 	const SNAPSHOT_OPTION = 'helloadmin_guard_mu_files';
 
@@ -292,14 +292,19 @@ class Mu_Plugins_Watch extends Feature {
 	 * @return bool
 	 */
 	private static function new_in_scope( $path ) {
-		return 0 === strpos( $path, 'site:' ) || substr_count( $path, '/' ) > 1;
+		if ( 0 === strpos( $path, 'site:' ) ) {
+			return true;
+		}
+		// A file inside a subfolder of mu-plugins: "mu-plugins/<folder>/<file>"; drop-ins have no folder at all.
+		$base = basename( WPMU_PLUGIN_DIR ) . '/';
+		return 0 === strpos( $path, $base ) && false !== strpos( substr( $path, strlen( $base ) ), '/' );
 	}
 
 	/**
 	 * Watched files: PHP files in mu-plugins (dot files too) and its subfolders, the drop-ins, and the site files.
 	 *
 	 * @return array<string, string> "mu-plugins/name.php", "mu-plugins/folder/name.php", the drop-in name or
-	 *                               "site:wp-config.php" => MD5 of the content, sorted by path.
+	 *                               "site:wp-config.php" => SHA-256 of the content, sorted by path.
 	 */
 	public static function files() {
 		static $memo = null;

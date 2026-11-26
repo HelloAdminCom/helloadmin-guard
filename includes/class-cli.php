@@ -266,15 +266,16 @@ class Cli {
 
 		update_option( Settings::OPTION, $option );
 		Status::forget();
-		// When the rules could not be written, a server rule setting that is "on" only because its old rules are
-		// still in the file does not count as enabled by this command.
+		// When the rules could not be written, a server rule setting is not enabled by this command, even when it is
+		// "on" only because its old rules are still in the file.
 		$failed = false;
 		foreach ( (array) $result['messages'] as $message ) {
 			$failed = $failed || 'error' === $message['type'];
 		}
 		$done = array();
 		foreach ( $ids as $id ) {
-			if ( $on && $failed && $this->features[ $id ]->apache_rules() ) {
+			// Settings that also work in PHP (XML-RPC, login URL) stay on, as Htaccess::settle() keeps them.
+			if ( $on && $failed && $this->features[ $id ] instanceof Htaccess_Feature ) {
 				continue;
 			}
 			if ( ! empty( $option['enabled'][ $id ] ) === $on ) {

@@ -6,7 +6,7 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ### Added
 - Tips tab: three fold-out groups (ten minutes in the admin area, hosting and DNS, for developers), strongest tip first, each with what it does not protect against; SPF and DMARC check of the site domain on request (cached 10 minutes); current PHP version in its tip.
-- E-mail me about abandoned and closed plugins (new alert card): plugins not tested with the last 3 major WordPress releases and plugins WordPress.org no longer answers for, from the update_plugins data; plugins with an Update URI elsewhere are left out; e-mail when a new one shows up.
+- E-mail me about abandoned and closed plugins (new alert card), a plugin missing from WordPress.org is e-mailed only when two update checks in a row miss it: plugins not tested with the last 3 major WordPress releases and plugins WordPress.org no longer answers for, from the update_plugins data; plugins with an Update URI elsewhere are left out; e-mail when a new one shows up.
 - Card views: full description, short description with Details, switch only; saved per user; cut titles show in full in a hint.
 - upgrade.php: a must-use file (helloadmin-guard-upgrade.php) answers 404 to visitors who are not logged in, also with a fake login cookie, unless a database update is due. Written while Hide files that show versions is on, removed on deactivation and uninstall; the must-use alert ignores it only when it is byte for byte the plugin's own.
 - WP-CLI: --slug for enable login_url, --server for enable, disable and sync.
@@ -21,6 +21,8 @@ All notable changes to this project are documented here. Versions follow [Semant
 - WP-CLI could enable login_url without a login address and write the login POST rule, locking everyone out; the rule is now written only with a saved address and never on multisite (the admin page could do the same on multisite).
 - WP-CLI reported server rules as enabled on Nginx when an old .htaccess file was present.
 - When the old .htaccess could not be written back after a broken write, the new rules stayed in the file but their settings were switched off.
+- Saving the settings from code without display preferences no longer resets them; notices keep their type (info, success) on the settings page.
+- WP-CLI: settings that also work in PHP (XML-RPC, login URL) are reported as enabled when only their server rules could not be written; the upgrade.php file follows the setting at once, also from WP-CLI.
 - The inactive plugins check loads plugin.php itself; the e-mail about a changed must-use list names the files as watched files.
 
 ## [0.6.1] - 2026-11-25
