@@ -230,7 +230,7 @@
 .hag-note { margin: 6px 0 0; font-size: 12px; color: #50575e; }
 .hag-cards .hag-card > .hag-foot { margin-top: auto; }
 .hag-skip { margin: 12px 0 0; font-size: 12px; color: #50575e; }
-.hag-check { margin: 0 0 16px; color: #50575e; }
+.hag-check { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 16px; color: #50575e; }
 .hag-pref { margin: 20px 0 0; }
 .hag-warning {
 	margin: 8px 0 0;
@@ -445,3 +445,6 @@
 .hag-about-actions { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 12px; }
 .hag-about-actions .button { margin: 0; text-align: center; }
 @media (max-width: 600px) { .hag-about-actions { grid-auto-flow: row; } }
+/* Full view: the description is in the card body, so the short line above it stays hidden (the line clamp rule
+   above would show it again). */
+.hag-cards.hag-view-full .hag-lead { display: none; }
