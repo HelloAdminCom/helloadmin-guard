@@ -122,11 +122,11 @@ class User_Names {
 	 */
 	public static function leaks() {
 		global $wpdb;
-		$match = "( u.display_name = u.user_login OR u.user_nicename = LOWER( u.user_login ) OR u.user_nicename = LOWER( REPLACE( REPLACE( u.user_login, '.', '-' ), ' ', '-' ) ) )";
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- read-only, $match is a fixed string; EXISTS uses the post_author and user_id indexes.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- read-only, only table names are interpolated; EXISTS uses the post_author and user_id indexes.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT u.ID, u.user_login, u.user_nicename, u.display_name FROM {$wpdb->users} u WHERE {$match}
+				"SELECT u.ID, u.user_login, u.user_nicename, u.display_name FROM {$wpdb->users} u
+				WHERE ( u.display_name = u.user_login OR u.user_nicename = LOWER( u.user_login ) OR u.user_nicename = LOWER( REPLACE( REPLACE( u.user_login, '.', '-' ), ' ', '-' ) ) )
 				AND ( EXISTS ( SELECT 1 FROM {$wpdb->posts} p WHERE p.post_author = u.ID AND p.post_status = 'publish' )
 					OR EXISTS ( SELECT 1 FROM {$wpdb->comments} c WHERE c.user_id = u.ID AND c.comment_approved = '1' ) )
 				ORDER BY u.ID DESC LIMIT %d",

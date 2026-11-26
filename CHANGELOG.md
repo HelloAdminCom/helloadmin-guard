@@ -2,6 +2,27 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.7.0] - 2026-11-26
+
+### Added
+- Tips tab: three fold-out groups (ten minutes in the admin area, hosting and DNS, for developers), strongest tip first, each with what it does not protect against; SPF and DMARC check of the site domain on request (cached 10 minutes); current PHP version in its tip.
+- E-mail me about abandoned and closed plugins (new alert card): plugins not tested with the last 3 major WordPress releases and plugins WordPress.org no longer answers for, from the update_plugins data; plugins with an Update URI elsewhere are left out; e-mail when a new one shows up.
+- Card views: full description, short description with Details, switch only; saved per user; cut titles show in full in a hint.
+- upgrade.php: a must-use file (helloadmin-guard-upgrade.php) answers 404 to visitors who are not logged in, also with a fake login cookie, unless a database update is due. Written while Hide files that show versions is on, removed on deactivation and uninstall; the must-use alert ignores it only when it is byte for byte the plugin's own.
+- WP-CLI: --slug for enable login_url, --server for enable, disable and sync.
+
+### Changed
+- One core (Settings_Apply) applies settings for the admin page and WP-CLI.
+- WP-CLI takes the web server type from admin requests (option helloadmin_guard_server) or --server instead of guessing Apache from an existing .htaccess.
+- Narrow screens: status label under the title, view buttons on their own line, the Hide user names table as stacked rows, long code wraps.
+- wp helloadmin-guard sync reports a rewrite when the rules inside the block changed.
+
+### Fixed
+- WP-CLI could enable login_url without a login address and write the login POST rule, locking everyone out; the rule is now written only with a saved address and never on multisite (the admin page could do the same on multisite).
+- WP-CLI reported server rules as enabled on Nginx when an old .htaccess file was present.
+- When the old .htaccess could not be written back after a broken write, the new rules stayed in the file but their settings were switched off.
+- The inactive plugins check loads plugin.php itself; the e-mail about a changed must-use list names the files as watched files.
+
 ## [0.6.1] - 2026-11-25
 
 ### Changed

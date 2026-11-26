@@ -12,17 +12,20 @@ Most hardening plugins give you a list of switches and leave you to guess what e
 - **What may break**
 - **How to undo it**, including when you can't reach wp-admin
 
-Everything is off until you turn it on. No paid version, no locked features, no ads, no external requests.
+Everything is off until you turn it on. No paid version, no locked features, no ads, no external requests (except a DNS check of your own domain that you start on the Tips tab).
 
 ## Settings
 
 | Tab | Settings, from the biggest risk down |
 | --- | --- |
-| General | Turn off or limit XML-RPC · Turn off the file editor · Limit login attempts · Custom login URL · Hide user names · E-mail me about new administrators · E-mail me about new must-use plugins · Turn off Application Passwords · HTTPS only (HSTS) · Security headers · Hide the REST API index · Hide the WordPress version |
-| Advanced (server rules) | Block hidden files (.git, .env) · Block backups and database dumps · No PHP in the uploads folder · Block logs and diagnostic pages · Turn off folder listings · Redirect http:// to https:// · Close internal WordPress folders · Hide files that show versions · Block developer and build files · Refuse TRACE and TRACK requests |
+| General | Turn off or limit XML-RPC · Turn off the file editor · Limit login attempts · Custom login URL · Hide user names · E-mail me about new administrators · E-mail me about changed must-use plugins and site files · E-mail me about abandoned and closed plugins · Turn off Application Passwords · Security headers · Hide the REST API index · Core REST API only for logged-in users · Hide the WordPress version |
+| Advanced (server rules) | Block hidden files (.git, .env) · Block backups and database dumps · No PHP in the uploads folder · Block logs and diagnostic pages · Turn off folder listings · Redirect http:// to https:// · HTTPS only (HSTS) · Close internal WordPress folders · Hide files that show versions · Block developer and build files · Block PHP files of inactive plugins · Refuse TRACE and TRACK requests |
 | If hacked | Log out everyone else and delete all application passwords with one button, plus a short checklist |
+| Tips | Steps a plugin cannot take for you (two-factor login, backups, one hosting user per site, SPF and DMARC, DISALLOW_FILE_MODS and more), strongest first, each with what it does not protect against |
 
-Server rules are written to `.htaccess` on Apache and LiteSpeed. On Nginx the plugin shows the same rules to copy into the server block. WP-CLI: `wp helloadmin-guard sync` rewrites the `.htaccess` block from the saved settings.
+Server rules are written to `.htaccess` on Apache and LiteSpeed. On Nginx the plugin shows the same rules to copy into the server block.
+
+WP-CLI: `wp helloadmin-guard status | check | enable | disable | sync`. `enable login_url --slug=<address>` sets the login address; `--server=apache|nginx` tells the plugin the web server when the admin area was never opened on that site.
 
 Languages: English, Ukrainian, Russian.
 

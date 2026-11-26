@@ -13,8 +13,8 @@ use HelloAdmin\Guard\Settings;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Uses only the answer WordPress already gets when it checks for plugin updates (the update_plugins site
- * transient), so the plugin makes no requests of its own:
+ * Uses only the answer WordPress already gets when it checks for plugin updates (stored by WordPress, read here
+ * after each new check), so the plugin makes no requests of its own:
  *
  * - "old": the plugin is on WordPress.org, but was not tested with the last 3 major WordPress releases (the same
  *   rule WordPress.org uses for its own warning on the plugin page);
@@ -33,6 +33,16 @@ class Old_Plugins extends Feature {
 	 * Major releases a plugin may lag behind before it counts as old.
 	 */
 	const BEHIND = 3;
+
+	/**
+	 * Option with the time of the last regular check (Feature::watch()).
+	 */
+	const CHECKED_OPTION = 'helloadmin_guard_old_plugins_checked';
+
+	/**
+	 * Option with the time of the WordPress update check the list was last compared with.
+	 */
+	const SEEN_OPTION = 'helloadmin_guard_old_plugins_seen';
 
 	/**
 	 * {@inheritDoc}
@@ -142,13 +152,13 @@ class Old_Plugins extends Feature {
 	}
 
 	/**
-	 * Checks again each time WordPress saves new update data.
+	 * Adds the regular check (after every login, on admin pages, at least once an hour while the site gets visits).
 	 *
 	 * @param Settings $settings Plugin settings.
 	 * @return void
 	 */
 	public function enable( Settings $settings ) {
-		add_action( 'set_site_transient_update_plugins', array( $this, 'check' ), 20 );
+		$this->watch( array( $this, 'check' ), self::CHECKED_OPTION );
 	}
 
 	/**
@@ -167,6 +177,13 @@ class Old_Plugins extends Feature {
 	 * @return void
 	 */
 	public function check() {
+		// Only when WordPress has asked WordPress.org again since the last comparison.
+		$data = get_site_transient( 'update_plugins' );
+		$when = is_object( $data ) && isset( $data->last_checked ) ? (int) $data->last_checked : 0;
+		if ( 0 === $when || (int) get_option( self::SEEN_OPTION, 0 ) === $when ) {
+			return;
+		}
+		update_option( self::SEEN_OPTION, $when, false );
 		$found = self::found();
 		if ( null === $found ) {
 			return;

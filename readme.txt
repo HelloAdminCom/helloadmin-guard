@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.6.1
+Stable tag: 0.7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ What makes it different:
 
 * Every setting tells you what it does, what may break and how to turn it back, right next to the switch.
 * Everything is off until you turn it on. Nothing changes on activation.
-* No paid version, no locked settings, no ads, no calls to outside servers.
+* No paid version, no locked settings, no ads, no calls to outside servers. The only lookup is a DNS check of your own domain, and only when you press its button on the Tips tab.
 
 = Settings in this version =
 
@@ -38,8 +38,11 @@ General tab
 * Core REST API only for logged-in users. Posts, pages, media and the other core routes answer only logged-in users; plugin routes stay open.
 * E-mail me about new administrators. A message when an account becomes an administrator, also when it was written straight into the database or hidden from the Users screen; also when an administrator's e-mail or password changes, the site e-mail changes, or anyone can register with a dangerous role.
 * E-mail me about changed must-use plugins and site files. A message about new and changed files in wp-content/mu-plugins and its subfolders, drop-ins like db.php, wp-config.php, index.php, .user.ini and php.ini, where malware likes to hide.
+* E-mail me about abandoned and closed plugins. Lists plugins that were not tested with the last 3 major WordPress releases and plugins WordPress.org no longer answers for (closed there, or installed from somewhere else), and e-mails you when a new one shows up. It reads the answer WordPress already gets when it checks for updates, so it makes no requests of its own.
 
-The two e-mail settings do not depend on WP-Cron: they check after every login, on admin pages and at least once an hour while the site gets visits.
+The administrator and must-use alerts do not depend on WP-Cron: they check after every login, on admin pages and at least once an hour while the site gets visits. The plugin alert follows WordPress's own update check.
+
+The cards can show the full description, a short one with Details, or only the switches; each admin picks a view with the buttons next to the tabs.
 
 Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Nginx shows them to copy)
 
@@ -51,7 +54,7 @@ Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Ngin
 * Redirect http:// to https://, for every file, before WordPress starts. Safe behind Cloudflare; SSL certificate checks stay on http.
 * HTTPS only (HSTS).
 * Close internal WordPress folders: the rules from the WordPress hardening guide.
-* Hide files that show versions: readme.html, plugin readme files, install.php and upgrade.php for guests.
+* Hide files that show versions: readme.html, plugin readme files, install.php and upgrade.php for guests. WordPress loads no plugins on upgrade.php, so while this is on the plugin keeps a small file in wp-content/mu-plugins that closes it for visitors who are not logged in, unless a database update is due.
 * Block developer and build files: composer and npm files, source maps, Docker and deploy files.
 * Block PHP files of inactive plugins: they answer 404 when opened by address.
 * Refuse TRACE and TRACK requests, which security scanners report.
@@ -60,6 +63,11 @@ If hacked tab
 
 * One button ends every session of every user except yours and deletes all application passwords. Changing a password alone does not log out someone who is already in.
 * A short checklist of what to do next.
+
+Tips tab
+
+* Steps a plugin cannot take for you, in three groups: ten minutes in the admin area, hosting and DNS, for developers. Two-factor login, updates, backups away from the server, one hosting user per site, SPF and DMARC, DISALLOW_FILE_MODS, file checksums and more, strongest first. Each tip says what it does not protect against.
+* A button checks the SPF and DMARC records of your domain.
 
 Before writing .htaccess the plugin keeps a copy of it and then opens your home page. If the page answers with a server error or goes round in redirects, the old file is put back and the settings stay off. Its rules sit between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" and are removed when the plugin is deactivated.
 
@@ -83,7 +91,7 @@ Yes. The plugin checks what the site answers, so when Wordfence, Solid Security 
 
 = Is there a command line? =
 
-Yes: wp helloadmin-guard status, check, enable, disable and sync.
+Yes: wp helloadmin-guard status, check, enable, disable and sync. The custom login URL needs its address: wp helloadmin-guard enable login_url --slug=your-address. WP-CLI cannot see which web server runs the site, so the plugin remembers it from your admin visits; on a site whose admin area was never opened, add --server=apache or --server=nginx.
 
 = Does it work on multisite? =
 
@@ -137,6 +145,15 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.7.0 =
+* New: Tips tab with steps a plugin cannot take for you, strongest first, each with what it does not protect against; checks the SPF and DMARC records of your domain on request.
+* New: "E-mail me about abandoned and closed plugins", from the update data WordPress already gets.
+* New: three card views (full description, short description, switch only), saved for each admin; cut titles show in full on hover; better layout on phones.
+* upgrade.php is closed for visitors who are not logged in also when they send a fake login cookie (a small must-use file while "Hide files that show versions" is on).
+* WP-CLI: enable login_url refuses to run without a valid login address (new --slug option), so it can no longer lock everyone out. The web server type comes from admin visits or --server, not from the presence of a .htaccess file, and server rules that could not be written are not reported as enabled.
+* The login rule in .htaccess is written only when a login address is saved and never on multisite.
+* If writing the server rules failed and the old file could not be put back, the settings whose rules stay in .htaccess now stay on.
 
 = 0.6.1 =
 * Faster admin pages: the plugin no longer reads .htaccess on every admin and login page view while nothing changed, and reads its check results, the visitor IP and the must-use file list once per request.
