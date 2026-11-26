@@ -423,24 +423,6 @@ abstract class Feature {
 	}
 
 	/**
-	 * Date and time for an e-mail in the site's format. A site that still has WordPress's English defaults
-	 * ("F j, Y" and "g:i a") but another language gets the usual format of that language from the translation,
-	 * for example a 24-hour clock.
-	 *
-	 * @param int|null $timestamp Unix time, now when null.
-	 * @return string
-	 */
-	protected static function mail_time( $timestamp = null ) {
-		$date = (string) get_option( 'date_format' );
-		$time = (string) get_option( 'time_format' );
-		if ( 'F j, Y' === $date && 'g:i a' === $time && 0 !== strpos( get_locale(), 'en' ) ) {
-			/* translators: PHP date format for dates and times in e-mails, see https://www.php.net/manual/datetime.format.php */
-			return wp_date( __( 'F j, Y g:i a', 'helloadmin-guard' ), $timestamp );
-		}
-		return wp_date( $date . ' ' . $time, $timestamp );
-	}
-
-	/**
 	 * Sends a plain text alert to the site e-mail address, and to the "email" field address if it is set.
 	 *
 	 * @param string                                   $subject Subject without the site name (it is added in brackets).
@@ -455,69 +437,10 @@ abstract class Feature {
 				$to[] = $address;
 			}
 		}
-
 		$tab = 'advanced' === $this->tab() ? __( 'Advanced', 'helloadmin-guard' ) : __( 'General', 'helloadmin-guard' );
 		/* translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators". */
 		$footer = sprintf( __( 'This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off "%s" in HeAd Guard.', 'helloadmin-guard' ), $tab . ' → ' . $this->title() );
-
-		// HTML with links you can click and a bold "Important!"; the same text goes along as plain text for mail
-		// programs that do not show HTML.
-		$text = implode( "\n", array_map( array( __CLASS__, 'mail_plain' ), $lines ) ) . "\n\n\n" . $footer;
-		$html = self::mail_html( $lines, $footer );
-		$alt  = static function ( $mailer ) use ( $text ) {
-			$mailer->AltBody = $text; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
-		};
-		add_action( 'phpmailer_init', $alt );
-		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
-		$sent = wp_mail( $to, '[' . $site . '] ' . $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
-		remove_action( 'phpmailer_init', $alt );
-		return $sent;
-	}
-
-	/**
-	 * A mail line as plain text. A line is a string, or array( 'bold' => lead words, 'text' => the rest ).
-	 *
-	 * @param string|array<string, string> $line Line.
-	 * @return string
-	 */
-	private static function mail_plain( $line ) {
-		return is_array( $line ) ? trim( ( isset( $line['bold'] ) ? $line['bold'] . ' ' : '' ) . ( isset( $line['text'] ) ? $line['text'] : '' ) ) : (string) $line;
-	}
-
-	/**
-	 * The mail as simple HTML: lines between empty lines make a paragraph, addresses become links, a bold lead stays
-	 * bold, the footer stands apart in smaller grey text.
-	 *
-	 * @param array<int, string|array<string, string>> $lines  Lines.
-	 * @param string                                   $footer Footer.
-	 * @return string
-	 */
-	private static function mail_html( array $lines, $footer ) {
-		$bold   = static function ( $html ) {
-			return str_replace( 'HelloAdmin Guard', '<strong>HelloAdmin Guard</strong>', $html );
-		};
-		$blocks = array();
-		$block  = array();
-		// An empty line at the end closes the last paragraph too.
-		foreach ( array_merge( $lines, array( '' ) ) as $line ) {
-			$plain = self::mail_plain( $line );
-			if ( '' === trim( $plain ) ) {
-				if ( $block ) {
-					$blocks[] = '<div style="margin:0 0 14px">' . implode( '', $block ) . '</div>';
-				}
-				$block = array();
-				continue;
-			}
-			$html = is_array( $line ) && isset( $line['bold'] )
-				? '<strong>' . esc_html( $line['bold'] ) . '</strong> ' . make_clickable( esc_html( isset( $line['text'] ) ? $line['text'] : '' ) )
-				: make_clickable( esc_html( trim( $plain ) ) );
-			// Lines indented in the plain text (lists of files, users) keep an indent.
-			$indent  = 0 === strpos( $plain, ' ' ) ? 'padding-left:18px;' : '';
-			$block[] = '<div style="' . $indent . 'margin:0 0 2px">' . $bold( $html ) . '</div>';
-		}
-		return '<!DOCTYPE html><html><body style="font-family:-apple-system,Segoe UI,Arial,sans-serif;font-size:14px;line-height:1.5;color:#1d2327">'
-			. implode( '', $blocks )
-			. '<p style="margin:32px 0 0;font-size:12px;color:#646970">' . $bold( esc_html( $footer ) ) . '</p></body></html>';
+		return Mail::send( $to, $subject, $lines, $footer );
 	}
 
 	/**

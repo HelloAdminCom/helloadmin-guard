@@ -453,18 +453,24 @@ class Mu_Plugins_Watch extends Feature {
 		if ( $added ) {
 			$lines[] = $bad ? __( 'All files this alert watches:', 'helloadmin-guard' ) : __( 'New files that WordPress now loads on every page:', 'helloadmin-guard' );
 			foreach ( $added as $path ) {
-				$lines[] = '  ' . self::shown_path( $path ) . self::file_info( $path );
+				$lines[] = array(
+					'item' => self::shown_path( $path ),
+					'text' => trim( self::file_info( $path ) ),
+				);
 			}
 			$lines[] = '';
 		}
 		if ( $changed ) {
 			$lines[] = __( 'Changed files:', 'helloadmin-guard' );
 			foreach ( $changed as $path ) {
-				$lines[] = '  ' . self::shown_path( $path ) . self::file_info( $path );
+				$lines[] = array(
+					'item' => self::shown_path( $path ),
+					'text' => trim( self::file_info( $path ) ),
+				);
 			}
 			$lines[] = '';
 		}
-		$lines[] = __( 'If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins add files like these too.', 'helloadmin-guard' );
+		$lines[] = __( 'If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins can add files like these too.', 'helloadmin-guard' );
 		$lines[] = __( 'If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators.', 'helloadmin-guard' );
 		$lines[] = '';
 		$lines[] = admin_url( 'plugins.php?plugin_status=mustuse' );

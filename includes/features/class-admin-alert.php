@@ -706,7 +706,10 @@ class Admin_Alert extends Feature {
 		foreach ( $ids as $id ) {
 			$user = get_userdata( $id );
 			if ( $user ) {
-				$lines[] = '  ' . $user->user_login . ' (' . $user->user_email . ', ' . $user->user_registered . ' UTC)';
+				$lines[] = array(
+					'item' => $user->user_login,
+					'text' => '(' . $user->user_email . ', ' . $user->user_registered . ' UTC)',
+				);
 			}
 		}
 		$lines[] = '';

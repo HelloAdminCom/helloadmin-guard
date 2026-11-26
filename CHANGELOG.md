@@ -10,7 +10,7 @@ All notable changes to this project are documented here. Versions follow [Semant
 - Card views: full description, short description with Details (default), no description; saved per user; cut titles show in full in a hint; when cards stand in one column (phones, tablets, narrow windows) an opened card slides to the top of the screen.
 - upgrade.php: a must-use file (helloadmin-guard-upgrade.php) answers 404 to visitors who are not logged in, also with a fake login cookie, unless a database update is due. Written while Hide files that show versions is on, removed on deactivation and uninstall; the must-use alert ignores it only when it is byte for byte the plugin's own.
 - WP-CLI: --slug for enable login_url, --server for enable, disable and sync.
-- Alert e-mails are sent as simple HTML (clickable addresses, bold notes) with the same text as a plain-text part; the footer names the setting as Tab → title.
+- All e-mails (alerts and "Log out everyone") share one template (new Mail class): simple HTML with a plain-text part, clickable addresses, bold notes and plugin name, lists of files and users as bulleted items, a footer that names the setting as Tab → title; dates in the language's usual format when the site keeps WordPress's English defaults.
 
 ### Changed
 - One core (Settings_Apply) applies settings for the admin page and WP-CLI.

@@ -372,7 +372,7 @@ class Old_Plugins extends Feature {
 	 */
 	private function send_alert( array $items, $first = false ) {
 		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ) . ' (' . home_url( '/' ) . ')';
-		$when = self::mail_time();
+		$when = \HelloAdmin\Guard\Mail::time();
 		if ( $first ) {
 			/* translators: 1: site name and address, 2: tab and setting name, 3: date and time. */
 			$lines = array( sprintf( __( 'On the site %1$s, the setting "%2$s" in the HelloAdmin Guard plugin was turned on (%3$s).', 'helloadmin-guard' ), $site, __( 'General', 'helloadmin-guard' ) . ' → ' . $this->title(), $when ), '' );

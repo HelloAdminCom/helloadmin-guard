@@ -147,7 +147,6 @@ class Emergency {
 	 */
 	private static function notify( $result ) {
 		$user = wp_get_current_user();
-		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
 		$who  = $user->exists() ? $user->user_login : __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 		/* translators: %s: user name. */
 		$lines   = array( sprintf( __( '%s pressed "Log out everyone" in HelloAdmin Guard.', 'helloadmin-guard' ), $who ), '', $result );
@@ -156,7 +155,7 @@ class Emergency {
 		$to      = is_multisite() ? (string) get_site_option( 'admin_email' ) : (string) get_option( 'admin_email' );
 		// Also the second mailbox of the e-mail alerts: whoever pressed the button may have changed the site address.
 		$to = array_values( array_unique( array_merge( array( $to ), Plugin::instance()->alert_addresses() ) ) );
-		wp_mail( $to, '[' . $site . '] ' . __( 'Everyone was logged out', 'helloadmin-guard' ), implode( "\n", $lines ) );
+		Mail::send( $to, __( 'Everyone was logged out', 'helloadmin-guard' ), $lines, __( 'This e-mail was sent by the HelloAdmin Guard plugin.', 'helloadmin-guard' ) );
 	}
 
 	/**
