@@ -83,8 +83,11 @@ class Settings_Apply {
 		// Rules from the values about to be saved. A copy of each feature gets the values, so the shared objects that
 		// run this request keep the stored ones.
 		$rules = array();
+		// On Nginx and other servers that do not read .htaccess, settings that work in PHP (XML-RPC, login URL,
+		// headers) need no file: trying to write their extra rules would only report an error on every save.
+		$no_file = in_array( Htaccess::server(), array( 'nginx', 'other' ), true );
 		foreach ( $this->features as $id => $feature ) {
-			if ( empty( $enabled[ $id ] ) ) {
+			if ( empty( $enabled[ $id ] ) || ( $no_file && ! $feature instanceof Htaccess_Feature ) ) {
 				continue;
 			}
 			$copy = clone $feature;
