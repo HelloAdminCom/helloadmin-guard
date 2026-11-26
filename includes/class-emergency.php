@@ -146,10 +146,15 @@ class Emergency {
 	 * @return void
 	 */
 	private static function notify( $result ) {
-		$user = wp_get_current_user();
-		$who  = $user->exists() ? $user->user_login : __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
-		/* translators: %s: user name. */
-		$lines   = array( sprintf( __( '%s pressed "Log out everyone" in HelloAdmin Guard.', 'helloadmin-guard' ), $who ), '', $result );
+		$user    = wp_get_current_user();
+		$lines   = array(
+			$user->exists()
+				/* translators: %s: user name. */
+				? sprintf( __( '%s pressed "Log out everyone" in the HelloAdmin Guard plugin.', 'helloadmin-guard' ), Mail::b( $user->user_login ) )
+				: __( '"Log out everyone" in the HelloAdmin Guard plugin was run without a login to WordPress (WP-CLI, a scheduled task or code).', 'helloadmin-guard' ),
+			'',
+			$result,
+		);
 		$lines[] = '';
 		$lines[] = __( 'If this was not you or your team, someone else has administrator access: log in, change your password and check the list of administrators.', 'helloadmin-guard' );
 		$to      = is_multisite() ? (string) get_site_option( 'admin_email' ) : (string) get_option( 'admin_email' );

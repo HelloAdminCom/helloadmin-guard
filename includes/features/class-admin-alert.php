@@ -449,10 +449,10 @@ class Admin_Alert extends Feature {
 			$this->send_alert_mail(
 				__( 'The record of administrator accounts was changed outside the plugin', 'helloadmin-guard' ),
 				array(
-					__( 'HelloAdmin Guard keeps the e-mail addresses of the administrators and a fingerprint of their passwords, to notice when an existing administrator account is taken over. That record was changed or removed outside the plugin, for example straight in the database. The plugin cannot tell now whether an e-mail address or a password changed before that.', 'helloadmin-guard' ),
-					__( 'If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected.', 'helloadmin-guard' ),
+					__( 'The HelloAdmin Guard plugin keeps the e-mail addresses of the administrators and a fingerprint of their passwords, to notice when an existing administrator account is taken over. That record was changed or removed outside the plugin, for example straight in the database. The plugin cannot tell now whether an e-mail address or a password changed before that.', 'helloadmin-guard' ),
+					__( 'If you changed the WordPress salts in **wp-config.php** or moved the database to another site, this is expected.', 'helloadmin-guard' ),
 					'',
-					admin_url( 'users.php?role=administrator' ),
+					\HelloAdmin\Guard\Mail::link( __( 'Users → Administrators', 'helloadmin-guard' ), admin_url( 'users.php?role=administrator' ) ),
 				)
 			);
 			return;
@@ -482,23 +482,23 @@ class Admin_Alert extends Feature {
 		$pass  = isset( $before['p'] ) && $before['p'] !== $after['p'];
 		if ( $email ) {
 			/* translators: 1: old e-mail address, 2: new e-mail address. */
-			$lines[] = sprintf( __( 'E-mail address: %1$s -> %2$s', 'helloadmin-guard' ), $before['e'], $after['e'] );
+			$lines[] = sprintf( __( 'The e-mail address %1$s was changed to %2$s.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( $before['e'] ), \HelloAdmin\Guard\Mail::b( $after['e'] ) );
 		}
 		if ( $pass ) {
-			$lines[] = __( 'The password was changed.', 'helloadmin-guard' );
+			$lines[] = __( '**The password was changed.**', 'helloadmin-guard' );
 		}
 		/* translators: %s: user name or a short explanation. */
-		$lines[] = sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $this->changed_by() );
+		$lines[] = sprintf( __( '**Changed by:** %s', 'helloadmin-guard' ), $this->changed_by() );
 		$ip      = $this->request_ip();
 		if ( $ip ) {
 			/* translators: %s: IP address. */
-			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+			$lines[] = sprintf( __( '**From IP address:** %s', 'helloadmin-guard' ), $ip );
 		}
 		$lines[] = '';
 		$lines[] = __( 'If you or this administrator made the change, nothing to do.', 'helloadmin-guard' );
-		$lines[] = __( 'If not: someone may have taken over this account. Set a new password for it (Users > Profile, or "Lost your password?" with an address you control), use "If hacked" in HeAd Guard to log everyone out, and check the other administrators.', 'helloadmin-guard' );
+		$lines[] = __( '**If not:** someone may have taken over this account. Set a new password for it ("Users → Profile", or "Lost your password?" with an address you control), use "If hacked" in the settings of the HelloAdmin Guard plugin to log everyone out, and check the other administrators.', 'helloadmin-guard' );
 		$lines[] = '';
-		$lines[] = admin_url( 'user-edit.php?user_id=' . $user_id );
+		$lines[] = \HelloAdmin\Guard\Mail::link( __( 'User profile', 'helloadmin-guard' ), admin_url( 'user-edit.php?user_id=' . $user_id ) );
 
 		$subject = $email
 			/* translators: %s: user name. */
@@ -528,19 +528,19 @@ class Admin_Alert extends Feature {
 		}
 		$lines = array(
 			/* translators: 1: old e-mail address, 2: new e-mail address. */
-			sprintf( __( 'The site e-mail address in Settings → General changed: %1$s -> %2$s. Security alerts and password reset links for the site go to this address.', 'helloadmin-guard' ), $seen, $now ),
+			sprintf( __( 'The site e-mail address in "Settings → General" changed: it was %1$s, now it is %2$s. Security alerts and password reset links for the site go to this address.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( $seen ), \HelloAdmin\Guard\Mail::b( $now ) ),
 			/* translators: %s: user name or a short explanation. */
-			sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $this->changed_by() ),
+			sprintf( __( '**Changed by:** %s', 'helloadmin-guard' ), $this->changed_by() ),
 		);
 		$ip    = $this->request_ip();
 		if ( $ip ) {
 			/* translators: %s: IP address. */
-			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+			$lines[] = sprintf( __( '**From IP address:** %s', 'helloadmin-guard' ), $ip );
 		}
 		$lines[] = '';
-		$lines[] = __( 'If you did not make this change, set your address back in Settings → General and check the administrators.', 'helloadmin-guard' );
+		$lines[] = __( 'If you did not make this change, set your address back in "Settings → General" and check the administrators.', 'helloadmin-guard' );
 		$lines[] = '';
-		$lines[] = admin_url( 'options-general.php' );
+		$lines[] = \HelloAdmin\Guard\Mail::link( __( 'Settings → General', 'helloadmin-guard' ), admin_url( 'options-general.php' ) );
 		$this->send_alert_mail( __( 'The site e-mail address changed', 'helloadmin-guard' ), $lines, array( $seen ) );
 	}
 
@@ -643,22 +643,22 @@ class Admin_Alert extends Feature {
 		$risky = self::risky_role( $role );
 		$lines = array();
 		/* translators: %s: role name. */
-		$lines[] = sprintf( __( 'Anyone can now register on your site. New users get the role: %s.', 'helloadmin-guard' ), self::role_name( $role ) );
+		$lines[] = sprintf( __( 'Anyone can now register on your site. New users get the role: %s.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( self::role_name( $role ) ) );
 		if ( $risky ) {
 			$lines[] = __( 'This role can change other people\'s content, users or the site itself. With it, a stranger who registers can take over the site.', 'helloadmin-guard' );
 		}
 		/* translators: %s: user name or a short explanation. */
-		$lines[] = sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $this->changed_by() );
+		$lines[] = sprintf( __( '**Changed by:** %s', 'helloadmin-guard' ), $this->changed_by() );
 		$ip      = $this->request_ip();
 		if ( $ip ) {
 			/* translators: %s: IP address. */
-			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+			$lines[] = sprintf( __( '**From IP address:** %s', 'helloadmin-guard' ), $ip );
 		}
 		$lines[] = '';
-		$lines[] = __( 'If you opened registration on purpose (a shop, a membership site), keep the new user role at Subscriber or the role your shop or membership plugin uses for customers.', 'helloadmin-guard' );
-		$lines[] = __( 'If not: turn off "Anyone can register" and set the new user role to Subscriber in Settings → General, then look at the users registered since this e-mail and update or remove the plugin that let the settings change.', 'helloadmin-guard' );
+		$lines[] = __( 'If you opened registration on purpose (a shop, a membership site), keep the new user role at **Subscriber** or the role your shop or membership plugin uses for customers.', 'helloadmin-guard' );
+		$lines[] = __( '**If not:** turn off "**Anyone can register**" and set the new user role to **Subscriber** in "Settings → General", then look at the users registered since this e-mail and update or remove the plugin that let the settings change.', 'helloadmin-guard' );
 		$lines[] = '';
-		$lines[] = admin_url( 'options-general.php' );
+		$lines[] = \HelloAdmin\Guard\Mail::link( __( 'Settings → General', 'helloadmin-guard' ), admin_url( 'options-general.php' ) );
 
 		$this->send_alert_mail(
 			$risky ? __( 'Anyone can register, with dangerous rights', 'helloadmin-guard' ) : __( 'Anyone can now register', 'helloadmin-guard' ),
@@ -674,12 +674,12 @@ class Admin_Alert extends Feature {
 	private function changed_by() {
 		$actor = wp_get_current_user();
 		if ( 'watch' === $this->reason ) {
-			return __( 'found by the regular check: the setting was not changed through WordPress while this alert was on, for example it was written straight into the database', 'helloadmin-guard' );
+			return __( 'the regular check found it – the change was made outside WordPress (for example straight in the database) while this alert was on', 'helloadmin-guard' );
 		}
 		if ( $actor->exists() ) {
-			return $actor->user_login;
+			return \HelloAdmin\Guard\Mail::b( $actor->user_login );
 		}
-		return __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
+		return __( 'nobody logged in to WordPress (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 	}
 
 	/**
@@ -699,8 +699,8 @@ class Admin_Alert extends Feature {
 	 */
 	private function send_list_alert( array $ids ) {
 		$lines   = array();
-		$lines[] = __( 'The list of administrators that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert.', 'helloadmin-guard' );
-		$lines[] = __( 'If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected.', 'helloadmin-guard' );
+		$lines[] = __( 'The list of administrators that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert.', 'helloadmin-guard' );
+		$lines[] = __( 'If you changed the WordPress salts in **wp-config.php** or moved the database to another site, this is expected.', 'helloadmin-guard' );
 		$lines[] = '';
 		$lines[] = __( 'Administrators now:', 'helloadmin-guard' );
 		foreach ( $ids as $id ) {
@@ -708,14 +708,14 @@ class Admin_Alert extends Feature {
 			if ( $user ) {
 				$lines[] = array(
 					'item' => $user->user_login,
-					'text' => '(' . $user->user_email . ', ' . $user->user_registered . ' UTC)',
+					'text' => '(' . $user->user_email . ', ' . \HelloAdmin\Guard\Mail::time( (int) strtotime( $user->user_registered . ' UTC' ) ) . ')',
 				);
 			}
 		}
 		$lines[] = '';
-		$lines[] = __( 'If one of them is not yours: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know.', 'helloadmin-guard' );
+		$lines[] = __( '**If one of them is not yours:** delete the account, change the passwords of all administrators and of the hosting, and look at **wp-content/mu-plugins** for files you do not know.', 'helloadmin-guard' );
 		$lines[] = '';
-		$lines[] = admin_url( 'users.php?role=administrator' );
+		$lines[] = \HelloAdmin\Guard\Mail::link( __( 'Users → Administrators', 'helloadmin-guard' ), admin_url( 'users.php?role=administrator' ) );
 
 		$this->send_alert_mail( __( 'The list of administrators was changed outside the plugin', 'helloadmin-guard' ), $lines );
 	}
@@ -824,11 +824,11 @@ class Admin_Alert extends Feature {
 
 		$actor = wp_get_current_user();
 		if ( 'watch' === $this->reason ) {
-			$by = __( 'found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database', 'helloadmin-guard' );
+			$by = __( 'the regular check found it – the change was made outside WordPress (for example straight in the database) while this alert was on', 'helloadmin-guard' );
 		} elseif ( $actor->exists() ) {
-			$by = $actor->user_login;
+			$by = \HelloAdmin\Guard\Mail::b( $actor->user_login );
 		} else {
-			$by = __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
+			$by = __( 'nobody logged in to WordPress (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 		}
 		$ip = $this->request_ip();
 
@@ -836,28 +836,28 @@ class Admin_Alert extends Feature {
 		$subject = sprintf( __( 'New administrator: %s', 'helloadmin-guard' ), $user->user_login );
 
 		$lines   = array();
-		$lines[] = __( 'An account on your site now has the Administrator role.', 'helloadmin-guard' );
+		$lines[] = __( 'An account on your site now has the "**Administrator**" role.', 'helloadmin-guard' );
 		$lines[] = '';
 		/* translators: %s: user name. */
-		$lines[] = sprintf( __( 'User name: %s', 'helloadmin-guard' ), $user->user_login );
+		$lines[] = sprintf( __( 'User name: %s', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( $user->user_login ) );
 		/* translators: %s: e-mail address. */
-		$lines[] = sprintf( __( 'E-mail: %s', 'helloadmin-guard' ), $user->user_email );
+		$lines[] = sprintf( __( 'E-mail: %s', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( $user->user_email ) );
 		/* translators: %s: date and time. */
-		$lines[] = sprintf( __( 'Account created: %s', 'helloadmin-guard' ), $user->user_registered . ' UTC' );
+		$lines[] = sprintf( __( 'Account created: %s', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( \HelloAdmin\Guard\Mail::time( (int) strtotime( $user->user_registered . ' UTC' ) ) ) );
 		/* translators: %s: user name or a short explanation. */
-		$lines[] = sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $by );
+		$lines[] = sprintf( __( '**Changed by:** %s', 'helloadmin-guard' ), $by );
 		if ( $ip ) {
 			/* translators: %s: IP address. */
-			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+			$lines[] = sprintf( __( '**From IP address:** %s', 'helloadmin-guard' ), $ip );
 		}
 		if ( \HelloAdmin\Guard\User_Names::name_leaks( $user ) || \HelloAdmin\Guard\User_Names::slug_leaks( $user ) ) {
-			$lines[] = __( 'Its public name or author page address is the login, so the login shows under its posts and comments. Hide user names in HeAd Guard can change that.', 'helloadmin-guard' );
+			$lines[] = __( 'Its public name or author page address is the login, so the login shows under its posts and comments. "General → Hide user names" in the settings of the HelloAdmin Guard plugin can change that.', 'helloadmin-guard' );
 		}
 		$lines[] = '';
 		$lines[] = __( 'If you or your team added this account, nothing to do.', 'helloadmin-guard' );
-		$lines[] = __( 'If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know.', 'helloadmin-guard' );
+		$lines[] = __( '**If not:** delete the account, change the passwords of all administrators and of the hosting, and look at **wp-content/mu-plugins** for files you do not know.', 'helloadmin-guard' );
 		$lines[] = '';
-		$lines[] = admin_url( 'users.php?role=administrator' );
+		$lines[] = \HelloAdmin\Guard\Mail::link( __( 'Users → Administrators', 'helloadmin-guard' ), admin_url( 'users.php?role=administrator' ) );
 
 		$this->send_alert_mail( $subject, $lines );
 	}

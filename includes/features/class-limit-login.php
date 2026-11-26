@@ -523,12 +523,12 @@ class Limit_Login extends Feature {
 	private function send_attack_mail( $count, $minutes ) {
 		$lines = array(
 			/* translators: 1: number of failed logins, 2: minutes. */
-			sprintf( __( '%1$d failed logins from different addresses in %2$d minutes: a bot network is guessing passwords on this site.', 'helloadmin-guard' ), $count, max( 1, $minutes ) ),
+			sprintf( __( '**%1$d failed logins** from different addresses in %2$d minutes: a bot network is guessing passwords on this site.', 'helloadmin-guard' ), $count, max( 1, $minutes ) ),
 			/* translators: %d: minutes. */
 			sprintf( __( 'For the next %d minutes, and longer while the attempts go on, logins from new devices are refused. Browsers that logged in to this site before still get in.', 'helloadmin-guard' ), $this->minutes ),
-			__( 'If you need to log in from a new device, use "Lost your password?" on the login page: the reset link lets that browser in.', 'helloadmin-guard' ),
+			__( 'If you need to log in from a new device, use "**Lost your password?**" on the login page: the reset link lets that browser in.', 'helloadmin-guard' ),
 			'',
-			__( 'Worth doing now: check that every administrator has a strong unique password, and turn on two-factor login if you have not yet.', 'helloadmin-guard' ),
+			__( '**Worth doing now:** check that every administrator has a strong unique password, and turn on two-factor login if you have not yet.', 'helloadmin-guard' ),
 		);
 		$this->send_alert_mail( __( 'Login attack from many addresses', 'helloadmin-guard' ), $lines );
 	}

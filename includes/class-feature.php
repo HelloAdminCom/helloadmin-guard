@@ -288,23 +288,23 @@ abstract class Feature {
 	 */
 	public function send_deactivation_mail( array $extra = array() ) {
 		$actor = function_exists( 'wp_get_current_user' ) ? wp_get_current_user() : null;
-		$by    = $actor && $actor->exists() ? $actor->user_login : __( 'no logged-in user (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
+		$by    = $actor && $actor->exists() ? Mail::b( $actor->user_login ) : __( 'nobody logged in to WordPress (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 		$ip    = defined( 'WP_CLI' ) && WP_CLI ? '' : self::visitor_ip();
 
 		$lines   = array();
-		$lines[] = __( 'HelloAdmin Guard was deactivated on your site. Its settings and e-mail alerts no longer work.', 'helloadmin-guard' );
+		$lines[] = __( 'The HelloAdmin Guard plugin was deactivated on your site. Its settings and e-mail alerts no longer work.', 'helloadmin-guard' );
 		$lines[] = '';
 		/* translators: %s: user name or a short explanation. */
-		$lines[] = sprintf( __( 'Changed by: %s', 'helloadmin-guard' ), $by );
+		$lines[] = sprintf( __( '**Changed by:** %s', 'helloadmin-guard' ), $by );
 		if ( $ip ) {
 			/* translators: %s: IP address. */
-			$lines[] = sprintf( __( 'From IP address: %s', 'helloadmin-guard' ), $ip );
+			$lines[] = sprintf( __( '**From IP address:** %s', 'helloadmin-guard' ), $ip );
 		}
 		$lines[] = '';
 		$lines[] = __( 'If you or your team did it, nothing to do.', 'helloadmin-guard' );
-		$lines[] = __( 'If not: someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on.', 'helloadmin-guard' );
+		$lines[] = __( '**If not:** someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on.', 'helloadmin-guard' );
 		$lines[] = '';
-		$lines[] = admin_url( 'plugins.php' );
+		$lines[] = Mail::link( __( 'Plugins', 'helloadmin-guard' ), admin_url( 'plugins.php' ) );
 
 		$this->send_alert_mail( __( 'HelloAdmin Guard was deactivated', 'helloadmin-guard' ), $lines, $extra );
 	}
@@ -439,7 +439,7 @@ abstract class Feature {
 		}
 		$tab = 'advanced' === $this->tab() ? __( 'Advanced', 'helloadmin-guard' ) : __( 'General', 'helloadmin-guard' );
 		/* translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators". */
-		$footer = sprintf( __( 'This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off "%s" in HeAd Guard.', 'helloadmin-guard' ), $tab . ' → ' . $this->title() );
+		$footer = sprintf( __( 'This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off "%s" in the settings of the HelloAdmin Guard plugin.', 'helloadmin-guard' ), $tab . ' → ' . $this->title() );
 		return Mail::send( $to, $subject, $lines, $footer );
 	}
 

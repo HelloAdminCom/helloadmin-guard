@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-26T13:43:06+02:00\n"
+"POT-Creation-Date: 2026-11-26T14:11:44+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: helloadmin-guard\n"
@@ -322,72 +322,69 @@ msgstr ""
 msgid "Done. Sessions ended: %1$d (users: %2$d). Application passwords deleted: %3$d. Your session in this browser is kept."
 msgstr ""
 
-#: includes/class-emergency.php:150
-#: includes/class-feature.php:291
-#: includes/features/class-admin-alert.php:682
-#: includes/features/class-admin-alert.php:831
-msgid "no logged-in user (WP-CLI, a scheduled task or code)"
-msgstr ""
-
 #. translators: %s: user name.
-#: includes/class-emergency.php:152
+#: includes/class-emergency.php:153
 #, php-format
-msgid "%s pressed \"Log out everyone\" in HelloAdmin Guard."
+msgid "%s pressed \"Log out everyone\" in the HelloAdmin Guard plugin."
 msgstr ""
 
 #: includes/class-emergency.php:154
+msgid "\"Log out everyone\" in the HelloAdmin Guard plugin was run without a login to WordPress (WP-CLI, a scheduled task or code)."
+msgstr ""
+
+#: includes/class-emergency.php:159
 msgid "If this was not you or your team, someone else has administrator access: log in, change your password and check the list of administrators."
 msgstr ""
 
-#: includes/class-emergency.php:158
+#: includes/class-emergency.php:163
 msgid "Everyone was logged out"
 msgstr ""
 
-#: includes/class-emergency.php:158
+#: includes/class-emergency.php:163
 msgid "This e-mail was sent by the HelloAdmin Guard plugin."
 msgstr ""
 
-#: includes/class-emergency.php:181
+#: includes/class-emergency.php:186
 msgid "Log out everyone"
 msgstr ""
 
-#: includes/class-emergency.php:182
+#: includes/class-emergency.php:187
 msgid "This button ends every session of every user except yours in this browser, and deletes all application passwords. Everyone else has to log in again, and apps and services connected with an application password stop working until you create new passwords for them. A new password alone is not enough: it does not end sessions that are already open, and application passwords keep working after it. If someone stole a password or a login cookie, they stay in."
 msgstr ""
 
-#: includes/class-emergency.php:187
+#: includes/class-emergency.php:192
 msgid "I understand that everyone else is logged out and all application passwords are deleted."
 msgstr ""
 
-#: includes/class-emergency.php:188
+#: includes/class-emergency.php:193
 msgid "Log out everyone and delete application passwords"
 msgstr ""
 
-#: includes/class-emergency.php:191
+#: includes/class-emergency.php:196
 msgid "On a multisite network this button logs out the users of every site, so only a network administrator (super admin) can use it."
 msgstr ""
 
-#: includes/class-emergency.php:196
+#: includes/class-emergency.php:201
 msgid "If you think the site was hacked"
 msgstr ""
 
-#: includes/class-emergency.php:199
+#: includes/class-emergency.php:204
 msgid "Before you clean anything, save a copy of the files, the database and the server logs. You will need them to find out how they got in."
 msgstr ""
 
-#: includes/class-emergency.php:200
+#: includes/class-emergency.php:205
 msgid "From a computer you trust, change the passwords of the hosting panel, SSH or SFTP, the database, every administrator and the API keys of services like a CDN."
 msgstr ""
 
-#: includes/class-emergency.php:201
+#: includes/class-emergency.php:206
 msgid "Press the button above, so the old sessions and application passwords stop working."
 msgstr ""
 
-#: includes/class-emergency.php:202
+#: includes/class-emergency.php:207
 msgid "Check the administrators and the must-use plugins: the General tab has e-mail alerts and warnings for both."
 msgstr ""
 
-#: includes/class-emergency.php:203
+#: includes/class-emergency.php:208
 msgid "Find how they got in before you restore a backup, or the same hole lets them in again."
 msgstr ""
 
@@ -399,8 +396,14 @@ msgstr ""
 msgid "One more e-mail address besides the administration e-mail in Settings → General. Leave empty to use only that one."
 msgstr ""
 
+#: includes/class-feature.php:291
+#: includes/features/class-admin-alert.php:682
+#: includes/features/class-admin-alert.php:831
+msgid "nobody logged in to WordPress (WP-CLI, a scheduled task or code)"
+msgstr ""
+
 #: includes/class-feature.php:295
-msgid "HelloAdmin Guard was deactivated on your site. Its settings and e-mail alerts no longer work."
+msgid "The HelloAdmin Guard plugin was deactivated on your site. Its settings and e-mail alerts no longer work."
 msgstr ""
 
 #. translators: %s: user name or a short explanation.
@@ -410,7 +413,7 @@ msgstr ""
 #: includes/features/class-admin-alert.php:651
 #: includes/features/class-admin-alert.php:848
 #, php-format
-msgid "Changed by: %s"
+msgid "**Changed by:** %s"
 msgstr ""
 
 #. translators: %s: IP address.
@@ -420,7 +423,7 @@ msgstr ""
 #: includes/features/class-admin-alert.php:655
 #: includes/features/class-admin-alert.php:851
 #, php-format
-msgid "From IP address: %s"
+msgid "**From IP address:** %s"
 msgstr ""
 
 #: includes/class-feature.php:304
@@ -428,7 +431,11 @@ msgid "If you or your team did it, nothing to do."
 msgstr ""
 
 #: includes/class-feature.php:305
-msgid "If not: someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on."
+msgid "**If not:** someone with an administrator account did it. Log in, check the list of administrators, change the passwords of all administrators and of the hosting, and turn the plugin back on."
+msgstr ""
+
+#: includes/class-feature.php:307
+msgid "Plugins"
 msgstr ""
 
 #: includes/class-feature.php:309
@@ -438,16 +445,11 @@ msgstr ""
 #. translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators".
 #: includes/class-feature.php:442
 #, php-format
-msgid "This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off \"%s\" in HeAd Guard."
+msgid "This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off \"%s\" in the settings of the HelloAdmin Guard plugin."
 msgstr ""
 
 #: includes/class-htaccess-feature.php:63
 msgid "Turn this off and save: the plugin removes its lines from .htaccess. If the site does not open at all, delete everything between \"# BEGIN HelloAdmin Guard\" and \"# END HelloAdmin Guard\" in the .htaccess file over FTP or in the hosting file manager."
-msgstr ""
-
-#. translators: PHP date format for dates and times in e-mails, see https://www.php.net/manual/datetime.format.php
-#: includes/class-mail.php:57
-msgid "F j, Y g:i a"
 msgstr ""
 
 #: includes/class-settings-apply.php:181
@@ -1021,23 +1023,29 @@ msgid "The record of administrator accounts was changed outside the plugin"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:452
-msgid "HelloAdmin Guard keeps the e-mail addresses of the administrators and a fingerprint of their passwords, to notice when an existing administrator account is taken over. That record was changed or removed outside the plugin, for example straight in the database. The plugin cannot tell now whether an e-mail address or a password changed before that."
+msgid "The HelloAdmin Guard plugin keeps the e-mail addresses of the administrators and a fingerprint of their passwords, to notice when an existing administrator account is taken over. That record was changed or removed outside the plugin, for example straight in the database. The plugin cannot tell now whether an e-mail address or a password changed before that."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:453
 #: includes/features/class-admin-alert.php:703
 #: includes/features/class-mu-plugins-watch.php:446
-msgid "If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected."
+msgid "If you changed the WordPress salts in **wp-config.php** or moved the database to another site, this is expected."
+msgstr ""
+
+#: includes/features/class-admin-alert.php:455
+#: includes/features/class-admin-alert.php:718
+#: includes/features/class-admin-alert.php:860
+msgid "Users → Administrators"
 msgstr ""
 
 #. translators: 1: old e-mail address, 2: new e-mail address.
 #: includes/features/class-admin-alert.php:485
 #, php-format
-msgid "E-mail address: %1$s -> %2$s"
+msgid "The e-mail address %1$s was changed to %2$s."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:488
-msgid "The password was changed."
+msgid "**The password was changed.**"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:498
@@ -1045,7 +1053,11 @@ msgid "If you or this administrator made the change, nothing to do."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:499
-msgid "If not: someone may have taken over this account. Set a new password for it (Users > Profile, or \"Lost your password?\" with an address you control), use \"If hacked\" in HeAd Guard to log everyone out, and check the other administrators."
+msgid "**If not:** someone may have taken over this account. Set a new password for it (\"Users → Profile\", or \"Lost your password?\" with an address you control), use \"If hacked\" in the settings of the HelloAdmin Guard plugin to log everyone out, and check the other administrators."
+msgstr ""
+
+#: includes/features/class-admin-alert.php:501
+msgid "User profile"
 msgstr ""
 
 #. translators: %s: user name.
@@ -1063,11 +1075,16 @@ msgstr ""
 #. translators: 1: old e-mail address, 2: new e-mail address.
 #: includes/features/class-admin-alert.php:531
 #, php-format
-msgid "The site e-mail address in Settings → General changed: %1$s -> %2$s. Security alerts and password reset links for the site go to this address."
+msgid "The site e-mail address in \"Settings → General\" changed: it was %1$s, now it is %2$s. Security alerts and password reset links for the site go to this address."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:541
-msgid "If you did not make this change, set your address back in Settings → General and check the administrators."
+msgid "If you did not make this change, set your address back in \"Settings → General\" and check the administrators."
+msgstr ""
+
+#: includes/features/class-admin-alert.php:543
+#: includes/features/class-admin-alert.php:661
+msgid "Settings → General"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:544
@@ -1085,11 +1102,11 @@ msgid "This role can change other people's content, users or the site itself. Wi
 msgstr ""
 
 #: includes/features/class-admin-alert.php:658
-msgid "If you opened registration on purpose (a shop, a membership site), keep the new user role at Subscriber or the role your shop or membership plugin uses for customers."
+msgid "If you opened registration on purpose (a shop, a membership site), keep the new user role at **Subscriber** or the role your shop or membership plugin uses for customers."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:659
-msgid "If not: turn off \"Anyone can register\" and set the new user role to Subscriber in Settings → General, then look at the users registered since this e-mail and update or remove the plugin that let the settings change."
+msgid "**If not:** turn off \"**Anyone can register**\" and set the new user role to **Subscriber** in \"Settings → General\", then look at the users registered since this e-mail and update or remove the plugin that let the settings change."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:664
@@ -1101,11 +1118,12 @@ msgid "Anyone can now register"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:677
-msgid "found by the regular check: the setting was not changed through WordPress while this alert was on, for example it was written straight into the database"
+#: includes/features/class-admin-alert.php:827
+msgid "the regular check found it – the change was made outside WordPress (for example straight in the database) while this alert was on"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:702
-msgid "The list of administrators that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert."
+msgid "The list of administrators that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:705
@@ -1113,15 +1131,11 @@ msgid "Administrators now:"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:716
-msgid "If one of them is not yours: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
+msgid "**If one of them is not yours:** delete the account, change the passwords of all administrators and of the hosting, and look at **wp-content/mu-plugins** for files you do not know."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:720
 msgid "The list of administrators was changed outside the plugin"
-msgstr ""
-
-#: includes/features/class-admin-alert.php:827
-msgid "found by the regular check: the role was not set through WordPress while this alert was on, for example it was written straight into the database"
 msgstr ""
 
 #. translators: %s: user name.
@@ -1131,7 +1145,7 @@ msgid "New administrator: %s"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:839
-msgid "An account on your site now has the Administrator role."
+msgid "An account on your site now has the \"**Administrator**\" role."
 msgstr ""
 
 #. translators: %s: user name.
@@ -1153,7 +1167,7 @@ msgid "Account created: %s"
 msgstr ""
 
 #: includes/features/class-admin-alert.php:854
-msgid "Its public name or author page address is the login, so the login shows under its posts and comments. Hide user names in HeAd Guard can change that."
+msgid "Its public name or author page address is the login, so the login shows under its posts and comments. \"General → Hide user names\" in the settings of the HelloAdmin Guard plugin can change that."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:857
@@ -1161,7 +1175,7 @@ msgid "If you or your team added this account, nothing to do."
 msgstr ""
 
 #: includes/features/class-admin-alert.php:858
-msgid "If not: delete the account, change the passwords of all administrators and of the hosting, and look at wp-content/mu-plugins for files you do not know."
+msgid "**If not:** delete the account, change the passwords of all administrators and of the hosting, and look at **wp-content/mu-plugins** for files you do not know."
 msgstr ""
 
 #: includes/features/class-block-backups.php:36
@@ -1514,7 +1528,7 @@ msgstr[1] ""
 #. translators: 1: number of failed logins, 2: minutes.
 #: includes/features/class-limit-login.php:526
 #, php-format
-msgid "%1$d failed logins from different addresses in %2$d minutes: a bot network is guessing passwords on this site."
+msgid "**%1$d failed logins** from different addresses in %2$d minutes: a bot network is guessing passwords on this site."
 msgstr ""
 
 #. translators: %d: minutes.
@@ -1524,11 +1538,11 @@ msgid "For the next %d minutes, and longer while the attempts go on, logins from
 msgstr ""
 
 #: includes/features/class-limit-login.php:529
-msgid "If you need to log in from a new device, use \"Lost your password?\" on the login page: the reset link lets that browser in."
+msgid "If you need to log in from a new device, use \"**Lost your password?**\" on the login page: the reset link lets that browser in."
 msgstr ""
 
 #: includes/features/class-limit-login.php:531
-msgid "Worth doing now: check that every administrator has a strong unique password, and turn on two-factor login if you have not yet."
+msgid "**Worth doing now:** check that every administrator has a strong unique password, and turn on two-factor login if you have not yet."
 msgstr ""
 
 #: includes/features/class-limit-login.php:533
@@ -1616,7 +1630,7 @@ msgid "%s runs code it decodes first (eval with base64, gzinflate or similar). T
 msgstr ""
 
 #: includes/features/class-mu-plugins-watch.php:445
-msgid "The list of must-use files that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself."
+msgid "The list of must-use files that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself."
 msgstr ""
 
 #: includes/features/class-mu-plugins-watch.php:449
@@ -1640,7 +1654,11 @@ msgid "If you, your developer or your host added or updated them, nothing to do.
 msgstr ""
 
 #: includes/features/class-mu-plugins-watch.php:474
-msgid "If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
+msgid "**If not:** copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators."
+msgstr ""
+
+#: includes/features/class-mu-plugins-watch.php:476
+msgid "Plugins → Must-Use"
 msgstr ""
 
 #: includes/features/class-mu-plugins-watch.php:479
@@ -1761,7 +1779,7 @@ msgstr ""
 #. translators: %s: address of the Plugins screen.
 #: includes/features/class-old-plugins.php:403
 #, php-format
-msgid "To check your plugins, open %s or the Plugins menu in the WordPress admin panel."
+msgid "To check your plugins, open %s or the \"Plugins\" menu in the WordPress admin panel."
 msgstr ""
 
 #: includes/features/class-old-plugins.php:407

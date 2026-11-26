@@ -442,8 +442,8 @@ class Mu_Plugins_Watch extends Feature {
 	private function send_alert( array $added, array $changed, $bad = false ) {
 		$lines = array();
 		if ( $bad ) {
-			$lines[] = __( 'The list of must-use files that HelloAdmin Guard keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself.', 'helloadmin-guard' );
-			$lines[] = __( 'If you changed the WordPress salts in wp-config.php or moved the database to another site, this is expected.', 'helloadmin-guard' );
+			$lines[] = __( 'The list of must-use files that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself.', 'helloadmin-guard' );
+			$lines[] = __( 'If you changed the WordPress salts in **wp-config.php** or moved the database to another site, this is expected.', 'helloadmin-guard' );
 			$lines[] = '';
 			if ( ! $added ) {
 				$lines[] = __( 'There are no such files now.', 'helloadmin-guard' );
@@ -471,9 +471,9 @@ class Mu_Plugins_Watch extends Feature {
 			$lines[] = '';
 		}
 		$lines[] = __( 'If you, your developer or your host added or updated them, nothing to do. Hosts and caching plugins can add files like these too.', 'helloadmin-guard' );
-		$lines[] = __( 'If not: copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators.', 'helloadmin-guard' );
+		$lines[] = __( '**If not:** copy the file somewhere safe first (it is evidence), then remove it from the site, change the passwords of all administrators and of the hosting, and check the list of administrators.', 'helloadmin-guard' );
 		$lines[] = '';
-		$lines[] = admin_url( 'plugins.php?plugin_status=mustuse' );
+		$lines[] = \HelloAdmin\Guard\Mail::link( __( 'Plugins → Must-Use', 'helloadmin-guard' ), admin_url( 'plugins.php?plugin_status=mustuse' ) );
 
 		if ( $bad ) {
 			$this->send_alert_mail( __( 'The list of must-use files was changed outside the plugin', 'helloadmin-guard' ), $lines );
@@ -503,7 +503,7 @@ class Mu_Plugins_Watch extends Feature {
 		}
 		$time = (int) filemtime( $file );
 		/* translators: 1: file size, 2: date and time. */
-		return ' (' . sprintf( __( '%1$s, modified %2$s', 'helloadmin-guard' ), size_format( (int) filesize( $file ) ), wp_date( 'Y-m-d H:i', $time ) ) . ')';
+		return ' (' . sprintf( __( '%1$s, modified %2$s', 'helloadmin-guard' ), size_format( (int) filesize( $file ) ), \HelloAdmin\Guard\Mail::time( $time ) ) . ')';
 	}
 
 	/**

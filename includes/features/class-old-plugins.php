@@ -355,7 +355,7 @@ class Old_Plugins extends Feature {
 			/* translators: %s: WordPress version. */
 			? sprintf( __( 'last tested with WordPress %s', 'helloadmin-guard' ), $item['tested'] )
 			: __( 'not on WordPress.org (closed there, or installed from somewhere else)', 'helloadmin-guard' );
-		$who = '' !== $item['author'] ? $item['name'] . ', ' . $item['author'] : $item['name'];
+		$who = \HelloAdmin\Guard\Mail::b( $item['name'] ) . ( '' !== $item['author'] ? ', ' . $item['author'] : '' );
 		if ( ! is_plugin_active( $file ) ) {
 			$who .= ' ' . __( '(inactive)', 'helloadmin-guard' );
 		}
@@ -400,7 +400,7 @@ class Old_Plugins extends Feature {
 		);
 		$lines[] = '';
 		/* translators: %s: address of the Plugins screen. */
-		$lines[] = sprintf( __( 'To check your plugins, open %s or the Plugins menu in the WordPress admin panel.', 'helloadmin-guard' ), admin_url( 'plugins.php' ) );
+		$lines[] = sprintf( __( 'To check your plugins, open %s or the "Plugins" menu in the WordPress admin panel.', 'helloadmin-guard' ), admin_url( 'plugins.php' ) );
 
 		$count = count( $items );
 		if ( 0 === $count ) {
