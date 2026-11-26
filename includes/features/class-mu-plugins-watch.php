@@ -441,8 +441,14 @@ class Mu_Plugins_Watch extends Feature {
 	 */
 	private function send_alert( array $added, array $changed, $bad = false ) {
 		$lines = array();
+		if ( ! $bad ) {
+			/* translators: %s: site name and address. */
+			$lines[] = sprintf( __( 'On the site %s, the files that WordPress loads on every page changed.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site() );
+			$lines[] = '';
+		}
 		if ( $bad ) {
-			$lines[] = __( 'The list of must-use files that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself.', 'helloadmin-guard' );
+			/* translators: %s: site name and address. */
+			$lines[] = sprintf( __( 'On the site %s, the list of must-use files that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. Someone may have hidden a file from this alert, so here are all the files WordPress loads by itself.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site() );
 			$lines[] = __( 'If you changed the WordPress salts in **wp-config.php** or moved the database to another site, this is expected.', 'helloadmin-guard' );
 			$lines[] = '';
 			if ( ! $added ) {

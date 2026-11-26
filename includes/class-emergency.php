@@ -149,9 +149,10 @@ class Emergency {
 		$user    = wp_get_current_user();
 		$lines   = array(
 			$user->exists()
-				/* translators: %s: user name. */
-				? sprintf( __( 'User %s pressed "**Log out everyone**" in the HelloAdmin Guard plugin.', 'helloadmin-guard' ), Mail::b( $user->user_login ) )
-				: __( '"**Log out everyone**" in the HelloAdmin Guard plugin was run without a login to WordPress (WP-CLI, a scheduled task or code).', 'helloadmin-guard' ),
+				/* translators: 1: site name and address, 2: user name. */
+				? sprintf( __( 'On the site %1$s, user %2$s pressed "**Log out everyone**" in the HelloAdmin Guard plugin.', 'helloadmin-guard' ), Mail::site(), Mail::b( $user->user_login ) )
+				/* translators: %s: site name and address. */
+				: sprintf( __( 'On the site %s, "**Log out everyone**" in the HelloAdmin Guard plugin was run without a login to WordPress (WP-CLI, a scheduled task or code).', 'helloadmin-guard' ), Mail::site() ),
 			'',
 			// The first sentence ("Done.") in bold; the same text shows as a notice in the admin area without stars.
 			(string) preg_replace( '/^([^.]+\.)/u', '**$1**', (string) $result ),

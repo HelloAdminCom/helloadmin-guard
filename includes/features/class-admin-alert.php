@@ -449,7 +449,8 @@ class Admin_Alert extends Feature {
 			$this->send_alert_mail(
 				__( 'The record of administrator accounts was changed outside the plugin', 'helloadmin-guard' ),
 				array(
-					__( 'The HelloAdmin Guard plugin keeps the e-mail addresses of the administrators and a fingerprint of their passwords, to notice when an existing administrator account is taken over. That record was changed or removed outside the plugin, for example straight in the database. The plugin cannot tell now whether an e-mail address or a password changed before that.', 'helloadmin-guard' ),
+					/* translators: %s: site name and address. */
+					sprintf( __( 'On the site %s, the record of administrator accounts that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. The plugin keeps the e-mail addresses of the administrators and a fingerprint of their passwords to notice when an existing administrator account is taken over, and cannot tell now whether an e-mail address or a password changed before that.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site() ),
 					__( 'If you changed the WordPress salts in **wp-config.php** or moved the database to another site, this is expected.', 'helloadmin-guard' ),
 					'',
 					\HelloAdmin\Guard\Mail::link( __( 'Users → Administrators', 'helloadmin-guard' ), admin_url( 'users.php?role=administrator' ) ),
@@ -482,12 +483,12 @@ class Admin_Alert extends Feature {
 		$email = isset( $before['e'] ) && $before['e'] !== $after['e'];
 		$pass  = isset( $before['p'] ) && $before['p'] !== $after['p'];
 		if ( $email ) {
-			/* translators: 1: user name, 2: old e-mail address, 3: new e-mail address, 4: role. */
-			$lines[] = sprintf( __( 'The e-mail address of user %1$s, %2$s, was changed to %3$s. The user has the role %4$s.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( $user->user_login ), \HelloAdmin\Guard\Mail::b( $before['e'] ), \HelloAdmin\Guard\Mail::b( $after['e'] ), \HelloAdmin\Guard\Mail::b( $role ) );
+			/* translators: 1: site name and address, 2: user name, 3: old e-mail address, 4: new e-mail address, 5: role. */
+			$lines[] = sprintf( __( 'On the site %1$s, the e-mail address of user %2$s, %3$s, was changed to %4$s. The user has the role %5$s.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site(), \HelloAdmin\Guard\Mail::b( $user->user_login ), \HelloAdmin\Guard\Mail::b( $before['e'] ), \HelloAdmin\Guard\Mail::b( $after['e'] ), \HelloAdmin\Guard\Mail::b( $role ) );
 		}
 		if ( $pass ) {
-			/* translators: 1: user name, 2: role. */
-			$lines[] = sprintf( __( '**The password of user %1$s was changed.** The user has the role %2$s.', 'helloadmin-guard' ), str_replace( '*', '', $user->user_login ), \HelloAdmin\Guard\Mail::b( $role ) );
+			/* translators: 1: site name and address, 2: user name, 3: role. */
+			$lines[] = sprintf( __( 'On the site %1$s, **the password of user %2$s was changed.** The user has the role %3$s.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site(), str_replace( '*', '', $user->user_login ), \HelloAdmin\Guard\Mail::b( $role ) );
 		}
 		/* translators: %s: user name or a short explanation. */
 		$lines[] = sprintf( __( '**Changed by:** %s', 'helloadmin-guard' ), $this->changed_by() );
@@ -530,7 +531,7 @@ class Admin_Alert extends Feature {
 		}
 		$lines = array(
 			/* translators: 1: old e-mail address, 2: new e-mail address. */
-			sprintf( __( 'The site e-mail address in "**Settings → General**" changed: it was %1$s, now it is %2$s. Security alerts and password reset links for the site go to this address.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::b( $seen ), \HelloAdmin\Guard\Mail::b( $now ) ),
+			sprintf( __( 'On the site %1$s, the site e-mail address in "**Settings → General**" changed: it was %2$s, now it is %3$s. Security alerts and password reset links for the site go to this address.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site(), \HelloAdmin\Guard\Mail::b( $seen ), \HelloAdmin\Guard\Mail::b( $now ) ),
 			/* translators: %s: user name or a short explanation. */
 			sprintf( __( '**Changed by:** %s', 'helloadmin-guard' ), $this->changed_by() ),
 		);
@@ -701,8 +702,9 @@ class Admin_Alert extends Feature {
 	 * @return void
 	 */
 	private function send_list_alert( array $ids ) {
-		$lines   = array();
-		$lines[] = __( 'The list of administrators that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert.', 'helloadmin-guard' );
+		$lines = array();
+		/* translators: %s: site name and address. */
+		$lines[] = sprintf( __( 'On the site %s, the list of administrators that the HelloAdmin Guard plugin keeps was changed or removed outside the plugin, for example straight in the database. Someone may have added an administrator and hidden it from this alert.', 'helloadmin-guard' ), \HelloAdmin\Guard\Mail::site() );
 		$lines[] = __( 'If you changed the WordPress salts in **wp-config.php** or moved the database to another site, this is expected.', 'helloadmin-guard' );
 		$lines[] = '';
 		$lines[] = __( 'Administrators now:', 'helloadmin-guard' );

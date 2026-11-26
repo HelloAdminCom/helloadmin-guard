@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HelloAdmin Guard\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/helloadmin-guard\n"
-"POT-Creation-Date: 2026-11-26T14:36:54+02:00\n"
+"POT-Creation-Date: 2026-11-26T14:38:54+02:00\n"
 "PO-Revision-Date: 2026-11-19 10:00+0200\n"
 "Last-Translator: HelloAdmin\n"
 "Language-Team: \n"
@@ -376,23 +376,27 @@ msgstr ""
 "Готово. Завершено сесій: %1$d (користувачів: %2$d). Видалено паролів "
 "застосунків: %3$d. Ваша сесія в цьому браузері залишилася."
 
-#. translators: %s: user name.
+#. translators: 1: site name and address, 2: user name.
 #: includes/class-emergency.php:153
 #, php-format
 msgid ""
-"User %s pressed \"**Log out everyone**\" in the HelloAdmin Guard plugin."
+"On the site %1$s, user %2$s pressed \"**Log out everyone**\" in the "
+"HelloAdmin Guard plugin."
 msgstr ""
-"Користувач %s натиснув «**Завершити всі сесії**» у плагіні HelloAdmin Guard."
+"На сайті %1$s користувач %2$s натиснув «**Завершити всі сесії**» у плагіні "
+"HelloAdmin Guard."
 
-#: includes/class-emergency.php:154
+#. translators: %s: site name and address.
+#: includes/class-emergency.php:155
+#, php-format
 msgid ""
-"\"**Log out everyone**\" in the HelloAdmin Guard plugin was run without a "
-"login to WordPress (WP-CLI, a scheduled task or code)."
+"On the site %s, \"**Log out everyone**\" in the HelloAdmin Guard plugin was "
+"run without a login to WordPress (WP-CLI, a scheduled task or code)."
 msgstr ""
-"«**Завершити всі сесії**» у плагіні HelloAdmin Guard запустили без входу у "
-"WordPress (WP-CLI, заплановане завдання або код)."
+"На сайті %s «**Завершити всі сесії**» у плагіні HelloAdmin Guard запустили "
+"без входу у WordPress (WP-CLI, заплановане завдання або код)."
 
-#: includes/class-emergency.php:160
+#: includes/class-emergency.php:161
 msgid ""
 "If this was not you or your team, someone else has administrator access: log "
 "in, change your password and check the list of administrators."
@@ -400,19 +404,19 @@ msgstr ""
 "Якщо це не ви і не ваша команда, хтось інший має доступ адміністратора – "
 "увійдіть, змініть свій пароль і перевірте список адміністраторів."
 
-#: includes/class-emergency.php:164
+#: includes/class-emergency.php:165
 msgid "Everyone was logged out"
 msgstr "Усі сесії завершено"
 
-#: includes/class-emergency.php:164
+#: includes/class-emergency.php:165
 msgid "This e-mail was sent by the HelloAdmin Guard plugin."
 msgstr "Цей лист надіслано плагіном HelloAdmin Guard."
 
-#: includes/class-emergency.php:187
+#: includes/class-emergency.php:188
 msgid "Log out everyone"
 msgstr "Завершити всі сесії"
 
-#: includes/class-emergency.php:188
+#: includes/class-emergency.php:189
 msgid ""
 "This button ends every session of every user except yours in this browser, "
 "and deletes all application passwords. Everyone else has to log in again, "
@@ -430,7 +434,7 @@ msgstr ""
 "працюють. Якщо хтось украв пароль або cookie входу, він так і лишиться "
 "всередині."
 
-#: includes/class-emergency.php:193
+#: includes/class-emergency.php:194
 msgid ""
 "I understand that everyone else is logged out and all application passwords "
 "are deleted."
@@ -438,11 +442,11 @@ msgstr ""
 "Я розумію, що всі інші сесії буде завершено, а всі паролі застосунків "
 "видалено."
 
-#: includes/class-emergency.php:194
+#: includes/class-emergency.php:195
 msgid "Log out everyone and delete application passwords"
 msgstr "Завершити всі сесії та видалити паролі застосунків"
 
-#: includes/class-emergency.php:197
+#: includes/class-emergency.php:198
 msgid ""
 "On a multisite network this button logs out the users of every site, so only "
 "a network administrator (super admin) can use it."
@@ -450,11 +454,11 @@ msgstr ""
 "У мережі multisite ця кнопка завершує сеанси користувачів усіх сайтів, тому "
 "користуватися нею може лише адміністратор мережі (super admin)."
 
-#: includes/class-emergency.php:202
+#: includes/class-emergency.php:203
 msgid "If you think the site was hacked"
 msgstr "Якщо ви думаєте, що сайт зламали"
 
-#: includes/class-emergency.php:205
+#: includes/class-emergency.php:206
 msgid ""
 "Before you clean anything, save a copy of the files, the database and the "
 "server logs. You will need them to find out how they got in."
@@ -462,7 +466,7 @@ msgstr ""
 "Перш ніж щось чистити, збережіть копію файлів, бази даних і логів сервера. "
 "Вони знадобляться, щоб з'ясувати, як саме зламали сайт."
 
-#: includes/class-emergency.php:206
+#: includes/class-emergency.php:207
 msgid ""
 "From a computer you trust, change the passwords of the hosting panel, SSH or "
 "SFTP, the database, every administrator and the API keys of services like a "
@@ -471,7 +475,7 @@ msgstr ""
 "З комп'ютера, якому ви довіряєте, змініть паролі панелі хостингу, SSH або "
 "SFTP, бази даних, кожного адміністратора та ключі API сервісів на зразок CDN."
 
-#: includes/class-emergency.php:207
+#: includes/class-emergency.php:208
 msgid ""
 "Press the button above, so the old sessions and application passwords stop "
 "working."
@@ -479,7 +483,7 @@ msgstr ""
 "Натисніть кнопку вище, щоб старі сесії та паролі застосунків перестали "
 "працювати."
 
-#: includes/class-emergency.php:208
+#: includes/class-emergency.php:209
 msgid ""
 "Check the administrators and the must-use plugins: the General tab has e-"
 "mail alerts and warnings for both."
@@ -487,7 +491,7 @@ msgstr ""
 "Перевірте адміністраторів і must-use плагіни: на вкладці «Загальні» є "
 "сповіщення поштою та попередження для обох."
 
-#: includes/class-emergency.php:209
+#: includes/class-emergency.php:210
 msgid ""
 "Find how they got in before you restore a backup, or the same hole lets them "
 "in again."
@@ -508,15 +512,15 @@ msgstr ""
 "Залиште порожнім, щоб надсилати лише туди."
 
 #. translators: %s: user name.
-#: includes/class-feature.php:291 includes/features/class-admin-alert.php:683
-#: includes/features/class-admin-alert.php:833
+#: includes/class-feature.php:291 includes/features/class-admin-alert.php:684
+#: includes/features/class-admin-alert.php:835
 #, php-format
 msgid "user %s"
 msgstr "користувач %s"
 
 #. translators: %s: user name.
-#: includes/class-feature.php:291 includes/features/class-admin-alert.php:685
-#: includes/features/class-admin-alert.php:835
+#: includes/class-feature.php:291 includes/features/class-admin-alert.php:686
+#: includes/features/class-admin-alert.php:837
 msgid "nobody logged in to WordPress (WP-CLI, a scheduled task or code)"
 msgstr "без входу у WordPress (WP-CLI, заплановане завдання або код)"
 
@@ -531,19 +535,19 @@ msgstr ""
 "сповіщення поштою більше не працюють."
 
 #. translators: %s: user name or a short explanation.
-#: includes/class-feature.php:299 includes/features/class-admin-alert.php:493
-#: includes/features/class-admin-alert.php:535
-#: includes/features/class-admin-alert.php:653
-#: includes/features/class-admin-alert.php:853
+#: includes/class-feature.php:299 includes/features/class-admin-alert.php:494
+#: includes/features/class-admin-alert.php:536
+#: includes/features/class-admin-alert.php:654
+#: includes/features/class-admin-alert.php:855
 #, php-format
 msgid "**Changed by:** %s"
 msgstr "**Хто змінив:** %s"
 
 #. translators: %s: IP address.
-#: includes/class-feature.php:302 includes/features/class-admin-alert.php:497
-#: includes/features/class-admin-alert.php:540
-#: includes/features/class-admin-alert.php:657
-#: includes/features/class-admin-alert.php:856
+#: includes/class-feature.php:302 includes/features/class-admin-alert.php:498
+#: includes/features/class-admin-alert.php:541
+#: includes/features/class-admin-alert.php:658
+#: includes/features/class-admin-alert.php:858
 #, php-format
 msgid "**From IP address:** %s"
 msgstr "**З IP-адреси:** %s"
@@ -1539,23 +1543,26 @@ msgstr "Адміністратора «%s» додано за останні 7 �
 msgid "The record of administrator accounts was changed outside the plugin"
 msgstr "Запис облікових записів адміністраторів змінено поза плагіном"
 
-#: includes/features/class-admin-alert.php:452
-msgid ""
-"The HelloAdmin Guard plugin keeps the e-mail addresses of the administrators "
-"and a fingerprint of their passwords, to notice when an existing "
-"administrator account is taken over. That record was changed or removed "
-"outside the plugin, for example straight in the database. The plugin cannot "
-"tell now whether an e-mail address or a password changed before that."
-msgstr ""
-"Плагін HelloAdmin Guard зберігає пошту адміністраторів і відбиток їхніх "
-"паролів, щоб помітити захоплення наявного облікового запису адміністратора. "
-"Цей запис змінили або видалили в обхід плагіна, наприклад прямо в базі "
-"даних. Тепер плагін не може сказати, чи змінювалися до цього пошта або "
-"пароль."
-
+#. translators: %s: site name and address.
 #: includes/features/class-admin-alert.php:453
-#: includes/features/class-admin-alert.php:706
-#: includes/features/class-mu-plugins-watch.php:446
+#, php-format
+msgid ""
+"On the site %s, the record of administrator accounts that the HelloAdmin "
+"Guard plugin keeps was changed or removed outside the plugin, for example "
+"straight in the database. The plugin keeps the e-mail addresses of the "
+"administrators and a fingerprint of their passwords to notice when an "
+"existing administrator account is taken over, and cannot tell now whether an "
+"e-mail address or a password changed before that."
+msgstr ""
+"На сайті %s запис облікових записів адміністраторів, який веде плагін "
+"HelloAdmin Guard, змінили або видалили в обхід плагіна, наприклад прямо в "
+"базі даних. Плагін зберігає пошту адміністраторів і відбиток їхніх паролів, "
+"щоб помітити захоплення наявного облікового запису адміністратора, і тепер "
+"не може сказати, чи змінювалися до цього пошта або пароль."
+
+#: includes/features/class-admin-alert.php:454
+#: includes/features/class-admin-alert.php:708
+#: includes/features/class-mu-plugins-watch.php:452
 msgid ""
 "If you changed the WordPress salts in **wp-config.php** or moved the "
 "database to another site, this is expected."
@@ -1563,33 +1570,36 @@ msgstr ""
 "Якщо ви змінювали солі WordPress у **wp-config.php** або перенесли базу "
 "даних на інший сайт, так і має бути."
 
-#: includes/features/class-admin-alert.php:455
-#: includes/features/class-admin-alert.php:721
-#: includes/features/class-admin-alert.php:865
+#: includes/features/class-admin-alert.php:456
+#: includes/features/class-admin-alert.php:723
+#: includes/features/class-admin-alert.php:867
 msgid "Users → Administrators"
 msgstr "Користувачі → Адміністратори"
 
-#. translators: 1: user name, 2: old e-mail address, 3: new e-mail address, 4: role.
-#: includes/features/class-admin-alert.php:486
+#. translators: 1: site name and address, 2: user name, 3: old e-mail address, 4: new e-mail address, 5: role.
+#: includes/features/class-admin-alert.php:487
 #, php-format
 msgid ""
-"The e-mail address of user %1$s, %2$s, was changed to %3$s. The user has the "
-"role %4$s."
+"On the site %1$s, the e-mail address of user %2$s, %3$s, was changed to "
+"%4$s. The user has the role %5$s."
 msgstr ""
-"Поштову скриньку користувача %1$s %2$s змінено на %3$s. Користувач має роль "
-"%4$s."
+"На сайті %1$s поштову скриньку користувача %2$s %3$s змінено на %4$s. "
+"Користувач має роль %5$s."
 
-#. translators: 1: user name, 2: role.
-#: includes/features/class-admin-alert.php:490
+#. translators: 1: site name and address, 2: user name, 3: role.
+#: includes/features/class-admin-alert.php:491
 #, php-format
-msgid "**The password of user %1$s was changed.** The user has the role %2$s."
-msgstr "**Пароль користувача %1$s змінено.** Користувач має роль %2$s."
+msgid ""
+"On the site %1$s, **the password of user %2$s was changed.** The user has "
+"the role %3$s."
+msgstr ""
+"На сайті %1$s **змінено пароль користувача %2$s.** Користувач має роль %3$s."
 
-#: includes/features/class-admin-alert.php:500
+#: includes/features/class-admin-alert.php:501
 msgid "If you or this administrator made the change, nothing to do."
 msgstr "Якщо зміну зробили ви або цей адміністратор, нічого робити не треба."
 
-#: includes/features/class-admin-alert.php:501
+#: includes/features/class-admin-alert.php:502
 msgid ""
 "**If not:** someone may have taken over this account. Set a new password for "
 "it (\"**Users → Profile**\", or \"**Lost your password?**\" with an address "
@@ -1601,35 +1611,35 @@ msgstr ""
 "ви контролюєте), натисніть «**Якщо зламали**» в налаштуваннях плагіна "
 "HelloAdmin Guard, щоб завершити всі сесії, і перевірте інших адміністраторів."
 
-#: includes/features/class-admin-alert.php:503
+#: includes/features/class-admin-alert.php:504
 msgid "User profile"
 msgstr "Профіль користувача"
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:507
+#: includes/features/class-admin-alert.php:508
 #, php-format
 msgid "Administrator e-mail changed: %s"
 msgstr "Змінено пошту адміністратора: %s"
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:509
+#: includes/features/class-admin-alert.php:510
 #, php-format
 msgid "Administrator password changed: %s"
 msgstr "Змінено пароль адміністратора: %s"
 
 #. translators: 1: old e-mail address, 2: new e-mail address.
-#: includes/features/class-admin-alert.php:533
+#: includes/features/class-admin-alert.php:534
 #, php-format
 msgid ""
-"The site e-mail address in \"**Settings → General**\" changed: it was %1$s, "
-"now it is %2$s. Security alerts and password reset links for the site go to "
-"this address."
+"On the site %1$s, the site e-mail address in \"**Settings → General**\" "
+"changed: it was %2$s, now it is %3$s. Security alerts and password reset "
+"links for the site go to this address."
 msgstr ""
-"Адресу пошти сайту в «**Налаштування → Загальні**» змінено: була %1$s, стала "
-"%2$s. На цю адресу приходять сповіщення безпеки та посилання для скидання "
-"пароля сайту."
+"На сайті %1$s змінено адресу пошти сайту в «**Налаштування → Загальні**»: "
+"була %2$s, стала %3$s. На цю адресу приходять сповіщення безпеки та "
+"посилання для скидання пароля сайту."
 
-#: includes/features/class-admin-alert.php:543
+#: includes/features/class-admin-alert.php:544
 msgid ""
 "If you did not make this change, set your address back in \"**Settings → "
 "General**\" and check the administrators."
@@ -1637,24 +1647,24 @@ msgstr ""
 "Якщо це зробили не ви, поверніть свою адресу в «**Налаштування → Загальні**» "
 "і перевірте адміністраторів."
 
-#: includes/features/class-admin-alert.php:545
-#: includes/features/class-admin-alert.php:663
+#: includes/features/class-admin-alert.php:546
+#: includes/features/class-admin-alert.php:664
 msgid "Settings → General"
 msgstr "Налаштування → Загальні"
 
-#: includes/features/class-admin-alert.php:546
+#: includes/features/class-admin-alert.php:547
 msgid "The site e-mail address changed"
 msgstr "Адреса пошти сайту змінилася"
 
 #. translators: 1: site name and address, 2: role name.
-#: includes/features/class-admin-alert.php:648
+#: includes/features/class-admin-alert.php:649
 #, php-format
 msgid "Anyone can now register on the site %1$s. New users get the role: %2$s."
 msgstr ""
 "Тепер будь-хто може зареєструватися на сайті %1$s. Нові користувачі "
 "отримують роль: %2$s."
 
-#: includes/features/class-admin-alert.php:650
+#: includes/features/class-admin-alert.php:651
 msgid ""
 "This role can change other people's content, users or the site itself. With "
 "it, a stranger who registers can take over the site."
@@ -1662,7 +1672,7 @@ msgstr ""
 "Ця роль може змінювати чужий вміст, користувачів або сам сайт. З нею "
 "незнайомець, який зареєструвався, може захопити сайт."
 
-#: includes/features/class-admin-alert.php:660
+#: includes/features/class-admin-alert.php:661
 msgid ""
 "If you opened registration on purpose (a shop, a membership site), keep the "
 "new user role at **Subscriber** or the role your shop or membership plugin "
@@ -1672,7 +1682,7 @@ msgstr ""
 "для нових користувачів роль **Підписник** або роль, яку ваш плагін магазину "
 "чи членства дає покупцям."
 
-#: includes/features/class-admin-alert.php:661
+#: includes/features/class-admin-alert.php:662
 msgid ""
 "**If not:** turn off \"**Anyone can register**\" and set the new user role "
 "to **Subscriber** in \"**Settings → General**\", then look at the users "
@@ -1684,16 +1694,16 @@ msgstr ""
 "перегляньте користувачів, які зареєструвалися після цього листа, і оновіть "
 "або видаліть плагін, через який змінилися налаштування."
 
-#: includes/features/class-admin-alert.php:666
+#: includes/features/class-admin-alert.php:667
 msgid "Anyone can register, with dangerous rights"
 msgstr "Будь-хто може зареєструватися з небезпечними правами"
 
-#: includes/features/class-admin-alert.php:666
+#: includes/features/class-admin-alert.php:667
 msgid "Anyone can now register"
 msgstr "Тепер будь-хто може зареєструватися"
 
-#: includes/features/class-admin-alert.php:679
-#: includes/features/class-admin-alert.php:830
+#: includes/features/class-admin-alert.php:680
+#: includes/features/class-admin-alert.php:832
 msgid ""
 "the regular check found it – the change was made outside WordPress (for "
 "example straight in the database) while this alert was on"
@@ -1701,21 +1711,24 @@ msgstr ""
 "це знайшла регулярна перевірка – зміну зробили не через WordPress "
 "(наприклад, прямо в базі даних), поки це сповіщення було увімкнене"
 
-#: includes/features/class-admin-alert.php:705
+#. translators: %s: site name and address.
+#: includes/features/class-admin-alert.php:707
+#, php-format
 msgid ""
-"The list of administrators that the HelloAdmin Guard plugin keeps was "
-"changed or removed outside the plugin, for example straight in the database. "
-"Someone may have added an administrator and hidden it from this alert."
+"On the site %s, the list of administrators that the HelloAdmin Guard plugin "
+"keeps was changed or removed outside the plugin, for example straight in the "
+"database. Someone may have added an administrator and hidden it from this "
+"alert."
 msgstr ""
-"Список адміністраторів, який веде плагін HelloAdmin Guard, змінили або "
-"видалили в обхід плагіна, наприклад прямо в базі даних. Можливо, хтось додав "
-"адміністратора і сховав його від цього сповіщення."
+"На сайті %s список адміністраторів, який веде плагін HelloAdmin Guard, "
+"змінили або видалили в обхід плагіна, наприклад прямо в базі даних. Можливо, "
+"хтось додав адміністратора і сховав його від цього сповіщення."
 
-#: includes/features/class-admin-alert.php:708
+#: includes/features/class-admin-alert.php:710
 msgid "Administrators now:"
 msgstr "Адміністратори зараз:"
 
-#: includes/features/class-admin-alert.php:719
+#: includes/features/class-admin-alert.php:721
 msgid ""
 "**If one of them is not yours:** delete the account, change the passwords of "
 "all administrators and of the hosting, and look at **wp-content/mu-plugins** "
@@ -1725,41 +1738,41 @@ msgstr ""
 "адміністраторів і хостингу та перевірте, чи немає у **wp-content/mu-"
 "plugins** незнайомих файлів."
 
-#: includes/features/class-admin-alert.php:723
+#: includes/features/class-admin-alert.php:725
 msgid "The list of administrators was changed outside the plugin"
 msgstr "Список адміністраторів змінили в обхід плагіна"
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:840
+#: includes/features/class-admin-alert.php:842
 #, php-format
 msgid "New administrator: %s"
 msgstr "Новий адміністратор: %s"
 
 #. translators: %s: site name and address.
-#: includes/features/class-admin-alert.php:844
+#: includes/features/class-admin-alert.php:846
 #, php-format
 msgid "An account on the site %s now has the \"**Administrator**\" role."
 msgstr "Обліковий запис на сайті %s тепер має роль «**Адміністратор**»."
 
 #. translators: %s: user name.
-#: includes/features/class-admin-alert.php:847
+#: includes/features/class-admin-alert.php:849
 #, php-format
 msgid "User name: %s"
 msgstr "Ім'я користувача: %s"
 
 #. translators: %s: e-mail address.
-#: includes/features/class-admin-alert.php:849
+#: includes/features/class-admin-alert.php:851
 #, php-format
 msgid "E-mail: %s"
 msgstr "Пошта: %s"
 
 #. translators: %s: date and time.
-#: includes/features/class-admin-alert.php:851
+#: includes/features/class-admin-alert.php:853
 #, php-format
 msgid "Account created: %s"
 msgstr "Обліковий запис створено: %s"
 
-#: includes/features/class-admin-alert.php:859
+#: includes/features/class-admin-alert.php:861
 msgid ""
 "Its public name or author page address is the login, so the login shows "
 "under its posts and comments. \"**General → Hide user names**\" in the "
@@ -1770,12 +1783,12 @@ msgstr ""
 "налаштуваннях плагіна HelloAdmin Guard, картка «**Загальні → Приховати імена "
 "користувачів**»."
 
-#: includes/features/class-admin-alert.php:862
+#: includes/features/class-admin-alert.php:864
 msgid "If you or your team added this account, nothing to do."
 msgstr ""
 "Якщо цей обліковий запис додали ви або ваша команда, нічого робити не треба."
 
-#: includes/features/class-admin-alert.php:863
+#: includes/features/class-admin-alert.php:865
 msgid ""
 "**If not:** delete the account, change the passwords of all administrators "
 "and of the hosting, and look at **wp-content/mu-plugins** for files you do "
@@ -2790,35 +2803,44 @@ msgstr ""
 "%s виконує код, який спершу розшифровує (eval разом з base64, gzinflate "
 "тощо). Так шкідливий код приховує, що робить. Перевірте цей файл."
 
-#: includes/features/class-mu-plugins-watch.php:445
-msgid ""
-"The list of must-use files that the HelloAdmin Guard plugin keeps was "
-"changed or removed outside the plugin, for example straight in the database. "
-"Someone may have hidden a file from this alert, so here are all the files "
-"WordPress loads by itself."
+#. translators: %s: site name and address.
+#: includes/features/class-mu-plugins-watch.php:446
+#, php-format
+msgid "On the site %s, the files that WordPress loads on every page changed."
 msgstr ""
-"Список must-use файлів, який веде плагін HelloAdmin Guard, змінили або "
-"видалили в обхід плагіна, наприклад прямо в базі даних. Можливо, хтось "
-"сховав файл від цього сповіщення, тому нижче всі файли, які WordPress "
+"На сайті %s змінилися файли, які WordPress завантажує на кожній сторінці."
+
+#. translators: %s: site name and address.
+#: includes/features/class-mu-plugins-watch.php:451
+#, php-format
+msgid ""
+"On the site %s, the list of must-use files that the HelloAdmin Guard plugin "
+"keeps was changed or removed outside the plugin, for example straight in the "
+"database. Someone may have hidden a file from this alert, so here are all "
+"the files WordPress loads by itself."
+msgstr ""
+"На сайті %s список must-use файлів, який веде плагін HelloAdmin Guard, "
+"змінили або видалили в обхід плагіна, наприклад прямо в базі даних. Можливо, "
+"хтось сховав файл від цього сповіщення, тому нижче всі файли, які WordPress "
 "завантажує сам."
 
-#: includes/features/class-mu-plugins-watch.php:449
+#: includes/features/class-mu-plugins-watch.php:455
 msgid "There are no such files now."
 msgstr "Зараз таких файлів немає."
 
-#: includes/features/class-mu-plugins-watch.php:454
+#: includes/features/class-mu-plugins-watch.php:460
 msgid "All files this alert watches:"
 msgstr "Усі файли, за якими стежить це сповіщення:"
 
-#: includes/features/class-mu-plugins-watch.php:454
+#: includes/features/class-mu-plugins-watch.php:460
 msgid "New files that WordPress now loads on every page:"
 msgstr "Нові файли, які WordPress тепер завантажує на кожній сторінці:"
 
-#: includes/features/class-mu-plugins-watch.php:464
+#: includes/features/class-mu-plugins-watch.php:470
 msgid "Changed files:"
 msgstr "Змінені файли:"
 
-#: includes/features/class-mu-plugins-watch.php:473
+#: includes/features/class-mu-plugins-watch.php:479
 msgid ""
 "If you, your developer or your host added or updated them, nothing to do. "
 "Hosts and caching plugins can add files like these too."
@@ -2826,7 +2848,7 @@ msgstr ""
 "Якщо їх додали чи оновили ви, ваш розробник або хостинг, нічого робити не "
 "треба. Хостинги та плагіни кешування теж можуть додавати такі файли."
 
-#: includes/features/class-mu-plugins-watch.php:474
+#: includes/features/class-mu-plugins-watch.php:480
 msgid ""
 "**If not:** copy the file somewhere safe first (it is evidence), then remove "
 "it from the site, change the passwords of all administrators and of the "
@@ -2836,22 +2858,22 @@ msgstr ""
 "видаліть його із сайту, змініть паролі всіх адміністраторів і хостингу та "
 "перевірте список адміністраторів."
 
-#: includes/features/class-mu-plugins-watch.php:476
+#: includes/features/class-mu-plugins-watch.php:482
 msgid "Plugins → Must-Use"
 msgstr "Плагіни → Must-Use"
 
-#: includes/features/class-mu-plugins-watch.php:479
+#: includes/features/class-mu-plugins-watch.php:485
 msgid "The list of must-use files was changed outside the plugin"
 msgstr "Список must-use файлів змінили в обхід плагіна"
 
 #. translators: %s: file name.
-#: includes/features/class-mu-plugins-watch.php:486
+#: includes/features/class-mu-plugins-watch.php:492
 #, php-format
 msgid "New or changed file: %s"
 msgstr "Новий або змінений файл: %s"
 
 #. translators: %d: number of files.
-#: includes/features/class-mu-plugins-watch.php:488
+#: includes/features/class-mu-plugins-watch.php:494
 #, php-format
 msgid "%d new or changed file that runs on every page"
 msgid_plural "%d new or changed files that run on every page"
@@ -2860,7 +2882,7 @@ msgstr[1] "%d нові або змінені файли, які виконуют
 msgstr[2] "%d нових або змінених файлів, які виконуються на кожній сторінці"
 
 #. translators: 1: file size, 2: date and time.
-#: includes/features/class-mu-plugins-watch.php:506
+#: includes/features/class-mu-plugins-watch.php:512
 #, php-format
 msgid "%1$s, modified %2$s"
 msgstr "%1$s, змінено %2$s"
