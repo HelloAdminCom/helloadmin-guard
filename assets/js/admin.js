@@ -270,6 +270,28 @@
 			}
 		}
 	} );
+	// A title cut with "…" shows in full in a hint; only cut titles get one, checked again on resize and view change.
+	function hints() {
+		Array.prototype.forEach.call( cards.querySelectorAll( '.hag-title' ), function ( title ) {
+			if ( title.scrollWidth > title.clientWidth ) {
+				title.setAttribute( 'title', title.textContent.trim() );
+			} else {
+				title.removeAttribute( 'title' );
+			}
+		} );
+	}
+	hints();
+	var waiting = 0;
+	window.addEventListener( 'resize', function () {
+		window.clearTimeout( waiting );
+		waiting = window.setTimeout( hints, 150 );
+	} );
+	Array.prototype.forEach.call( buttons, function ( button ) {
+		button.addEventListener( 'click', hints );
+	} );
+	cards.addEventListener( 'click', function () {
+		window.setTimeout( hints, 0 );
+	} );
 	// A link to a card (#hag-…-card, for example from the gap list) opens it in the short views.
 	if ( window.location.hash ) {
 		var target = document.getElementById( window.location.hash.slice( 1 ) );

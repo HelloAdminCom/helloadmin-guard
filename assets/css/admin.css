@@ -270,7 +270,7 @@
 /* Quick hint under each icon on hover and on keyboard focus (the native title hint shows only after a delay). */
 .hag-view[data-tip]::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); right: 0; z-index: 10; padding: 4px 8px; border-radius: 3px; background: #1d2327; color: #fff; font-size: 12px; line-height: 1.4; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .1s; }
 .hag-view[data-tip]:hover::after, .hag-view[data-tip]:focus-visible::after { opacity: 1; }
-@container (max-width: 600px) { .hag-views { position: static; margin: 8px 0; } }
+@container (max-width: 600px) { .hag-views { position: static; clear: both; width: 100%; margin: 8px 0 0; padding-top: 8px; } .hag-view[data-tip]::after { right: auto; left: 0; } }
 
 /* Full view: everything in sight, as in 0.6. */
 .hag-view-full .hag-lead,
@@ -324,3 +324,31 @@
 /* No frame around "Details" after a mouse click; keyboard users still see where they are. */
 .hag .hag-card .hag-toggle-body:focus { box-shadow: none; outline: none; }
 .hag .hag-card .hag-toggle-body:focus-visible { outline: 2px solid #2271b1; outline-offset: 2px; border-radius: 2px; }
+/* Long paths and code in card texts wrap instead of pushing the page sideways on phones. */
+.hag-card code { overflow-wrap: anywhere; }
+/* Narrow screens: the status label moves under the title, so the title keeps the whole line; closed cards grow by
+   that line. */
+@container (max-width: 600px) {
+	.hag-view-brief .hag-card:not(.hag-open) .hag-head,
+	.hag-view-compact .hag-card:not(.hag-open) .hag-head { flex-wrap: wrap; }
+	.hag-view-brief .hag-card:not(.hag-open) .hag-toggle,
+	.hag-view-compact .hag-card:not(.hag-open) .hag-toggle { flex: 1 1 100%; }
+	.hag-cards .hag-chip { margin-left: 52px; }
+	.hag-view-brief { --hag-h: 11.75rem; }
+	.hag-view-compact { --hag-h: 7.5rem; }
+}
+/* Hide user names, narrow screens: each user is a block (name and where the login shows, then the field with its
+   own label and the button), so the table never gets wider than the card. */
+@container (max-width: 600px) {
+	.hag-fix-table thead { display: none; }
+	.hag-fix-table, .hag-fix-table tbody { display: block; }
+	.hag-fix-table tr { display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; padding: 10px 12px; }
+	.hag-fix-table td { display: block; padding: 0; }
+	.hag-fix-table td:nth-child(2) { color: #50575e; }
+	.hag-fix-table td:nth-child(3) { grid-column: 1; align-self: end; }
+	.hag-fix-table td:nth-child(4) { grid-column: 2; align-self: end; }
+	.hag-fix-table td:first-child, .hag-fix-table td:nth-child(2) { grid-column: 1 / -1; }
+	.hag-fix-table td.hag-fix-ok { grid-column: 1 / -1; }
+	.hag-fix-table input.regular-text { max-width: none; }
+	.hag-fix-table td .screen-reader-text { position: static; width: auto; height: auto; margin: 4px 0 2px; clip: auto; clip-path: none; overflow: visible; word-wrap: normal; display: block; font-size: 12px; color: #50575e; }
+}
