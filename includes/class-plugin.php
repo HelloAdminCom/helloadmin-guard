@@ -192,6 +192,11 @@ final class Plugin {
 			update_option( self::HEAL_SEEN, $stamp, true );
 			return;
 		}
+		// These exact rules broke the home page last time (for example after a failed restore the admin removed
+		// them by hand): do not write them again by ourselves. Saving the settings tries again.
+		if ( Htaccess::known_broken( $want ) ) {
+			return;
+		}
 		// Taken before writing: parallel requests (bots on the login page) must not all write and check the file.
 		set_transient( self::HEAL_WAIT, 1, 2 * MINUTE_IN_SECONDS );
 		$result = $this->sync_htaccess();

@@ -36,6 +36,23 @@ class Htaccess {
 	const SERVER_OPTION = 'helloadmin_guard_server';
 
 	/**
+	 * Option with the MD5 of the rule lines that broke the home page last time. Self-heal does not write the same
+	 * lines again by itself (it would break the site every few minutes); a save by the admin still tries.
+	 */
+	const BROKEN_OPTION = 'helloadmin_guard_rules_broken';
+
+	/**
+	 * Whether these rules broke the home page the last time they were written.
+	 *
+	 * @param Feature[] $features Features whose rules would be written.
+	 * @return bool
+	 */
+	public static function known_broken( array $features ) {
+		$lines = self::lines( array_filter( $features, array( __CLASS__, 'safe_rules' ) ) );
+		return get_option( self::BROKEN_OPTION ) === md5( implode( "\n", $lines ) );
+	}
+
+	/**
 	 * Are this setting's rules in .htaccess right now?
 	 *
 	 * @param string $id Setting id.
@@ -345,6 +362,7 @@ class Htaccess {
 		}
 		$check = self::site_responds();
 		if ( false === $check ) {
+			update_option( self::BROKEN_OPTION, md5( implode( "\n", $lines ) ), false );
 			// If even the old file cannot be written back, say so: the site may be down until it is fixed by hand.
 			if ( $fs->put_contents( $path, $before, $mode ) ) {
 				return new \WP_Error( 'site_broken' );
@@ -355,6 +373,7 @@ class Htaccess {
 			return new \WP_Error( 'restore_failed' );
 		}
 		self::remember( $features );
+		delete_option( self::BROKEN_OPTION );
 		return null === $check ? new \WP_Error( 'not_checked' ) : true;
 	}
 
