@@ -36,6 +36,7 @@ function helloadmin_guard_uninstall_site() {
 	delete_option( 'helloadmin_guard_mu_files' );
 	delete_option( 'helloadmin_guard_mu_scope' );
 	delete_option( 'helloadmin_guard_inactive_plugins' );
+	delete_option( 'helloadmin_guard_old_plugins' );
 	delete_option( 'helloadmin_guard_login_all' );
 	delete_option( 'helloadmin_guard_login_all_lock' );
 	delete_transient( 'helloadmin_guard_login_all_mailed' );
