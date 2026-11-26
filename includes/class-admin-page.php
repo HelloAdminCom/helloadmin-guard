@@ -72,8 +72,8 @@ class Admin_Page {
 		return array(
 			'general'   => __( 'General', 'helloadmin-guard' ),
 			'advanced'  => __( 'Advanced', 'helloadmin-guard' ),
-			'emergency' => __( 'If hacked', 'helloadmin-guard' ),
 			'tips'      => __( 'Tips', 'helloadmin-guard' ),
+			'emergency' => __( 'If hacked', 'helloadmin-guard' ),
 			'about'     => __( 'About', 'helloadmin-guard' ),
 		);
 	}
@@ -356,7 +356,9 @@ class Admin_Page {
 		foreach ( $this->tabs() as $slug => $label ) {
 			$url   = $this->page_url( $slug );
 			$class = 'nav-tab' . ( $slug === $tab ? ' nav-tab-active' : '' );
-			printf( '<a href="%s" class="%s">%s</a>', esc_url( $url ), esc_attr( $class ), esc_html( $label ) );
+			// The emergency tab gets a warning icon, so it is easy to spot wherever it stands.
+			$icon = 'emergency' === $slug ? '<span class="dashicons dashicons-warning hag-tab-icon" aria-hidden="true"></span>' : '';
+			printf( '<a href="%s" class="%s">%s%s</a>', esc_url( $url ), esc_attr( $class ), $icon, esc_html( $label ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $icon is a fixed string.
 		}
 		if ( ! in_array( $tab, array( 'about', 'emergency', 'tips' ), true ) ) {
 			Card_View::render_switch();

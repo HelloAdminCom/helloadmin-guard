@@ -59,15 +59,15 @@ Advanced tab: server rules (Apache and LiteSpeed write them into .htaccess, Ngin
 * Block PHP files of inactive plugins: they answer 404 when opened by address.
 * Refuse TRACE and TRACK requests, which security scanners report.
 
-If hacked tab
-
-* One button ends every session of every user except yours and deletes all application passwords. Changing a password alone does not log out someone who is already in.
-* A short checklist of what to do next.
-
 Tips tab
 
 * Steps a plugin cannot take for you, in three groups: ten minutes in the admin area, hosting and DNS, for developers. Two-factor login, updates, backups away from the server, one hosting user per site, SPF and DMARC, DISALLOW_FILE_MODS, file checksums and more, strongest first. Each tip says what it does not protect against.
 * A button checks the SPF and DMARC records of your domain.
+
+If hacked tab
+
+* One button ends every session of every user except yours and deletes all application passwords. Changing a password alone does not log out someone who is already in.
+* A short checklist of what to do next.
 
 Before writing .htaccess the plugin keeps a copy of it and then opens your home page. If the page answers with a server error or goes round in redirects, the old file is put back and the settings stay off. Its rules sit between "# BEGIN HelloAdmin Guard" and "# END HelloAdmin Guard" and are removed when the plugin is deactivated.
 

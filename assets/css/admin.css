@@ -401,3 +401,8 @@
 .hag-tip-missing::before { content: "\f534"; color: #d63638; }
 .hag-tip-unknown::before { content: "\f460"; color: #787c82; }
 .hag-tip-check code { overflow-wrap: anywhere; }
+
+/* Warning icon on the If hacked tab. */
+.hag .nav-tab .hag-tab-icon { width: 16px; height: 16px; margin: 0 4px 0 -2px; font-size: 16px; line-height: 1; vertical-align: -2px; color: #b32d2e; }
+/* If hacked: the long button label wraps on phones instead of pushing the page sideways. */
+.hag-tab-emergency .button { white-space: normal; height: auto; max-width: 100%; line-height: 1.4; padding-top: 8px; padding-bottom: 8px; }

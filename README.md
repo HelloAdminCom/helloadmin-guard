@@ -20,8 +20,8 @@ Everything is off until you turn it on. No paid version, no locked features, no 
 | --- | --- |
 | General | Turn off or limit XML-RPC · Turn off the file editor · Limit login attempts · Custom login URL · Hide user names · E-mail me about new administrators · E-mail me about changed must-use plugins and site files · E-mail me about abandoned and closed plugins · Turn off Application Passwords · Security headers · Hide the REST API index · Core REST API only for logged-in users · Hide the WordPress version |
 | Advanced (server rules) | Block hidden files (.git, .env) · Block backups and database dumps · No PHP in the uploads folder · Block logs and diagnostic pages · Turn off folder listings · Redirect http:// to https:// · HTTPS only (HSTS) · Close internal WordPress folders · Hide files that show versions · Block developer and build files · Block PHP files of inactive plugins · Refuse TRACE and TRACK requests |
-| If hacked | Log out everyone else and delete all application passwords with one button, plus a short checklist |
 | Tips | Steps a plugin cannot take for you (two-factor login, backups, one hosting user per site, SPF and DMARC, DISALLOW_FILE_MODS and more), strongest first, each with what it does not protect against |
+| If hacked | Log out everyone else and delete all application passwords with one button, plus a short checklist |
 
 Server rules are written to `.htaccess` on Apache and LiteSpeed. On Nginx the plugin shows the same rules to copy into the server block.
 
