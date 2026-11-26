@@ -335,7 +335,10 @@ class Htaccess {
 		$before = $fs->exists( $path ) ? (string) $fs->get_contents( $path ) : '';
 		$after  = self::build( $before, $lines );
 		if ( $after === $before ) {
+			// The file already holds these rules (for example the admin put them back by hand after fixing the server):
+			// they are not "known to break the site" any more.
 			self::remember( $features );
+			delete_option( self::BROKEN_OPTION );
 			return true;
 		}
 		if ( ! self::writable() ) {
@@ -358,6 +361,7 @@ class Htaccess {
 
 		if ( ! $lines ) {
 			self::remember( array() );
+			delete_option( self::BROKEN_OPTION );
 			return true;
 		}
 		$check = self::site_responds();
