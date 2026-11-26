@@ -437,3 +437,7 @@
 @media (max-width: 782px) {
 	.hag .hag-radio, .hag .hag-check-field { margin-bottom: 10px; }
 }
+/* Fix button while the request runs: same size and label, a soft pulse instead of a longer text. */
+@keyframes hag-pulse { 50% { opacity: 0.45; } }
+.hag-fix-table .button.hag-busy { animation: hag-pulse 1s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .hag-fix-table .button.hag-busy { animation: none; opacity: 0.6; } }

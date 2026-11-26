@@ -143,13 +143,21 @@ function hagScrollToTop( element ) {
 		table.hidden = true;
 	}
 
+	function idle( button ) {
+		button.disabled = false;
+		button.classList.remove( 'hag-busy' );
+		button.removeAttribute( 'aria-label' );
+	}
+
 	function fix( button ) {
 		var row = button.closest( 'tr' );
 		var input = row.querySelector( 'input' );
 		var cell = input.parentNode;
-		var label = button.textContent;
+		// The label stays (a longer "working" text would widen the button and squeeze the field): the button pulses,
+		// screen readers hear the working text.
 		button.disabled = true;
-		button.textContent = data.fixWorking;
+		button.classList.add( 'hag-busy' );
+		button.setAttribute( 'aria-label', data.fixWorking );
 		var body = new URLSearchParams( {
 			action: data.fixAction,
 			user: button.getAttribute( 'data-user' ),
@@ -191,14 +199,12 @@ function hagScrollToTop( element ) {
 					return;
 				}
 				note( cell, message, 'hag-fix-error' );
-				button.disabled = false;
-				button.textContent = label;
+				idle( button );
 				input.focus();
 			} )
 			.catch( function () {
 				note( cell, data.fixFailed, 'hag-fix-error' );
-				button.disabled = false;
-				button.textContent = label;
+				idle( button );
 			} );
 	}
 
