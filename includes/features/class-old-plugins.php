@@ -339,7 +339,7 @@ class Old_Plugins extends Feature {
 			return sprintf( __( '%1$s was last tested with WordPress %2$s. It may be abandoned: look for a maintained replacement.', 'helloadmin-guard' ), $item['name'], $item['tested'] ) . $active;
 		}
 		/* translators: %s: plugin name. */
-		return sprintf( __( '%s is not on WordPress.org (closed there, or installed from somewhere else). Check where it came from and whether it still gets updates.', 'helloadmin-guard' ), $item['name'] ) . $active;
+		return sprintf( __( '%s is missing from the WordPress.org Plugin Directory (no longer supported there, or installed from outside the directory). Check where it came from and whether it still gets updates.', 'helloadmin-guard' ), $item['name'] ) . $active;
 	}
 
 	/**
@@ -354,7 +354,7 @@ class Old_Plugins extends Feature {
 		$why = 'old' === $item['kind']
 			/* translators: %s: WordPress version. */
 			? sprintf( __( 'last tested with WordPress %s', 'helloadmin-guard' ), $item['tested'] )
-			: __( 'not on WordPress.org (closed there, or installed from somewhere else)', 'helloadmin-guard' );
+			: __( 'missing from the WordPress.org Plugin Directory (no longer supported there, or installed from outside the directory)', 'helloadmin-guard' );
 		$who = \HelloAdmin\Guard\Mail::b( $item['name'] ) . ( '' !== $item['author'] ? ', ' . $item['author'] : '' );
 		if ( ! is_plugin_active( $file ) ) {
 			$who .= ' ' . __( '(inactive)', 'helloadmin-guard' );
@@ -371,11 +371,11 @@ class Old_Plugins extends Feature {
 	 * @return void
 	 */
 	private function send_alert( array $items, $first = false ) {
-		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ) . ' (' . home_url( '/' ) . ')';
+		$site = \HelloAdmin\Guard\Mail::b( wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ) ) . ' (' . home_url( '/' ) . ')';
 		$when = \HelloAdmin\Guard\Mail::time();
 		if ( $first ) {
 			/* translators: 1: site name and address, 2: tab and setting name, 3: date and time. */
-			$lines = array( sprintf( __( 'On the site %1$s, the setting "%2$s" in the HelloAdmin Guard plugin was turned on (%3$s).', 'helloadmin-guard' ), $site, __( 'General', 'helloadmin-guard' ) . ' → ' . $this->title(), $when ), '' );
+			$lines = array( sprintf( __( 'On the site %1$s, the setting "**%2$s**" in the HelloAdmin Guard plugin was turned on (%3$s).', 'helloadmin-guard' ), $site, __( 'General', 'helloadmin-guard' ) . ' → ' . $this->title(), $when ), '' );
 		} else {
 			/* translators: 1: site name and address, 2: date and time. */
 			$lines = array( sprintf( __( 'On the site %1$s, WordPress checked for plugin updates (%2$s).', 'helloadmin-guard' ), $site, $when ), '' );
@@ -400,7 +400,7 @@ class Old_Plugins extends Feature {
 		);
 		$lines[] = '';
 		/* translators: %s: address of the Plugins screen. */
-		$lines[] = sprintf( __( 'To check your plugins, open %s or the "Plugins" menu in the WordPress admin panel.', 'helloadmin-guard' ), admin_url( 'plugins.php' ) );
+		$lines[] = sprintf( __( 'To check your plugins, open %s or the "**Plugins**" menu in the WordPress admin panel.', 'helloadmin-guard' ), admin_url( 'plugins.php' ) );
 
 		$count = count( $items );
 		if ( 0 === $count ) {

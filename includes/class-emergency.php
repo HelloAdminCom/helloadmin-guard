@@ -150,10 +150,11 @@ class Emergency {
 		$lines   = array(
 			$user->exists()
 				/* translators: %s: user name. */
-				? sprintf( __( '%s pressed "Log out everyone" in the HelloAdmin Guard plugin.', 'helloadmin-guard' ), Mail::b( $user->user_login ) )
-				: __( '"Log out everyone" in the HelloAdmin Guard plugin was run without a login to WordPress (WP-CLI, a scheduled task or code).', 'helloadmin-guard' ),
+				? sprintf( __( 'User %s pressed "**Log out everyone**" in the HelloAdmin Guard plugin.', 'helloadmin-guard' ), Mail::b( $user->user_login ) )
+				: __( '"**Log out everyone**" in the HelloAdmin Guard plugin was run without a login to WordPress (WP-CLI, a scheduled task or code).', 'helloadmin-guard' ),
 			'',
-			$result,
+			// The first sentence ("Done.") in bold; the same text shows as a notice in the admin area without stars.
+			(string) preg_replace( '/^([^.]+\.)/u', '**$1**', (string) $result ),
 		);
 		$lines[] = '';
 		$lines[] = __( 'If this was not you or your team, someone else has administrator access: log in, change your password and check the list of administrators.', 'helloadmin-guard' );

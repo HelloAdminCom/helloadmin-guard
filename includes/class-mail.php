@@ -31,7 +31,7 @@ class Mail {
 	 * @return bool Whether wp_mail() accepted the message.
 	 */
 	public static function send( array $to, $subject, array $lines, $footer ) {
-		$text = implode( "\n", array_map( array( __CLASS__, 'plain' ), $lines ) ) . "\n\n\n" . $footer;
+		$text = implode( "\n", array_map( array( __CLASS__, 'plain' ), $lines ) ) . "\n\n\n" . self::plain( $footer );
 		$alt  = static function ( $mailer ) use ( $text ) {
 			$mailer->AltBody = $text; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
 		};
@@ -43,30 +43,14 @@ class Mail {
 	}
 
 	/**
-	 * Date and time for an e-mail as numbers in the order the site language uses: 26.11.2026 11:43 for most
-	 * languages (24-hour clock), 11/26/2026 11:43 AM in the US, 26/11/2026 11:43 in the UK, 26/11/2026 11:43 am in
-	 * Australia and New Zealand, 2026-11-26 11:43 a.m. in Canada.
+	 * Date and time for an e-mail in the format set in "Settings → General" of the site (the language of a site
+	 * says nothing about where its administrator lives).
 	 *
 	 * @param int|null $timestamp Unix time, now when null.
 	 * @return string
 	 */
 	public static function time( $timestamp = null ) {
-		$formats = array(
-			'en_US' => 'm/d/Y g:i A',
-			'en_GB' => 'd/m/Y H:i',
-			'en_AU' => 'd/m/Y g:i a',
-			'en_NZ' => 'd/m/Y g:i a',
-			'en_CA' => 'Y-m-d g:i a',
-			'en_ZA' => 'Y/m/d H:i',
-			'fr_FR' => 'd/m/Y H:i',
-			'fr_CA' => 'Y-m-d H:i',
-			'es_ES' => 'd/m/Y H:i',
-			'it_IT' => 'd/m/Y H:i',
-			'pt_PT' => 'd/m/Y H:i',
-			'pt_BR' => 'd/m/Y H:i',
-		);
-		$locale  = get_locale();
-		return (string) wp_date( isset( $formats[ $locale ] ) ? $formats[ $locale ] : 'd.m.Y H:i', $timestamp );
+		return (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp );
 	}
 
 	/**
@@ -133,7 +117,7 @@ class Mail {
 		}
 		return '<!DOCTYPE html><html><body style="font-family:-apple-system,Segoe UI,Arial,sans-serif;font-size:14px;line-height:1.5;color:#1d2327">'
 			. implode( '', $blocks )
-			. '<p style="margin:32px 0 0;font-size:12px;color:#646970">' . self::bold_name( esc_html( $footer ) ) . '</p></body></html>';
+			. '<p style="margin:32px 0 0;font-size:12px;color:#646970">' . self::fmt( $footer ) . '</p></body></html>';
 	}
 
 	/**

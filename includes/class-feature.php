@@ -288,7 +288,7 @@ abstract class Feature {
 	 */
 	public function send_deactivation_mail( array $extra = array() ) {
 		$actor = function_exists( 'wp_get_current_user' ) ? wp_get_current_user() : null;
-		$by    = $actor && $actor->exists() ? Mail::b( $actor->user_login ) : __( 'nobody logged in to WordPress (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
+		$by    = $actor && $actor->exists() ? sprintf( /* translators: %s: user name. */ __( 'user %s', 'helloadmin-guard' ), Mail::b( $actor->user_login ) ) : __( 'nobody logged in to WordPress (WP-CLI, a scheduled task or code)', 'helloadmin-guard' );
 		$ip    = defined( 'WP_CLI' ) && WP_CLI ? '' : self::visitor_ip();
 
 		$lines   = array();
@@ -439,7 +439,7 @@ abstract class Feature {
 		}
 		$tab = 'advanced' === $this->tab() ? __( 'Advanced', 'helloadmin-guard' ) : __( 'General', 'helloadmin-guard' );
 		/* translators: %s: tab and title of the setting, for example "General → E-mail me about new administrators". */
-		$footer = sprintf( __( 'This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off "%s" in the settings of the HelloAdmin Guard plugin.', 'helloadmin-guard' ), $tab . ' → ' . $this->title() );
+		$footer = sprintf( __( 'This e-mail was sent by the HelloAdmin Guard plugin. To stop these e-mails, turn off "**%s**" in the settings of the HelloAdmin Guard plugin.', 'helloadmin-guard' ), $tab . ' → ' . $this->title() );
 		return Mail::send( $to, $subject, $lines, $footer );
 	}
 
