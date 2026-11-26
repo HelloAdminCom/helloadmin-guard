@@ -301,3 +301,25 @@
 		}
 	}
 }() );
+
+/* Tips: one group and one tip open at a time (the name attribute of <details> does that in the browser). When the
+   block that closes was above, the page would jump: bring the title of the opened one back into view. */
+( function () {
+	var tips = document.querySelector( '.hag-tips' );
+	if ( ! tips ) {
+		return;
+	}
+	tips.addEventListener(
+		'toggle',
+		function ( event ) {
+			var box = event.target;
+			if ( box.open && box.matches( 'details' ) ) {
+				var title = box.querySelector( 'summary' );
+				if ( title.getBoundingClientRect().top < 0 ) {
+					title.scrollIntoView( { block: 'start' } );
+				}
+			}
+		},
+		true
+	);
+}() );

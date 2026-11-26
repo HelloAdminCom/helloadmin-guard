@@ -50,7 +50,7 @@ class Tips {
 		foreach ( self::groups() as $id => $group ) {
 			$open = $check && 'hosting' === $id;
 			printf(
-				'<details class="hag-tip-group" id="hag-tips-%1$s"%2$s><summary><span class="hag-tip-group-head"><span class="hag-tip-group-title">%3$s</span> <span class="hag-tip-count">%4$s</span></span><span class="hag-tip-group-text">%5$s</span><span class="hag-welcome-arrow" aria-hidden="true"></span></summary><div class="hag-tip-list">',
+				'<details class="hag-tip-group" name="hag-tip-groups" id="hag-tips-%1$s"%2$s><summary><span class="hag-tip-group-head"><span class="hag-tip-group-title">%3$s</span> <span class="hag-tip-count">%4$s</span></span><span class="hag-tip-group-text">%5$s</span><span class="hag-welcome-arrow" aria-hidden="true"></span></summary><div class="hag-tip-list">',
 				esc_attr( $id ),
 				$open ? ' open' : '',
 				esc_html( $group['title'] ),
@@ -60,10 +60,11 @@ class Tips {
 			);
 			foreach ( $group['tips'] as $key => $tip ) {
 				printf(
-					'<details class="hag-tip" id="hag-tip-%1$s"%2$s><summary>%3$s</summary><div class="hag-tip-body">',
+					'<details class="hag-tip" name="hag-tips-%4$s" id="hag-tip-%1$s"%2$s><summary>%3$s</summary><div class="hag-tip-body">',
 					esc_attr( $key ),
 					$open && 'mail' === $key ? ' open' : '',
-					esc_html( $tip['title'] )
+					esc_html( $tip['title'] ),
+					esc_attr( $id )
 				);
 				foreach ( $tip['text'] as $paragraph ) {
 					echo '<p>' . wp_kses( $paragraph, self::KSES ) . '</p>';
