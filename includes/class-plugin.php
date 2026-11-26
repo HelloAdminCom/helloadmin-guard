@@ -252,21 +252,35 @@ final class Plugin {
 	 */
 	public function deactivated() {
 		$sender = null;
-		$extra  = array();
 		foreach ( $this->features as $id => $feature ) {
 			if ( $feature->is_alert() && $this->settings->is_enabled( $id ) ) {
-				$sender  = $sender ? $sender : $feature;
-				$address = (string) $feature->value( 'email' );
-				if ( '' !== $address ) {
-					$extra[] = $address;
-				}
+				$sender = $feature;
+				break;
 			}
 		}
 		// One e-mail, also to the extra address of every e-mail setting that is on (a second mailbox may be set
 		// on only one of them).
 		if ( $sender ) {
-			$sender->send_deactivation_mail( $extra );
+			$sender->send_deactivation_mail( $this->alert_addresses() );
 		}
+	}
+
+	/**
+	 * The "Also send to" addresses of the e-mail settings that are on, without repeats.
+	 *
+	 * @return string[]
+	 */
+	public function alert_addresses() {
+		$extra = array();
+		foreach ( $this->features as $id => $feature ) {
+			if ( $feature->is_alert() && $this->settings->is_enabled( $id ) ) {
+				$address = (string) $feature->value( 'email' );
+				if ( '' !== $address && is_email( $address ) ) {
+					$extra[] = $address;
+				}
+			}
+		}
+		return array_values( array_unique( $extra ) );
 	}
 
 	/**

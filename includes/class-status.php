@@ -294,7 +294,11 @@ class Status {
 	 */
 	public static function suspects() {
 		$active = (array) get_option( 'active_plugins', array() );
-		$names  = array();
+		if ( is_multisite() ) {
+			// Plugins activated for the whole network are not in the site's own list.
+			$active = array_merge( $active, array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) ) );
+		}
+		$names = array();
 		foreach ( self::KNOWN as $file => $name ) {
 			if ( in_array( $file, $active, true ) ) {
 				$names[] = $name;

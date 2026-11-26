@@ -154,6 +154,8 @@ class Emergency {
 		$lines[] = '';
 		$lines[] = __( 'If this was not you or your team, someone else has administrator access: log in, change your password and check the list of administrators.', 'helloadmin-guard' );
 		$to      = is_multisite() ? (string) get_site_option( 'admin_email' ) : (string) get_option( 'admin_email' );
+		// Also the second mailbox of the e-mail alerts: whoever pressed the button may have changed the site address.
+		$to = array_values( array_unique( array_merge( array( $to ), Plugin::instance()->alert_addresses() ) ) );
 		wp_mail( $to, '[' . $site . '] ' . __( 'Everyone was logged out', 'helloadmin-guard' ), implode( "\n", $lines ) );
 	}
 

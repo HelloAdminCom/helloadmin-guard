@@ -21,6 +21,7 @@ All notable changes to this project are documented here. Versions follow [Semant
 - WP-CLI could enable login_url without a login address and write the login POST rule, locking everyone out; the rule is now written only with a saved address and never on multisite (the admin page could do the same on multisite).
 - WP-CLI reported server rules as enabled on Nginx when an old .htaccess file was present.
 - When the old .htaccess could not be written back after a broken write, the new rules stayed in the file but their settings were switched off.
+- The e-mail about "Log out everyone" also goes to the "Also send to" addresses of the e-mail alerts; on multisite the card hints name security plugins activated for the whole network too.
 - Self-heal no longer writes rules that broke the home page last time (for example after a failed restore the admin removed the block by hand, and every admin visit put the breaking rules back); saving the settings still tries, a successful write clears the mark.
 - On Apache with a read-only .htaccess, saving the Advanced tab unchanged no longer reports that the rules were not saved (settings whose rules are in the file keep their value).
 - The list of users whose login shows is cached for 10 minutes and dropped on user changes and Fix (big sites); the upgrade.php file check skips AJAX requests.
