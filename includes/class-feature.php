@@ -423,6 +423,24 @@ abstract class Feature {
 	}
 
 	/**
+	 * Date and time for an e-mail in the site's format. A site that still has WordPress's English defaults
+	 * ("F j, Y" and "g:i a") but another language gets the usual format of that language from the translation,
+	 * for example a 24-hour clock.
+	 *
+	 * @param int|null $timestamp Unix time, now when null.
+	 * @return string
+	 */
+	protected static function mail_time( $timestamp = null ) {
+		$date = (string) get_option( 'date_format' );
+		$time = (string) get_option( 'time_format' );
+		if ( 'F j, Y' === $date && 'g:i a' === $time && 0 !== strpos( get_locale(), 'en' ) ) {
+			/* translators: PHP date format for dates and times in e-mails, see https://www.php.net/manual/datetime.format.php */
+			return wp_date( __( 'F j, Y g:i a', 'helloadmin-guard' ), $timestamp );
+		}
+		return wp_date( $date . ' ' . $time, $timestamp );
+	}
+
+	/**
 	 * Sends a plain text alert to the site e-mail address, and to the "email" field address if it is set.
 	 *
 	 * @param string                                   $subject Subject without the site name (it is added in brackets).
@@ -475,27 +493,31 @@ abstract class Feature {
 	 * @return string
 	 */
 	private static function mail_html( array $lines, $footer ) {
+		$bold   = static function ( $html ) {
+			return str_replace( 'HelloAdmin Guard', '<strong>HelloAdmin Guard</strong>', $html );
+		};
 		$blocks = array();
 		$block  = array();
-		foreach ( $lines as $line ) {
-			if ( '' === self::mail_plain( $line ) ) {
+		// An empty line at the end closes the last paragraph too.
+		foreach ( array_merge( $lines, array( '' ) ) as $line ) {
+			$plain = self::mail_plain( $line );
+			if ( '' === trim( $plain ) ) {
 				if ( $block ) {
-					$blocks[] = '<p style="margin:0 0 14px">' . implode( '<br>', $block ) . '</p>';
-					$block    = array();
+					$blocks[] = '<div style="margin:0 0 14px">' . implode( '', $block ) . '</div>';
 				}
+				$block = array();
 				continue;
 			}
-			$html    = is_array( $line ) && isset( $line['bold'] )
+			$html = is_array( $line ) && isset( $line['bold'] )
 				? '<strong>' . esc_html( $line['bold'] ) . '</strong> ' . make_clickable( esc_html( isset( $line['text'] ) ? $line['text'] : '' ) )
-				: make_clickable( esc_html( trim( self::mail_plain( $line ) ) ) );
-			$block[] = $html;
-		}
-		if ( $block ) {
-			$blocks[] = '<p style="margin:0 0 14px">' . implode( '<br>', $block ) . '</p>';
+				: make_clickable( esc_html( trim( $plain ) ) );
+			// Lines indented in the plain text (lists of files, users) keep an indent.
+			$indent  = 0 === strpos( $plain, ' ' ) ? 'padding-left:18px;' : '';
+			$block[] = '<div style="' . $indent . 'margin:0 0 2px">' . $bold( $html ) . '</div>';
 		}
 		return '<!DOCTYPE html><html><body style="font-family:-apple-system,Segoe UI,Arial,sans-serif;font-size:14px;line-height:1.5;color:#1d2327">'
 			. implode( '', $blocks )
-			. '<p style="margin:32px 0 0;font-size:12px;color:#646970">' . esc_html( $footer ) . '</p></body></html>';
+			. '<p style="margin:32px 0 0;font-size:12px;color:#646970">' . $bold( esc_html( $footer ) ) . '</p></body></html>';
 	}
 
 	/**

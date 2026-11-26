@@ -372,7 +372,7 @@ class Old_Plugins extends Feature {
 	 */
 	private function send_alert( array $items, $first = false ) {
 		$site = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ) . ' (' . home_url( '/' ) . ')';
-		$when = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
+		$when = self::mail_time();
 		if ( $first ) {
 			/* translators: 1: site name and address, 2: tab and setting name, 3: date and time. */
 			$lines = array( sprintf( __( 'On the site %1$s, the setting "%2$s" in the HelloAdmin Guard plugin was turned on (%3$s).', 'helloadmin-guard' ), $site, __( 'General', 'helloadmin-guard' ) . ' → ' . $this->title(), $when ), '' );
@@ -396,7 +396,7 @@ class Old_Plugins extends Feature {
 		}
 		$lines[] = array(
 			'bold' => __( 'Important!', 'helloadmin-guard' ),
-			'text' => __( 'A plugin that gets no updates keeps every hole found in it. If you still need it, look for a maintained plugin that does the same; if not, delete it (an inactive plugin\'s files can still be opened directly).', 'helloadmin-guard' ),
+			'text' => __( 'A plugin that gets no updates keeps every hole found in it. If you still need it, find a maintained plugin that does the same and switch to it; if not, delete it (an inactive plugin\'s files can still be opened directly).', 'helloadmin-guard' ),
 		);
 		$lines[] = '';
 		/* translators: %s: address of the Plugins screen. */
