@@ -106,7 +106,7 @@ class Tips {
 					'updates'    => array(
 						'title' => __( 'Keep plugins and themes updated, delete the ones you do not use', 'helloadmin-guard' ),
 						'text'  => array(
-							__( 'Most break-ins go through a known hole in an old plugin or theme. Turn on auto-updates for plugins you trust (Plugins, the Auto-updates column); minor WordPress releases update themselves by default.', 'helloadmin-guard' ),
+							__( 'Most break-ins go through a known hole in an old plugin or theme. Turn on auto-updates for plugins you trust (the Auto-updates column on the Plugins screen); minor WordPress releases update themselves by default.', 'helloadmin-guard' ),
 							__( 'Delete plugins and themes you have switched off: their files stay on the server and can still be opened directly. Until you delete them, the <strong>Block PHP files of inactive plugins</strong> setting on the Advanced tab keeps them shut.', 'helloadmin-guard' ),
 							__( 'Never install "nulled" copies of paid plugins from unofficial sites. Many of them come with a backdoor already inside.', 'helloadmin-guard' ),
 						),
@@ -129,7 +129,7 @@ class Tips {
 					'register'   => array(
 						'title' => __( 'Keep registration closed unless you need it', 'helloadmin-guard' ),
 						'text'  => array(
-							__( 'In Settings, General, leave "Anyone can register" off unless the site needs accounts, and keep "New User Default Role" at Subscriber or Customer. A role with more rights there gives it to everyone who signs up.', 'helloadmin-guard' ),
+							__( 'In Settings → General, leave "Anyone can register" off unless the site needs accounts, and keep "New User Default Role" at Subscriber or Customer. A role with more rights there gives it to everyone who signs up.', 'helloadmin-guard' ),
 							__( 'The <strong>E-mail me about new administrators</strong> setting on the General tab also e-mails you when registration opens with a risky role.', 'helloadmin-guard' ),
 						),
 					),
@@ -172,7 +172,7 @@ class Tips {
 						'title' => __( 'A PHP version that still gets security fixes', 'helloadmin-guard' ),
 						'text'  => array(
 							/* translators: %s: PHP version of this site. */
-							sprintf( __( 'This site runs PHP %s. Versions past their end of life get no security fixes; Tools, Site Health warns about them. Your host can switch the version in the panel. Try the new one on a copy first: very old plugins can break.', 'helloadmin-guard' ), '<code>' . PHP_VERSION . '</code>' ),
+							sprintf( __( 'This site runs PHP %s. Versions past their end of life get no security fixes; Tools → Site Health warns about them. Your host can switch the version in the panel. Try the new one on a copy first: very old plugins can break.', 'helloadmin-guard' ), '<code>' . PHP_VERSION . '</code>' ),
 						),
 					),
 					'mail'     => array(
