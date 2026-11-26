@@ -317,6 +317,7 @@ class Cli {
 		unset( $args );
 		self::take_server( $assoc_args );
 		$before = Htaccess::ids_in_file();
+		$was    = is_readable( Htaccess::path() ) ? md5_file( Htaccess::path() ) : '';
 		$result = Plugin::instance()->sync_htaccess();
 		Status::forget();
 		if ( is_wp_error( $result ) && 'not_checked' !== $result->get_error_code() ) {
@@ -330,10 +331,11 @@ class Cli {
 			\WP_CLI::warning( Settings_Apply::text( 'not_checked', 'cli' ) );
 		}
 		$after   = Htaccess::ids_in_file();
+		$now     = is_readable( Htaccess::path() ) ? md5_file( Htaccess::path() ) : '';
 		$removed = array_diff( $before, $after );
 		$added   = array_diff( $after, $before );
 		\WP_CLI::success(
-			( $removed || $added ? '.htaccess now matches the settings.' : '.htaccess already matched the settings.' )
+			( $removed || $added || $was !== $now ? '.htaccess now matches the settings.' : '.htaccess already matched the settings.' )
 			. ( $removed ? ' Removed: ' . implode( ', ', $removed ) . '.' : '' )
 			. ( $added ? ' Added: ' . implode( ', ', $added ) . '.' : '' )
 		);
