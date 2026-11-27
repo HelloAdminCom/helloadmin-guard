@@ -213,7 +213,7 @@ class Block_Inactive_Plugins extends Htaccess_Feature {
 			if ( ! $files ) {
 				continue;
 			}
-			$closed = Probe::closed( '/' . self::rel_path( plugins_url( '/' ) ) . $folder . '/' . $files[0] );
+			$closed = Probe::closed( Probe::url( plugins_url( $folder . '/' . $files[0] ) ) );
 			if ( true !== $closed ) {
 				return $closed;
 			}

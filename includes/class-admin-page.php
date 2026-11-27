@@ -492,7 +492,7 @@ class Admin_Page {
 		if ( $feature->learn_more() ) {
 			$more = sprintf(
 				' <a class="hag-more" href="%s" target="_blank" rel="noopener">%s</a>',
-				esc_url( self::site_link( $feature->learn_more(), 'learn-more', $id ) ),
+				esc_url( $feature->learn_more() ),
 				esc_html__( 'Learn more', 'helloadmin-guard' )
 			);
 		}
@@ -777,31 +777,6 @@ class Admin_Page {
 	}
 
 	/**
-	 * Adds UTM tags to links that lead to helloadmin.com, so the site's own analytics can tell visits from
-	 * the plugin apart. Nothing is sent from the user's site; the tags are only part of the link.
-	 * Links to other sites are returned unchanged.
-	 *
-	 * @param string $url      Link.
-	 * @param string $campaign Where in the plugin the link is (about, learn-more).
-	 * @param string $content  Which link exactly (feature id, contact).
-	 * @return string
-	 */
-	public static function site_link( $url, $campaign, $content = '' ) {
-		if ( 'helloadmin.com' !== wp_parse_url( $url, PHP_URL_HOST ) ) {
-			return $url;
-		}
-		$args = array(
-			'utm_source'   => 'helloadmin-guard',
-			'utm_medium'   => 'plugin',
-			'utm_campaign' => $campaign,
-		);
-		if ( '' !== $content ) {
-			$args['utm_content'] = $content;
-		}
-		return add_query_arg( $args, $url );
-	}
-
-	/**
 	 * Renders the About tab.
 	 *
 	 * @return void
@@ -815,7 +790,7 @@ class Admin_Page {
 		echo '<p>' . esc_html__( 'This plugin was built and is maintained by a developer with more than 10 years of experience with WordPress and WooCommerce. Is your site slow, showing errors, broken after an update or hacked? Need someone to look after it? Write to me.', 'helloadmin-guard' ) . '</p>';
 		printf(
 			'<p class="hag-about-actions"><a class="button button-primary" href="%s" target="_blank" rel="noopener">%s</a> <a class="button" href="%s" target="_blank" rel="noopener">%s</a></p>',
-			esc_url( self::site_link( 'https://helloadmin.com/#contact', 'about', 'contact' ) ),
+			esc_url( 'https://helloadmin.com/#contact' ),
 			esc_html__( 'Contact HelloAdmin', 'helloadmin-guard' ),
 			esc_url( 'https://github.com/HelloAdminCom/helloadmin-guard/issues' ),
 			esc_html__( 'Report a problem', 'helloadmin-guard' )

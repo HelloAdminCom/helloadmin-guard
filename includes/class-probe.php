@@ -76,6 +76,18 @@ class Probe {
 	}
 
 	/**
+	 * A full URL from a WordPress function (plugins_url(), includes_url(), admin_url(), wp_upload_dir()) with the scheme
+	 * of the site address. Those functions answer http:// when the current request is not over HTTPS (WP-CLI, cron),
+	 * and a request to http:// on an HTTPS site only gets the redirect, not the answer for the file.
+	 *
+	 * @param string $url Full URL.
+	 * @return string
+	 */
+	public static function url( $url ) {
+		return set_url_scheme( $url, (string) wp_parse_url( home_url(), PHP_URL_SCHEME ) );
+	}
+
+	/**
 	 * Is the path closed for visitors: 401, 403, 404 or 410?
 	 *
 	 * @param string $path Path from the site root.
@@ -87,12 +99,12 @@ class Probe {
 	}
 
 	/**
-	 * Creates a harmless test file in a temporary folder inside uploads and returns its URL path.
+	 * Creates a harmless test file in a temporary folder inside uploads and returns its full URL (from wp_upload_dir(), so uploads on another host or path work too).
 	 * The folder is removed by cleanup() at the end of the check.
 	 *
 	 * @param string $name    File name, for example '.hag-probe' or 'hag-probe.sql'.
 	 * @param string $content File content.
-	 * @return string Path from the site root, or '' if uploads is not writable.
+	 * @return string URL of the file, or '' if uploads is not writable.
 	 */
 	public static function file( $name, $content = 'helloadmin-guard probe' ) {
 		$uploads = wp_upload_dir( null, false );
@@ -111,7 +123,7 @@ class Probe {
 		if ( ! $fs->put_contents( $dir . '/' . $name, $content, 0644 ) ) {
 			return '';
 		}
-		return (string) wp_parse_url( trailingslashit( $uploads['baseurl'] ) . self::$dir . '/' . rawurlencode( $name ), PHP_URL_PATH );
+		return self::url( trailingslashit( $uploads['baseurl'] ) . self::$dir . '/' . rawurlencode( $name ) );
 	}
 
 	/**
@@ -132,13 +144,13 @@ class Probe {
 	}
 
 	/**
-	 * URL path of the temporary folder itself (for the folder listing check).
+	 * Full URL of the temporary folder itself (for the folder listing check).
 	 *
 	 * @return string
 	 */
 	public static function dir_path() {
 		$uploads = wp_upload_dir( null, false );
-		return '' === self::$dir ? '' : (string) wp_parse_url( trailingslashit( $uploads['baseurl'] ) . self::$dir . '/', PHP_URL_PATH );
+		return '' === self::$dir ? '' : self::url( trailingslashit( $uploads['baseurl'] ) . self::$dir . '/' );
 	}
 
 	/**

@@ -86,7 +86,7 @@ class Hide_Version_Files extends Htaccess_Feature {
 	 */
 	public function probe() {
 		$readme  = Probe::request( '/readme.html' );
-		$install = Probe::request( '/' . self::rel_path( admin_url() ) . 'install.php' );
+		$install = Probe::request( Probe::url( admin_url( 'install.php' ) ) );
 		if ( null === $readme || null === $install ) {
 			return null;
 		}

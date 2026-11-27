@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.7.1] - 2026-11-27
+
+### Changed
+- Links to helloadmin.com have no UTM tags any more (wordpress.org review: no tracking without opt-in).
+
+### Fixed
+- Checks request plugins_url(), includes_url(), admin_url() and wp_upload_dir() URLs as they are, instead of rebuilding a path under home_url(); sites with plugins or uploads on another path or host were checked at the wrong address (wordpress.org review).
+
 ## [0.7.0] - 2026-11-26
 
 ### Added

@@ -4,7 +4,7 @@ Tags: security, hardening, login, htaccess, headers
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.7.0
+Stable tag: 0.7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,7 +135,7 @@ The General tab works on any server. Nginx does not read .htaccess, so on the Ad
 
 = Does the plugin send any data? =
 
-No. It makes no requests to outside servers. The e-mail settings send their messages through your site's own mail to the addresses you set. Otherwise the plugin only sends requests to your own site, as a visitor who is not logged in: to check which gaps are open and, right after writing .htaccess, to check that the site still opens. Links to helloadmin.com in the plugin carry UTM tags so the site can tell visits from the plugin; nothing is sent unless you click them.
+No. It makes no requests to outside servers. The e-mail settings send their messages through your site's own mail to the addresses you set. Otherwise the plugin only sends requests to your own site, as a visitor who is not logged in: to check which gaps are open and, right after writing .htaccess, to check that the site still opens.
 
 == Screenshots ==
 
@@ -145,6 +145,10 @@ No. It makes no requests to outside servers. The e-mail settings send their mess
 4. The welcome message on the first visit to the settings page.
 
 == Changelog ==
+
+= 0.7.1 =
+* Links to helloadmin.com in the plugin no longer carry UTM tags.
+* Checks of plugin, wp-includes, wp-admin and uploads files use the full URLs WordPress gives for them, so sites with these folders on another path or host are checked correctly.
 
 = 0.7.0 =
 * New: Tips tab with steps a plugin cannot take for you, strongest first, each with what it does not protect against; checks the SPF and DMARC records of your domain on request.

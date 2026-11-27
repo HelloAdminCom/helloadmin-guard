@@ -82,7 +82,7 @@ class Block_Core_Internals extends Htaccess_Feature {
 	 * @return bool|null
 	 */
 	public function probe() {
-		return Probe::closed( '/' . self::rel_path( includes_url() ) . 'block-patterns.php' );
+		return Probe::closed( Probe::url( includes_url( 'block-patterns.php' ) ) );
 	}
 
 	/**
